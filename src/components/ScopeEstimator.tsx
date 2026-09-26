@@ -21,13 +21,12 @@ import {
   Layers,
 } from 'lucide-react';
 
-// Rock-solid number formatter: guarantees identical output across server, laptop, and phones
+// Formatter to ensure numbers render identically on server and devices
 const formatNumber = (num: number) => {
   return new Intl.NumberFormat('en-US').format(num);
 };
 
 export default function ScopeEstimator() {
-  // Safe client-side mount state to guarantee instant mobile hydration
   const [mounted, setMounted] = useState(false);
   const [currency, setCurrency] = useState<Currency>('NGN');
   const [selectedType, setSelectedType] = useState<string>(PROJECT_TYPES[0].id);
@@ -79,6 +78,32 @@ export default function ScopeEstimator() {
         return <Smartphone className="w-5 h-5" />;
       default:
         return <Layers className="w-5 h-5" />;
+    }
+  };
+
+  // --- LOGIC FUNCTION: Bridge the Estimate Directly into the Contact Form ---
+  const handleLockInEstimate = () => {
+    const summaryText = `[ESTIMATE LOCK-IN]
+Project: ${currentProjectType.name}
+Stage: ${currentStage.name}
+Estimated Investment: ${CURRENCIES[currency].symbol}${formatNumber(finalMinPrice)} – ${CURRENCIES[currency].symbol}${formatNumber(finalMaxPrice)} (${currency})
+Estimated Timeline: ${minWeeks} – ${maxWeeks} Weeks
+Included Add-ons: ${selectedAddons.map((id) => FEATURE_ADDONS.find((a) => a.id === id)?.name).filter(Boolean).join(', ') || 'None'}`;
+
+    // Dispatches a custom event that ContactHub listens for
+    window.dispatchEvent(
+      new CustomEvent('populate-estimate', {
+        detail: {
+          projectType: currentProjectType.name,
+          summary: summaryText,
+        },
+      })
+    );
+
+    // Smooth-scroll down to the contact hub
+    const contactElem = document.getElementById('contact');
+    if (contactElem) {
+      contactElem.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -192,7 +217,7 @@ export default function ScopeEstimator() {
             </div>
           </div>
 
-          {/* Step 3: Add-on Capabilities (Proper semantic touch buttons) */}
+          {/* Step 3: Add-on Capabilities */}
           <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 sm:p-6">
             <h3 className="text-base sm:text-lg font-semibold text-white mb-1 flex items-center gap-2">
               <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold">3</span>
@@ -243,11 +268,11 @@ export default function ScopeEstimator() {
             <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-2">
               Ballpark Scope Summary
             </div>
-            <h4 className="text-lg sm:text-xl font-bold text-white mb-6">
+            <h4 className="text-xl sm:text-2xl font-bold text-white mb-2">
               {currentProjectType.name}
             </h4>
 
-            {/* FULL PROJECT TYPE DESCRIPTION - Displayed beautifully without truncation */}
+            {/* Full Project Type Description in Full */}
             <div className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80">
               {currentProjectType.description}
             </div>
@@ -299,14 +324,15 @@ export default function ScopeEstimator() {
               })}
             </div>
 
-            {/* Action CTA */}
-            <a
-              href="#contact"
-              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm transition-all duration-200 shadow-lg shadow-emerald-500/20 group"
+            {/* VISUAL BUTTON: Triggers the handleLockInEstimate logic above */}
+            <button
+              type="button"
+              onClick={handleLockInEstimate}
+              className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm transition-all duration-200 shadow-lg shadow-emerald-500/20 group cursor-pointer active:scale-95"
             >
               <span>Lock In This Estimate & Book Call</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
+            </button>
 
             <p className="mt-3 text-[11px] text-center text-slate-500 leading-relaxed">
               *Preliminary estimate based on selected parameters. Final scope and terms are formalized after a brief discovery call.

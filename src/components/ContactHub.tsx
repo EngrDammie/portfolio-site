@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Video,
   Send,
@@ -9,6 +9,10 @@ import {
   Sparkles,
   CheckCircle2,
   ArrowRight,
+  Loader2,
+  AlertCircle,
+  Mail,
+  Phone,
 } from 'lucide-react';
 import { BrandLogo } from './DOMonogram';
 
@@ -25,21 +29,68 @@ const WhatsAppIcon = ({ className = 'w-5 h-5' }: { className?: string }) => (
 
 export default function ContactHub() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: 'AI & Automation',
+    whatsapp: '',
+    projectType: 'AI Solution & Workflow Automation',
     message: '',
   });
 
-  // Your real contact endpoints
-  const whatsappNumber = '2347053331253';
+  const myWhatsAppNumber = '2347053331253';
   const directEmail = 'dammieoptimus@gmail.com';
   const googleMeetLink = 'https://meet.google.com/new';
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Listen for the "Lock In Estimate" event from ScopeEstimator
+  useEffect(() => {
+    const handleEstimateBridge = (event: CustomEvent<{ projectType: string; summary: string }>) => {
+      if (event.detail) {
+        setFormData((prev) => ({
+          ...prev,
+          projectType: event.detail.projectType || prev.projectType,
+          message: `${event.detail.summary}\n\nAdditional notes:\n`,
+        }));
+      }
+    };
+
+    window.addEventListener('populate-estimate' as any, handleEstimateBridge);
+    return () => window.removeEventListener('populate-estimate' as any, handleEstimateBridge);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
+
+    // Client-side rule: At least one contact method must be provided
+    if (!formData.email.trim() && !formData.whatsapp.trim()) {
+      setErrorMessage('Please provide either an Email address or a WhatsApp number so I can reach you.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to submit inquiry.');
+      }
+
+      setFormSubmitted(true);
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Something went wrong. Please reach out via WhatsApp.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -107,11 +158,11 @@ export default function ContactHub() {
               Direct WhatsApp Channel
             </h3>
             <p className="text-xs text-slate-400 mb-4">
-              Prefer direct messaging? Send specs or questions directly to my WhatsApp line.
+              Prefer direct messaging? Send specs or questions directly to my personal WhatsApp line.
             </p>
 
             <a
-              href={`https://wa.me/${whatsappNumber}?text=Hello%20Dammie%20Optimus%20Solutions!%20I%20reviewed%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.`}
+              href={`https://wa.me/${myWhatsAppNumber}?text=Hello%20Dammie%20Optimus%20Solutions!%20I%20reviewed%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs sm:text-sm border border-slate-700 transition-all active:scale-98"
@@ -144,24 +195,27 @@ export default function ContactHub() {
               </h3>
               <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
                 <Clock className="w-3.5 h-3.5" />
-                <span>Response within 12 hours</span>
+                <span>Direct to Gmail</span>
               </div>
             </div>
 
             <p className="text-xs sm:text-sm text-slate-400 mb-6">
-              Drop your details below. I’ll review your requirements and reply with recommended architecture and ballpark timelines.
+              Drop your requirements below. Provide your email, WhatsApp, or both so I can follow up with your blueprint.
             </p>
 
             {formSubmitted ? (
               <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-8 text-center my-8 animate-in fade-in">
                 <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
-                <h4 className="text-lg font-bold text-white mb-1">Inquiry Received!</h4>
+                <h4 className="text-lg font-bold text-white mb-1">Inquiry Delivered!</h4>
                 <p className="text-xs sm:text-sm text-slate-300 max-w-sm mx-auto">
-                  Thank you! I will review your project brief and get back to you shortly via Email and WhatsApp.
+                  Your project brief has been successfully sent to <strong className="text-white">dammieoptimus@gmail.com</strong>. I will reply shortly!
                 </p>
                 <button
                   type="button"
-                  onClick={() => setFormSubmitted(false)}
+                  onClick={() => {
+                    setFormSubmitted(false);
+                    setFormData({ name: '', email: '', whatsapp: '', projectType: 'AI Solution & Workflow Automation', message: '' });
+                  }}
                   className="mt-5 text-xs text-emerald-400 underline hover:text-emerald-300 cursor-pointer"
                 >
                   Send another inquiry
@@ -169,36 +223,65 @@ export default function ContactHub() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                
+                {errorMessage && (
+                  <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+
+                {/* 1. Name Input */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                    Your Name <span className="text-emerald-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Alex Johnson"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white text-sm outline-none transition-all placeholder:text-slate-600"
+                  />
+                </div>
+
+                {/* 2. Dual Contact Inputs: Email AND WhatsApp side by side */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-                      Your Name
+                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>Email Address</span>
                     </label>
                     <input
-                      type="text"
-                      required
-                      placeholder="e.g. Alex Johnson"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white text-sm outline-none transition-all placeholder:text-slate-600"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-                      Email or WhatsApp
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="alex@company.com or +234..."
+                      type="email"
+                      placeholder="alex@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white text-sm outline-none transition-all placeholder:text-slate-600"
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>WhatsApp Number</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="080... or +234..."
+                      value={formData.whatsapp}
+                      onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white text-sm outline-none transition-all placeholder:text-slate-600"
+                    />
+                  </div>
                 </div>
 
+                <div className="text-[11px] text-slate-400 -mt-1 italic">
+                  * Provide Email, WhatsApp, or both so I know how to get back to you.
+                </div>
+
+                {/* 3. Category Selector */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
                     Project Category
@@ -208,34 +291,46 @@ export default function ContactHub() {
                     onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white text-sm outline-none transition-all"
                   >
-                    <option value="AI & Automation">AI Solution & Workflow Automation</option>
-                    <option value="Modern Business Website">Modern Business Website</option>
-                    <option value="Full-Stack Web App">Full-Stack Web Application / SaaS</option>
-                    <option value="Mobile App">Mobile App (iOS & Android)</option>
+                    <option value="Modern Business Website">Modern Business Website</option>                                       
+                    <option value="Full-Stack Web App / SaaS">Full-Stack Web Application / SaaS</option>
+                    <option value="Mobile App (iOS & Android)">Mobile App (iOS & Android)</option>
+                    <option value="AI Solution & Workflow Automation">AI Solution & Workflow Automation</option> 
                     <option value="Custom Project">Other / Custom Technical Solution</option>
                   </select>
                 </div>
 
+                {/* 4. Project Details Box */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-                    Project Details / What are you looking to achieve?
+                    Project Details / Scope <span className="text-emerald-400">*</span>
                   </label>
                   <textarea
                     rows={4}
                     required
-                    placeholder="Briefly describe what you need built, your desired timeline, or any estimate numbers from above..."
+                    placeholder="Briefly describe what you need built, your desired timeline, or lock in an estimate from the calculator above..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white text-sm outline-none transition-all placeholder:text-slate-600 resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white text-sm outline-none transition-all placeholder:text-slate-600 resize-none font-mono text-xs"
                   />
                 </div>
 
+                {/* 5. Submit Button */}
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-all duration-150 shadow-lg shadow-emerald-500/20 active:scale-98 cursor-pointer"
+                  disabled={isSubmitting}
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 text-slate-950 font-bold text-sm transition-all duration-150 shadow-lg shadow-emerald-500/20 active:scale-98 cursor-pointer disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>Submit Project Inquiry</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Transmitting Brief...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Submit Project Inquiry</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -250,7 +345,7 @@ export default function ContactHub() {
 
       </div>
 
-      {/* Prominent Business Footer */}
+      {/* Footer */}
       <footer className="mt-20 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <BrandLogo className="w-7 h-7" />

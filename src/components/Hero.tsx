@@ -2,6 +2,21 @@
 
 import React from 'react';
 import { ArrowRight, Calendar, Sparkles, CheckCircle2, Shield, Zap, Bot } from 'lucide-react';
+import Typewriter from './Typewriter';
+
+const DYNAMIC_SERVICES = [
+  'web apps.',
+  'websites.',
+  'mobile apps.',
+  'APIs & microservices.',
+  'AI automations.',
+  'custom integrations.',
+  'SaaS platforms.',
+  'cloud backends.',
+  'smart business workflows.',
+  'payment pipelines.',
+  'client portals.',
+];
 
 export default function Hero() {
   return (
@@ -20,9 +35,15 @@ export default function Hero() {
           <span>Available for client projects & contracts</span>
         </div>
 
-        {/* High-Impact Outcome Headline */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15] max-w-4xl">
-          I build high-impact <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">web apps, mobile apps</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-cyan-400">AI automations</span>.
+        {/* High-Impact Headline with Typewriter */}
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.2] max-w-4xl min-h-[3.6em] sm:min-h-[2.4em] flex flex-wrap items-center justify-center">
+          <span>I build high-impact&nbsp;</span>
+          <Typewriter
+            words={DYNAMIC_SERVICES}
+            typingSpeed={80}       // Speed per character while typing
+            deletingSpeed={40}     // Speed per character while erasing
+            pauseDuration={2000}   // 2 seconds reading pause
+          />
         </h1>
 
         {/* Clear, Client-Focused Subtitle */}
@@ -50,7 +71,7 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Value Proof Badges (Under-the-fold bridge) */}
+        {/* Value Proof Badges */}
         <div className="mt-14 sm:mt-16 pt-8 border-t border-slate-800/80 w-full grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left">
           
           <div className="flex items-start gap-3">

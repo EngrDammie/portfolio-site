@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dammie Optimus Solutions — Official Platform & Portfolio
 
-## Getting Started
+> Engineering peak-performance AI workflow automations, full-stack web applications, and cross-platform mobile solutions.
 
-First, run the development server:
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+[![Resend](https://img.shields.io/badge/Resend-Email_API-000000?style=flat-square&logo=resend)](https://resend.com/)
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com/)
+
+---
+
+## ⚡ Platform Architecture & Core Features
+
+- **Dynamic Typewriter Hero Engine:** Built using a zero-dependency React state hook cycling through core engineering specialties.
+- **Asymmetrical Bento-Grid Showcase:** Problem $\rightarrow$ Solution $\rightarrow$ Result case studies featuring an expandable architecture drawer and a multi-mode Live Preview Modal (supporting desktop/mobile simulator frames, iframes, and video walkthroughs).
+- **Multi-Currency Project Scope Estimator:** Interactive 4-step calculator allowing clients to toggle dynamically between **Nigerian Naira (₦ NGN)** and **US Dollars ($ USD)** with instant turnaround estimates and automatic form-bridging.
+- **Trust & Credibility Engine:** Transparent 4-step delivery roadmap (*Discovery $\rightarrow$ Blueprint $\rightarrow$ Engineering $\rightarrow$ Handover*) paired with client guarantees and social proof.
+- **Production Dual-Channel Contact Hub:** Direct **Google Meet** video booking, fast-track **WhatsApp** integration, and inquiry transmission powered by a secure Next.js Server Route Handler and the **Resend API**.
+- **Tactile High-Contrast Theme System:** Seamless Dark / Light mode toggle powered by `next-themes` with micro-animations and zero Flash of Unstyled Content (FOUC).
+
+---
+
+## 🛠️ Technology Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router, Server Components & Route Handlers)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Email Infrastructure:** [Resend](https://resend.com/)
+- **Deployment & Hosting:** [Vercel](https://vercel.com/)
+
+---
+
+## 🚀 Local Development Setup
+
+To run this application locally:
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/EngrDammie/dammie-optimus-solutions.git
+
+# 2. Enter project directory
+cd dammie-optimus-solutions
+
+# 3. Install dependencies
+npm install
+
+# 4. Set up environment variables
+# Create a .env.local file in the root and add:
+RESEND_API_KEY=your_resend_api_key_here
+
+# 5. Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📬 Contact & Inquiries
 
-## Learn More
+- **Lead Engineer:** Dammie Optimus
+- **Direct Email:** [dammieoptimus@gmail.com](mailto:dammieoptimus@gmail.com)
+- **WhatsApp:** [+234 705 333 1253](https://wa.me/2347053331253)
+- **Location:** West Africa Time (WAT / GMT+1) — Available for remote contracts globally.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+© 2026 Dammie Optimus Solutions. All rights reserved.
