@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <defs>
+    <linearGradient id="optimusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Dark Badge Background -->
+  <rect width="160" height="160" rx="36" fill="#020617" />
+  <rect x="4" y="4" width="152" height="152" rx="32" stroke="url(#optimusGrad)" stroke-width="6" />
+  
+  <!-- Centered DO Monogram with AI Node -->
+  <g transform="translate(0, 20)">
+    <g stroke="url(#optimusGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 30 25 L 30 95" />
+      <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+      <circle cx="100" cy="60" r="35" />
+    </g>
+    <circle cx="100" cy="60" r="10" fill="url(#optimusGrad)" />
+  </g>
+</svg>

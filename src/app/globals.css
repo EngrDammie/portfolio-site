@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Smooth transition for theme toggling */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease, box-shadow 0.2s ease;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ========================================================
+   HIGH-CONTRAST LIGHT MODE ENGINE
+   ======================================================== */
+html:not(.dark) {
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 1. Defined Canvas Foundation (Crisp separation from white cards) */
+html:not(.dark) body {
+  background-color: #eaeff5 !important; /* Rich Platinum Slate */
+  color: #020617 !important;            /* Pure Ink Black */
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 2. Glassmorphic Sticky Header */
+html:not(.dark) header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1.5px solid #cbd5e1 !important;
+  box-shadow: 0 2px 8px -1px rgba(15, 23, 42, 0.06) !important;
+}
+
+html:not(.dark) header a {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+/* 3. High-Definition Cards (Multi-layered elevation & sharp border) */
+html:not(.dark) .bg-slate-900,
+html:not(.dark) .bg-slate-900\/90,
+html:not(.dark) .bg-slate-900\/80,
+html:not(.dark) .bg-slate-900\/60,
+html:not(.dark) .bg-slate-900\/50 {
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important; /* Crisp Slate Border */
+  box-shadow: 
+    0 4px 6px -1px rgba(15, 23, 42, 0.05),
+    0 12px 20px -3px rgba(15, 23, 42, 0.08),
+    0 0 0 1px rgba(15, 23, 42, 0.03) !important; /* Strong Physical Lift */
+}
+
+/* 4. Sub-cards, Drawers, Code Blocks & Inset Containers */
+html:not(.dark) .bg-slate-950,
+html:not(.dark) .bg-slate-950\/90,
+html:not(.dark) .bg-slate-950\/80,
+html:not(.dark) .bg-slate-950\/70,
+html:not(.dark) .bg-slate-950\/60,
+html:not(.dark) .bg-slate-950\/50,
+html:not(.dark) .bg-slate-950\/40 {
+  background-color: #f1f5f9 !important; /* Defined Slate 100 */
+  border: 1.5px solid #cbd5e1 !important;
+}
+
+/* 5. Flagship Solution Card (Commands Attention) */
+html:not(.dark) .bg-gradient-to-br.from-slate-900 {
+  background: #ffffff !important;
+  border: 2px solid #059669 !important; /* Thick Emerald Border */
+  box-shadow: 
+    0 10px 25px -5px rgba(5, 150, 105, 0.12),
+    0 8px 10px -6px rgba(5, 150, 105, 0.08),
+    0 0 0 1px rgba(5, 150, 105, 0.15) !important;
+}
+
+/* 6. Client Protection Guarantee Card */
+html:not(.dark) .bg-gradient-to-r.from-emerald-950\/30 {
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%) !important;
+  border: 2px solid #34d399 !important;
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.12) !important;
+}
+
+/* 7. Punchy, High-Contrast Typography */
+html:not(.dark) .text-white {
+  color: #020617 !important; /* Jet Ink Black */
+  font-weight: 800 !important;
+}
+
+html:not(.dark) .text-slate-300 {
+  color: #0f172a !important; /* Deep Slate 900 for Primary Body */
+  font-weight: 500 !important;
+}
+
+html:not(.dark) .text-slate-400 {
+  color: #334155 !important; /* Solid Slate 700 (NOT faint grey) */
+}
+
+html:not(.dark) .text-slate-500 {
+  color: #475569 !important; /* Slate 600 for Captions & Timestamps */
+}
+
+/* 8. Tech Stack Tags (Clean, Punchy, & Defined) */
+html:not(.dark) .bg-slate-950\/80,
+html:not(.dark) .bg-slate-950\/70,
+html:not(.dark) .font-mono {
+  background-color: #f8fafc !important;
+  border: 1px solid #94a3b8 !important; /* Visible tag boundary */
+  color: #0f172a !important;            /* Solid black text */
+  font-weight: 600 !important;
+}
+
+/* 9. Category Badges & Pill Buttons */
+html:not(.dark) .bg-slate-800\/80,
+html:not(.dark) .bg-slate-800 {
+  background-color: #e2e8f0 !important; /* Definite Slate 200 */
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+/* Inactive Filter Buttons */
+html:not(.dark) button.bg-slate-900 {
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #1e293b !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 10. Metric Tags in Light Mode */
+html:not(.dark) .bg-emerald-500\/10 {
+  background-color: #d1fae5 !important; /* Richer Mint */
+  border: 1px solid #10b981 !important;
+  color: #047857 !important;            /* Deep Pine Emerald */
+  font-weight: 700 !important;
+}
+
+html:not(.dark) .text-emerald-400 {
+  color: #047857 !important; /* Darker, high-contrast Emerald */
+}
+
+html:not(.dark) .bg-emerald-500\/20 {
+  background-color: #a7f3d0 !important;
+  border: 1px solid #059669 !important;
+  color: #064e3b !important;
+}
+
+/* 11. Form Inputs & Textareas */
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select {
+  background-color: #ffffff !important;
+  border: 1.5px solid #94a3b8 !important; /* Clear outline */
+  color: #020617 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) input:focus,
+html:not(.dark) textarea:focus,
+html:not(.dark) select:focus {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15) !important;
+}
+
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* 12. Estimator Summary Card (Right Column) */
+html:not(.dark) .bg-gradient-to-b.from-slate-900.to-slate-950 {
+  background: #ffffff !important;
+  border: 2px solid #cbd5e1 !important;
+  box-shadow: 0 15px 30px -5px rgba(15, 23, 42, 0.1) !important;
+}
+
+/* Estimator Investment Display Box */
+html:not(.dark) .bg-slate-950\/80 {
+  background-color: #f1f5f9 !important;
+  border: 1.5px solid #cbd5e1 !important;
+}
+
+/* 13. High-Contrast Footer */
+html:not(.dark) footer {
+  border-top: 1.5px solid #cbd5e1 !important;
+}
+
+html:not(.dark) footer span,
+html:not(.dark) footer a {
+  color: #1e293b !important;
+  font-weight: 500 !important;
 }
