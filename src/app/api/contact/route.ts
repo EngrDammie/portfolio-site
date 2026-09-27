@@ -1,9 +1,22 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: Request) {
+  // Instantiate per request rather than at module scope. At module scope the
+  // constructor throws when the key is missing, which crashed the whole route
+  // with an empty 500 (and broke `next build`, since the module is evaluated
+  // while collecting page data).
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error('RESEND_API_KEY is not set in this environment.');
+    return NextResponse.json(
+      { error: 'Email delivery is not configured. Please reach out via WhatsApp.' },
+      { status: 500 }
+    );
+  }
+
+  const resend = new Resend(apiKey);
+
   try {
     const body = await request.json();
     const { name, email, whatsapp, projectType, message } = body;

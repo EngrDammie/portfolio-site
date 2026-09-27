@@ -79,10 +79,16 @@ export default function ContactHub() {
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => null);
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to submit inquiry.');
+        throw new Error(
+          result?.error || 'Failed to submit inquiry. Please reach out via WhatsApp.'
+        );
+      }
+
+      if (!result) {
+        throw new Error('The server sent an unexpected response. Please reach out via WhatsApp.');
       }
 
       setFormSubmitted(true);

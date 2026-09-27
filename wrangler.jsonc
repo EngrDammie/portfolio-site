@@ -6,6 +6,12 @@
 	// "references Worker '<name>' which was not found [code: 10143]".
 	"name": "get-tech-solutions",
 	"compatibility_date": "2026-09-25",
+	// Required: esbuild's keepNames helper (__name) leaks into the inline
+	// scripts that next-themes emits into the SSR'd HTML, where nothing
+	// defines it, throwing "Uncaught ReferenceError: __name is not defined"
+	// in the browser. See https://opennext.js.org/cloudflare/howtos/keep_names
+	// Requires wrangler >= 4.13.0.
+	"keep_names": false,
 	// nodejs_compat is required: it makes process.env.RESEND_API_KEY readable
 	// in src/app/api/contact/route.ts. global_fetch_strictly_public allows the
 	// Worker to call the Resend API.
