@@ -220,9 +220,9 @@
                   <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
                 </svg>
               </div>
-              <div style="text-align:left;line-height:1">
-                <div style="font-weight:800;font-size:20px;letter-spacing:-.025em;color:#fff">Dammie Optimus</div>
-                <div style="margin-top:5px;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.367em;background:linear-gradient(90deg,#10B981,#06B6D4);-webkit-background-clip:text;background-clip:text;color:transparent">Solutions</div>
+              <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1;font-size:20px">
+                <div style="font-weight:800;letter-spacing:-.025em;color:#fff;white-space:nowrap">Dammie Optimus</div>
+                <div style="margin-top:.28em;font-size:.9em;font-weight:700;text-transform:uppercase;letter-spacing:.367em;white-space:nowrap;background:linear-gradient(90deg,#10B981,#06B6D4);-webkit-background-clip:text;background-clip:text;color:transparent">Solutions</div>
               </div>
             </div>
             <figcaption style="font-size:12px;color:var(--text-3);margin-top:9px"><strong style="color:var(--text-2)">2 · Mark in box + wordmark</strong><br />the site header</figcaption>
@@ -401,6 +401,16 @@
           <div class="bd">
             <div class="ct">Why 0.367em and not a rounder number</div>
             <p>That value was measured from the rendered font, not guessed. Both lines are sized in <span class="mono">em</span> so the match holds at every breakpoint and at any root font size.</p>
+          </div>
+        </div>
+
+        <div class="callout co-stop" style="margin-bottom:0">
+          <span class="ic">⚠️</span>
+          <div class="bd">
+            <div class="ct">The font-size ratio is just as load-bearing as the tracking</div>
+            <p><code>0.367em</code> is only correct <strong>in combination with</strong> a line-2 font size of <code>0.9em</code>. The two are a matched pair.</p>
+            <p>Set line 2 to an <em>absolute</em> pixel value — say <code>14px</code> under a 20px parent, a ratio of <code>0.7</code> — and keep the same <code>0.367em</code>, and the lockup visibly breaks: <strong>SOLUTIONS comes out about 34px short</strong> at that size. The tracking must be expressed in <span class="mono">em</span> so it scales with whichever ratio you choose.</p>
+            <p>This is why the container uses <code>align-items: flex-start</code>: it lets each line shrink to its own text, which is what makes the two widths comparable at all. A block-level child would stretch and hide the problem.</p>
           </div>
         </div>
       </div>
