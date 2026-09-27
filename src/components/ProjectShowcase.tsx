@@ -146,7 +146,7 @@ export default function ProjectShowcase() {
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2.5 py-0.5 rounded bg-slate-950/80 border border-slate-800 text-[11px] font-mono text-slate-300"
+                      className="px-2.5 py-0.5 rounded bg-slate-950/80 border border-slate-800 text-[12px] font-mono text-slate-300"
                     >
                       {tech}
                     </span>
@@ -157,21 +157,21 @@ export default function ProjectShowcase() {
                 {isExpanded && (
                   <div className="mt-6 pt-5 border-t border-slate-800 space-y-3.5 animate-in fade-in duration-200">
                     <div className="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800/80">
-                      <span className="text-[11px] font-bold text-rose-400 uppercase tracking-wider block mb-1">
+                      <span className="text-[12px] font-bold text-rose-400 uppercase tracking-wider block mb-1">
                         The Challenge:
                       </span>
                       <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{project.problem}</p>
                     </div>
 
                     <div className="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800/80">
-                      <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider block mb-1">
+                      <span className="text-[12px] font-bold text-amber-400 uppercase tracking-wider block mb-1">
                         The Engineered Solution:
                       </span>
                       <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{project.solution}</p>
                     </div>
 
                     <div className="bg-slate-950/80 rounded-xl p-3.5 border border-slate-800/80">
-                      <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">
+                      <span className="text-[12px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">
                         The Business Impact:
                       </span>
                       <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{project.result}</p>
@@ -322,13 +322,13 @@ export default function ProjectShowcase() {
                 }`}
               >
                 {/* Browser Header Bar */}
-                <div className="h-8 bg-slate-950/90 border-b border-slate-800/80 px-3 flex items-center justify-between text-[11px] text-slate-400">
+                <div className="h-8 bg-slate-950/90 border-b border-slate-800/80 px-3 flex items-center justify-between text-[12px] text-slate-400">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
                     <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
                   </div>
-                  <span className="text-[10px] font-mono text-slate-500 truncate max-w-[200px]">
+                  <span className="text-[11px] font-mono text-slate-500 truncate max-w-[200px]">
                     {activeModalProject.previewUrl || activeModalProject.videoUrl}
                   </span>
                   <div className="w-8" />
@@ -363,7 +363,7 @@ export default function ProjectShowcase() {
                           <Sparkles className="w-3 h-3" />
                           Live Interactive Sandbox
                         </div>
-                        <span className="text-[11px] font-mono text-slate-400">
+                        <span className="text-[12px] font-mono text-slate-400">
                           Status: Active ⚡
                         </span>
                       </div>
@@ -377,22 +377,22 @@ export default function ProjectShowcase() {
 
                       <div className="grid grid-cols-2 gap-3 mb-4">
                         <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-                          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Metric Target</span>
+                          <span className="text-[11px] text-slate-400 uppercase tracking-wider block">Metric Target</span>
                           <span className="text-sm font-bold text-emerald-400">{activeModalProject.metric}</span>
                         </div>
                         <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-                          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Reliability</span>
+                          <span className="text-[11px] text-slate-400 uppercase tracking-wider block">Reliability</span>
                           <span className="text-sm font-bold text-white">99.9% Production Ready</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="bg-slate-950/90 rounded-xl p-3.5 border border-emerald-500/20 text-xs space-y-2">
-                      <div className="flex items-center justify-between text-[11px] text-slate-400">
+                      <div className="flex items-center justify-between text-[12px] text-slate-400">
                         <span>Engine Pipeline</span>
                         <span className="text-emerald-400">Connected</span>
                       </div>
-                      <div className="font-mono text-[11px] text-slate-300">
+                      <div className="font-mono text-[12px] text-slate-300">
                         &gt; Architecture validated across {activeModalProject.techStack.join(', ')}.
                       </div>
                     </div>

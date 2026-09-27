@@ -6,6 +6,17 @@
 }
 
 /* ========================================================
+   GLOBAL TYPE SCALE
+   Tailwind's text-* utilities are rem-based, so scaling the root font
+   size scales every piece of text on the site by the same factor:
+   16px -> 18px is a uniform +12.5% increase in readability.
+   Keep this as the single lever for site-wide type sizing.
+   ======================================================== */
+html {
+  font-size: 18px;
+}
+
+/* ========================================================
    HIGH-CONTRAST LIGHT MODE ENGINE
    ======================================================== */
 html:not(.dark) {

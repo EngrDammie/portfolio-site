@@ -36,7 +36,7 @@ export default function ContactHub() {
     name: '',
     email: '',
     whatsapp: '',
-    projectType: 'AI Solution & Workflow Automation',
+    projectType: 'Modern Business Website',
     message: '',
   });
 
@@ -184,7 +184,7 @@ export default function ContactHub() {
               <Globe className="w-4 h-4 text-emerald-400" />
               <span>West Africa Time (WAT / GMT+1)</span>
             </div>
-            <p className="text-[11px] leading-relaxed">
+            <p className="text-[12px] leading-relaxed">
               Serving local clients in Nigeria and international clients across the UK, US, and Europe.
             </p>
           </div>
@@ -220,7 +220,7 @@ export default function ContactHub() {
                   type="button"
                   onClick={() => {
                     setFormSubmitted(false);
-                    setFormData({ name: '', email: '', whatsapp: '', projectType: 'AI Solution & Workflow Automation', message: '' });
+                    setFormData({ name: '', email: '', whatsapp: '', projectType: 'Modern Business Website', message: '' });
                   }}
                   className="mt-5 text-xs text-emerald-400 underline hover:text-emerald-300 cursor-pointer"
                 >
@@ -283,7 +283,7 @@ export default function ContactHub() {
                   </div>
                 </div>
 
-                <div className="text-[11px] text-slate-400 -mt-1 italic">
+                <div className="text-[12px] text-slate-400 -mt-1 italic">
                   * Provide Email, WhatsApp, or both so I know how to get back to you.
                 </div>
 
@@ -359,7 +359,7 @@ export default function ContactHub() {
             <span className="text-sm font-bold text-white block">
               Dammie Optimus Solutions
             </span>
-            <span className="text-[11px] text-slate-500">
+            <span className="text-[12px] text-slate-500">
               © {new Date().getFullYear()} All rights reserved. Engineered for peak performance.
             </span>
           </div>

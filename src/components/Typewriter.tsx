@@ -20,7 +20,11 @@ export default function Typewriter({
   pauseDuration = 2000,   // Wait 2 seconds so the client can read the word (default: 2000ms)
 }: TypewriterProps) {
   const [wordIndex, setWordIndex] = useState(0);
-  const [displayText, setDisplayText] = useState('');
+  // Start with the first word already rendered so a new visitor never stares at
+  // a blank after "I build high-impact". Because useState's initial value is
+  // used on the server too, the first paint already contains the word and the
+  // hydration matches.
+  const [displayText, setDisplayText] = useState(words[0] ?? '');
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {

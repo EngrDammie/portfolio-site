@@ -31,7 +31,9 @@ export default function ScopeEstimator() {
   const [currency, setCurrency] = useState<Currency>('NGN');
   const [selectedType, setSelectedType] = useState<string>(PROJECT_TYPES[0].id);
   const [selectedStage, setSelectedStage] = useState<string>(PROJECT_STAGES[0].id);
-  const [selectedAddons, setSelectedAddons] = useState<string[]>(['ai-brain']);
+  // Nothing is pre-selected: the ballpark total reflects only what the visitor
+  // has actually chosen, so no add-on cost is baked in before they opt in.
+  const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
 
   useEffect(() => {
     setMounted(true);
@@ -247,7 +249,7 @@ Included Add-ons: ${selectedAddons.map((id) => FEATURE_ADDONS.find((a) => a.id =
                       </div>
                       <div>
                         <div className="text-xs sm:text-sm font-medium">{addon.name}</div>
-                        <div className="text-[11px] sm:text-xs text-slate-400">{addon.description}</div>
+                        <div className="text-[12px] sm:text-xs text-slate-400">{addon.description}</div>
                       </div>
                     </div>
                     <div className="text-xs font-semibold text-emerald-400 pl-3 whitespace-nowrap">
@@ -334,7 +336,7 @@ Included Add-ons: ${selectedAddons.map((id) => FEATURE_ADDONS.find((a) => a.id =
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
 
-            <p className="mt-3 text-[11px] text-center text-slate-500 leading-relaxed">
+            <p className="mt-3 text-[12px] text-center text-slate-500 leading-relaxed">
               *Preliminary estimate based on selected parameters. Final scope and terms are formalized after a brief discovery call.
             </p>
           </div>

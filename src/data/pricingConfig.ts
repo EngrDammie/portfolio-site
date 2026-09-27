@@ -23,18 +23,10 @@ export interface ProjectType {
   baseWeeks: { min: number; max: number };
 }
 
+// Display order matters: this array drives both the "What are we building?"
+// grid and the estimator's default selection (PROJECT_TYPES[0]).
+// AI Solution & Workflow Automation is intentionally listed last.
 export const PROJECT_TYPES: ProjectType[] = [
-  {
-    id: 'ai-automation',
-    name: 'AI Solution & Workflow Automation',
-    description: 'Custom AI bots, automated document workflows, or business process automation.',
-    iconName: 'Bot',
-    basePrice: {
-      USD: { min: 800, max: 1600 },
-      NGN: { min: 800000, max: 1600000 },
-    },
-    baseWeeks: { min: 2, max: 4 },
-  },
   {
     id: 'business-website',
     name: 'Modern Business Website',
@@ -67,6 +59,17 @@ export const PROJECT_TYPES: ProjectType[] = [
       NGN: { min: 2000000, max: 4500000 },
     },
     baseWeeks: { min: 5, max: 10 },
+  },
+  {
+    id: 'ai-automation',
+    name: 'AI Solution & Workflow Automation',
+    description: 'Custom AI bots, automated document workflows, or business process automation.',
+    iconName: 'Bot',
+    basePrice: {
+      USD: { min: 800, max: 1600 },
+      NGN: { min: 800000, max: 1600000 },
+    },
+    baseWeeks: { min: 2, max: 4 },
   },
 ];
 
@@ -102,17 +105,9 @@ export interface FeatureAddon {
   extraWeeks: number;
 }
 
+// Display order matters: this array drives the "High-Impact Capabilities" list.
+// AI Agent / LLM Integration is intentionally listed last.
 export const FEATURE_ADDONS: FeatureAddon[] = [
-  {
-    id: 'ai-brain',
-    name: 'AI Agent / LLM Integration',
-    description: 'Smart automated reasoning, intelligent chat, or LLM-driven actions.',
-    price: {
-      USD: 350,
-      NGN: 350000,
-    },
-    extraWeeks: 1,
-  },
   {
     id: 'payments',
     name: 'Payment Processing & Checkout',
@@ -140,6 +135,16 @@ export const FEATURE_ADDONS: FeatureAddon[] = [
     price: {
       USD: 200,
       NGN: 200000,
+    },
+    extraWeeks: 1,
+  },
+  {
+    id: 'ai-brain',
+    name: 'AI Agent / LLM Integration',
+    description: 'Smart automated reasoning, intelligent chat, or LLM-driven actions.',
+    price: {
+      USD: 350,
+      NGN: 350000,
     },
     extraWeeks: 1,
   },

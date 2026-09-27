@@ -13,20 +13,24 @@ export default function Navbar() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Name & DO Monogram */}
-        <a href="#" className="flex items-center gap-3 group cursor-pointer">
-          <BrandLogo className="w-10 h-10 group-hover:scale-105 transition-transform" />
-          <div className="flex flex-col">
-            <span className="font-extrabold text-base sm:text-lg text-white tracking-tight leading-none group-hover:text-emerald-400 transition-colors">
+        <a href="#" className="flex items-center gap-4 group cursor-pointer">
+          <BrandLogo className="w-12 h-12 sm:w-14 sm:h-14 group-hover:scale-105 transition-transform" />
+          {/* items-start keeps each line sized to its own text, so the two
+              lines can be matched to exactly the same width. font-size on
+              "Solutions" is an em fraction of the line above and its tracking
+              is in em too, so the match holds at every breakpoint. */}
+          <div className="flex flex-col items-start text-[1.2rem] sm:text-[1.5rem] leading-none">
+            <span className="font-extrabold text-white tracking-tight whitespace-nowrap group-hover:text-emerald-400 transition-colors">
               Dammie Optimus
             </span>
-            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mt-1">
+            <span className="mt-[0.28em] inline-block text-[0.9em] font-bold uppercase tracking-[0.367em] whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
               Solutions
             </span>
           </div>
         </a>
 
         {/* Desktop Quick Nav Links */}
-        <nav className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-medium text-slate-400">
+        <nav className="hidden lg:flex items-center gap-6 text-xs sm:text-sm font-medium text-slate-400">
           <a href="#projects" className="hover:text-white transition-colors">
             Case Studies
           </a>

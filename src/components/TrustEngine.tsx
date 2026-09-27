@@ -97,7 +97,7 @@ export default function TrustEngine() {
                   </span>
                 </div>
 
-                <div className="inline-block text-[11px] font-semibold text-emerald-400/90 uppercase tracking-wider mb-1">
+                <div className="inline-block text-[12px] font-semibold text-emerald-400/90 uppercase tracking-wider mb-1">
                   {step.duration}
                 </div>
                 <h3 className="text-base font-bold text-white mb-2">
@@ -183,7 +183,7 @@ export default function TrustEngine() {
                 </div>
                 <div>
                   <div className="text-xs sm:text-sm font-semibold text-white">{t.name}</div>
-                  <div className="text-[11px] text-slate-400">{t.role}</div>
+                  <div className="text-[12px] text-slate-400">{t.role}</div>
                 </div>
               </div>
             </div>
