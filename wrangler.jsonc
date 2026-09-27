@@ -1,0 +1,29 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	// Must match the Cloudflare project name and the WORKER_SELF_REFERENCE
+	// service below. If these diverge, wrangler deploy fails with
+	// "references Worker '<name>' which was not found [code: 10143]".
+	"name": "get-tech-solutions",
+	"compatibility_date": "2026-09-25",
+	// nodejs_compat is required: it makes process.env.RESEND_API_KEY readable
+	// in src/app/api/contact/route.ts. global_fetch_strictly_public allows the
+	// Worker to call the Resend API.
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "get-tech-solutions"
+		}
+	],
+	"images": {
+		"binding": "IMAGES"
+	},
+	"observability": {
+		"enabled": true
+	}
+}
