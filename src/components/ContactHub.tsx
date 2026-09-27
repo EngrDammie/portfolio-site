@@ -15,6 +15,7 @@ import {
   Phone,
 } from 'lucide-react';
 import { BrandLogo } from './DOMonogram';
+import { PROJECT_TYPES } from '@/data/pricingConfig';
 
 const WhatsAppIcon = ({ className = 'w-5 h-5' }: { className?: string }) => (
   <svg
@@ -297,10 +298,15 @@ export default function ContactHub() {
                     onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white text-sm outline-none transition-all"
                   >
-                    <option value="Modern Business Website">Modern Business Website</option>                                       
-                    <option value="Full-Stack Web App / SaaS">Full-Stack Web Application / SaaS</option>
-                    <option value="Mobile App (iOS & Android)">Mobile App (iOS & Android)</option>
-                    <option value="AI Solution & Workflow Automation">AI Solution & Workflow Automation</option> 
+                    {/* Options are generated from PROJECT_TYPES so the form
+                        can never drift from the estimator's project names.
+                        The unpriced "other" choice has no entry there, so it
+                        is appended manually. */}
+                    {PROJECT_TYPES.map((type) => (
+                      <option key={type.id} value={type.name}>
+                        {type.name}
+                      </option>
+                    ))}
                     <option value="Custom Project">Other / Custom Technical Solution</option>
                   </select>
                 </div>
