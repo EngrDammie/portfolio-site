@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Document Hub | Dammie Optimus Solutions</title>
+<meta name="description" content="Every guide, playbook and reference document for the Dammie Optimus Solutions platform, in one place." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="dosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="progress"></div>
+
+<header>
+  <div class="hdr">
+    <div class="brandbox">
+      <svg viewBox="0 0 160 120" fill="none" aria-label="Dammie Optimus Monogram">
+        <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 30 25 L 30 95" />
+          <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+          <circle cx="100" cy="60" r="35" />
+        </g>
+        <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+      </svg>
+    </div>
+    <div class="brandtext">
+      <div class="brandname">Dammie Optimus Solutions</div>
+      <div class="brandsub">Document Hub</div>
+    </div>
+    <div class="hdr-spacer"></div>
+    <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle colour theme">
+      <span id="themeIcon">◐</span> <span id="themeLabel">Light</span>
+    </button>
+    <button class="btn" id="printBtn" type="button">⎙ Save / Print</button>
+    <a class="btn" href="/">← Back to site</a>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="layout solo">
+
+  <main>
+
+    <div class="hero">
+      <div class="pill"><span class="dot"></span> Everything in one place</div>
+      <h1>The Document <span class="grad-text">Hub</span></h1>
+      <p>
+        Every guide, playbook and reference document for this platform.
+        Written in plain English, designed to be read once and referred back to
+        whenever you need it — no developer jargon assumed.
+      </p>
+      <div class="meta">
+        <span class="chip">2 written &middot; 2 planned</span>
+        <span class="chip">Printable &amp; saveable as PDF</span>
+        <span class="chip">Works offline once loaded</span>
+      </div>
+    </div>
+
+    <!-- ===================== SETUP & OPERATIONS ===================== -->
+    <section id="guides">
+      <h2><span class="num">01</span> Setup &amp; operating guides</h2>
+      <p class="lede">Step-by-step walkthroughs for the pieces of the platform that sit outside the code — sending email, booking calls, and whatever comes next.</p>
+
+      <div class="hub-grid">
+
+        <!-- Doc 01 -->
+        <article class="doc-card">
+          <div class="doc-head">
+            <div class="doc-ico">📮</div>
+            <div>
+              <div class="doc-kicker">Document 01</div>
+              <div class="doc-title">Email Delivery Guide</div>
+            </div>
+          </div>
+          <p class="doc-desc">
+            How the contact form sends email, why it already works today, and
+            how to switch it to your own sending domain so you can email clients
+            automatically. Covers Resend, DNS records and the Cloudflare settings.
+          </p>
+          <div class="doc-tags">
+            <span class="doc-tag">15 sections</span>
+            <span class="doc-tag">~12 min read</span>
+            <span class="doc-tag">Reference</span>
+          </div>
+          <div class="doc-actions">
+            <a class="btn-primary" href="email-delivery-guide.html">Open Document →</a>
+            <a class="btn-secondary" href="email-delivery-guide.html#verify">Jump to setup</a>
+          </div>
+        </article>
+
+        <!-- Doc 02 -->
+        <article class="doc-card">
+          <div class="doc-head">
+            <div class="doc-ico">📅</div>
+            <div>
+              <div class="doc-kicker">Document 02</div>
+              <div class="doc-title">Google Calendar Booking Guide</div>
+            </div>
+          </div>
+          <p class="doc-desc">
+            Turn your dead "Book a call" button into a real booking system.
+            Build a Google Calendar appointment page that shows clients your true
+            availability, issues a unique Google Meet link, and notifies you
+            automatically. No coding required.
+          </p>
+          <div class="doc-tags">
+            <span class="doc-tag">10 sections</span>
+            <span class="doc-tag">~10 min read</span>
+            <span class="doc-tag">Beginner friendly</span>
+          </div>
+          <div class="doc-actions">
+            <a class="btn-primary" href="google-calendar-booking.html">Open Document →</a>
+            <a class="btn-secondary" href="google-calendar-booking.html#setup">Jump to steps</a>
+          </div>
+        </article>
+
+        <!-- Placeholder -->
+        <article class="doc-card soon">
+          <div class="doc-head">
+            <div class="doc-ico">🧭</div>
+            <div>
+              <div class="doc-kicker">Document 03</div>
+              <div class="doc-title">Domain &amp; Launch Playbook</div>
+            </div>
+          </div>
+          <p class="doc-desc">
+            A reserved slot for the day you buy <span class="mono">dammieoptimussolutions.com</span>:
+            registrar choice, connecting it to Cloudflare, adding a custom domain to
+            the Worker, and going live on your own address.
+          </p>
+          <div class="doc-tags">
+            <span class="doc-tag">Planned</span>
+            <span class="doc-tag">Awaiting domain purchase</span>
+          </div>
+          <div class="doc-actions">
+            <span class="btn-secondary" style="cursor:not-allowed">Not written yet</span>
+            <span class="doc-file">— reserved</span>
+          </div>
+        </article>
+
+        <article class="doc-card soon">
+          <div class="doc-head">
+            <div class="doc-ico">📈</div>
+            <div>
+              <div class="doc-kicker">Document 04</div>
+              <div class="doc-title">Running &amp; Growing the Platform</div>
+            </div>
+          </div>
+          <p class="doc-desc">
+            The everyday operating manual: how to deploy a change, roll one back,
+            read the Cloudflare logs when something breaks, and the routine that
+            keeps the site fast and the leads flowing.
+          </p>
+          <div class="doc-tags">
+            <span class="doc-tag">Planned</span>
+            <span class="doc-tag">Ongoing</span>
+          </div>
+          <div class="doc-actions">
+            <span class="btn-secondary" style="cursor:not-allowed">Not written yet</span>
+            <span class="doc-file">— reserved</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===================== HOW THIS HUB WORKS ===================== -->
+    <section id="how">
+      <h2><span class="num">02</span> How to use these documents</h2>
+      <p class="lede">Three things worth knowing before you dive in.</p>
+
+      <div class="grid3">
+        <div class="card">
+          <div class="card-t"><span>🌗</span> Light or dark</div>
+          <p>Use the toggle at the top right. Your choice is remembered next time, so it always opens the way you left it.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>⎙</span> Save as PDF</div>
+          <p>Every document has a <strong>Save / Print</strong> button. That turns the page into a clean PDF you can keep offline or send to someone.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>📋</span> Copy the code</div>
+          <p>Any code box has a <strong>Copy</strong> button, so you can paste settings into your own dashboard without retyping them.</p>
+        </div>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">These are living documents</div>
+          <p>If a setting or screen changes, the document gets updated. The addresses below never change, so you can bookmark this hub and always find everything from here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== QUICK LINKS ===================== -->
+    <section id="quick">
+      <h2><span class="num">03</span> Quick links</h2>
+      <p class="lede">The places you'll reach for most often.</p>
+
+      <div class="links-strip">
+        <a class="linkbox" href="/">
+          <div class="lb-t">🌐 Portfolio site</div>
+          <div class="lb-d">The live website — get-tech-solutions.dammieoptimus.workers.dev</div>
+        </a>
+        <a class="linkbox" href="mailto:dammieoptimus@gmail.com">
+          <div class="lb-t">✉️ Email</div>
+          <div class="lb-d">dammieoptimus@gmail.com — where every form submission lands</div>
+        </a>
+        <a class="linkbox" href="https://wa.me/2347053331253" target="_blank" rel="noopener">
+          <div class="lb-t">💬 WhatsApp</div>
+          <div class="lb-d">+234 705 333 1253 — fastest way to reach you</div>
+        </a>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">★</span>
+        <div class="bd">
+          <div class="ct">A note on terminology</div>
+          <p>You will see two words used a lot: <strong>runtime variable</strong> (a setting your live website reads while it is running) and <strong>build variable</strong> (a setting used only while the site is being built). Every document spells out which one it means and exactly where to click.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="fgrid">
+        <div class="brandbox" style="padding:9px">
+          <svg viewBox="0 0 160 120" fill="none" style="width:46px;height:34px;display:block" aria-label="Dammie Optimus Monogram">
+            <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 30 25 L 30 95" />
+              <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+              <circle cx="100" cy="60" r="35" />
+            </g>
+            <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+          </svg>
+        </div>
+        <div class="fnote" style="flex:1;min-width:260px">
+          <strong>Dammie Optimus Solutions</strong><br />
+          AI, Web &amp; Mobile Software Engineering<br />
+          <a href="mailto:dammieoptimus@gmail.com">dammieoptimus@gmail.com</a> &nbsp;·&nbsp;
+          <a href="https://wa.me/2347053331253" target="_blank" rel="noopener">WhatsApp</a> &nbsp;·&nbsp;
+          <a href="/">Back to site</a>
+        </div>
+        <div class="fnote" style="text-align:right">
+          Engineered for peak performance.<br />
+          Serving WAT (GMT+1) · Nigeria, UK, US, EU
+        </div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+<script src="assets/docs.js"></script>
+</body>
+</html>

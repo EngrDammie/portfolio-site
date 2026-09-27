@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to Set Up Google Calendar Booking | Dammie Optimus Solutions</title>
+<meta name="description" content="A complete, jargon-free walkthrough for turning a dead 'Book a call' button into a real booking system with Google Calendar appointment schedules and automatic Google Meet links." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="dosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="progress"></div>
+
+<header>
+  <div class="hdr">
+    <div class="brandbox">
+      <svg viewBox="0 0 160 120" fill="none" aria-label="Dammie Optimus Monogram">
+        <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 30 25 L 30 95" />
+          <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+          <circle cx="100" cy="60" r="35" />
+        </g>
+        <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+      </svg>
+    </div>
+    <div class="brandtext">
+      <div class="brandname">Dammie Optimus Solutions</div>
+      <div class="brandsub">Document 02 · Setup Guide</div>
+    </div>
+    <div class="hdr-spacer"></div>
+    <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle colour theme">
+      <span id="themeIcon">◐</span> <span id="themeLabel">Light</span>
+    </button>
+    <button class="btn" id="printBtn" type="button">⎙ Save / Print</button>
+    <a class="btn" href="docs.html">← All documents</a>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="layout">
+
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#why">1 · Why you need this</a>
+    <a href="#outcome">2 · What you'll end up with</a>
+    <a href="#words">3 · Words you'll need</a>
+    <a href="#before">4 · Before you start</a>
+    <a href="#setup">5 · Setting it up, step by step</a>
+    <a href="#settings">6 · Every setting explained</a>
+    <a href="#after">7 · When a client books</a>
+    <a href="#connect">8 · Plugging it into the site</a>
+    <a href="#problems">9 · If something goes wrong</a>
+    <a href="#checklist">10 · Final checklist</a>
+  </nav>
+
+  <main>
+
+    <div class="hero">
+      <div class="pill"><span class="dot"></span> No coding required</div>
+      <h1>Booking Calls<br /><span class="grad-text">The Complete Guide</span></h1>
+      <p>
+        How to replace the “Book Google Meet” button on your website with a real
+        booking system — so a client picks a time that suits them, you get a
+        calendar reminder, and the video call link sorts itself out.
+      </p>
+      <div class="meta">
+        <span class="chip">Audience: complete beginner</span>
+        <span class="chip">Time needed: about 10 minutes</span>
+        <span class="chip">Cost: free, forever</span>
+      </div>
+    </div>
+
+    <!-- 1 -->
+    <section id="why">
+      <h2><span class="num">01</span> Why you need this</h2>
+      <p class="lede">Your website currently has a button that promises something it cannot deliver. Let's be precise about what happens.</p>
+
+      <h3>What the button does right now</h3>
+      <p>On your contact page there is a button called <strong>“Launch Google Meet Session”</strong>, and a <strong>“Book Google Meet”</strong> button in the top bar. Both of them send the visitor to this address:</p>
+      <div class="fname">The address your button points to</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>https://meet.google.com/new</pre>
+      </div>
+
+      <div class="callout co-stop">
+        <span class="ic">⚠️</span>
+        <div class="bd">
+          <div class="ct">This is not a booking link. It is a meeting factory.</div>
+          <p>That address does one thing: it creates a <strong>brand-new, empty meeting inside whoever's Google account just clicked it</strong>.</p>
+          <p>Their browser then shows them a meeting code like <span class="mono">qwe-rty-uin</span>. That meeting belongs to <em>them</em>, in <em>their</em> account.</p>
+        </div>
+      </div>
+
+      <h3>So what do you actually receive?</h3>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>🚫</span> What you do NOT get</div>
+          <ul>
+            <li>No notification of any kind</li>
+            <li>No calendar entry</li>
+            <li>No email</li>
+            <li>No record that it ever happened</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>💸</span> What that costs you</div>
+          <ul>
+            <li>The client holds a link you cannot see</li>
+            <li>They must copy it out and message you by hand</li>
+            <li>More effort than just WhatsApping you</li>
+            <li>Looks broken to anyone who tries it</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">🎁</span>
+        <div class="bd">
+          <div class="ct">An analogy that makes it obvious</div>
+          <p>Imagine your website advertised a dentist appointment and then, when a patient clicked, handed them a <em>blank form</em> and said “fill this in and mail it to us.”</p>
+          <p>It is technically not broken. But it is not a booking system either, and it makes you look disorganised on a site whose entire purpose is to win paid work.</p>
+        </div>
+      </div>
+
+      <h3>What a real booking link does instead</h3>
+      <p>Compare the two experiences properly:</p>
+
+      <div class="flow">
+        <div class="fnode">
+          <span class="fi">🚫</span>
+          <div><div class="ft">Today — one click, dead end</div><div class="fs">Client clicks → gets a code → you find out nothing</div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode hi">
+          <span class="fi">✅</span>
+          <div><div class="ft">After this guide — a real booking</div><div class="fs">Client clicks → sees your free times → picks one → both of you get the same link</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="outcome">
+      <h2><span class="num">02</span> What you'll end up with</h2>
+      <p class="lede">Here is the finished experience, so you know what you are aiming at before you start clicking around in Google.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>👤</span> What the client experiences</div>
+          <ol style="font-size:14px">
+            <li>Clicks “Book a discovery call” on your site</li>
+            <li>Sees a simple page with <strong>your name and photo</strong></li>
+            <li>Chooses a date from a calendar</li>
+            <li>Chooses a time <strong>shown in their own timezone</strong></li>
+            <li>Fills in their name and email</li>
+            <li>Presses confirm</li>
+            <li>Gets a confirmation email <strong>containing the video link</strong></li>
+          </ol>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>🧑‍💻</span> What you experience</div>
+          <ol style="font-size:14px">
+            <li>Receive an <strong>email</strong> telling you someone booked</li>
+            <li>See the call <strong>appear in your calendar automatically</strong></li>
+            <li>Click the link on the event to join when it is time</li>
+            <li>Never again wonder whether a meeting exists</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">★</span>
+        <div class="bd">
+          <div class="ct">The part that will delight your international clients</div>
+          <p>Google automatically converts your available times into <strong>the visitor's own timezone</strong>. A client in London booking your 2pm Lagos slot sees “2:00 PM” as whatever that means to them. You never have to explain timezones, and nobody turns up an hour early or late.</p>
+        </div>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">🛡️</span>
+        <div class="bd">
+          <div class="ct">You cannot be double-booked</div>
+          <p>Google reads your real calendar and <strong>hides any time you are already busy</strong>. A client can never book over something you already have in the diary.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section id="words">
+      <h2><span class="num">03</span> Words you'll need</h2>
+      <p class="lede">Six terms appear on the Google screens. Here they are in plain English, so nothing you read later is confusing.</p>
+
+      <div class="gloss">
+        <div class="gitem">
+          <div class="gterm">Booking page</div>
+          <div class="gdef">The public web page a client visits to choose a time. It is a link you share, and Google hosts it for you. This is the thing you are building.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">Appointment schedule</div>
+          <div class="gdef">Google's name for the whole setup — the page plus the rules about when you are free. You may see this word on the button you click.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">Time zone</div>
+          <div class="gdef">The region your times are measured in. Yours is <strong>Africa/Lagos (WAT, GMT+1)</strong>. Getting this wrong shifts every slot by an hour.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">Recurring / weekly</div>
+          <div class="gdef">Repeating every week, rather than being available only in one particular week. Choose this, or your page goes blank after seven days.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">Buffer time</div>
+          <div class="gdef">Empty space automatically left either side of each booking. Useful so you are not running straight from one call into the next.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">Minimum notice</div>
+          <div class="gdef">The shortest gap between now and a booking that is allowed. Setting two hours stops someone booking a call that starts in five minutes.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">Google Meet</div>
+          <div class="gdef">Google's video calling. Choosing it here means a <strong>new, private link is made for every single booking</strong> — this is the important part.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">Confirmation</div>
+          <div class="gdef">The automatic email Google sends. It goes to the client, and a copy comes to you. This is how you “know” a meeting exists.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section id="before">
+      <h2><span class="num">04</span> Before you start</h2>
+      <p class="lede">Five minutes of preparation saves twenty minutes of confusion.</p>
+
+      <div class="callout co-warn">
+        <span class="ic">🖥️</span>
+        <div class="bd">
+          <div class="ct">You must use a computer, not your phone</div>
+          <p>Google explicitly does <strong>not</strong> allow appointment schedules to be created in the mobile Calendar app. If you try on a phone you will not find the option, and you may think something is broken.</p>
+          <p>Any desktop or laptop browser works — Chrome, Safari, Firefox or Edge. A tablet in landscape is usually fine too.</p>
+        </div>
+      </div>
+
+      <h3>What you need</h3>
+      <ul class="check">
+        <li>A <strong>Google account</strong> — the free personal kind is enough</li>
+        <li>A <strong>computer</strong> with a web browser</li>
+        <li>About <strong>10 minutes</strong> of uninterrupted time</li>
+        <li>Your real working hours, so the page only offers times you can honour</li>
+        <li>A rough idea of how long a discovery call should be (15 minutes is the usual choice)</li>
+      </ul>
+
+      <div class="callout co-info">
+        <span class="ic">💳</span>
+        <div class="bd">
+          <div class="ct">Does it cost anything?</div>
+          <p>No. Appointment schedules are free on any Google account. You do <strong>not</strong> need a paid Google One subscription, and you do not need a business Workspace account.</p>
+          <p>One limitation to be aware of: a free personal account allows <strong>one</strong> appointment type only. That is perfectly adequate here — one “discovery call” slot. Paid accounts can add several different lengths.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section id="setup">
+      <h2><span class="num">05</span> Setting it up, step by step</h2>
+      <p class="lede">Ten steps. Each one says what to click, what you should see, and what to do if it does not look like that.</p>
+
+      <div class="step">
+        <div class="badge">1</div>
+        <div class="step-b">
+          <h4>Open Google Calendar</h4>
+          <div class="do"><span class="mk">1</span><span>Go to <span class="mono">calendar.google.com</span> and sign in with the account you actually use for work.</span></div>
+          <div class="do"><span class="mk">2</span><span>You should see your week view — a grid of days and hours.</span></div>
+          <div class="callout co-warn"><span class="ic">⚠️</span><div class="bd"><div class="ct">Not seeing your week?</div><p>Check you are on the <strong>main</strong> calendar, not a secondary one. Look at the calendar list on the left and make sure only one is ticked.</p></div></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">2</div>
+        <div class="step-b">
+          <h4>Find the Create button</h4>
+          <div class="do"><span class="mk">1</span><span>Look for a colourful <strong>“Create”</strong> button at the <strong>top left</strong> of the screen. It is a pencil-shaped icon next to a “+”.</span></div>
+          <div class="do"><span class="mk">2</span><span>Click it. A small menu of options appears.</span></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">3</div>
+        <div class="step-b">
+          <h4>Choose “Appointment schedule”</h4>
+          <div class="do"><span class="mk">1</span><span>In that menu, click <strong>“Appointment schedule”</strong>. It is usually the last item in the list.</span></div>
+          <div class="do"><span class="mk">2</span><span>Google will show your calendar again, with a new settings panel appearing on the <strong>left-hand side</strong>.</span></div>
+          <div class="callout co-info"><span class="ic">💡</span><div class="bd"><div class="ct">If you are in the Booking pages section instead</div><p>Newer versions of Google sometimes put this under a <strong>“Booking pages”</strong> heading with a <strong>“Create appointment schedule → Add”</strong> button. That is the same thing. Either route works.</p></div></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">4</div>
+        <div class="step-b">
+          <h4>Set how long each call lasts</h4>
+          <div class="do"><span class="mk">1</span><span>Find <strong>“Appointment duration”</strong> and click the little down-arrow beside it.</span></div>
+          <div class="do"><span class="mk">2</span><span>Pick <strong>15 minutes</strong> for a discovery call. Choose something longer if you genuinely need more.</span></div>
+          <p style="font-size:14px">Be honest with yourself here. A 15-minute call booked by people who like you is a <em>good</em> thing; a 60-minute slot will sit empty and look like you are hard to book.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">5</div>
+        <div class="step-b">
+          <h4>Set the times you are available</h4>
+          <p style="font-size:14px">This is the most important step for the client's experience. It is where you say “these are the hours someone can book me.”</p>
+          <div class="do"><span class="mk">1</span><span>Choose the <strong>days</strong> you want to take calls. Weekdays are typical.</span></div>
+          <div class="do"><span class="mk">2</span><span>Set the <strong>hours</strong> for those days. Be realistic — only publish times you will reliably honour.</span></div>
+          <div class="do"><span class="mk">3</span><span>Check the <strong>time zone</strong> says <span class="mono">Africa/Lagos</span> (or WAT / GMT+1).</span></div>
+          <div class="do"><span class="mk">4</span><span>Choose <strong>weekly recurring</strong> availability, not a single week.</span></div>
+          <div class="callout co-stop"><span class="ic">🚫</span><div class="bd"><div class="ct">The mistake almost everyone makes</div><p>If you set availability for <strong>one specific week only</strong>, your booking page will show nothing after that week passes. Clients will land on an empty page and assume you have stopped taking work.</p><p>Always pick the <strong>recurring weekly</strong> option.</p></div></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">6</div>
+        <div class="step-b">
+          <h4>Click “Next”</h4>
+          <div class="do"><span class="mk">1</span><span>Click the <strong>Next</strong> button at the bottom of the left panel.</span></div>
+          <div class="do"><span class="mk">2</span><span>Google now shows the <strong>booking page settings</strong> — the part clients will see.</span></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">7</div>
+        <div class="step-b">
+          <h4>Choose the video call option — the key step</h4>
+          <div class="do"><span class="mk">1</span><span>Find <strong>“Select how and where to meet”</strong> and click it.</span></div>
+          <div class="do"><span class="mk">2</span><span>Choose <strong>“Google Meet video conferencing”</strong>.</span></div>
+          <div class="callout co-good"><span class="ic">✅</span><div class="bd"><div class="ct">This is the setting that makes everything work</div><p>Choosing Google Meet means that when somebody books, Google <strong>creates a brand-new private video link for that specific booking</strong>, puts it in both calendars, and emails it to the client.</p><p>This is the exact thing the old <span class="mono">meet.google.com/new</span> link could never do.</p></div></div>
+          <div class="do"><span class="mk">3</span><span>Other options on that list are fine for other situations, but avoid them here. Picking “None” means you have to create and send the link yourself, which undoes the whole exercise.</span></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">8</div>
+        <div class="step-b">
+          <h4>Add the details clients will read</h4>
+          <div class="do"><span class="mk">1</span><span>Give it a clear <strong>title</strong>, such as <span class="mono">Free Discovery Call</span>. Anyone with your link sees this, so make it sound appealing.</span></div>
+          <div class="do"><span class="mk">2</span><span>Write a short <strong>description</strong>. Tell them what they will get out of the call and to have their project details ready.</span></div>
+          <div class="do"><span class="mk">3</span><span>Check the <strong>photo and name</strong> shown at the top look right. These come from your Google account.</span></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">9</div>
+        <div class="step-b">
+          <h4>Add the guardrails, then save</h4>
+          <p style="font-size:14px">These stop you being booked at ridiculous times. Section 06 explains each one in full — a sensible starting point is below.</p>
+          <div class="tw">
+            <table>
+              <thead><tr><th>Setting</th><th>Start with</th><th>What it prevents</th></tr></thead>
+              <tbody>
+                <tr><td>Minimum notice</td><td>2 hours</td><td>Someone booking a call that starts in five minutes</td></tr>
+                <tr><td>Buffer between calls</td><td>5–10 minutes</td><td>One call running straight into the next</td></tr>
+                <tr><td>Max bookings per day</td><td>3 or 4</td><td>One client filling your entire week</td></tr>
+                <tr><td>How far ahead</td><td>Next 60 days</td><td>Your diary being bookable into next year</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="do"><span class="mk">1</span><span>Click <strong>Save</strong>.</span></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">10</div>
+        <div class="step-b">
+          <h4>Get your booking link</h4>
+          <p style="font-size:14px">This is the address you will publish on your website.</p>
+          <div class="do"><span class="mk">1</span><span>Look at your calendar grid. Your new appointment schedule now appears as a small panel-shaped marker on the days you made available.</span></div>
+          <div class="do"><span class="mk">2</span><span>Click it. A preview opens with an option to <strong>open the booking page</strong>.</span></div>
+          <div class="do"><span class="mk">3</span><span>Open it, then copy the web address from your browser's address bar. It will look something like:</span></div>
+          <div class="codewrap">
+            <button class="copy" type="button">Copy</button>
+            <pre>https://calendar.google.com/calendar/u/0/r/appointment/...</pre>
+          </div>
+          <div class="callout co-good"><span class="ic">🎉</span><div class="bd"><div class="ct">Do the test a stranger would do</div><p>Open that link in a <strong>private or incognito window</strong> — signed out of Google, as if you were a potential client. You should see your name, the available days, and a working time picker.</p><p>If it looks right there, it will look right to your clients.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section id="settings">
+      <h2><span class="num">06</span> Every setting explained</h2>
+      <p class="lede">What each option actually does, and what it is worth setting it to.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Setting</th><th>What it means</th><th>Recommended</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Appointment duration</strong></td>
+              <td>How long each booked slot lasts.</td>
+              <td><strong>15 minutes</strong> for a discovery call</td>
+            </tr>
+            <tr>
+              <td><strong>Date &amp; time / Availability</strong></td>
+              <td>The days and hours clients may choose from.</td>
+              <td>Your genuine working hours, in <span class="mono">Africa/Lagos</span></td>
+            </tr>
+            <tr>
+              <td><strong>Time zone</strong></td>
+              <td>The region your hours are measured in. Wrong here shifts every slot.</td>
+              <td><strong>Africa/Lagos</strong> (WAT, GMT+1)</td>
+            </tr>
+            <tr>
+              <td><strong>Recurring</strong></td>
+              <td>Whether the same hours repeat every week.</td>
+              <td><strong>Weekly</strong> — never a single week</td>
+            </tr>
+            <tr>
+              <td><strong>How and where to meet</strong></td>
+              <td>Whether a video link is created automatically for each booking.</td>
+              <td><strong>Google Meet video conferencing</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Minimum notice</strong></td>
+              <td>Shortest allowed gap between booking and the call starting.</td>
+              <td><strong>2 hours</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Buffer between calls</strong></td>
+              <td>Empty space left either side of every booking.</td>
+              <td><strong>5–10 minutes</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Max bookings per day</strong></td>
+              <td>A ceiling on how many people can book you in one day.</td>
+              <td><strong>3 or 4</strong> for a solo operator</td>
+            </tr>
+            <tr>
+              <td><strong>How far ahead</strong></td>
+              <td>How many days into the future clients may book.</td>
+              <td><strong>60 days</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Guest email verification</strong></td>
+              <td>Requires the client to prove they own the email they typed.</td>
+              <td><strong>On</strong> — cuts out junk bookings</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">💡</span>
+        <div class="bd">
+          <div class="ct">Why buffer time is worth setting even though it looks wasteful</div>
+          <p>Without it, someone can book 10:00–10:15 and 10:15–10:30. If the first call runs a minute long, you are late to the second, and a client who is paying you has been kept waiting.</p>
+          <p>Five minutes costs you very little. It is the difference between looking professional and looking stretched.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section id="after">
+      <h2><span class="num">07</span> When a client books</h2>
+      <p class="lede">The original question — “how will I know a meeting has been created?” — answered as a timeline.</p>
+
+      <div class="flow">
+        <div class="fnode">
+          <span class="fi">👤</span>
+          <div><div class="ft">The client picks a slot and confirms</div><div class="fs">Some time in the future — perhaps days or weeks away</div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode hi">
+          <span class="fi">🔔</span>
+          <div><div class="ft">You get an email, immediately</div><div class="fs">This is the answer to your question — you are told, automatically</div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode hi">
+          <span class="fi">📅</span>
+          <div><div class="ft">The call appears in your calendar</div><div class="fs">With a private video link already attached to the event</div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode">
+          <span class="fi">✉️</span>
+          <div><div class="ft">The client gets a confirmation email</div><div class="fs">Containing the same video link, plus the date and time in their timezone</div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode">
+          <span class="fi">🔗</span>
+          <div><div class="ft">On the day, you click the link on the event</div><div class="fs">It opens Google Meet and you are both in the same room</div></div>
+        </div>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">So: how do you know?</div>
+          <p>You know because it lands in <strong>your inbox</strong> and <strong>your calendar</strong> — without the client needing to tell you anything.</p>
+          <p>That is the whole difference from the old button, where the information died with the person who clicked it.</p>
+        </div>
+      </div>
+
+      <h3>Before each call</h3>
+      <ul>
+        <li>Open your calendar and find the event.</li>
+        <li>Click the Google Meet link on it — this is what puts you in the room.</li>
+        <li>Join a couple of minutes early and check the microphone and camera work.</li>
+        <li>Have their project brief open, because they will have had time to think since booking.</li>
+      </ul>
+    </section>
+
+    <!-- 8 -->
+    <section id="connect">
+      <h2><span class="num">08</span> Plugging it into your website</h2>
+      <p class="lede">You have a working booking page. The last job is making your buttons point at it instead of the dead link.</p>
+
+      <h3>What is wrong with your site right now</h3>
+      <p>Three separate buttons all point at the same dead address:</p>
+      <ul>
+        <li>The <strong>“Launch Google Meet Session”</strong> button on the contact card</li>
+        <li>The <strong>“Book Google Meet”</strong> button in the top bar</li>
+        <li>The same button inside the small-screen menu</li>
+      </ul>
+
+      <h3>How they will be fixed</h3>
+      <p>I will add a single setting called <span class="codechip">BOOKING_URL</span> and point all three buttons at it. This is an ordinary setting, not a secret — you can change your booking page later by editing one value rather than touching any code.</p>
+
+      <div class="fname">What you will do in the Cloudflare dashboard</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>Cloudflare  →  Workers &amp; Pages  →  get-tech-solutions
+            →  Settings  →  Variables and Secrets  →  Add
+
+Variable name:  BOOKING_URL
+Value:          &lt;your booking page link&gt;
+
+Type:           Text        (NOT "Secret")
+Environment:    Production</pre>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">💡</span>
+        <div class="bd">
+          <div class="ct">Why a setting rather than hard-coding the link</div>
+          <p>If you ever switch to Calendly, change your calendar, or want a different page per service, you edit one value in the dashboard. No code change, no redeployment, no waiting on a build.</p>
+          <p>And if the setting is ever missing, the buttons fall back to your WhatsApp link rather than breaking.</p>
+        </div>
+      </div>
+
+      <h3>The wording will also change</h3>
+      <p>The current card says <em>“Book a 15-minute discovery session on Google Meet”</em> while doing nothing of the sort. The new wording will describe something that genuinely happens — for example: <em>“Pick a time that suits you. You'll get a confirmation with a private Google Meet link.”</em></p>
+
+      <div class="callout co-good">
+        <span class="ic">🎉</span>
+        <div class="bd">
+          <div class="ct">When you are ready</div>
+          <p>Paste your booking link here and I will make these changes, then explain exactly what to click in Cloudflare.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section id="problems">
+      <h2><span class="num">09</span> If something goes wrong</h2>
+      <p class="lede">The five problems people actually hit, and what each one means.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>What you see</th><th>What it means</th><th>How to fix it</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>No “Appointment schedule” option</td>
+              <td>You are on a phone or tablet, or the Google Calendar app</td>
+              <td>Use a desktop or laptop browser at <span class="mono">calendar.google.com</span></td>
+            </tr>
+            <tr>
+              <td>The booking page shows no times</td>
+              <td>Availability was set for one specific week, and that week has passed</td>
+              <td>Edit the schedule and switch to <strong>weekly recurring</strong></td>
+            </tr>
+            <tr>
+              <td>Times are all shifted by an hour</td>
+              <td>The time zone is set to something other than Lagos</td>
+              <td>Change the time zone field to <span class="mono">Africa/Lagos</span></td>
+            </tr>
+            <tr>
+              <td>No video link in the confirmation</td>
+              <td>“How and where to meet” was left as “None”</td>
+              <td>Set it to <strong>Google Meet video conferencing</strong> and save</td>
+            </tr>
+            <tr>
+              <td>A client booked an awkward time</td>
+              <td>Your published hours were broader than your real availability</td>
+              <td>Narrow the hours in the schedule, or cancel the event from your calendar</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Changing things later</h3>
+      <p>Your booking page is not frozen. To edit it, open Google Calendar, find the appointment schedule on your grid, click it, and choose to edit. Hours, duration, description and guardrails can all be adjusted whenever your working pattern changes.</p>
+      <p>Edits apply to future bookings only — anyone already booked keeps their confirmed time.</p>
+
+      <div class="callout co-warn">
+        <span class="ic">🔄</span>
+        <div class="bd">
+          <div class="ct">Want a more on-brand booking page?</div>
+          <p>The page is hosted by Google, so visitors briefly see Google's interface rather than your own design. That is the trade-off for having it free with zero maintenance.</p>
+          <p>If you would rather have a page that matches your site, <strong>Calendly</strong> (free tier) or <strong>Cal.com</strong> do the same job with your branding on it. You would swap the <span class="codechip">BOOKING_URL</span> value and nothing else would need to change.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section id="checklist">
+      <h2><span class="num">10</span> Final checklist</h2>
+      <p class="lede">Print this page, or save it as a PDF, and tick each line as you go.</p>
+
+      <h4>Building the booking page</h4>
+      <ul class="check">
+        <li>Opened Google Calendar on a <strong>computer</strong>, not a phone</li>
+        <li>Clicked <strong>Create → Appointment schedule</strong></li>
+        <li>Set duration to <strong>15 minutes</strong></li>
+        <li>Chose working days and hours in <strong>Africa/Lagos</strong></li>
+        <li>Set availability to <strong>weekly recurring</strong></li>
+        <li>Clicked <strong>Next</strong></li>
+        <li>Set “how and where to meet” to <strong>Google Meet video conferencing</strong></li>
+        <li>Added a clear <strong>title</strong> and <strong>description</strong></li>
+        <li>Set <strong>2 hours</strong> minimum notice</li>
+        <li>Set a <strong>5–10 minute</strong> buffer</li>
+        <li>Set a <strong>daily booking limit</strong> of 3 or 4</li>
+        <li>Clicked <strong>Save</strong></li>
+      </ul>
+
+      <h4>Getting the link</h4>
+      <ul class="check">
+        <li>Found the schedule on the calendar grid and opened the booking page</li>
+        <li>Copied the web address</li>
+        <li>Opened it in a <strong>private window</strong> to test as a stranger would</li>
+        <li>Confirmed a time appears and can be selected</li>
+        <li>Booked a throwaway slot to confirm the Meet link is generated</li>
+        <li>Deleted the test booking from your calendar</li>
+      </ul>
+
+      <h4>Connecting it to the site</h4>
+      <ul class="check">
+        <li>Sent the link so <span class="codechip">BOOKING_URL</span> can be set in Cloudflare</li>
+        <li>Confirmed the value is <strong>Text</strong>, not “Secret”</li>
+        <li>Confirmed it is applied to <strong>Production</strong></li>
+        <li>Tested the button on the live site</li>
+        <li>Checked the button opens the booking page, not Google Meet directly</li>
+      </ul>
+    </section>
+
+    <footer>
+      <div class="fgrid">
+        <div class="brandbox" style="padding:9px">
+          <svg viewBox="0 0 160 120" fill="none" style="width:46px;height:34px;display:block" aria-label="Dammie Optimus Monogram">
+            <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 30 25 L 30 95" />
+              <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+              <circle cx="100" cy="60" r="35" />
+            </g>
+            <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+          </svg>
+        </div>
+        <div class="fnote" style="flex:1;min-width:260px">
+          <strong>Dammie Optimus Solutions</strong><br />
+          Document 02 · Google Calendar Booking Guide<br />
+          <a href="docs.html">← Back to the Document Hub</a> &nbsp;·&nbsp;
+          <a href="/">Back to site</a>
+        </div>
+        <div class="fnote" style="text-align:right">
+          Engineered for peak performance.<br />
+          Serving WAT (GMT+1) · Nigeria, UK, US, EU
+        </div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+<script src="assets/docs.js"></script>
+</body>
+</html>
