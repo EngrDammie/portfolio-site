@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Brand Guidelines | Dammie Optimus Solutions</title>
+<meta name="description" content="The definitive reference for the Dammie Optimus Solutions brand: logo geometry, exact colours, typography, spacing, components and voice." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<style>
+/* ---- brand-guide specific components ---- */
+.logo-stage {
+  display: grid; place-items: center; padding: 54px 24px; margin: 22px 0;
+  border: 1.5px solid var(--border); border-radius: 22px;
+  background: radial-gradient(520px 300px at 50% 40%, rgba(16,185,129,.14), transparent 68%), var(--bg-2);
+}
+.logo-stage svg.big { width: 240px; height: 180px; display: block; }
+.swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 14px; margin: 22px 0; }
+.swatch { border: 1.5px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--bg-2); }
+.swatch .chipbox { height: 92px; border-bottom: 1.5px solid var(--border); display: flex; align-items: flex-end; justify-content: flex-end; padding: 8px 10px; }
+.swatch .chipbox span { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; }
+.swatch .meta { padding: 11px 13px 13px; }
+.swatch .nm { font-size: 13px; font-weight: 700; color: var(--text); font-family: 'Geist Mono', monospace; }
+.swatch .hx { font-size: 12px; color: var(--text-3); font-family: 'Geist Mono', monospace; margin-top: 3px; }
+.swatch .rl { font-size: 11.5px; color: var(--text-3); margin-top: 5px; }
+.demo { border: 1.5px solid var(--border); border-radius: 13px; padding: 20px; background: var(--bg-2); margin: 14px 0; }
+.demo-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.spec { display: grid; grid-template-columns: minmax(150px, 34%) 1fr; gap: 4px 18px; font-size: 13.5px; }
+.spec dt { color: var(--text-3); font-family: 'Geist Mono', monospace; font-size: 12.5px; }
+.spec dd { color: var(--text-2); font-family: 'Geist Mono', monospace; font-size: 12.5px; }
+.anat { position: relative; border: 1.5px solid var(--border); border-radius: 14px; background: var(--bg-2); padding: 20px; margin: 18px 0; }
+.anat svg { width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto; }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 18px; }
+.legend div { font-size: 12.5px; color: var(--text-2); }
+.legend b { color: var(--text); display: block; font-size: 13px; }
+.sizes { display: flex; align-items: flex-end; gap: 26px; flex-wrap: wrap; padding: 22px; border: 1.5px solid var(--border); border-radius: 14px; background: var(--bg-2); margin: 18px 0; }
+.sizes figure { margin: 0; text-align: center; }
+.sizes figcaption { font-size: 11px; color: var(--text-3); margin-top: 8px; font-family: 'Geist Mono', monospace; }
+.dont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+@media (max-width: 720px) { .dont { grid-template-columns: 1fr; } }
+.dbox { border: 1.5px solid var(--border); border-radius: 13px; padding: 15px; background: var(--bg-2); }
+.dbox.ok { border-color: rgba(16,185,129,.42); }
+.dbox.no { border-color: rgba(244,63,94,.42); }
+.dbox .dh { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+.dbox.ok .dh { color: var(--emerald-ink); }
+.dbox.no .dh { color: var(--rose-ink); }
+.dbox .row2 { display: flex; gap: 12px; align-items: center; margin-bottom: 9px; }
+.dbox ul { margin: 0 0 0 18px; font-size: 12.5px; }
+.dbox li { margin-bottom: 4px; }
+.hscale { display: flex; align-items: flex-end; gap: 3px; margin: 16px 0; flex-wrap: wrap; }
+.hscale div { text-align: center; }
+.hscale .bar { background: var(--grad); border-radius: 3px 3px 0 0; }
+.hscale .lbl { font-size: 9.5px; color: var(--text-3); margin-top: 5px; font-family: 'Geist Mono', monospace; }
+.type-row { display: flex; align-items: baseline; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.type-row:last-child { border-bottom: none; }
+.type-row .tk { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--emerald-ink); min-width: 108px; }
+.type-row .tm { font-family: 'Geist Mono', monospace; font-size: 11.5px; color: var(--text-3); min-width: 168px; }
+.type-row .tv { color: var(--text); }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="dosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="dosGradSoft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D294" />
+      <stop offset="100%" stop-color="#00D2EF" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="progress"></div>
+
+<header>
+  <div class="hdr">
+    <div class="brandbox">
+      <svg viewBox="0 0 160 120" fill="none" aria-label="Dammie Optimus Monogram">
+        <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 30 25 L 30 95" />
+          <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+          <circle cx="100" cy="60" r="35" />
+        </g>
+        <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+      </svg>
+    </div>
+    <div class="brandtext">
+      <div class="brandname">Dammie Optimus Solutions</div>
+      <div class="brandsub">Brand Guidelines</div>
+    </div>
+    <div class="hdr-spacer"></div>
+    <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle colour theme">
+      <span id="themeIcon">◐</span> <span id="themeLabel">Light</span>
+    </button>
+    <a class="btn" href="docs.html">← All documents</a>
+    <button class="btn" id="printBtn" type="button">⎙ Save / Print</button>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="layout">
+
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#at-a-glance">1 · Brand at a glance</a>
+    <a href="#logo">2 · The logo</a>
+    <a href="#geometry">3 · Logo geometry</a>
+    <a href="#colour">4 · Colour system</a>
+    <a href="#contrast">5 · Contrast reference</a>
+    <a href="#type">6 · Typography</a>
+    <a href="#layout">7 · Layout &amp; spacing</a>
+    <a href="#surface">8 · Surfaces &amp; elevation</a>
+    <a href="#components">9 · Components</a>
+    <a href="#motion">10 · Motion</a>
+    <a href="#voice">11 · Voice &amp; messaging</a>
+    <a href="#tokens">12 · Design tokens</a>
+    <a href="#semantic">13 · Semantic layer</a>
+    <a href="#starter">14 · Starter kit</a>
+    <a href="#icons">15 · Iconography</a>
+    <a href="#a11y">16 · Focus &amp; states</a>
+    <a href="#assets">17 · Asset inventory</a>
+    <a href="#rules">18 · Rules of the road</a>
+  </nav>
+
+  <main>
+
+    <div class="hero">
+      <div class="pill"><span class="dot"></span> Definitive reference</div>
+      <h1>Brand<br /><span class="grad-text">Guidelines</span></h1>
+      <p>
+        The complete design system for Dammie Optimus Solutions. Every colour,
+        measurement, typeface and component, documented to the exact value so the
+        brand stays identical everywhere it appears.
+      </p>
+      <div class="meta">
+        <span class="chip">Version 1.1</span>
+        <span class="chip">18 sections</span>
+        <span class="chip">Brand reference + buildable design system</span>
+      </div>
+    </div>
+
+    <!-- ============ 1 ============ -->
+    <section id="at-a-glance">
+      <h2><span class="num">01</span> Brand at a glance</h2>
+      <p class="lede">The essentials. If you read nothing else, read this.</p>
+
+      <div class="card">
+        <div class="card-t"><span>🏷️</span> Identity</div>
+        <dl class="spec">
+          <dt>Legal / display name</dt><dd>Dammie Optimus Solutions</dd>
+          <dt>Wordmark line 1</dt><dd>DAMMIE OPTIMUS</dd>
+          <dt>Wordmark line 2</dt><dd>SOLUTIONS</dd>
+          <dt>Positioning</dt><dd>AI, Web &amp; Mobile Software Engineering</dd>
+          <dt>Category line</dt><dd>AI automations, web applications, mobile solutions</dd>
+          <dt>Market</dt><dd>Nigeria, UK, US, Europe</dd>
+          <dt>Time zone</dt><dd>WAT (GMT+1)</dd>
+          <dt>Monogram</dt><dd>Interlocking D + O with an AI node</dd>
+        </dl>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>🎯</span> What the brand is for</div>
+          <p>Converting technical capability into paid work. The site is a sales instrument first and a portfolio second — every section exists to make the next step obvious.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>🗣️</span> Tone in three words</div>
+          <p><strong>Precise · Confident · Approachable.</strong> Technical credibility without jargon, and without ever sounding cold or arrogant.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section id="logo">
+      <h2><span class="num">02</span> The logo</h2>
+      <p class="lede">The DO monogram. An interlocking “D” and “O” — for Dammie Optimus — with a solid node at the centre of the O standing for the AI layer.</p>
+
+      <div class="logo-stage">
+        <svg class="big" viewBox="0 0 160 120" fill="none" role="img" aria-label="Dammie Optimus monogram">
+          <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 30 25 L 30 95" />
+            <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+            <circle cx="100" cy="60" r="35" />
+          </g>
+          <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+        </svg>
+      </div>
+
+      <h3>The three approved lockups</h3>
+      <div class="demo">
+        <div class="demo-row" style="align-items:flex-end;gap:38px">
+
+          <figure style="margin:0;text-align:center">
+            <div style="background:#020618;padding:20px;border-radius:14px;border:1.5px solid var(--border)">
+              <svg width="104" height="78" viewBox="0 0 160 120" fill="none" aria-label="Monogram">
+                <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M 30 25 L 30 95" /><path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+                  <circle cx="100" cy="60" r="35" />
+                </g>
+                <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+              </svg>
+            </div>
+            <figcaption style="font-size:12px;color:var(--text-3);margin-top:9px"><strong style="color:var(--text-2)">1 · Mark only</strong><br />for avatars and favicons</figcaption>
+          </figure>
+
+          <figure style="margin:0;text-align:center">
+            <div style="background:#020618;padding:20px;border-radius:14px;border:1.5px solid var(--border);display:flex;align-items:center;gap:16px">
+              <div style="background:rgba(15,23,42,.9);border:1.5px solid rgba(16,185,129,.35);border-radius:12px;padding:7px;box-shadow:0 6px 18px -8px rgba(16,185,129,.4)">
+                <svg width="40" height="30" viewBox="0 0 160 120" fill="none" aria-label="Monogram">
+                  <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M 30 25 L 30 95" /><path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+                    <circle cx="100" cy="60" r="35" />
+                  </g>
+                  <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+                </svg>
+              </div>
+              <div style="text-align:left;line-height:1">
+                <div style="font-weight:800;font-size:20px;letter-spacing:-.025em;color:#fff">Dammie Optimus</div>
+                <div style="margin-top:5px;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.367em;background:linear-gradient(90deg,#10B981,#06B6D4);-webkit-background-clip:text;background-clip:text;color:transparent">Solutions</div>
+              </div>
+            </div>
+            <figcaption style="font-size:12px;color:var(--text-3);margin-top:9px"><strong style="color:var(--text-2)">2 · Mark in box + wordmark</strong><br />the site header</figcaption>
+          </figure>
+
+          <figure style="margin:0;text-align:center">
+            <div style="background:#020618;padding:20px;border-radius:14px;border:1.5px solid var(--border)">
+              <svg width="96" height="96" viewBox="0 0 160 160" fill="none" aria-label="App icon">
+                <defs>
+                  <linearGradient id="iconGradA" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#10B981" /><stop offset="100%" stop-color="#06B6D4" />
+                  </linearGradient>
+                </defs>
+                <rect width="160" height="160" rx="36" fill="#020617" />
+                <rect x="4" y="4" width="152" height="152" rx="32" stroke="url(#iconGradA)" stroke-width="6" />
+                <g transform="translate(0, 20)">
+                  <g stroke="url(#iconGradA)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M 30 25 L 30 95" /><path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+                    <circle cx="100" cy="60" r="35" />
+                  </g>
+                  <circle cx="100" cy="60" r="10" fill="url(#iconGradA)" />
+                </g>
+              </svg>
+            </div>
+            <figcaption style="font-size:12px;color:var(--text-3);margin-top:9px"><strong style="color:var(--text-2)">3 · App badge</strong><br />favicon, PWA, social</figcaption>
+          </figure>
+
+        </div>
+      </div>
+
+      <h3>Approved sizes</h3>
+      <div class="sizes">
+        <figure><svg width="104" height="78" viewBox="0 0 160 120" fill="none"><g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><path d="M 30 25 L 30 95"/><path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95"/><circle cx="100" cy="60" r="35"/></g><circle cx="100" cy="60" r="10" fill="url(#dosGrad)"/></svg><figcaption>104 × 78 px<br>display / print</figcaption></figure>
+        <figure><svg width="64" height="48" viewBox="0 0 160 120" fill="none"><g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><path d="M 30 25 L 30 95"/><path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95"/><circle cx="100" cy="60" r="35"/></g><circle cx="100" cy="60" r="10" fill="url(#dosGrad)"/></svg><figcaption>64 × 48 px<br>large UI</figcaption></figure>
+        <figure><svg width="40" height="30" viewBox="0 0 160 120" fill="none"><g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><path d="M 30 25 L 30 95"/><path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95"/><circle cx="100" cy="60" r="35"/></g><circle cx="100" cy="60" r="10" fill="url(#dosGrad)"/></svg><figcaption>40 × 30 px<br>header box</figcaption></figure>
+        <figure><svg width="28" height="21" viewBox="0 0 160 120" fill="none"><g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><path d="M 30 25 L 30 95"/><path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95"/><circle cx="100" cy="60" r="35"/></g><circle cx="100" cy="60" r="10" fill="url(#dosGrad)"/></svg><figcaption>28 × 21 px<br>minimum</figcaption></figure>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">📏</span>
+        <div class="bd">
+          <div class="ct">Minimum size and clear space</div>
+          <p>Never render the bare monogram below <strong>28px wide</strong> — the centre node disappears and the mark reads as a smudge.</p>
+          <p>Keep clear space of at least <strong>the width of the centre node</strong> on all sides (that is 1/8 of the mark's width). Nothing — text, image edge or another element — may enter that space.</p>
+        </div>
+      </div>
+
+      <h3>Rules</h3>
+      <div class="dont">
+        <div class="dbox ok">
+          <div class="dh">✓ Do</div>
+          <ul>
+            <li>Use the SVG, always — it is resolution independent</li>
+            <li>Keep the gradient running emerald → cyan, top-left to bottom-right</li>
+            <li>Place the mark on a dark or neutral ground</li>
+            <li>Reuse the exact SVG source below, unmodified</li>
+          </ul>
+        </div>
+        <div class="dbox no">
+          <div class="dh">✕ Don't</div>
+          <ul>
+            <li>Recolour the monogram to anything but the brand gradient</li>
+            <li>Rotate, skew, mirror or outline the mark</li>
+            <li>Swap the rounded caps for square or butt caps</li>
+            <li>Remove or move the centre node — it is the AI layer</li>
+            <li>Stretch to a non-proportional aspect ratio</li>
+            <li>Add a drop shadow or glow directly to the mark</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Copy-paste SVG source</h3>
+      <p>Change only the <span class="codechip">width</span> and <span class="codechip">height</span>. Everything else is fixed.</p>
+      <div class="fname">The canonical monogram</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>&lt;svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg"
+     width="104" height="78" role="img" aria-label="Dammie Optimus"&gt;
+  &lt;defs&gt;
+    &lt;linearGradient id="optimusGrad" x1="0%" y1="0%" x2="100%" y2="100%"&gt;
+      &lt;stop offset="0%" stop-color="#10B981" /&gt;
+      &lt;stop offset="100%" stop-color="#06B6D4" /&gt;
+    &lt;/linearGradient&gt;
+  &lt;/defs&gt;
+  &lt;g stroke="url(#optimusGrad)" stroke-width="12"
+     stroke-linecap="round" stroke-linejoin="round"&gt;
+    &lt;!-- the D: stem + outer curve --&gt;
+    &lt;path d="M 30 25 L 30 95" /&gt;
+    &lt;path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" /&gt;
+    &lt;!-- the O: outer ring --&gt;
+    &lt;circle cx="100" cy="60" r="35" /&gt;
+  &lt;/g&gt;
+  &lt;!-- the AI node --&gt;
+  &lt;circle cx="100" cy="60" r="10" fill="url(#optimusGrad)" /&gt;
+&lt;/svg&gt;</pre>
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section id="geometry">
+      <h2><span class="num">03</span> Logo geometry</h2>
+      <p class="lede">The exact coordinates, so the mark can be rebuilt pixel-accurately in any tool.</p>
+
+      <div class="anat">
+        <svg viewBox="-14 -14 188 148" fill="none" aria-label="Monogram with geometry overlay">
+          <!-- guide grid -->
+          <g stroke="var(--border-soft)" stroke-width="0.5" stroke-dasharray="2 3" opacity=".55">
+            <line x1="0" y1="25" x2="160" y2="25"/><line x1="0" y1="60" x2="160" y2="60"/>
+            <line x1="0" y1="95" x2="160" y2="95"/>
+            <line x1="30" y1="0" x2="30" y2="120"/><line x1="100" y1="0" x2="100" y2="120"/>
+            <line x1="65" y1="0" x2="65" y2="120"/><line x1="135" y1="0" x2="135" y2="120"/>
+          </g>
+          <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 30 25 L 30 95" />
+            <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+            <circle cx="100" cy="60" r="35" />
+          </g>
+          <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+          <!-- callout dots -->
+          <g fill="none" stroke="var(--amber-ink)" stroke-width="1.2">
+            <circle cx="30" cy="60" r="5"/><circle cx="42" cy="25" r="5"/><circle cx="100" cy="25" r="5"/><circle cx="100" cy="60" r="5"/>
+          </g>
+        </svg>
+        <div class="legend">
+          <div><b>① D stem</b>Vertical line, x = 30, from y 25 → 95. Length 70.</div>
+          <div><b>② D bowl</b>Starts (30, 25) → (60, 25), then a 35-radius arc sweeping to (60, 95), closing back to the stem.</div>
+          <div><b>③ O ring</b>Circle centred (100, 60) with radius 35. Outer edge reaches x = 135.</div>
+          <div><b>④ AI node</b>Solid circle, same centre, radius 10. Exactly 1/3.5 of the O ring.</div>
+        </div>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Property</th><th>Value</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td><code>viewBox</code></td><td><code>0 0 160 120</code></td><td>Aspect ratio <strong>4:3</strong>. Never change it.</td></tr>
+            <tr><td>Stroke width</td><td><code>12</code></td><td>7.5% of the viewBox height</td></tr>
+            <tr><td>Stroke cap</td><td><code>round</code></td><td>Softens every terminal; part of the identity</td></tr>
+            <tr><td>Stroke join</td><td><code>round</code></td><td>Matches the cap for a seamless outline</td></tr>
+            <tr><td>Stroke colour</td><td><code>url(#optimusGrad)</code></td><td>Gradient, never a flat colour</td></tr>
+            <tr><td>Node fill</td><td><code>url(#optimusGrad)</code></td><td>Solid, so it punches through the ring</td></tr>
+            <tr><td>Canvas (badge)</td><td><code>160 × 160</code>, <code>rx="36"</code></td><td>App icon corner radius</td></tr>
+            <tr><td>Badge inner border</td><td><code>4 4 152 152</code>, <code>rx="32"</code>, stroke <code>6</code></td><td>Gradient hairline inside the badge</td></tr>
+            <tr><td>Monogram offset in badge</td><td><code>translate(0, 20)</code></td><td>Optical centring — not mathematical</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>The gradient</h3>
+      <div class="card">
+        <dl class="spec">
+          <dt>Type</dt><dd>Linear</dd>
+          <dt>Direction</dt><dd>x1 0% y1 0% → x2 100% y2 100%</dd>
+          <dt>Angle</dt><dd>45° (top-left → bottom-right)</dd>
+          <dt>Stop 0%</dt><dd>#10B981 &nbsp; emerald</dd>
+          <dt>Stop 100%</dt><dd>#06B6D4 &nbsp; cyan</dd>
+          <dt>Interpolation</dt><dd>Default (sRGB)</dd>
+        </dl>
+        <div style="height:44px;border-radius:11px;margin-top:14px;background:linear-gradient(135deg,#10B981 0%,#06B6D4 100%)"></div>
+      </div>
+
+      <h3>The wordmark lockup</h3>
+      <div class="card">
+        <p>Line 2 is deliberately stretched so it is exactly as wide as line 1. The values below are load-bearing — changing either breaks the alignment.</p>
+        <dl class="spec">
+          <dt>Line 1 tracking</dt><dd>-0.025em &nbsp;(tracking-tight)</dd>
+          <dt>Line 2 font-size</dt><dd>0.9em of line 1</dd>
+          <dt>Line 2 tracking</dt><dd>0.367em &nbsp;← exact, measured</dd>
+          <dt>Line 2 weight</dt><dd>700 (bold), uppercase</dd>
+          <dt>Container</dt><dd>items-start, so each line hugs its own text</dd>
+          <dt>Gap between lines</dt><dd>0.28em</dd>
+          <dt>Responsive</dt><dd>1.2rem → 1.5rem at ≥ 40rem</dd>
+        </dl>
+        <div class="callout co-info" style="margin-bottom:0">
+          <span class="ic">🔒</span>
+          <div class="bd">
+            <div class="ct">Why 0.367em and not a rounder number</div>
+            <p>That value was measured from the rendered font, not guessed. Both lines are sized in <span class="mono">em</span> so the match holds at every breakpoint and at any root font size.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section id="colour">
+      <h2><span class="num">04</span> Colour system</h2>
+      <p class="lede">A near-monochrome slate base with a single emerald-to-cyan signal. Nothing else is needed.</p>
+
+      <h3>Signal colours — the brand's voice</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chipbox" style="background:linear-gradient(135deg,#10B981,#06B6D4)"><span style="background:rgba(0,0,0,.6);color:#fff">Gradient</span></div><div class="meta"><div class="nm">Brand Gradient</div><div class="hx">#10B981 → #06B6D4</div><div class="rl">Primary signal. Buttons, logo, hero rules, focus.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#00BB7F"><span style="background:rgba(0,0,0,.6);color:#fff">500</span></div><div class="meta"><div class="nm">Emerald 500</div><div class="hx">#00BB7F</div><div class="rl">Primary action fill. <code>bg-emerald-500</code></div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#00D294"><span style="background:rgba(0,0,0,.6);color:#fff">400</span></div><div class="meta"><div class="nm">Emerald 400</div><div class="hx">#00D294</div><div class="rl">Accent text, hover, gradient start in UI.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#5EE9B5"><span style="background:rgba(0,0,0,.6);color:#fff">300</span></div><div class="meta"><div class="nm">Emerald 300</div><div class="hx">#5EE9B5</div><div class="rl">Rare. Highlights on dark only.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#00D2EF"><span style="background:rgba(0,0,0,.6);color:#fff">400</span></div><div class="meta"><div class="nm">Cyan 400</div><div class="hx">#00D2EF</div><div class="rl">Secondary signal, code, gradient end.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#46ECD5"><span style="background:rgba(0,0,0,.6);color:#fff">300</span></div><div class="meta"><div class="nm">Teal 300</div><div class="hx">#46ECD5</div><div class="rl">Typewriter gradient mid-stop.</div></div></div>
+      </div>
+
+      <h3>Neutral ramp — slate</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chipbox" style="background:#F1F5F9"></div><div class="meta"><div class="nm">slate 100</div><div class="hx">#F1F5F9</div><div class="rl">Inset panels, tag chips (light mode).</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#CAD5E2"></div><div class="meta"><div class="nm">slate 300</div><div class="hx">#CAD5E2</div><div class="rl">Body text on dark.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#90A1B9"></div><div class="meta"><div class="nm">slate 400</div><div class="hx">#90A1B9</div><div class="rl">Secondary text, nav links.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#62748E"></div><div class="meta"><div class="nm">slate 500</div><div class="hx">#62748E</div><div class="rl">Timestamps, footnotes.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#45556C"></div><div class="meta"><div class="nm">slate 600</div><div class="hx">#45556C</div><div class="rl">Unused currently. Reserved.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#314158"></div><div class="meta"><div class="nm">slate 700</div><div class="hx">#314158</div><div class="rl">Border on light, hover borders.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#1D293D"></div><div class="meta"><div class="nm">slate 800</div><div class="hx">#1D293D</div><div class="rl">Default hairline border.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#0F172B"></div><div class="meta"><div class="nm">slate 900</div><div class="hx">#0F172B</div><div class="rl">Card surface, chip background.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#020618"></div><div class="meta"><div class="nm">slate 950</div><div class="hx">#020618</div><div class="rl">Page canvas. The brand's black.</div></div></div>
+      </div>
+
+      <h3>Status colours — use sparingly</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="chipbox" style="background:#FCBB00"><span style="background:rgba(0,0,0,.6);color:#fff">400</span></div><div class="meta"><div class="nm">amber 400</div><div class="hx">#FCBB00</div><div class="rl">Light-mode toggle sun icon.</div></div></div>
+        <div class="swatch"><div class="chipbox" style="background:#FF667F"><span style="background:rgba(0,0,0,.6);color:#fff">400</span></div><div class="meta"><div class="nm">rose 400</div><div class="hx">#FF667F</div><div class="rl">Error accents in docs.</div></div></div>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠️</span>
+        <div class="bd">
+          <div class="ct">Important: two slightly different colour sets exist</div>
+          <p>Colours <strong>written in source</strong> (the logo gradient, the light-mode overrides in <span class="mono">globals.css</span>) use canonical values: <span class="mono">#10B981</span>, <span class="mono">#06B6D4</span>, <span class="mono">#020617</span>, <span class="mono">#0f172a</span>, <span class="mono">#1e293b</span>, <span class="mono">#cbd5e1</span>.</p>
+          <p>Colours <strong>emitted by the build</strong> for utilities such as <span class="mono">bg-emerald-500</span> are marginally shifted: <span class="mono">#00BB7F</span>, <span class="mono">#020618</span>, <span class="mono">#0F172B</span>, <span class="mono">#1D293D</span>, <span class="mono">#CAD5E2</span>.</p>
+          <p>The difference is at most a few units of blue and is invisible in practice — but if you sample a colour from the rendered site with an eyedropper, you will get the second set. <strong>Use the source literals for anything you design outside the site.</strong></p>
+        </div>
+      </div>
+
+      <h3>Light mode palette</h3>
+      <p>Defined as hard overrides in <span class="mono">globals.css</span>, not as a token swap. Values are fixed:</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Role</th><th>Light mode value</th><th>Replaces</th></tr></thead>
+          <tbody>
+            <tr><td>Page canvas</td><td><code>#EAEFF5</code></td><td>Platinum slate</td></tr>
+            <tr><td>Card surface</td><td><code>#FFFFFF</code></td><td>Dark card</td></tr>
+            <tr><td>Inset panel</td><td><code>#F1F5F9</code></td><td>Dark inset</td></tr>
+            <tr><td>Heading text</td><td><code>#020617</code></td><td><code>text-white</code></td></tr>
+            <tr><td>Body text</td><td><code>#0F172A</code></td><td><code>slate-300</code></td></tr>
+            <tr><td>Secondary text</td><td><code>#334155</code></td><td><code>slate-400</code></td></tr>
+            <tr><td>Caption text</td><td><code>#475569</code></td><td><code>slate-500</code></td></tr>
+            <tr><td>Border</td><td><code>#CBD5E1</code></td><td>Dark border</td></tr>
+            <tr><td>Accent border</td><td><code>#059669</code></td><td>Emerald border</td></tr>
+            <tr><td>Accent text</td><td><code>#047857</code></td><td>Emerald text</td></tr>
+            <tr><td>Guarantee card</td><td><code>#ECFDF5</code> → <code>#FFFFFF</code></td><td>Gradient fill</td></tr>
+            <tr><td>Tag background</td><td><code>#F8FAFC</code></td><td>Dark tag</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Distribution rule</h3>
+      <div class="callout co-good">
+        <span class="ic">60 / 30 / 10</span>
+        <div class="bd">
+          <div class="ct">How much of each</div>
+          <ul>
+            <li><strong>60%</strong> slate — the canvas, cards, borders, body text</li>
+            <li><strong>30%</strong> white and near-white — headings, emphasis, breathing room</li>
+            <li><strong>10%</strong> emerald and cyan — the signal. Buttons, active states, the logo, small highlights</li>
+          </ul>
+          <p>If the accent colour appears on more than a couple of elements per screen, it stops being a signal.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section id="contrast">
+      <h2><span class="num">05</span> Contrast reference</h2>
+      <p class="lede">Measured contrast ratios for the pairings actually used, so accessibility never has to be re-derived.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Pairing</th><th>Foreground</th><th>Background</th><th>Ratio</th><th>Grade</th></tr></thead>
+          <tbody>
+            <tr><td>Heading on canvas</td><td><code>#FFFFFF</code></td><td><code>#020618</code></td><td>20.16</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Body on canvas</td><td><code>#CAD5E2</code></td><td><code>#020618</code></td><td>13.56</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Secondary on canvas</td><td><code>#90A1B9</code></td><td><code>#020618</code></td><td>7.66</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Caption on canvas</td><td><code>#62748E</code></td><td><code>#020618</code></td><td>4.23</td><td>AA large only</td></tr>
+            <tr><td>Body on card</td><td><code>#CAD5E2</code></td><td><code>#0F172B</code></td><td>12.00</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Accent on canvas</td><td><code>#00BB7F</code></td><td><code>#020618</code></td><td>8.08</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Accent light on canvas</td><td><code>#00D294</code></td><td><code>#020618</code></td><td>10.22</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Cyan on canvas</td><td><code>#00D2EF</code></td><td><code>#020618</code></td><td>11.00</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Body on white</td><td><code>#1E293B</code></td><td><code>#FFFFFF</code></td><td>14.63</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Heading on light canvas</td><td><code>#020617</code></td><td><code>#EAEFF5</code></td><td>17.45</td><td><strong style="color:var(--emerald-ink)">AAA</strong></td></tr>
+            <tr><td>Accent text on white</td><td><code>#047857</code></td><td><code>#FFFFFF</code></td><td>5.48</td><td><strong style="color:var(--emerald-ink)">AA</strong></td></tr>
+            <tr><td>Accent border on white</td><td><code>#059669</code></td><td><code>#FFFFFF</code></td><td>3.77</td><td>Borders / large only</td></tr>
+            <tr><td>Hairline border on canvas</td><td><code>#1D293D</code></td><td><code>#020618</code></td><td>1.38</td><td>Decorative only</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">📐</span>
+        <div class="bd">
+          <div class="ct">The two rules that follow from this</div>
+          <ul>
+            <li><code>slate-500</code> fails AA for body text on dark. Use it only for timestamps, footnotes and other non-essential captions at 16px or larger.</li>
+            <li><code>slate-800</code> borders are decorative. They are meant to be <em>felt</em>, not read — never rely on a border alone to convey meaning.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6 ============ -->
+    <section id="type">
+      <h2><span class="num">06</span> Typography</h2>
+      <p class="lede">Two families, one scale, and a root size that sets the rhythm of the whole site.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>🔤</span> Geist Sans — primary</div>
+          <p style="font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:10px 0 14px">Aa Bb Cc</p>
+          <dl class="spec">
+            <dt>Family</dt><dd>Geist</dd>
+            <dt>Weights in use</dt><dd>500 · 600 · 700 · 800</dd>
+            <dt>Most used</dt><dd>bold (700) ×31, semibold (600) ×29</dd>
+            <dt>Tracking</dt><dd>-0.025em on headings</dd>
+            <dt>Source</dt><dd>next/font, self-hosted</dd>
+          </dl>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>⌨️</span> Geist Mono — secondary</div>
+          <p style="font-size:30px;font-weight:500;line-height:1.2;margin:10px 0 14px;font-family:'Geist Mono',monospace">Aa Bb Cc</p>
+          <dl class="spec">
+            <dt>Family</dt><dd>Geist Mono</dd>
+            <dt>Weights in use</dt><dd>400 · 500 · 600</dd>
+            <dt>Used for</dt><dd>code, paths, IDs, numerals</dd>
+            <dt>Estimator inputs</dt><dd>project brief textarea</dd>
+            <dt>Source</dt><dd>next/font, self-hosted</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="callout co-stop">
+        <span class="ic">★</span>
+        <div class="bd">
+          <div class="ct">The single most important typographic setting</div>
+          <p>The site root font size is <strong>18px</strong>, not the browser default of 16px. Because every Tailwind size is in <span class="mono">rem</span>, this scales the entire site's text by <strong>+12.5%</strong> in one place.</p>
+          <p>To retune readability site-wide, change that one number in <span class="mono">globals.css</span> and nothing else.</p>
+        </div>
+      </div>
+
+      <h3>The scale</h3>
+      <p>Because the root is 18px, the rem values produce larger pixels than the Tailwind defaults would. Both are shown.</p>
+      <div class="card" style="padding:18px 20px">
+        <div class="type-row"><span class="tk">text-5xl</span><span class="tm">3rem · 54px</span><span class="tv" style="font-size:34px;font-weight:800;letter-spacing:-.03em">Hero headline</span></div>
+        <div class="type-row"><span class="tk">text-4xl</span><span class="tm">2.25rem · 40.5px</span><span class="tv" style="font-size:28px;font-weight:800;letter-spacing:-.02em">Section headline</span></div>
+        <div class="type-row"><span class="tk">text-3xl</span><span class="tm">1.875rem · 33.75px</span><span class="tv" style="font-size:24px;font-weight:800">Sub-headline</span></div>
+        <div class="type-row"><span class="tk">text-2xl</span><span class="tm">1.5rem · 27px</span><span class="tv" style="font-size:20px;font-weight:700">Card title</span></div>
+        <div class="type-row"><span class="tk">text-xl</span><span class="tm">1.25rem · 22.5px</span><span class="tv" style="font-size:18px;font-weight:700">Large stat</span></div>
+        <div class="type-row"><span class="tk">text-lg</span><span class="tm">1.125rem · 20.25px</span><span class="tv" style="font-size:17px;font-weight:600">Emphasis body</span></div>
+        <div class="type-row"><span class="tk">text-base</span><span class="tm">1rem · 18px</span><span class="tv" style="font-size:16px">Default body copy</span></div>
+        <div class="type-row"><span class="tk">text-sm</span><span class="tm">0.875rem · 15.75px</span><span class="tv" style="font-size:14px">Dense body, descriptions</span></div>
+        <div class="type-row"><span class="tk">text-xs</span><span class="tm">0.75rem · 13.5px</span><span class="tv" style="font-size:12px">Labels, metadata, nav</span></div>
+        <div class="type-row"><span class="tk">text-[12px]</span><span class="tm">0.667rem · 12px</span><span class="tv" style="font-size:11px">Disclaimers, footnotes</span></div>
+        <div class="type-row"><span class="tk">text-[11px]</span><span class="tm">0.611rem · 11px</span><span class="tv" style="font-size:10px">Smallest permitted</span></div>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">🔻</span>
+        <div class="bd">
+          <div class="ct">11px is the floor</div>
+          <p>Nothing on the site may render below <strong>11px</strong>. It is used only for legal-style footnotes. If a label feels cramped, step it up a size rather than reducing it further.</p>
+        </div>
+      </div>
+
+      <h3>Hierarchy patterns</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Level</th><th>Size</th><th>Weight</th><th>Tracking</th><th>Colour</th></tr></thead>
+          <tbody>
+            <tr><td>Hero headline</td><td>3xl → 5xl → 6xl</td><td>800</td><td>-0.025em</td><td><code>#FFFFFF</code></td></tr>
+            <tr><td>Section headline</td><td>2xl → 4xl</td><td>800</td><td>-0.02em</td><td><code>#FFFFFF</code></td></tr>
+            <tr><td>Card title</td><td>xl → 2xl</td><td>700</td><td>default</td><td><code>#FFFFFF</code></td></tr>
+            <tr><td>Step label</td><td>base → lg</td><td>600</td><td>default</td><td><code>#FFFFFF</code></td></tr>
+            <tr><td>Lede</td><td>sm → base</td><td>400</td><td>default</td><td><code>slate-400</code></td></tr>
+            <tr><td>Body</td><td>xs → sm</td><td>400</td><td>default</td><td><code>slate-400</code></td></tr>
+            <tr><td>Overline / badge</td><td>xs</td><td>500–600</td><td>+0.05em, uppercase</td><td><code>emerald-400</code></td></tr>
+            <tr><td>Eyebrow</td><td>xs</td><td>600</td><td>+0.1em, uppercase</td><td><code>emerald-400</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Letter-spacing</h3>
+      <div class="grid3">
+        <div class="card">
+          <div class="card-t">Tight</div>
+          <p style="font-size:22px;font-weight:800;letter-spacing:-.025em;margin:8px 0">-0.025em</p>
+          <p class="mono" style="font-size:12px;color:var(--text-3)">tracking-tight</p>
+          <p>Headlines and the wordmark. 12 uses.</p>
+        </div>
+        <div class="card">
+          <div class="card-t">Wider</div>
+          <p style="font-size:15px;font-weight:700;letter-spacing:.05em;margin:8px 0">+0.05em</p>
+          <p class="mono" style="font-size:12px;color:var(--text-3)">tracking-wider</p>
+          <p>Uppercase labels. 12 uses.</p>
+        </div>
+        <div class="card">
+          <div class="card-t">Wordmark</div>
+          <p style="font-size:13px;font-weight:700;letter-spacing:.367em;margin:8px 0;background:linear-gradient(90deg,#10B981,#06B6D4);-webkit-background-clip:text;background-clip:text;color:transparent">SOLUTIONS</p>
+          <p class="mono" style="font-size:12px;color:var(--text-3)">tracking-[0.367em]</p>
+          <p>Exactly one use, in the header lockup.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 7 ============ -->
+    <section id="layout">
+      <h2><span class="num">07</span> Layout &amp; spacing</h2>
+      <p class="lede">A 4px base unit, a single page container, and generous vertical rhythm.</p>
+
+      <h3>Spacing scale</h3>
+      <p>Tailwind's default: every step is a multiple of <span class="mono">0.25rem</span> (4.5px at this site's 18px root).</p>
+      <div class="hscale">
+        <div><div class="bar" style="width:7px;height:7px"></div><div class="lbl">1</div></div>
+        <div><div class="bar" style="width:7px;height:14px"></div><div class="lbl">2</div></div>
+        <div><div class="bar" style="width:7px;height:23px"></div><div class="lbl">3</div></div>
+        <div><div class="bar" style="width:7px;height:32px"></div><div class="lbl">4</div></div>
+        <div><div class="bar" style="width:7px;height:50px"></div><div class="lbl">6</div></div>
+        <div><div class="bar" style="width:7px;height:68px"></div><div class="lbl">8</div></div>
+        <div><div class="bar" style="width:7px;height:86px"></div><div class="lbl">12</div></div>
+        <div><div class="bar" style="width:7px;height:114px"></div><div class="lbl">16</div></div>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Property</th><th>Value</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Page container</td><td><code>max-w-5xl</code> = 64rem = <strong>1152px</strong></td><td>Used by every section and the header</td></tr>
+            <tr><td>Gutters</td><td><code>px-4 sm:px-6</code></td><td>18px → 27px at 40rem</td></tr>
+            <tr><td>Section padding</td><td><code>py-8 sm:py-12</code>, <code>py-16</code></td><td>Vertical breathing room</td></tr>
+            <tr><td>Card padding</td><td><code>p-5 sm:p-6</code></td><td>Standard panel</td></tr>
+            <tr><td>Grid gap</td><td><code>gap-8</code></td><td>Between major columns</td></tr>
+            <tr><td>Stack gap</td><td><code>gap-3</code>, <code>space-y-2.5</code></td><td>Within a card</td></tr>
+            <tr><td>Header height</td><td><code>h-16 sm:h-20</code></td><td>72px → 90px</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Corner radii</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Class</th><th>Value</th><th>Applied to</th><th>Uses</th></tr></thead>
+          <tbody>
+            <tr><td><code>rounded-md</code></td><td>0.375rem · 6.75px</td><td>Checkbox squares, small chips</td><td>8</td></tr>
+            <tr><td><code>rounded-lg</code></td><td>0.5rem · 9px</td><td>Inputs, nav buttons</td><td>15</td></tr>
+            <tr><td><code>rounded-xl</code></td><td>0.75rem · 13.5px</td><td><strong>Workhorse.</strong> Cards, buttons, options</td><td>34</td></tr>
+            <tr><td><code>rounded-2xl</code></td><td>1rem · 18px</td><td>Panels and feature cards</td><td>12</td></tr>
+            <tr><td><code>rounded-3xl</code></td><td>1.5rem · 27px</td><td>The estimator summary card only</td><td>4</td></tr>
+            <tr><td><code>rounded-full</code></td><td>9999px</td><td>Pills, avatars, cursor, dot</td><td>21</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Borders</h3>
+      <ul>
+        <li><strong>Default hairline:</strong> <code>border-slate-800</code> — <code>#1D293D</code></li>
+        <li><strong>Hover:</strong> <code>border-slate-700</code> — <code>#314158</code></li>
+        <li><strong>Active/selected:</strong> <code>border-emerald-500</code> plus a 1px <code>ring-emerald-500</code></li>
+        <li><strong>Light mode:</strong> <code>#CBD5E1</code> at 1.5px</li>
+        <li>Border weight is <strong>1px</strong> in dark mode, <strong>1.5px</strong> in light mode</li>
+      </ul>
+
+      <h3>Breakpoints</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Prefix</th><th>Min width</th><th>What changes</th></tr></thead>
+          <tbody>
+            <tr><td>base</td><td>0</td><td>Single column, hamburger menu</td></tr>
+            <tr><td><code>sm</code></td><td>40rem · 720px</td><td>Larger type, 2-up grids, larger logo</td></tr>
+            <tr><td><code>md</code></td><td>48rem · 864px</td><td>Reserved</td></tr>
+            <tr><td><code>lg</code></td><td>64rem · 1152px</td><td>12-column estimator, nav quick-links appear</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 8 ============ -->
+    <section id="surface">
+      <h2><span class="num">08</span> Surfaces &amp; elevation</h2>
+      <p class="lede">Depth comes from borders and a faint emerald bloom, not from heavy shadows.</p>
+
+      <h3>Surface recipes</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Surface</th><th>Dark</th><th>Light</th></tr></thead>
+          <tbody>
+            <tr><td>Page canvas</td><td><code>slate-950</code></td><td><code>#EAEFF5</code></td></tr>
+            <tr><td>Standard card</td><td><code>slate-900/60</code> + <code>slate-800</code></td><td><code>#FFFFFF</code> + <code>#CBD5E1</code></td></tr>
+            <tr><td>Inset panel</td><td><code>slate-950/50</code></td><td><code>#F1F5F9</code></td></tr>
+            <tr><td>Feature card</td><td><code>slate-900</code> → <code>slate-950</code> gradient</td><td>White, 2px slate border</td></tr>
+            <tr><td>Flagship card</td><td>Dark gradient</td><td>White, <strong>2px <code>#059669</code></strong></td></tr>
+            <tr><td>Guarantee card</td><td><code>emerald-950/30</code></td><td><code>#ECFDF5</code> → white</td></tr>
+            <tr><td>Header</td><td><code>slate-950/80</code> + blur</td><td>White 0.95 + blur</td></tr>
+            <tr><td>Logo box</td><td><code>slate-900/90</code> + emerald 30% border</td><td>White + emerald border</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Shadows</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Level</th><th>Class</th><th>Applied to</th></tr></thead>
+          <tbody>
+            <tr><td>Subtle</td><td><code>shadow-sm</code></td><td>Toggles, small controls</td></tr>
+            <tr><td>Default</td><td><code>shadow-md</code></td><td>Buttons, logo box</td></tr>
+            <tr><td>Raised</td><td><code>shadow-lg</code></td><td>Primary CTA</td></tr>
+            <tr><td>Floating</td><td><code>shadow-xl</code> / <code>shadow-2xl</code></td><td>Summary card, modals</td></tr>
+            <tr><td>Brand glow</td><td><code>shadow-emerald-500/20</code></td><td>Primary CTA only</td></tr>
+            <tr><td>Ambient bloom</td><td><code>bg-emerald-500/10 blur-3xl</code></td><td>Decorative circle in summary card</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">✨</span>
+        <div class="bd">
+          <div class="ct">The brand bloom</div>
+          <p>Two large, very soft radial gradients — emerald at roughly 14% and cyan at 12% — sit behind the content near the top corners of the page. They are what gives the dark theme its depth without any visible banding.</p>
+          <p class="mono" style="font-size:12.5px">radial-gradient(760px 420px at 12% -8%, rgba(16,185,129,.14), transparent 62%)</p>
+          <p class="mono" style="font-size:12.5px">radial-gradient(700px 400px at 92% 4%, rgba(6,182,212,.12), transparent 60%)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 9 ============ -->
+    <section id="components">
+      <h2><span class="num">09</span> Components</h2>
+      <p class="lede">The recurring patterns. Reuse these rather than inventing new ones.</p>
+
+      <h3>Primary button</h3>
+      <div class="demo">
+        <div class="demo-row">
+          <span class="btn-primary">Book a Discovery Call <span aria-hidden="true">→</span></span>
+          <span class="btn-secondary">Message on WhatsApp</span>
+          <span class="btn">Save / Print</span>
+        </div>
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Property</th><th>Primary</th><th>Secondary</th></tr></thead>
+          <tbody>
+            <tr><td>Background</td><td>Brand gradient</td><td>Transparent</td></tr>
+            <tr><td>Text</td><td><code>#020617</code></td><td><code>slate-200</code></td></tr>
+            <tr><td>Border</td><td>None</td><td><code>slate-700</code> 1.5px</td></tr>
+            <tr><td>Radius</td><td><code>rounded-xl</code></td><td><code>rounded-xl</code></td></tr>
+            <tr><td>Padding</td><td><code>px-6 py-3.5</code></td><td><code>px-5 py-3</code></td></tr>
+            <tr><td>Weight</td><td>700</td><td>600</td></tr>
+            <tr><td>Press</td><td><code>active:scale-95</code></td><td><code>active:scale-98</code></td></tr>
+            <tr><td>Shadow</td><td><code>shadow-lg shadow-emerald-500/20</code></td><td>None</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Overline badge</h3>
+      <div class="demo">
+        <div class="demo-row">
+          <span class="pill" style="margin:0"><span class="dot"></span> Available for work</span>
+          <span class="pill cyan" style="margin:0">Interactive Tool</span>
+          <span class="pill amber" style="margin:0">Direct Access</span>
+        </div>
+        <p style="font-size:13px;color:var(--text-3);margin:14px 0 0">
+          Emerald 12% background, 1.5px emerald 32% border, 12px medium text, fully rounded, with a 7px glowing dot when it signals availability.
+        </p>
+      </div>
+
+      <h3>Step header</h3>
+      <div class="demo">
+        <div style="display:flex;align-items:center;gap:9px">
+          <span class="badge" style="width:26px;height:26px;font-size:12px;border-radius:8px">3</span>
+          <span style="font-size:17px;font-weight:600;color:var(--text)">High-Impact Capabilities</span>
+        </div>
+        <p style="font-size:13px;color:var(--text-3);margin:11px 0 0">26px circle, gradient fill, near-black numeral, 12px bold. Used for the three estimator steps.</p>
+      </div>
+
+      <h3>Input fields</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>State</th><th>Specification</th></tr></thead>
+          <tbody>
+            <tr><td>Default</td><td><code>slate-950</code> bg, <code>slate-800</code> 1px border, <code>rounded-xl</code>, <code>px-4 py-3</code></td></tr>
+            <tr><td>Focus</td><td><code>border-emerald-500</code> + <code>ring-1 ring-emerald-500</code></td></tr>
+            <tr><td>Text</td><td><code>#FFFFFF</code></td></tr>
+            <tr><td>Placeholder</td><td><code>slate-600</code></td></tr>
+            <tr><td>Label</td><td>xs, 600, uppercase, <code>tracking-wider</code>, <code>slate-300</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Selection card</h3>
+      <div class="demo">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="border:1.5px solid var(--emerald);background:color-mix(in srgb,var(--emerald) 10%,transparent);border-radius:12px;padding:16px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--emerald-ink)">✓</span><span style="color:var(--emerald-ink)">✓</span></div>
+            <div style="font-size:14px;font-weight:600;color:var(--text)">Selected option</div>
+          </div>
+          <div style="border:1.5px solid var(--border);background:var(--bg-3);border-radius:12px;padding:16px">
+            <div style="height:16px;margin-bottom:8px"></div>
+            <div style="font-size:14px;font-weight:600;color:var(--text-2)">Unselected option</div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--text-3);margin:14px 0 0">Selected: emerald border + 10% emerald fill + 1px emerald ring. Unselected: slate-800 border on a slate-950 fill.</p>
+      </div>
+    </section>
+
+    <!-- ============ 10 ============ -->
+    <section id="motion">
+      <h2><span class="num">10</span> Motion</h2>
+      <p class="lede">Fast and functional. Nothing bounces, nothing delays a user's action.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Duration</th><th>Used for</th></tr></thead>
+          <tbody>
+            <tr><td>150ms</td><td>Option selection, checkbox toggle, small state changes</td></tr>
+            <tr><td>200ms</td><td>Border and colour transitions, button hover</td></tr>
+            <tr><td>300ms</td><td>Theme switching, logo hover, menu drawer</td></tr>
+            <tr><td>80ms</td><td>Typewriter — one character typed</td></tr>
+            <tr><td>40ms</td><td>Typewriter — one character erased (2× faster, as humans backspace)</td></tr>
+            <tr><td>2000ms</td><td>Typewriter — pause on a completed word so it can be read</td></tr>
+            <tr><td>1000ms</td><td>Cursor pulse, looping</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Interaction responses</h3>
+      <ul>
+        <li><strong>Press:</strong> <code>active:scale-95</code> on buttons, <code>active:scale-98</code> on cards, <code>active:scale-90</code> on the theme toggle</li>
+        <li><strong>Logo hover:</strong> <code>scale-105</code>; the wordmark shifts to emerald</li>
+        <li><strong>Link hover:</strong> colour shift only — no underline in the site chrome, underline in prose</li>
+        <li><strong>Easing:</strong> default. No custom cubic-bezier except the toast</li>
+      </ul>
+
+      <div class="callout co-info">
+        <span class="ic">⚡</span>
+        <div class="bd">
+          <div class="ct">Transitions must never be disabled</div>
+          <p>A global rule applies a 200ms transition to background, border, colour and shadow on every element. Removing it causes visible flicker when the theme toggles.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 11 ============ -->
+    <section id="voice">
+      <h2><span class="num">11</span> Voice &amp; messaging</h2>
+      <p class="lede">How the brand sounds. Equally important as the colour.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t">✓ Sounds like</div>
+          <ul>
+            <li>“I build high-impact <span class="grad-text">web apps</span>.”</li>
+            <li>“Estimate your project in seconds.”</li>
+            <li>“Available for client projects &amp; contracts.”</li>
+            <li>“Connect directly.”</li>
+            <li>“Engineered for peak performance.”</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-t">✕ Never sounds like</div>
+          <ul>
+            <li>“We leverage cutting-edge synergies…”</li>
+            <li>“Revolutionary, game-changing, world-class”</li>
+            <li>“Dear Sir/Madam, I am writing to enquire…”</li>
+            <li>Exclamation marks in every sentence</li>
+            <li>Any claim not backed by the scope estimator</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>The headline formula</h3>
+      <div class="card">
+        <p style="font-size:19px;font-weight:700;color:var(--text);line-height:1.45">I build high-impact&nbsp;<span class="grad-text">[rotating service]</span>.</p>
+        <dl class="spec" style="margin-top:14px">
+          <dt>Fixed prefix</dt><dd>I build high-impact</dd>
+          <dt>Rotation</dt><dd>web apps · websites · mobile apps · APIs &amp; microservices · AI automations · custom LLM agents</dd>
+          <dt>First word</dt><dd>Always <strong>web apps</strong> — so the sentence is complete on first paint</dd>
+          <dt>Punctuation</dt><dd>Full stop after the rotating word</dd>
+        </dl>
+      </div>
+
+      <h3>Terminology</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Use</th><th>Not</th></tr></thead>
+          <tbody>
+            <tr><td>Client</td><td>Customer, user, account</td></tr>
+            <tr><td>Project brief</td><td>Requirement doc, ticket</td></tr>
+            <tr><td>Estimate / ballpark range</td><td>Quote, price list</td></tr>
+            <tr><td>Discovery call</td><td>Consultation, onboarding session</td></tr>
+            <tr><td>Add-on capability</td><td>Plugin, module, extension</td></tr>
+            <tr><td>Dammie Optimus Solutions</td><td>Do, DOS, Optimus (in first mentions)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 12 ============ -->
+    <section id="tokens">
+      <h2><span class="num">12</span> Design tokens</h2>
+      <p class="lede">The primitive layer. These are raw values with no meaning attached — a colour called <span class="mono">500</span>, not <span class="mono">button-fill</span>. The meaning arrives one section later.</p>
+
+      <div class="callout co-info">
+        <span class="ic">🧱</span>
+        <div class="bd">
+          <div class="ct">Why the two layers exist</div>
+          <p><strong>Primitives</strong> are the palette. <strong>Semantic tokens</strong> are the decisions — “the background of a card”, “the text of a caption”.</p>
+          <p>Re-theming means rewriting only the semantic layer. The primitive palette never moves, so nothing downstream breaks.</p>
+        </div>
+      </div>
+
+      <h3>Naming convention</h3>
+      <div class="card">
+        <dl class="spec">
+          <dt>Pattern</dt><dd><span class="mono">--{category}-{role}-{variant}</span></dd>
+          <dt>Category</dt><dd>color · space · radius · shadow · font · size · motion · z · border</dd>
+          <dt>Role</dt><dd>What it is for (canvas, surface, action, text, border)</dd>
+          <dt>Variant</dt><dd>Scale step or state (500, strong, hover, active)</dd>
+          <dt>Case</dt><dd>Lowercase, hyphenated, never abbreviated beyond the list above</dd>
+          <dt>Prohibition</dt><dd>No colour names in semantic tokens — never <span class="mono">--green-button</span></dd>
+        </dl>
+      </div>
+
+      <h3>Colour primitives</h3>
+      <div class="fname">The complete palette as CSS custom properties</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>:root {
+  <span class="c">/* Signal */</span>
+  <span class="d">--emerald-300</span>: #5EE9B5;
+  <span class="d">--emerald-400</span>: #00D294;
+  <span class="d">--emerald-500</span>: #00BB7F;   <span class="c">/* primary action fill */</span>
+  <span class="d">--emerald-950</span>: #002C22;
+  <span class="d">--cyan-400</span>:    #00D2EF;   <span class="c">/* secondary signal  */</span>
+  <span class="d">--teal-300</span>:    #46ECD5;   <span class="c">/* gradient mid-stop */</span>
+  <span class="d">--amber-400</span>:   #FCBB00;   <span class="c">/* light-mode sun     */</span>
+  <span class="d">--rose-400</span>:    #FF667F;   <span class="c">/* error accent       */</span>
+
+  <span class="c">/* Neutral ramp */</span>
+  <span class="d">--slate-100</span>: #F1F5F9;
+  <span class="d">--slate-300</span>: #CAD5E2;
+  <span class="d">--slate-400</span>: #90A1B9;
+  <span class="d">--slate-500</span>: #62748E;
+  <span class="d">--slate-600</span>: #45556C;
+  <span class="d">--slate-700</span>: #314158;
+  <span class="d">--slate-800</span>: #1D293D;
+  <span class="d">--slate-900</span>: #0F172B;
+  <span class="d">--slate-950</span>: #020618;   <span class="c">/* the brand's black */</span>
+  <span class="d">--white</span>:    #FFFFFF;
+  <span class="d">--black</span>:    #000000;
+}</pre>
+      </div>
+
+      <h3>Space primitives</h3>
+      <p>Base unit <strong>0.25rem</strong>. Pixel figures assume this site's 18px root; at a 16px root every value is 11% smaller.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Step</th><th>rem</th><th>px @18</th><th>Typical use</th></tr></thead>
+          <tbody>
+            <tr><td>0.5</td><td>0.125rem</td><td>2.25</td><td>Hairline nudge, icon inset</td></tr>
+            <tr><td>1</td><td>0.25rem</td><td>4.5</td><td>Base unit, badge padding</td></tr>
+            <tr><td>1.5</td><td>0.375rem</td><td>6.75</td><td>Tight gaps, label offsets</td></tr>
+            <tr><td>2</td><td>0.5rem</td><td>9</td><td>Icon-to-text gap</td></tr>
+            <tr><td>2.5</td><td>0.625rem</td><td>11.25</td><td>List row spacing</td></tr>
+            <tr><td>3</td><td>0.75rem</td><td>13.5</td><td>Stack gaps, button px</td></tr>
+            <tr><td>4</td><td>1rem</td><td>18</td><td>Card padding (mobile), section gaps</td></tr>
+            <tr><td>5</td><td>1.25rem</td><td>22.5</td><td>Card padding (desktop)</td></tr>
+            <tr><td>6</td><td>1.5rem</td><td>27</td><td>Section padding (desktop), block gaps</td></tr>
+            <tr><td>8</td><td>2rem</td><td>36</td><td>Column gaps, major block separation</td></tr>
+            <tr><td>12</td><td>3rem</td><td>54</td><td>Between sections</td></tr>
+            <tr><td>16</td><td>4rem</td><td>72</td><td>Section padding (feature blocks)</td></tr>
+            <tr><td>24</td><td>6rem</td><td>108</td><td>Reserved, large empty states</td></tr>
+            <tr><td>32</td><td>8rem</td><td>144</td><td>Reserved, hero breathing room</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Radius, border, elevation and z-index</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Token</th><th>Value</th><th>px @18</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><code>--radius-sm</code></td><td>0.25rem</td><td>4.5</td><td>Reserved</td></tr>
+            <tr><td><code>--radius-md</code></td><td>0.375rem</td><td>6.75</td><td>Checkbox squares</td></tr>
+            <tr><td><code>--radius-lg</code></td><td>0.5rem</td><td>9</td><td>Inputs, nav buttons</td></tr>
+            <tr><td><code>--radius-xl</code></td><td>0.75rem</td><td>13.5</td><td><strong>Default radius</strong></td></tr>
+            <tr><td><code>--radius-2xl</code></td><td>1rem</td><td>18</td><td>Panels, feature cards</td></tr>
+            <tr><td><code>--radius-3xl</code></td><td>1.5rem</td><td>27</td><td>Summary card only</td></tr>
+            <tr><td><code>--radius-full</code></td><td>9999px</td><td>—</td><td>Pills, avatars, cursor</td></tr>
+            <tr><td><code>--border-width</code></td><td>1px</td><td>1</td><td>Dark mode default</td></tr>
+            <tr><td><code>--border-width-strong</code></td><td>1.5px</td><td>1.5</td><td>Light mode, selected state</td></tr>
+            <tr><td><code>--z-base</code></td><td>0</td><td>—</td><td>Default flow</td></tr>
+            <tr><td><code>--z-raised</code></td><td>10</td><td>—</td><td>Sticky estimator card</td></tr>
+            <tr><td><code>--z-sticky</code></td><td>50</td><td>—</td><td>Header, mobile drawer</td></tr>
+            <tr><td><code>--z-toast</code></td><td>80</td><td>—</td><td>Transient notifications</td></tr>
+            <tr><td><code>--z-progress</code></td><td>60</td><td>—</td><td>Reading progress bar (docs)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Elevation scale</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Level</th><th>Value</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td>0 — flat</td><td>none</td><td>Options, list rows</td></tr>
+            <tr><td>1 — subtle</td><td><code>0 1px 2px rgba(0,0,0,.05)</code></td><td>Toggles, inputs (light mode)</td></tr>
+            <tr><td>2 — default</td><td><code>0 4px 6px -1px rgba(0,0,0,.1)</code></td><td>Buttons, logo box</td></tr>
+            <tr><td>3 — raised</td><td><code>0 10px 15px -3px rgba(0,0,0,.1)</code></td><td>Primary CTA</td></tr>
+            <tr><td>4 — floating</td><td><code>0 20px 25px -5px rgba(0,0,0,.1)</code></td><td>Summary card</td></tr>
+            <tr><td>brand — glow</td><td><code>0 10px 15px -3px rgba(16,185,129,.2)</code></td><td>Primary CTA only</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Surface opacity recipes</h3>
+      <p>Alpha variants are how depth is built without new colours. These are the exact steps in use.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Recipe</th><th>Resolves to</th><th>Use</th><th>Count</th></tr></thead>
+          <tbody>
+            <tr><td><code>emerald-500/10</code></td><td>10% signal</td><td>Selected fill, pill, glow dot</td><td>23</td></tr>
+            <tr><td><code>emerald-500/20</code></td><td>20% signal</td><td>Step number circle, pill border</td><td>10</td></tr>
+            <tr><td><code>slate-950/50</code></td><td>Half canvas</td><td>Unselected option, input</td><td>3</td></tr>
+            <tr><td><code>slate-950/80</code></td><td>80% canvas</td><td>Header, inset panel</td><td>10</td></tr>
+            <tr><td><code>slate-900/60</code></td><td>60% surface</td><td>Standard card</td><td>9</td></tr>
+            <tr><td><code>slate-900/90</code></td><td>90% surface</td><td>Logo box</td><td>2</td></tr>
+            <tr><td><code>slate-950/95</code></td><td>Near opaque</td><td>Mobile drawer</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Motion tokens</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Token</th><th>Duration</th><th>Applies to</th></tr></thead>
+          <tbody>
+            <tr><td><code>--motion-fast</code></td><td>150ms</td><td>Selection, checkbox</td></tr>
+            <tr><td><code>--motion-base</code></td><td>200ms</td><td>Colour and border changes</td></tr>
+            <tr><td><code>--motion-slow</code></td><td>300ms</td><td>Theme switch, drawer, hover</td></tr>
+            <tr><td><code>--motion-type</code></td><td>80ms</td><td>Typewriter character in</td></tr>
+            <tr><td><code>--motion-erase</code></td><td>40ms</td><td>Typewriter character out</td></tr>
+            <tr><td><code>--motion-read</code></td><td>2000ms</td><td>Typewriter word hold</td></tr>
+            <tr><td><code>--ease-standard</code></td><td>default</td><td>Everything</td></tr>
+            <tr><td><code>--ease-pop</code></td><td><code>cubic-bezier(.2,.9,.3,1.2)</code></td><td>Toast entry only</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Type tokens</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><code>--font-sans</code></td><td>Geist, system fallback</td><td>All UI and body copy</td></tr>
+            <tr><td><code>--font-mono</code></td><td>Geist Mono, ui-monospace</td><td>Code, IDs, numerals</td></tr>
+            <tr><td><code>--root-size</code></td><td><strong>18px</strong></td><td>The single type lever</td></tr>
+            <tr><td><code>--weight-medium</code></td><td>500</td><td>Labels, nav</td></tr>
+            <tr><td><code>--weight-semibold</code></td><td>600</td><td>Body emphasis, card titles</td></tr>
+            <tr><td><code>--weight-bold</code></td><td>700</td><td>Buttons, wordmark line 2</td></tr>
+            <tr><td><code>--weight-extrabold</code></td><td>800</td><td>All headlines</td></tr>
+            <tr><td><code>--tracking-tight</code></td><td>-0.025em</td><td>Headlines, wordmark line 1</td></tr>
+            <tr><td><code>--tracking-wide</code></td><td>+0.05em</td><td>Uppercase labels</td></tr>
+            <tr><td><code>--tracking-wordmark</code></td><td>0.367em</td><td>Wordmark line 2 only</td></tr>
+            <tr><td><code>--leading-tight</code></td><td>1.15</td><td>Hero, wordmark</td></tr>
+            <tr><td><code>--leading-normal</code></td><td>1.7</td><td>Prose</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 13 ============ -->
+    <section id="semantic">
+      <h2><span class="num">13</span> Semantic layer</h2>
+      <p class="lede">Where decisions live. A component never references a primitive — it references these.</p>
+
+      <div class="fname">The complete semantic token set, both themes</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre><span class="c">/* ---------- DARK (default) ---------- */</span>
+:root {
+  <span class="d">--color-canvas</span>:        #020618;
+  <span class="d">--color-surface</span>:       #0F172B;
+  <span class="d">--color-surface-inset</span>:  #020618;
+  <span class="d">--color-surface-raised</span>: #0F172B;
+
+  <span class="d">--color-text-primary</span>:   #FFFFFF;
+  <span class="d">--color-text-body</span>:     #CAD5E2;
+  <span class="d">--color-text-secondary</span>: #90A1B9;
+  <span class="d">--color-text-caption</span>:   #62748E;
+
+  <span class="d">--color-border-default</span>: #1D293D;
+  <span class="d">--color-border-strong</span>:  #314158;
+  <span class="d">--color-accent</span>:        #00BB7F;
+  <span class="d">--color-accent-strong</span>:  #00D294;
+  <span class="d">--color-accent-soft</span>:   #00D2EF;
+  <span class="d">--color-on-accent</span>:     #020618;
+
+  <span class="d">--color-input-bg</span>:      #020618;
+  <span class="d">--color-input-border</span>:  #1D293D;
+  <span class="d">--color-error</span>:         #FF667F;
+
+  <span class="d">--opacity-surface</span>:     60%;
+  <span class="d">--opacity-inset</span>:       50%;
+  <span class="d">--opacity-header</span>:      80%;
+}
+
+<span class="c">/* ---------- LIGHT ---------- */</span>
+html[data-theme="light"] {
+  <span class="d">--color-canvas</span>:        #EAEFF5;
+  <span class="d">--color-surface</span>:       #FFFFFF;
+  <span class="d">--color-surface-inset</span>:  #F1F5F9;
+  <span class="d">--color-surface-raised</span>: #FFFFFF;
+
+  <span class="d">--color-text-primary</span>:   #020617;
+  <span class="d">--color-text-body</span>:     #0F172A;
+  <span class="d">--color-text-secondary</span>: #334155;
+  <span class="d">--color-text-caption</span>:   #475569;
+
+  <span class="d">--color-border-default</span>: #CBD5E1;
+  <span class="d">--color-border-strong</span>:  #94A3B8;
+  <span class="d">--color-accent</span>:        #059669;
+  <span class="d">--color-accent-strong</span>:  #047857;
+  <span class="d">--color-accent-soft</span>:   #0E7490;
+  <span class="d">--color-on-accent</span>:     #FFFFFF;
+
+  <span class="d">--color-input-bg</span>:      #FFFFFF;
+  <span class="d">--color-input-border</span>:  #94A3B8;
+  <span class="d">--color-error</span>:         #BE123C;
+}</pre>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">🌓</span>
+        <div class="bd">
+          <div class="ct">The single most important design-system rule here</div>
+          <p><code>--color-text-caption</code> is <code>#62748E</code> in dark and <code>#475569</code> in light — both fail or barely pass AA for body text.</p>
+          <p>It exists only for timestamps, footnotes and legal lines at 16px or larger. <strong>Never</strong> use it for a sentence someone has to read to act.</p>
+        </div>
+      </div>
+
+      <h3>Semantic usage matrix</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Token</th><th>Applies to</th><th>Never use for</th></tr></thead>
+          <tbody>
+            <tr><td><code>canvas</code></td><td>Page background</td><td>Cards</td></tr>
+            <tr><td><code>surface</code></td><td>Cards, panels, drawer</td><td>Page background</td></tr>
+            <tr><td><code>surface-inset</code></td><td>Code blocks, summary boxes, tags</td><td>Top-level cards</td></tr>
+            <tr><td><code>text-primary</code></td><td>Headlines, brand names, prices</td><td>Body paragraphs</td></tr>
+            <tr><td><code>text-body</code></td><td>Paragraphs, descriptions</td><td>Headlines</td></tr>
+            <tr><td><code>text-secondary</code></td><td>Nav links, ledes, option descriptions</td><td>Primary CTAs</td></tr>
+            <tr><td><code>text-caption</code></td><td>Footnotes, timestamps, disclaimers</td><td><strong>Anything a user must read to act</strong></td></tr>
+            <tr><td><code>border-default</code></td><td>Card and input outlines</td><td>Emphasis</td></tr>
+            <tr><td><code>border-strong</code></td><td>Hover states, light mode default</td><td>—</td></tr>
+            <tr><td><code>accent</code></td><td>Primary action fill, active border</td><td>Large text fills</td></tr>
+            <tr><td><code>accent-strong</code></td><td>Accent text on canvas, hover fill</td><td>Body text</td></tr>
+            <tr><td><code>on-accent</code></td><td>Text and icons on an accent fill</td><td>Text on canvas</td></tr>
+            <tr><td><code>error</code></td><td>Validation messages, destructive actions</td><td>Emphasis</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 14 ============ -->
+    <section id="starter">
+      <h2><span class="num">14</span> Starter kit</h2>
+      <p class="lede">Everything needed to build a new Dammie Optimus surface from scratch. Copy this CSS, then compose from the components in section 09.</p>
+
+      <div class="fname">dos-tokens.css — drop into any project</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre><span class="c">/* Dammie Optimus Solutions — design tokens
+   Import once, before any component styles. */</span>
+
+:root {
+  <span class="c">/* --- primitives: signal --- */</span>
+  --emerald-300: #5EE9B5;  --emerald-400: #00D294;
+  --emerald-500: #00BB7F;  --emerald-950: #002C22;
+  --cyan-400:    #00D2EF;  --teal-300:    #46ECD5;
+  --amber-400:   #FCBB00;  --rose-400:    #FF667F;
+
+  <span class="c">/* --- primitives: neutral --- */</span>
+  --slate-100: #F1F5F9; --slate-300: #CAD5E2; --slate-400: #90A1B9;
+  --slate-500: #62748E; --slate-600: #45556C; --slate-700: #314158;
+  --slate-800: #1D293D; --slate-900: #0F172B; --slate-950: #020618;
+  --white: #FFFFFF;      --black: #000000;
+
+  <span class="c">/* --- primitives: scale --- */</span>
+  --space-0: 0;      --space-1: 0.25rem; --space-2: 0.5rem;
+  --space-3: 0.75rem; --space-4: 1rem;    --space-5: 1.25rem;
+  --space-6: 1.5rem; --space-8: 2rem;    --space-12: 3rem;
+  --space-16: 4rem;  --space-24: 6rem;
+
+  --radius-md: 0.375rem; --radius-lg: 0.5rem;  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;    --radius-3xl: 1.5rem; --radius-full: 9999px;
+
+  --border-width: 1px; --border-width-strong: 1.5px;
+
+  --z-base: 0; --z-raised: 10; --z-sticky: 50;
+  --z-progress: 60; --z-toast: 80;
+
+  --container: 64rem;  <span class="c">/* 1152px at 18px root */</span>
+  --gutter: 1.5rem;
+
+  <span class="c">/* --- primitives: type --- */</span>
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --weight-medium: 500; --weight-semibold: 600;
+  --weight-bold: 700;   --weight-extrabold: 800;
+  --tracking-tight: -0.025em; --tracking-wide: 0.05em;
+  --tracking-wordmark: 0.367em;
+  --leading-tight: 1.15; --leading-normal: 1.7;
+
+  <span class="c">/* --- primitives: motion --- */</span>
+  --motion-fast: 150ms; --motion-base: 200ms; --motion-slow: 300ms;
+  --ease-standard: ease; --ease-pop: cubic-bezier(.2,.9,.3,1.2);
+
+  <span class="c">/* --- elevation --- */</span>
+  --shadow-1: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-2: 0 4px 6px -1px rgba(0,0,0,.10);
+  --shadow-3: 0 10px 15px -3px rgba(0,0,0,.10);
+  --shadow-4: 0 20px 25px -5px rgba(0,0,0,.10);
+  --shadow-brand: 0 10px 15px -3px rgba(16,185,129,.20);
+
+  <span class="c">/* --- semantic: dark --- */</span>
+  --canvas: var(--slate-950); --surface: var(--slate-900);
+  --surface-inset: var(--slate-950); --text-primary: var(--white);
+  --text-body: var(--slate-300); --text-secondary: var(--slate-400);
+  --text-caption: var(--slate-500);
+  --border-default: var(--slate-800); --border-strong: var(--slate-700);
+  --accent: var(--emerald-500); --accent-strong: var(--emerald-400);
+  --accent-soft: var(--cyan-400); --on-accent: var(--slate-950);
+  --error: var(--rose-400);
+  --opacity-surface: 60%; --opacity-inset: 50%;
+  --header-bg: rgba(2,6,24,.80);
+}
+
+<span class="c">/* --- semantic: light --- */</span>
+html[data-theme="light"] {
+  --canvas: #EAEFF5; --surface: #FFFFFF; --surface-inset: #F1F5F9;
+  --text-primary: #020617; --text-body: #0F172A;
+  --text-secondary: #334155; --text-caption: #475569;
+  --border-default: #CBD5E1; --border-strong: #94A3B8;
+  --accent: #059669; --accent-strong: #047857;
+  --accent-soft: #0E7490; --on-accent: #FFFFFF;
+  --error: #BE123C;
+  --header-bg: rgba(255,255,255,.95);
+}
+
+<span class="c">/* --- brand gradient, available everywhere --- */</span>
+--brand-gradient: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);</pre>
+      </div>
+
+      <h3>Base rules</h3>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>html { font-size: 18px; }   <span class="c">/* the type lever — change alone */</span>
+
+body {
+  background: var(--canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: var(--leading-normal);
+}
+
+<span class="c">/* Never remove: prevents flicker on theme change */</span>
+* { transition: background-color .2s ease, border-color .2s ease,
+              color .15s ease, box-shadow .2s ease; }
+
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.card {
+  background: var(--surface);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+}
+
+.btn-primary {
+  background: var(--brand-gradient);
+  color: var(--on-accent);
+  font-weight: var(--weight-bold);
+  padding: .875rem 1.5rem;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-brand);
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+.btn-primary:active { transform: scale(.95); }</pre>
+      </div>
+
+      <h3>The logo as a reusable component</h3>
+      <div class="fname">Paste anywhere; it is entirely self-contained</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>&lt;svg viewBox="0 0 160 120" fill="none" width="104" height="78"
+     xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Dammie Optimus"&gt;
+  &lt;defs&gt;
+    &lt;linearGradient id="dosMark" x1="0%" y1="0%" x2="100%" y2="100%"&gt;
+      &lt;stop offset="0%" stop-color="#10B981" /&gt;
+      &lt;stop offset="100%" stop-color="#06B6D4" /&gt;
+    &lt;/linearGradient&gt;
+  &lt;/defs&gt;
+  &lt;g stroke="url(#dosMark)" stroke-width="12"
+     stroke-linecap="round" stroke-linejoin="round"&gt;
+    &lt;path d="M 30 25 L 30 95" /&gt;
+    &lt;path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" /&gt;
+    &lt;circle cx="100" cy="60" r="35" /&gt;
+  &lt;/g&gt;
+  &lt;circle cx="100" cy="60" r="10" fill="url(#dosMark)" /&gt;
+&lt;/svg&gt;</pre>
+      </div>
+      <div class="callout co-warn">
+        <span class="ic">⚠️</span>
+        <div class="bd">
+          <div class="ct">One caveat about reusing that SVG twice</div>
+          <p>SVG ids are document-scoped. If the same logo appears more than once on a page, the <em>second</em> instance must use a different gradient id (<span class="mono">dosMark</span> → <span class="mono">dosMark2</span>) in both the <span class="mono">linearGradient</span> and its <span class="mono">url()</span> reference, or the first definition will silently win.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 15 ============ -->
+    <section id="icons">
+      <h2><span class="num">15</span> Iconography</h2>
+      <p class="lede">One icon family only: Lucide, outline style.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t">Specification</div>
+          <dl class="spec">
+            <dt>Library</dt><dd>lucide-react</dd>
+            <dt>Style</dt><dd>Outline, 2px stroke</dd>
+            <dt>Cap / join</dt><dd>Round</dd>
+            <dt>Current colour</dt><dd><code>currentColor</code> — inherit, never hardcode</dd>
+            <dt>Base size</dt><dd>16px = <code>w-4 h-4</code> (36 uses)</dd>
+          </dl>
+        </div>
+        <div class="card">
+          <div class="card-t">Size steps in use</div>
+          <div class="tw" style="margin:12px 0 0">
+            <table>
+              <thead><tr><th>Class</th><th>px</th><th>Use</th><th>Count</th></tr></thead>
+              <tbody>
+                <tr><td><code>w-3 h-3</code></td><td>12</td><td>Inline with text-xs</td><td>2</td></tr>
+                <tr><td><code>w-3.5</code></td><td>14</td><td>List rows, nav sparkles</td><td>15</td></tr>
+                <tr><td><code>w-4</code></td><td>16</td><td><strong>Default</strong></td><td>36</td></tr>
+                <tr><td><code>w-5</code></td><td>18</td><td>Option card headers</td><td>12</td></tr>
+                <tr><td><code>w-6</code></td><td>22.5</td><td>Feature card icons</td><td>7</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <h3>Rules</h3>
+      <ul>
+        <li>Never mix icon families. Lucide only.</li>
+        <li>Never hardcode an icon colour — always inherit the surrounding text colour, or set it explicitly to an accent token.</li>
+        <li>Icons paired with text sit at <code>gap-2</code> or <code>gap-2.5</code>.</li>
+        <li>Decorative icons take <code>aria-hidden="true"</code>. Meaningful standalone icons need an <code>aria-label</code>.</li>
+        <li>Icon sizes are odd values on purpose (<code>w-3.5</code> = 14px, <code>w-5</code> = 18px at this root) so they align optically with the type scale.</li>
+      </ul>
+    </section>
+
+    <!-- ============ 16 ============ -->
+    <section id="a11y">
+      <h2><span class="num">16</span> Focus &amp; states</h2>
+      <p class="lede">Every interactive element must declare all four states. A missing state is a bug.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>State</th><th>Specification</th><th>Duration</th></tr></thead>
+          <tbody>
+            <tr><td>Rest</td><td>Base border and fill from the semantic layer</td><td>—</td></tr>
+            <tr><td>Hover</td><td><code>border-strong</code>, or <code>accent-strong</code> for text</td><td>200ms</td></tr>
+            <tr><td>Focus-visible</td><td><code>border-accent</code> + <code>ring-1 ring-accent</code></td><td>150ms</td></tr>
+            <tr><td>Active / pressed</td><td><code>scale(.95)</code> buttons, <code>scale(.98)</code> cards</td><td>150ms</td></tr>
+            <tr><td>Disabled</td><td><code>opacity</code> reduction plus <code>cursor-not-allowed</code></td><td>150ms</td></tr>
+            <tr><td>Error</td><td><code>--error</code> border and message, never colour alone</td><td>150ms</td></tr>
+            <tr><td>Success</td><td>Check icon + confirmation panel, replacing the form</td><td>200ms</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-stop">
+        <span class="ic">♿</span>
+        <div class="bd">
+          <div class="ct">Non-negotiable accessibility requirements</div>
+          <ul>
+            <li>Body text meets at least <strong>4.5:1</strong>. Only the ratios in section 05 qualify.</li>
+            <li>Every input has a real <span class="mono">&lt;label&gt;</span>, not a placeholder doing a label's job.</li>
+            <li>Focus is always visible and never removed without an equal replacement.</li>
+            <li>Colour is never the sole carrier of meaning — pair it with an icon, weight change or border.</li>
+            <li>The theme toggle announces itself via <span class="mono">aria-label</span>, and client-rendered icons wait for mount to avoid a hydration mismatch.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 17 ============ -->
+    <section id="assets">
+      <h2><span class="num">17</span> Asset inventory</h2>
+      <p class="lede">Where every brand element lives in the repository.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Asset</th><th>Path</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Monogram + logo box</td><td><code>src/components/DOMonogram.tsx</code></td><td>Exports <code>DOMonogram</code> and <code>BrandLogo</code></td></tr>
+            <tr><td>App icon / favicon</td><td><code>src/app/icon.svg</code></td><td>160×160 badge. Also served at <code>/icon.svg</code></td></tr>
+            <tr><td>Header lockup</td><td><code>src/components/Navbar.tsx</code></td><td>Logo size and wordmark tracking live here</td></tr>
+            <tr><td>Design tokens</td><td><code>src/app/globals.css</code></td><td>Root font size + light-mode overrides</td></tr>
+            <tr><td>Colour tokens</td><td><code>Tailwind v4 default palette</code></td><td>Not custom — the brand uses stock slate / emerald / cyan</td></tr>
+            <tr><td>Icon set</td><td><code>lucide-react</code></td><td>Outline, 2px, currentColor</td></tr>
+            <tr><td>Project catalogue</td><td><code>src/data/projectsConfig.ts</code></td><td>Case study content</td></tr>
+            <tr><td>Pricing model</td><td><code>src/data/pricingConfig.ts</code></td><td>Order here drives the estimator <em>and</em> the contact form</td></tr>
+            <tr><td>Document tokens</td><td><code>public/assets/docs.css</code>, <code>docs.js</code></td><td>Shared by every guide in the Document Hub</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">🎨</span>
+        <div class="bd">
+          <div class="ct">Exporting the logo for external use</div>
+          <p>The monogram is pure SVG, so it can be dropped into Figma, Illustrator, Canva or any design tool at any size without loss. Use the source in section 02 and change only the width and height.</p>
+          <p>For a transparent-background PNG, export from a vector editor at 2× or 4× the intended display size.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 18 ============ -->
+    <section id="rules">
+      <h2><span class="num">18</span> Rules of the road</h2>
+      <p class="lede">If you remember nothing else, remember these fourteen.</p>
+
+      <ol style="font-size:15px">
+        <li>Use the provided SVG logo. Never redraw, recolour or restyle it.</li>
+        <li>The signal colour is emerald <code>#10B981</code> and cyan <code>#06B6D4</code>. Nothing else is a brand colour.</li>
+        <li>Slate carries everything neutral. The canvas is <code>#020617</code>.</li>
+        <li>Accent colour on no more than a couple of elements per screen.</li>
+        <li>Two type families only: Geist Sans and Geist Mono.</li>
+        <li>Never render text below 11px.</li>
+        <li>Headlines are tight (<code>-0.025em</code>); labels are wide (<code>+0.05em</code>).</li>
+        <li><code>rounded-xl</code> is the default radius. Reach for something larger only for a genuinely distinct surface.</li>
+        <li>Depth comes from borders and bloom, not heavy shadows.</li>
+        <li>One icon family: Lucide, inheriting <code>currentColor</code>.</li>
+        <li>Components consume semantic tokens, never primitives.</li>
+        <li>Every interactive element declares all four states, including focus-visible.</li>
+        <li>Never rely on colour alone to carry meaning.</li>
+        <li>State a price or timeline only through the estimator, never as a hand-written claim.</li>
+      </ol>
+
+      <div class="callout co-good">
+        <span class="ic">🧭</span>
+        <div class="bd">
+          <div class="ct">Keeping this document accurate</div>
+          <p>Every value here was extracted from the built stylesheet and the source files, not estimated. If you change the root font size, the logo tracking, or a colour in the Tailwind config, update this document in the same commit.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="fgrid">
+        <div class="brandbox" style="padding:9px">
+          <svg viewBox="0 0 160 120" fill="none" style="width:46px;height:34px;display:block" aria-label="Dammie Optimus Monogram">
+            <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 30 25 L 30 95" />
+              <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+              <circle cx="100" cy="60" r="35" />
+            </g>
+            <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+          </svg>
+        </div>
+        <div class="fnote" style="flex:1;min-width:260px">
+          <strong>Dammie Optimus Solutions</strong><br />
+          Brand Guidelines · Version 1.1<br />
+          <a href="docs.html">← Back to the Document Hub</a> &nbsp;·&nbsp;
+          <a href="/">Back to site</a>
+        </div>
+        <div class="fnote" style="text-align:right">
+          Engineered for peak performance.<br />
+          Serving WAT (GMT+1) · Nigeria, UK, US, EU
+        </div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+<script src="assets/docs.js"></script>
+</body>
+</html>
