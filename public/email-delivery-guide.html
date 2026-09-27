@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Email Delivery Guide | Dammie Optimus Solutions</title>
+<meta name="description" content="A plain-English guide to sending email from your portfolio contact form: how it works, why it works, and how to verify your own sending domain with Resend and Cloudflare." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<style>
+/* ============================================================
+   BRAND TOKENS — mirrors the Dammie Optimus Solutions palette
+   ============================================================ */
+:root {
+  --emerald: #10b981;
+  --emerald-deep: #059669;
+  --cyan: #06b6d4;
+  --amber: #f59e0b;
+  --rose: #f43f5e;
+  --grad: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+
+  --bg: #020617;
+  --bg-2: #0f172a;
+  --bg-3: #1e293b;
+  --border: #1e293b;
+  --border-soft: #334155;
+  --text: #f1f5f9;
+  --text-2: #cbd5e1;
+  --text-3: #94a3b8;
+  --code-bg: #020617;
+  --shadow: 0 18px 40px -12px rgba(0,0,0,.6);
+  --radius: 16px;
+
+  /* Ink variants: for TEXT on the page background. The vivid brand colours
+     above are for borders, glows and gradients, where contrast rules differ. */
+  --emerald-ink: #34d399;
+  --syn-key: #c084fc;
+  --syn-str: #86efac;
+  --syn-num: #fbbf24;
+  --cyan-ink: #22d3ee;
+  --amber-ink: #fbbf24;
+  --rose-ink: #fb7185;
+}
+html[data-theme="light"] {
+  --bg: #eaeff5;
+  --bg-2: #ffffff;
+  --bg-3: #f1f5f9;
+  --border: #cbd5e1;
+  --border-soft: #94a3b8;
+  --text: #020617;
+  --text-2: #1e293b;
+  --text-3: #334155;
+  --code-bg: #f1f5f9;
+  --shadow: 0 12px 28px -10px rgba(15,23,42,.22);
+
+  /* Darkened for AA contrast on the light background */
+  --emerald-ink: #047857;
+  --syn-key: #7e22ce;
+  --syn-str: #15803d;
+  --syn-num: #b45309;
+  --cyan-ink: #0e7490;
+  --amber-ink: #b45309;
+  --rose-ink: #be123c;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+body {
+  font-family: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+/* Ambient brand glow */
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(760px 420px at 12% -8%, rgba(16,185,129,.14), transparent 62%),
+    radial-gradient(700px 400px at 92% 4%, rgba(6,182,212,.12), transparent 60%);
+}
+.wrap { position: relative; z-index: 1; }
+
+a { color: var(--cyan-ink); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.mono { font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+/* ---------- Progress bar ---------- */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: var(--grad); z-index: 60; transition: width .1s linear;
+}
+
+/* ---------- Header ---------- */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1.5px solid var(--border);
+}
+.hdr { max-width: 1240px; margin: 0 auto; padding: 14px 22px; display: flex; align-items: center; gap: 14px; }
+.brandbox {
+  display: flex; align-items: center; justify-content: center;
+  padding: 7px; border-radius: 12px;
+  background: color-mix(in srgb, var(--bg-2) 92%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--emerald) 35%, transparent);
+  box-shadow: 0 6px 18px -8px rgba(16,185,129,.4);
+  flex-shrink: 0;
+}
+.brandbox svg { width: 40px; height: 30px; display: block; }
+.brandtext { line-height: 1.25; min-width: 0; }
+.brandname { font-weight: 800; font-size: 15px; letter-spacing: -.01em; white-space: nowrap; }
+.brandsub { font-size: 11.5px; color: var(--text-3); white-space: nowrap; }
+.hdr-spacer { flex: 1; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+  border: 1.5px solid var(--border-soft); background: var(--bg-2); color: var(--text-2);
+  padding: 8px 13px; border-radius: 10px; font-size: 13px; font-weight: 600;
+  font-family: inherit; transition: all .15s ease; white-space: nowrap;
+}
+.btn:hover { border-color: var(--emerald); color: var(--text); text-decoration: none; }
+.btn.ghost { background: transparent; }
+
+/* ---------- Layout ---------- */
+.layout { max-width: 1240px; margin: 0 auto; padding: 34px 22px 90px; display: grid; grid-template-columns: 252px 1fr; gap: 44px; align-items: start; }
+@media (max-width: 940px) { .layout { grid-template-columns: 1fr; gap: 26px; } .toc { display: none; } }
+
+/* ---------- TOC ---------- */
+.toc { position: sticky; top: 92px; }
+.toc-title { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+.toc a {
+  display: block; padding: 7px 12px; margin-bottom: 2px; border-radius: 9px;
+  font-size: 13.5px; color: var(--text-3); border-left: 2.5px solid transparent; transition: all .15s ease;
+}
+.toc a:hover { background: var(--bg-2); color: var(--text); text-decoration: none; }
+.toc a.active { color: var(--emerald); border-left-color: var(--emerald); background: color-mix(in srgb, var(--emerald) 8%, transparent); font-weight: 600; }
+
+/* ---------- Hero ---------- */
+.hero {
+  border: 1.5px solid var(--border); border-radius: 22px; padding: 38px 34px;
+  background: linear-gradient(160deg, var(--bg-2), var(--bg));
+  box-shadow: var(--shadow); margin-bottom: 38px; position: relative; overflow: hidden;
+}
+.hero::after {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad);
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600;
+  padding: 6px 13px; border-radius: 999px; margin-bottom: 18px;
+  background: color-mix(in srgb, var(--emerald) 12%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--emerald) 32%, transparent); color: var(--emerald);
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 9px var(--emerald); }
+h1 { font-size: clamp(28px, 4.6vw, 42px); font-weight: 800; letter-spacing: -.028em; line-height: 1.14; margin-bottom: 15px; }
+.grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero p { color: var(--text-2); font-size: 16.5px; max-width: 66ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.chip {
+  font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 8px;
+  background: var(--bg-3); border: 1.5px solid var(--border); color: var(--text-3);
+}
+
+/* ---------- Sections ---------- */
+section { margin-bottom: 46px; scroll-margin-top: 92px; }
+h2 {
+  font-size: clamp(21px, 3vw, 26px); font-weight: 800; letter-spacing: -.02em;
+  margin-bottom: 8px; display: flex; align-items: baseline; gap: 13px;
+}
+h2 .num {
+  font-size: 13px; font-weight: 700; color: var(--emerald-ink);
+  background: color-mix(in srgb, var(--emerald) 13%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--emerald) 30%, transparent);
+  padding: 3px 10px; border-radius: 8px; flex-shrink: 0; align-self: center;
+}
+.lede { color: var(--text-2); font-size: 15.5px; margin-bottom: 22px; max-width: 70ch; }
+h3 { font-size: 17px; font-weight: 700; margin: 26px 0 11px; letter-spacing: -.01em; }
+h4 { font-size: 14.5px; font-weight: 700; margin: 18px 0 8px; color: var(--text); }
+p { margin-bottom: 13px; color: var(--text-2); }
+ul, ol { margin: 0 0 15px 22px; color: var(--text-2); }
+li { margin-bottom: 8px; }
+strong { color: var(--text); font-weight: 650; }
+li strong, p strong { color: var(--text); }
+
+/* ---------- Cards ---------- */
+.card {
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  background: var(--bg-2); padding: 24px; margin: 20px 0; box-shadow: var(--shadow);
+}
+.card > :last-child { margin-bottom: 0; }
+.card-t { font-size: 15px; font-weight: 700; margin-bottom: 11px; display: flex; align-items: center; gap: 9px; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+@media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+
+/* ---------- Callouts ---------- */
+.callout {
+  border-radius: 13px; padding: 17px 19px; margin: 19px 0;
+  border: 1.5px solid; font-size: 14.5px; display: flex; gap: 13px; align-items: flex-start;
+}
+.callout .ic { flex-shrink: 0; font-size: 17px; line-height: 1.45; }
+.callout .bd { min-width: 0; }
+.callout .ct { font-weight: 700; margin-bottom: 5px; font-size: 13.5px; letter-spacing: .01em; }
+.callout p { margin: 0; font-size: 14.5px; }
+.callout p + p { margin-top: 8px; }
+.co-info  { background: rgba(6,182,212,.08);  border-color: rgba(6,182,212,.32);  }
+.co-info .ct { color: var(--cyan-ink); }
+.co-good  { background: rgba(16,185,129,.08); border-color: rgba(16,185,129,.32); }
+.co-good .ct { color: var(--emerald-ink); }
+.co-warn  { background: rgba(245,158,11,.08); border-color: rgba(245,158,11,.34); }
+.co-warn .ct { color: var(--amber-ink); }
+.co-stop  { background: rgba(244,63,94,.08);  border-color: rgba(244,63,94,.32); }
+.co-stop .ct { color: var(--rose-ink); }
+
+/* ---------- Tables ---------- */
+.tw { overflow-x: auto; margin: 20px 0; border: 1.5px solid var(--border); border-radius: 13px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 540px; }
+th {
+  text-align: left; padding: 13px 16px; background: var(--bg-3);
+  font-weight: 700; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-3);
+  border-bottom: 1.5px solid var(--border);
+}
+td { padding: 13px 16px; border-bottom: 1px solid var(--border); color: var(--text-2); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: color-mix(in srgb, var(--emerald) 4%, transparent); }
+td code, p code, li code {
+  font-family: 'Geist Mono', monospace; font-size: .89em;
+  background: var(--bg-3); border: 1px solid var(--border);
+  padding: 1.5px 6px; border-radius: 6px; color: var(--cyan-ink);
+}
+
+/* ---------- Code ---------- */
+.codewrap { position: relative; margin: 19px 0; }
+pre {
+  background: var(--code-bg); border: 1.5px solid var(--border); border-radius: 13px;
+  padding: 17px 19px; overflow-x: auto; font-family: 'Geist Mono', monospace;
+  font-size: 13px; line-height: 1.68; color: var(--text-2);
+}
+pre .c { color: var(--text-3); font-style: italic; }
+pre .k { color: var(--syn-key); }
+pre .s { color: var(--syn-str); }
+pre .n { color: var(--syn-num); }
+pre .d { color: var(--syn-key); }
+.copy {
+  position: absolute; top: 9px; right: 9px; z-index: 2;
+  font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 8px;
+  background: var(--bg-2); border: 1.5px solid var(--border-soft); color: var(--text-3);
+  cursor: pointer; font-family: inherit; transition: all .15s ease;
+}
+.copy:hover { border-color: var(--emerald); color: var(--emerald); }
+.copy.done { border-color: var(--emerald); color: var(--emerald); }
+.fname { font-size: 11.5px; color: var(--text-3); font-weight: 600; margin-bottom: -8px; padding-left: 3px; font-family: 'Geist Mono', monospace; }
+
+/* ---------- Steps ---------- */
+.step { display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start; }
+.badge {
+  flex-shrink: 0; width: 32px; height: 32px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; color: #020617;
+  background: var(--grad); box-shadow: 0 6px 16px -6px rgba(16,185,129,.55);
+}
+.step-b { min-width: 0; flex: 1; padding-top: 2px; }
+.step-b h4 { margin-top: 0; font-size: 15.5px; }
+.step-b > :last-child { margin-bottom: 0; }
+
+/* ---------- Flow diagram ---------- */
+.flow { display: flex; flex-direction: column; gap: 9px; margin: 20px 0; }
+.fnode {
+  display: flex; align-items: center; gap: 13px; padding: 13px 17px;
+  border: 1.5px solid var(--border); border-radius: 12px; background: var(--bg-2); font-size: 14px;
+}
+.fnode .fi { font-size: 17px; flex-shrink: 0; }
+.fnode .ft { font-weight: 600; color: var(--text); }
+.fnode .fs { color: var(--text-3); font-size: 12.5px; }
+.fnode.hi { border-color: color-mix(in srgb, var(--emerald) 45%, transparent); background: color-mix(in srgb, var(--emerald) 8%, var(--bg-2)); }
+.farrow { text-align: center; color: var(--emerald); font-size: 17px; line-height: 1; margin: -3px 0; }
+
+/* ---------- Glossary ---------- */
+.gloss { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin: 20px 0; }
+@media (max-width: 720px) { .gloss { grid-template-columns: 1fr; } }
+.gitem { border: 1.5px solid var(--border); border-radius: 12px; padding: 15px 17px; background: var(--bg-2); }
+.gterm { font-weight: 700; color: var(--emerald-ink); font-size: 14px; margin-bottom: 5px; font-family: 'Geist Mono', monospace; }
+.gdef { font-size: 13.5px; color: var(--text-2); line-height: 1.62; }
+
+/* ---------- Checklist ---------- */
+.check { list-style: none; margin-left: 0; }
+.check li { padding-left: 29px; position: relative; }
+.check li::before {
+  content: "☐"; position: absolute; left: 0; top: -1px;
+  font-size: 17px; color: var(--emerald-ink); line-height: 1.45;
+}
+
+/* ---------- Footer ---------- */
+footer { border-top: 1.5px solid var(--border); margin-top: 56px; padding-top: 30px; }
+.fgrid { display: flex; flex-wrap: wrap; gap: 22px; align-items: center; justify-content: space-between; }
+.fnote { font-size: 12.5px; color: var(--text-3); line-height: 1.7; }
+.fnote strong { color: var(--text-2); }
+
+.toast {
+  position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(90px);
+  background: var(--bg-2); border: 1.5px solid var(--emerald); color: var(--text);
+  padding: 11px 21px; border-radius: 11px; font-size: 13.5px; font-weight: 600;
+  box-shadow: var(--shadow); z-index: 80; transition: transform .28s cubic-bezier(.2,.9,.3,1.2);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+@media print {
+  header, .toc, #progress, .copy, .toast { display: none !important; }
+  body { background: #fff; color: #000; }
+  .layout { grid-template-columns: 1fr; }
+  .card, .tw, pre, .callout { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- Shared brand gradient for every monogram on the page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="dosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="progress"></div>
+
+<header>
+  <div class="hdr">
+    <div class="brandbox">
+      <svg viewBox="0 0 160 120" fill="none" aria-label="Dammie Optimus Monogram">
+        <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 30 25 L 30 95" />
+          <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+          <circle cx="100" cy="60" r="35" />
+        </g>
+        <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+      </svg>
+    </div>
+    <div class="brandtext">
+      <div class="brandname">Dammie Optimus Solutions</div>
+      <div class="brandsub">Engineering Playbook · Internal Reference</div>
+    </div>
+    <div class="hdr-spacer"></div>
+    <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle colour theme">
+      <span id="themeIcon">◐</span> <span id="themeLabel">Light</span>
+    </button>
+    <button class="btn" id="printBtn" type="button">⎙ Save / Print</button>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="layout">
+
+  <!-- ============ TOC ============ -->
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+    <a href="#status">1 · Where you are now</a>
+    <a href="#flow">2 · How the form works</a>
+    <a href="#addresses">3 · The 3 email addresses</a>
+    <a href="#why">4 · Why it works today</a>
+    <a href="#downside">5 · The real downsides</a>
+    <a href="#verify">6 · Domain verification, explained</a>
+    <a href="#phase1">7 · Buy the domain</a>
+    <a href="#phase2">8 · Add it in Resend</a>
+    <a href="#phase3">9 · DNS records in Cloudflare</a>
+    <a href="#phase4">10 · Update the code</a>
+    <a href="#phase5">11 · Test it end to end</a>
+    <a href="#env">12 · Environment variables</a>
+    <a href="#deploy">13 · Deploy cheat sheet</a>
+    <a href="#trouble">14 · Troubleshooting</a>
+    <a href="#glossary">15 · Glossary</a>
+  </nav>
+
+  <!-- ============ CONTENT ============ -->
+  <main>
+
+    <div class="hero">
+      <div class="pill"><span class="dot"></span> Your site is live &amp; working</div>
+      <h1>Email Delivery<br /><span class="grad-text">The Complete Guide</span></h1>
+      <p>
+        Everything about how your contact form sends email, why it works right now,
+        and exactly how to switch it to your own sending domain
+        (<span class="mono">dammieoptimussolutions.com</span>) when you're ready.
+        Written in plain English, with no jargon skipped over.
+      </p>
+      <div class="meta">
+        <span class="chip">Audience: solo developer</span>
+        <span class="chip">Read time: ~12 minutes</span>
+        <span class="chip">Live at: get-tech-solutions.dammieoptimus.workers.dev</span>
+      </div>
+    </div>
+
+    <!-- 1 -->
+    <section id="status">
+      <h2><span class="num">01</span> Where you are right now</h2>
+      <p class="lede">Let's confirm what already works, so you know what you do <em>not</em> need to worry about.</p>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Piece</th><th>Status</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Next.js app on Cloudflare Workers</td><td><strong style="color:var(--emerald-ink)">Live</strong></td><td>OpenNext adapter, deployed and serving traffic</td></tr>
+            <tr><td>Contact form on the page</td><td><strong style="color:var(--emerald-ink)">Live</strong></td><td>Renders and submits</td></tr>
+            <tr><td><code>/api/contact</code> route</td><td><strong style="color:var(--emerald-ink)">Live</strong></td><td>Receives submissions</td></tr>
+            <tr><td>Resend API key</td><td><strong style="color:var(--emerald-ink)">Set</strong></td><td>Runtime variable on the Worker</td></tr>
+            <tr><td>Email actually arriving</td><td><strong style="color:var(--emerald-ink)">Confirmed</strong></td><td>You received a real inquiry</td></tr>
+            <tr><td>Your own sending domain</td><td><strong style="color:var(--amber-ink)">Not yet</strong></td><td>The subject of this guide</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">Nothing here is broken</div>
+          <p>Your contact form works today for real visitors. Everything below is an <em>improvement</em>, not a repair. There is no urgency here — you can leave it as-is for months.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="flow">
+      <h2><span class="num">02</span> How the form actually works</h2>
+      <p class="lede">Before anything else, here is the full journey of one message — because almost every confusion later comes from misremembering who receives the email.</p>
+
+      <div class="flow">
+        <div class="fnode">
+          <span class="fi">👤</span>
+          <div><div class="ft">A visitor fills in your form</div><div class="fs">Name, email, WhatsApp number, and a project description</div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode">
+          <span class="fi">🌐</span>
+          <div><div class="ft">Their browser sends the data to your site</div><div class="fs">A <span class="mono">POST</span> request to <span class="mono">/api/contact</span></div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode">
+          <span class="fi">⚙️</span>
+          <div><div class="ft">Your code receives it</div><div class="fs">File: <span class="mono">src/app/api/contact/route.ts</span></div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode">
+          <span class="fi">📮</span>
+          <div><div class="ft">Your code asks Resend to send an email</div><div class="fs">Resend is a delivery service — like a courier for messages</div></div>
+        </div>
+        <div class="farrow">▼</div>
+        <div class="fnode hi">
+          <span class="fi">📬</span>
+          <div><div class="ft">The email lands in YOUR inbox</div><div class="fs">dammieoptimus@gmail.com — always you, never the visitor</div></div>
+        </div>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">★</span>
+        <div class="bd">
+          <div class="ct">The single most important fact in this guide</div>
+          <p><strong>The visitor never receives an email. You do.</strong> The person who filled in the form is only the <em>source</em> of the text — they are not a recipient.</p>
+          <p>Keep this in mind. It explains why the current setup has no visible problems for your visitors, and why one particular question in the next section is a non-issue.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section id="addresses">
+      <h2><span class="num">03</span> The three addresses on an email</h2>
+      <p class="lede">Every email carries more than one address, and confusing them is the most common source of misunderstanding here.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>📤</span> From</div>
+          <p>The address the email <strong>claims</strong> to be from. Whoever sees the email is shown this name.</p>
+          <p>Yours: <span class="mono">onboarding@resend.dev</span> — Resend's address, not yours.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>📥</span> To</div>
+          <p>The address that <strong>actually receives</strong> the email. This is the one that decides whether it is deliverable.</p>
+          <p>Yours: <span class="mono">dammieoptimus@gmail.com</span> — hardcoded in the code.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>↩️</span> Reply-To</div>
+          <p>Who a <em>reply</em> is routed to when someone hits Reply. This is separate from the From address.</p>
+          <p>Yours: set to the <strong>visitor's</strong> email, so your replies reach them.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>🛡️</span> SPF &amp; DKIM</div>
+          <p>Digital signatures proving the email genuinely came from the From domain and was not forged.</p>
+          <p>Yours: automatically applied by Resend for verified domains.</p>
+        </div>
+      </div>
+
+      <p>Your <strong>Reply-To</strong> is already correct. When you open an inquiry and hit Reply, it goes to the visitor — so replying to leads works today without any change.</p>
+    </section>
+
+    <!-- 4 -->
+    <section id="why">
+      <h2><span class="num">04</span> Why it works today</h2>
+      <p class="lede">The address <span class="mono">onboarding@resend.dev</span> is a testing sandbox. Understanding its one rule explains your whole situation.</p>
+
+      <div class="callout co-warn">
+        <span class="ic">⚖️</span>
+        <div class="bd">
+          <div class="ct">Resend's rule for the sandbox address</div>
+          <p>You may send <em>from</em> <span class="mono">onboarding@resend.dev</span> <strong>only</strong> if the email is going <strong>to your own inbox</strong>. Anything else is rejected.</p>
+        </div>
+      </div>
+
+      <h3>Why that rule never bites you</h3>
+      <p>Your code always sends to <span class="mono">dammieoptimus@gmail.com</span>, because the <em>To</em> address is hardcoded. The rule is "sandbox sender is only allowed if the recipient is you" — and the recipient is always you. So the rule is always satisfied, automatically, for every visitor, forever.</p>
+
+      <div class="callout co-info">
+        <span class="ic">🎁</span>
+        <div class="bd">
+          <div class="ct">A useful mental model</div>
+          <p>Think of <span class="mono">onboarding@resend.dev</span> as a courier who will happily carry your letters — but only if the return address on the parcel is the courier's own, and only to your own mailbox.</p>
+          <p>Your parcels are always addressed to your own mailbox. So the courier never complains.</p>
+        </div>
+      </div>
+
+      <div class="callout co-stop">
+        <span class="ic">✍️</span>
+        <div class="bd">
+          <div class="ct">A correction I owe you</div>
+          <p>Earlier in this project I warned that this address would "silently fail for real clients." <strong>That was wrong.</strong> I had not yet accounted for the fact that the recipient is always you.</p>
+          <p>Your form works for real visitors today. The remaining issues are polish and future-proofing, not defects.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section id="downside">
+      <h2><span class="num">05</span> The two real downsides</h2>
+      <p class="lede">Not bugs — rough edges. Both are worth fixing eventually; neither is urgent.</p>
+
+      <div class="card">
+        <div class="card-t"><span>🚧</span> 1 · You cannot email the visitor</div>
+        <p>This is the significant one. The moment you add a friendly <em>"Thanks, I'll reply within 24 hours"</em> confirmation <strong>to the client</strong>, Resend rejects it:</p>
+        <div class="fname">What you would see</div>
+        <div class="codewrap">
+          <button class="copy" type="button">Copy</button>
+          <pre><span class="d">403</span> You can only send testing emails to your own email address
+(<span class="s">dammieoptimus@gmail.com</span>). To send emails to other recipients,
+please verify a domain and change the <span class="d">from</span> address.</pre>
+        </div>
+        <p>Auto-replies are a very common feature to add next, so this will likely bite you eventually. Verifying your own domain removes the limit entirely — then you can email <em>anyone</em>.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-t"><span>🎨</span> 2 · The sender looks unofficial</div>
+        <p>In your own inbox the notification reads something like:</p>
+        <p class="mono" style="font-size:13px;color:var(--text-3)">Dammie Optimus Solutions Portfolio Site &lt;onboarding@resend.dev&gt;</p>
+        <p>Replies still work (Reply-To is correct), but if you ever <strong>forward</strong> that email to a colleague, share a screenshot, or show the inbox to a client as proof of a working pipeline, the sender address looks unpolished — it advertises a testing sandbox rather than your company.</p>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">Summary of where you stand</div>
+          <p>Your contact form <strong>works</strong>. Verifying a domain is about removing a future roadblock and looking professional — not about fixing anything currently broken.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section id="verify">
+      <h2><span class="num">06</span> Domain verification, in plain English</h2>
+      <p class="lede">Three concepts, explained from scratch. No prior knowledge assumed.</p>
+
+      <h3>What is a domain?</h3>
+      <p>A domain is a web address you own and pay for, such as <span class="mono">dammieoptimussolutions.com</span>. You rent it from a registrar, point it at your hosting, and it becomes yours to configure.</p>
+
+      <div class="callout co-stop">
+        <span class="ic">⚠️</span>
+        <div class="bd">
+          <div class="ct">Your current URL will not work for this</div>
+          <p>You are currently on <span class="mono">get-tech-solutions.dammieoptimus.workers.dev</span>. The <span class="mono">workers.dev</span> part belongs to <strong>Cloudflare</strong>, not you. Cloudflare simply gave you a subdomain for free, so you cannot prove you own it and cannot add DNS records to it. You need your own domain.</p>
+        </div>
+      </div>
+
+      <h3>What is DNS?</h3>
+      <p>DNS is the internet's <strong>phone book</strong>. It translates names into addresses. When you add a record in Cloudflare's DNS settings, you are editing your domain's entry in that phone book so the whole world can read it.</p>
+
+      <h3>Why verification exists at all</h3>
+      <p>Email has no passwords. Without some proof, anyone on the internet could send a message claiming to be <span class="mono">yourcompany.com</span> — and your customers would have no way to tell. So email providers require <strong>secret codes</strong> proving you control a domain before letting you send as it:</p>
+
+      <div class="gloss">
+        <div class="gitem">
+          <div class="gterm">DKIM</div>
+          <div class="gdef">A digital signature attached to each email proving it genuinely came from your domain and was not tampered with.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">SPF</div>
+          <div class="gdef">A published list naming which servers are allowed to send email as your domain.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">DMARC</div>
+          <div class="gdef">Optional extra policy telling receivers what to do when SPF/DKIM fail. Improves inbox placement. Not required to start.</div>
+        </div>
+        <div class="gitem">
+          <div class="gterm">MX</div>
+          <div class="gdef">Mail eXchange — points to where mail for your domain is delivered. Only relevant if you also want to <em>receive</em> mail at that domain.</div>
+        </div>
+      </div>
+
+      <h3>The process, in one sentence</h3>
+      <p>Resend generates the secret codes → you paste them into Cloudflare's DNS → Resend checks they arrived → Resend now trusts you to send as that domain.</p>
+
+      <div class="callout co-info">
+        <span class="ic">🎁</span>
+        <div class="bd">
+          <div class="ct">Analogy</div>
+          <p>It is the difference between a parcel with a handwritten return address — which anyone can write — and one with a government-verified sender ID, which cannot be forged.</p>
+          <p>Once it is set up it is permanent. You do this once and it keeps working for years.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section id="phase1">
+      <h2><span class="num">07</span> Phase 1 — Buy the domain</h2>
+      <p class="lede">Do this first. Everything else depends on it, and it is the step people most often stall on.</p>
+
+      <div class="step">
+        <div class="badge">1</div>
+        <div class="step-b">
+          <h4>Choose a registrar</h4>
+          <p>Any of these work. Prices are comparable, roughly <strong>$10/year</strong> for a <span class="mono">.com</span>.</p>
+          <ul>
+            <li><strong>Cloudflare Registrar</strong> — sells at cost, no markup, but requires the domain to use Cloudflare's DNS (which you want anyway).</li>
+            <li><strong>Namecheap</strong> — cheap, wide selection, good interface.</li>
+            <li><strong>Porkbun</strong> — cheap, simple, no upsells.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">2</div>
+        <div class="step-b">
+          <h4>Search for <span class="mono">dammieoptimussolutions.com</span></h4>
+          <p>Register it for at least one year. Enable WHOIS privacy if offered — it hides your personal contact details from public lookups at no extra cost.</p>
+          <p>Add auto-renew so it cannot lapse and break your email sending.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">3</div>
+        <div class="step-b">
+          <h4>Point the domain at your current site</h4>
+          <p>Optional, but strongly recommended — it replaces the long <span class="mono">workers.dev</span> URL with a memorable one.</p>
+          <p>In Cloudflare: <strong>Workers &amp; Pages</strong> → your project → <strong>Settings</strong> → <strong>Domains &amp; Routes</strong> → <strong>Add Custom Domain</strong>.</p>
+          <p>Follow the prompted nameserver change at your registrar, then wait for the certificate to issue (minutes to a few hours).</p>
+        </div>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">💡</span>
+        <div class="bd">
+          <div class="ct">You can do Phase 1 and skip to Phase 2</div>
+          <p>You do not strictly need the custom domain attached to your site to verify email. If you only want email working, buy the domain and go straight to Phase 2.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section id="phase2">
+      <h2><span class="num">08</span> Phase 2 — Add the domain in Resend</h2>
+      <p class="lede">Tell Resend which domain you want to send as, and collect the DNS records it needs.</p>
+
+      <div class="step">
+        <div class="badge">1</div>
+        <div class="step-b">
+          <h4>Open Resend → Domains → Add Domain</h4>
+          <p>Log in at <a href="https://resend.com/domains" target="_blank" rel="noopener">resend.com/domains</a>.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">2</div>
+        <div class="step-b">
+          <h4>Enter the domain — prefer a subdomain</h4>
+          <p>Use <span class="mono">send.dammieoptimussolutions.com</span> rather than the bare root domain.</p>
+          <p>Resend explicitly recommends subdomains so that a future newsletter cannot damage the reputation of your important transactional mail. It also sidesteps conflicts if you already have SPF records at the root.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">3</div>
+        <div class="step-b">
+          <h4>Copy the DNS records Resend shows you</h4>
+          <p>Resend will present a short table of records (typically a DKIM record and an SPF record, sometimes a suggested DMARC). You will need each record's <strong>type</strong>, <strong>name</strong>, and <strong>value</strong>.</p>
+          <p>Copy them somewhere safe before you switch tabs — pasting errors are the single most common cause of a failed verification.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section id="phase3">
+      <h2><span class="num">09</span> Phase 3 — Add the DNS records in Cloudflare</h2>
+      <p class="lede">Cloudflare → your domain → <strong>DNS</strong> → <strong>Add record</strong>. Add one record at a time, exactly as Resend listed it.</p>
+
+      <div class="callout co-warn">
+        <span class="ic">🔴</span>
+        <div class="bd">
+          <div class="ct">The one setting people get wrong</div>
+          <p>If Resend asks for an <strong>MX record</strong>, you <em>must</strong> set it to <strong>DNS-only (grey cloud)</strong>, not proxied.</p>
+          <p>Orange-cloud proxying is for web traffic. It breaks mail routing completely, and verification will fail for no obvious reason.</p>
+        </div>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Record type</th><th>Proxy setting</th><th>Why</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>TXT</code> (DKIM &amp; SPF)</td><td><strong>DNS-only</strong></td><td>Text records cannot be proxied anyway. Safe as-is.</td></tr>
+            <tr><td><code>CNAME</code> (if offered)</td><td><strong>DNS-only</strong></td><td>Keep it grey. Some setups work proxied, but DNS-only is the safe default.</td></tr>
+            <tr><td><code>MX</code> (if offered)</td><td><strong>DNS-only — required</strong></td><td>Proxying an MX record breaks mail delivery. This is the classic mistake.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">📌</span>
+        <div class="bd">
+          <div class="ct">A note on SPF records</div>
+          <p>A domain may only have <strong>one</strong> SPF record. If you already publish SPF at the root domain, do not add a second one — merge them into a single record instead. Using a subdomain for sending (as recommended in Phase 2) neatly avoids this problem, because the subdomain gets its own separate SPF record.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">4</div>
+        <div class="step-b">
+          <h4>Go back to Resend and click Verify</h4>
+          <p>DNS changes usually propagate within a few minutes, occasionally longer. If verification fails, wait ten minutes and retry — do not re-add the records.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">5</div>
+        <div class="step-b">
+          <h4>Make it the default sending address</h4>
+          <p>Once the domain shows as <strong>Verified</strong>, set it as the domain's default sender in Resend so anything you send from the dashboard also uses it.</p>
+          <p>From this moment you can send as <em>any</em> address on that domain — no further setup.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section id="phase4">
+      <h2><span class="num">10</span> Phase 4 — Point the code at your new address</h2>
+      <p class="lede">Verification alone changes nothing in your app. One line of code still names the old sandbox sender.</p>
+
+      <h3>Today — hardcoded</h3>
+      <p>The sender lives directly in the code, so changing it means editing a file and redeploying.</p>
+      <div class="fname">src/app/api/contact/route.ts &nbsp;·&nbsp; around line 44</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre><span class="k">const</span> emailPayload = {
+  <span class="d">from</span>: <span class="s">'Dammie Optimus Solutions Portfolio Site &lt;onboarding@resend.dev&gt;'</span>,
+  <span class="d">to</span>: [<span class="s">'dammieoptimus@gmail.com'</span>],
+  <span class="c">// ...</span>
+};</pre>
+      </div>
+
+      <h3>Better — read it from a variable</h3>
+      <p>Read the address from an environment variable, with a safe fallback to today's value.</p>
+      <div class="fname">src/app/api/contact/route.ts &nbsp;·&nbsp; the change</div>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre><span class="k">const</span> fromAddress =
+  process.env.<span class="d">CONTACT_FROM</span> ??
+  <span class="s">'Dammie Optimus Solutions &lt;onboarding@resend.dev&gt;'</span>;
+
+<span class="k">const</span> emailPayload = {
+  <span class="d">from</span>: fromAddress,
+  <span class="d">to</span>: [<span class="s">'dammieoptimus@gmail.com'</span>],
+  <span class="c">// ...</span>
+};</pre>
+      </div>
+
+      <h4>Why this is better, in plain terms</h4>
+      <ul>
+        <li>You set the address <strong>once</strong> in Cloudflare's settings, not in code.</li>
+        <li>Change your sender later, and there is <strong>no code edit and no redeploy</strong>.</li>
+        <li>If the setting is ever deleted, the code falls back to the old address instead of crashing.</li>
+      </ul>
+
+      <div class="callout co-info">
+        <span class="ic">🔑</span>
+        <div class="bd">
+          <div class="ct">Set it where</div>
+          <p>Cloudflare → <strong>Workers &amp; Pages</strong> → <span class="mono">get-tech-solutions</span> → <strong>Settings</strong> → <strong>Variables and Secrets</strong>.</p>
+          <p>Add <code>CONTACT_FROM</code> with the value <span class="mono">Dammie Optimus Solutions &lt;inquiries@send.dammieoptimussolutions.com&gt;</span>.</p>
+          <p class="mt-2">It is <strong>not</strong> a secret — no need to mark it Secret. Plain environment variable is fine, and easier to edit later.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section id="phase5">
+      <h2><span class="num">11</span> Phase 5 — Test it end to end</h2>
+      <p class="lede">Prove it works before you tell anyone it does.</p>
+
+      <ul class="check">
+        <li>Submit the contact form on your live site with your own details.</li>
+        <li>Confirm the email arrives and the <strong>From</strong> now shows your own domain.</li>
+        <li>Hit <strong>Reply</strong> and confirm it goes to the address you typed in.</li>
+        <li>Check the sender is not marked as spam.</li>
+        <li>Submit from a different device or network, to be sure nothing is cached.</li>
+      </ul>
+
+      <div class="callout co-good">
+        <span class="ic">🎉</span>
+        <div class="bd">
+          <div class="ct">You are now unblocked</div>
+          <p>With a verified domain you can email <strong>anyone</strong> — not just yourself. Auto-replies to clients, cc'ing the visitor, sending confirmations: all of it now works, with no 403 errors.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section id="env">
+      <h2><span class="num">12</span> Environment variables on Cloudflare</h2>
+      <p class="lede">The complete reference for this project, so you can rebuild it from scratch if you ever need to.</p>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Variable</th><th>Secret?</th><th>Where</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>RESEND_API_KEY</code></td>
+              <td><strong style="color:var(--rose-ink)">Yes</strong></td>
+              <td>Worker runtime</td>
+              <td>Authorises Resend to send. Mark as <strong>Secret</strong>. Never use a <code>NEXT_PUBLIC_</code> prefix — that would expose it in browser JavaScript.</td>
+            </tr>
+            <tr>
+              <td><code>CONTACT_FROM</code></td>
+              <td>No</td>
+              <td>Worker runtime</td>
+              <td>The sender address. Optional; falls back to the sandbox address if unset.</td>
+            </tr>
+            <tr>
+              <td><code>NEXTJS_ENV</code></td>
+              <td>No</td>
+              <td><code>.dev.vars</code> only</td>
+              <td>Local testing only. Stays in <code>.dev.vars</code>, which is gitignored and never deployed.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-stop">
+        <span class="ic">🚨</span>
+        <div class="bd">
+          <div class="ct">Runtime variables are not build variables</div>
+          <p>These are separate settings in separate places, and confusing them is the most common cause of "it works but only for me".</p>
+          <p><strong>Runtime</strong> variables must be on the <strong>Worker</strong> (Settings → Variables and Secrets). Setting them only under a Pages project, or only as a <em>build</em> variable, will not make them available to your live code.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section id="deploy">
+      <h2><span class="num">13</span> Deployment cheat sheet</h2>
+      <p class="lede">The commands and settings this project relies on, written down.</p>
+
+      <h4>Build command (Cloudflare Pages settings)</h4>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>npx opennextjs-cloudflare build</pre>
+      </div>
+
+      <h4>Deploy command (Cloudflare Pages settings)</h4>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>npm run deploy</pre>
+      </div>
+      <p>That script expands to:</p>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>opennextjs-cloudflare build &amp;&amp; opennextjs-cloudflare deploy -- --keep-vars</pre>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠️</span>
+        <div class="bd">
+          <div class="ct">Do not drop the <span class="mono">--keep-vars</span> flag</div>
+          <p>Without it, a deployment <strong>deletes</strong> any variables you set in the Cloudflare dashboard — including your <code>RESEND_API_KEY</code>. If you ever type the deploy command by hand, include <span class="mono">-- --keep-vars</span> yourself.</p>
+        </div>
+      </div>
+
+      <h4>Everyday commands</h4>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Command</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>npm run dev</code></td><td>Normal local development, fast refresh</td></tr>
+            <tr><td><code>npm run preview</code></td><td>Runs the app in the real Workers runtime locally — best way to catch runtime bugs before deploying</td></tr>
+            <tr><td><code>npm run deploy</code></td><td>Builds and deploys to Cloudflare</td></tr>
+            <tr><td><code>npm run lint</code></td><td>Lints the code</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section id="trouble">
+      <h2><span class="num">14</span> Troubleshooting</h2>
+      <p class="lede">Symptoms you might hit, and what they actually mean.</p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>403</code> "You can only send testing emails to your own email address"</td>
+              <td>Sending to someone other than the account owner while still using the sandbox sender</td>
+              <td>Verify a domain (Phases 2–4), then set <code>CONTACT_FROM</td>
+            </tr>
+            <tr>
+              <td>Emails stopped arriving after a deploy</td>
+              <td>Deploy ran without <span class="mono">--keep-vars</span> and wiped your variables</td>
+              <td>Re-add <code>RESEND_API_KEY</code>, then use <code>npm run deploy</code> from now on</td>
+            </tr>
+            <tr>
+              <td>Form shows "Email delivery is not configured"</td>
+              <td><code>RESEND_API_KEY</code> is not set on the <strong>Worker</strong> at runtime</td>
+              <td>Add it under Settings → Variables and Secrets, apply to Production</td>
+            </tr>
+            <tr>
+              <td>Domain stuck "Pending" in Resend</td>
+              <td>An MX record was orange-cloud proxied, or a value was pasted with a typo</td>
+              <td>Set MX to DNS-only (grey cloud); re-check every value character by character</td>
+            </tr>
+            <tr>
+              <td>Build fails with "Missing API key"</td>
+              <td>An older build evaluated the email client before the key was available</td>
+              <td>Already fixed — the client is now created per request, so builds no longer depend on the secret</td>
+            </tr>
+            <tr>
+              <td>Email lands in spam</td>
+              <td>New domain with no sending history yet</td>
+              <td>Normal for new domains. Send a few real emails over a week; avoid attaching large files</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section id="glossary">
+      <h2><span class="num">15</span> Glossary</h2>
+      <p class="lede">Every term used in this guide, in one place.</p>
+
+      <div class="gloss">
+        <div class="gitem"><div class="gterm">Domain</div><div class="gdef">A web address you own, e.g. <span class="mono">dammieoptimussolutions.com</span>.</div></div>
+        <div class="gitem"><div class="gterm">Registrar</div><div class="gdef">The company you buy a domain from.</div></div>
+        <div class="gitem"><div class="gterm">DNS</div><div class="gdef">The internet's phone book, translating names into addresses.</div></div>
+        <div class="gitem"><div class="gterm">Nameserver</div><div class="gdef">The DNS operator for your domain — here, Cloudflare.</div></div>
+        <div class="gitem"><div class="gterm">DNS-only vs Proxied</div><div class="gdef">Grey vs orange cloud in Cloudflare. Orange proxies web traffic; mail records must be grey.</div></div>
+        <div class="gitem"><div class="gterm">SPF</div><div class="gdef">Record listing which servers may send as your domain. Only one allowed per domain.</div></div>
+        <div class="gitem"><div class="gterm">DKIM</div><div class="gdef">Digital signature proving an email genuinely came from your domain.</div></div>
+        <div class="gitem"><div class="gterm">DMARC</div><div class="gdef">Optional policy telling receivers what to do when SPF/DKIM fail.</div></div>
+        <div class="gitem"><div class="gterm">MX</div><div class="gdef">Record pointing to where mail for your domain is delivered.</div></div>
+        <div class="gitem"><div class="gterm">Resend</div><div class="gdef">The email delivery service your code uses.</div></div>
+        <div class="gitem"><div class="gterm">Sandbox sender</div><div class="gdef"><span class="mono">onboarding@resend.dev</span> — for testing only, delivers solely to the account owner's inbox.</div></div>
+        <div class="gitem"><div class="gterm">Environment variable</div><div class="gdef">A setting stored outside your code, adjustable without editing files.</div></div>
+        <div class="gitem"><div class="gterm">Runtime variable</div><div class="gdef">An environment variable available to live code when a request is handled.</div></div>
+        <div class="gitem"><div class="gterm">Worker</div><div class="gdef">Cloudflare's serverless runtime where your app actually executes.</div></div>
+        <div class="gitem"><div class="gterm">OpenNext</div><div class="gdef">The adapter that lets a Next.js app run on Cloudflare Workers.</div></div>
+        <div class="gitem"><div class="gterm">Reply-To</div><div class="gdef">Where replies go, independent of the From address.</div></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="fgrid">
+        <div class="brandbox" style="padding:9px">
+          <svg viewBox="0 0 160 120" fill="none" style="width:46px;height:34px;display:block" aria-label="Dammie Optimus Monogram">
+            <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 30 25 L 30 95" />
+              <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+              <circle cx="100" cy="60" r="35" />
+            </g>
+            <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+          </svg>
+        </div>
+        <div class="fnote" style="flex:1;min-width:260px">
+          <strong>Dammie Optimus Solutions</strong><br />
+          AI, Web &amp; Mobile Software Engineering<br />
+          <a href="mailto:dammieoptimus@gmail.com">dammieoptimus@gmail.com</a> &nbsp;·&nbsp;
+          <a href="https://wa.me/2347053331253" target="_blank" rel="noopener">WhatsApp</a> &nbsp;·&nbsp;
+          <a href="/">Back to site</a>
+        </div>
+        <div class="fnote" style="text-align:right">
+          Engineered for peak performance.<br />
+          Serving WAT (GMT+1) · Nigeria, UK, US, EU
+        </div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Theme ---------- */
+  var root = document.documentElement;
+  var btn = document.getElementById('themeBtn');
+  var icon = document.getElementById('themeIcon');
+  var label = document.getElementById('themeLabel');
+  var stored = null;
+  try { stored = localStorage.getItem('dos-guide-theme'); } catch (e) {}
+  var initial = stored || 'dark';
+  apply(initial);
+
+  function apply(t) {
+    root.setAttribute('data-theme', t);
+    icon.textContent = t === 'dark' ? '◐' : '◑';
+    label.textContent = t === 'dark' ? 'Light' : 'Dark';
+  }
+  btn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    apply(next);
+    try { localStorage.setItem('dos-guide-theme', next); } catch (e) {}
+  });
+
+  /* ---------- Print ---------- */
+  document.getElementById('printBtn').addEventListener('click', function () { window.print(); });
+
+  /* ---------- Reading progress ---------- */
+  var bar = document.getElementById('progress');
+  function onScroll() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Scrollspy ---------- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  var sections = Object.keys(map).map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('active'); });
+          var a = map[e.target.id];
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-88px 0px -70% 0px', threshold: 0 });
+    sections.forEach(function (s) { spy.observe(s); });
+  }
+
+  /* ---------- Copy buttons ---------- */
+  var toastEl = document.getElementById('toast');
+  var toastTimer;
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1900);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.copy'), function (b) {
+    b.addEventListener('click', function () {
+      var pre = b.parentNode.querySelector('pre');
+      if (!pre) return;
+      var text = pre.innerText;
+      var done = function () {
+        b.textContent = 'Copied';
+        b.classList.add('done');
+        showToast('Copied to clipboard');
+        setTimeout(function () { b.textContent = 'Copy'; b.classList.remove('done'); }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { fallback(text, done); });
+      } else {
+        fallback(text, done);
+      }
+    });
+  });
+  function fallback(text, cb) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); cb(); } catch (e) { showToast('Press Ctrl+C to copy'); }
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>
