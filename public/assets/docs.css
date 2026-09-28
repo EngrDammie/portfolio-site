@@ -120,9 +120,24 @@ header {
 .btn:hover { border-color: var(--emerald); color: var(--text); text-decoration: none; }
 .btn.ghost { background: transparent; }
 
+/* Narrow screens: let the header controls wrap onto a second row instead of
+   colliding with the brand name. The brand text is allowed to shrink, but the
+   wordmark itself is nowrap, so without wrapping the buttons overlap it. */
+@media (max-width: 780px) {
+  .hdr { flex-wrap: wrap; row-gap: 10px; padding: 12px 16px; }
+  .hdr-spacer { display: none; }
+  .brandtext { flex: 1 1 auto; }
+  .btn { font-size: 12.5px; padding: 7px 11px; }
+}
+
 /* ---------- Layout ---------- */
 .layout { max-width: 1240px; margin: 0 auto; padding: 34px 22px 90px; display: grid; grid-template-columns: 252px 1fr; gap: 44px; align-items: start; }
 .layout.solo { grid-template-columns: 1fr; }
+/* A grid item's default minimum size is its content's min-content width, so a
+   table wider than the column would stretch the 1fr track and push the whole
+   page off the right edge. min-width:0 lets the track shrink to the space it
+   actually has, and the .tw / pre wrappers scroll horizontally as intended. */
+.layout > * { min-width: 0; }
 @media (max-width: 940px) { .layout { grid-template-columns: 1fr; gap: 26px; } .toc { display: none; } }
 
 /* ---------- Table of contents ---------- */
@@ -181,6 +196,10 @@ li strong, p strong { color: var(--text); }
 
 /* ---------- Cards ---------- */
 .card { border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--bg-2); padding: 24px; margin: 20px 0; box-shadow: var(--shadow); }
+/* Same reasoning as .layout > *: a grid item's automatic minimum is its
+   min-content width, so one wide table or long unbroken string inside a card
+   would stretch the whole 1fr column and push the page sideways. */
+.grid2 > *, .grid3 > * { min-width: 0; }
 .card > :last-child { margin-bottom: 0; }
 .card-t { font-size: 15px; font-weight: 700; margin-bottom: 11px; display: flex; align-items: center; gap: 9px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }

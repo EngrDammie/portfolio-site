@@ -29,6 +29,9 @@
 .demo { border: 1.5px solid var(--border); border-radius: 13px; padding: 20px; background: var(--bg-2); margin: 14px 0; }
 .demo-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .spec { display: grid; grid-template-columns: minmax(150px, 34%) 1fr; gap: 4px 18px; font-size: 13.5px; }
+/* min-width:0 — without it the 1fr track is held open by the min-content width of
+   the monospace values, which pushes the card wider than the page on narrow screens. */
+.spec > * { min-width: 0; }
 .spec dt { color: var(--text-3); font-family: 'Geist Mono', monospace; font-size: 12.5px; }
 .spec dd { color: var(--text-2); font-family: 'Geist Mono', monospace; font-size: 12.5px; }
 .anat { position: relative; border: 1.5px solid var(--border); border-radius: 14px; background: var(--bg-2); padding: 20px; margin: 18px 0; }
