@@ -14,7 +14,14 @@ export interface ProjectItem {
   // Interactive Preview Parameters
   previewType: 'iframe' | 'video' | 'interactive-mock';
   previewUrl?: string;
-  videoUrl?: string;
+  /**
+   * YouTube video ID only — e.g. "EjhFWjsLDcA" from
+   * https://youtu.be/EjhFWjsLDcA
+   * The thumbnail and embed URLs are derived from this in ProjectShowcase, so
+   * there is no URL format to get wrong. Do NOT store a full share or watch
+   * URL here: those refuse to be framed.
+   */
+  videoId?: string;
 }
 
 export const SHOWCASE_PROJECTS: ProjectItem[] = [
@@ -31,7 +38,7 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
     liveUrl: 'https://starium-app.dammieoptimus.workers.dev/',
     featured: true,
     previewType: 'video',
-    videoUrl: 'https://youtu.be/EjhFWjsLDcA'
+    videoId: 'EjhFWjsLDcA'
   },
   {
     id: 'rafa-voucher-attendance',

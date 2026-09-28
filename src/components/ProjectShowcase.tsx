@@ -33,11 +33,83 @@ const GithubIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
 
 const CATEGORIES = ['All', 'AI & Automation', 'Full-Stack Web App', 'Mobile App', 'Business Website'] as const;
 
+// ============================================================
+// YOUTUBE EMBED — facade pattern
+// ============================================================
+// YouTube's watch pages send `X-Frame-Options: sameorigin`, so they refuse
+// to be framed. Only the /embed/ endpoint is designed to be embedded, which
+// is why we store a bare video ID and build the URL here rather than storing
+// a share link (youtu.be/... merely redirects to the unframeable watch page).
+//
+// The facade shows a thumbnail from YouTube's image CDN and only creates the
+// iframe once the visitor chooses to play. That avoids pulling ~1MB of player
+// JavaScript and firing tracking requests for a video nobody watches, and it
+// means the video can never become a cookie-consent trigger.
+
+const YT_THUMBNAILS = ['maxresdefault', 'sddefault', 'mqdefault'];
+
+const YouTubeFacade = ({
+  videoId,
+  title,
+  onPlay,
+}: {
+  videoId: string;
+  title: string;
+  onPlay: () => void;
+}) => {
+  // maxresdefault (1280x720) only exists for high-resolution uploads, so
+  // fall back through smaller sizes. mqdefault is 320x180 and always present.
+  const [tier, setTier] = useState(0);
+
+  return (
+    <button
+      type="button"
+      onClick={onPlay}
+      className="group/play absolute inset-0 w-full h-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+      aria-label={`Play video: ${title}`}
+    >
+      {/*
+        A plain <img> is deliberate here, not an oversight:
+        - The source is YouTube's image CDN, which already serves optimised
+          variants. We pick the tier ourselves via onError, which needs a raw
+          <img>; next/image's error handling would not fit the fallback chain.
+        - The image only exists after the visitor opens a modal, so it does not
+          affect LCP. Routing it through an optimiser would add a failure mode
+          and extra Worker work for no measurable gain.
+      */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`https://i.ytimg.com/vi/${videoId}/${YT_THUMBNAILS[tier]}.jpg`}
+        alt=""
+        loading="lazy"
+        onError={() => setTier((t) => Math.min(t + 1, YT_THUMBNAILS.length - 1))}
+        className="w-full h-full object-cover"
+      />
+
+      {/* Scrim + centred play button */}
+      <span className="absolute inset-0 bg-slate-950/45 group-hover/play:bg-slate-950/30 transition-colors duration-200" />
+
+      <span className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+        <span className="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 shadow-lg shadow-emerald-500/40 transition-transform duration-200 group-hover/play:scale-110">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 sm:w-9 sm:h-9 translate-x-[2px] text-slate-950">
+            <path d="M8 5.14v13.72L19 12 8 5.14Z" />
+          </svg>
+        </span>
+        <span className="text-[12px] sm:text-sm font-semibold text-white">
+          Play the walkthrough
+        </span>
+      </span>
+    </button>
+  );
+};
+
 export default function ProjectShowcase() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [expandedProjectId, setExpandedProjectId] = useState<string | null>(null);
   const [activeModalProject, setActiveModalProject] = useState<ProjectItem | null>(null);
   const [deviceView, setDeviceView] = useState<'desktop' | 'mobile'>('desktop');
+  // Video only: reset on every modal open so the facade shows again.
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -224,6 +296,7 @@ export default function ProjectShowcase() {
                     onClick={() => {
                       setActiveModalProject(project);
                       setDeviceView('desktop');
+                      setIsVideoPlaying(false);
                     }}
                     className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:text-emerald-300 text-xs font-semibold transition-colors cursor-pointer active:scale-95"
                   >
@@ -276,7 +349,9 @@ export default function ProjectShowcase() {
                   </a>
                 )}
 
-                {/* Device Viewport Switcher */}
+                {/* Device Viewport Switcher — hidden for video, which always
+                    renders as a 16:9 stage regardless of this setting */}
+                {activeModalProject.previewType !== 'video' && (
                 <div className="hidden sm:inline-flex p-1 bg-slate-950 border border-slate-800 rounded-lg">
                   <button
                     type="button"
@@ -299,6 +374,7 @@ export default function ProjectShowcase() {
                     <Smartphone className="w-4 h-4" />
                   </button>
                 </div>
+                )}
 
                 <button
                   type="button"
@@ -313,14 +389,43 @@ export default function ProjectShowcase() {
 
             {/* Modal Canvas: Dynamically switches based on previewType */}
             <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex items-center justify-center bg-slate-950">
-              
-              <div
-                className={`transition-all duration-300 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col ${
-                  deviceView === 'mobile'
-                    ? 'w-[320px] h-[520px] rounded-[32px] border-4 border-slate-700'
-                    : 'w-full h-[440px]'
-                }`}
-              >
+
+              {/* ---- VIDEO: clean 16:9 stage, no device bezel ----
+                  A 16:9 video forced into the tall mobile frame would letterbox
+                  heavily, so videos ignore the viewport switcher entirely. */}
+              {activeModalProject.previewType === 'video' && activeModalProject.videoId ? (
+                <div className="w-full max-w-4xl">
+                  <div className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
+                    {isVideoPlaying ? (
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${activeModalProject.videoId}?autoplay=1&rel=0`}
+                        className="absolute inset-0 w-full h-full border-0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                        title={activeModalProject.title}
+                      />
+                    ) : (
+                      <YouTubeFacade
+                        videoId={activeModalProject.videoId}
+                        title={activeModalProject.title}
+                        onPlay={() => setIsVideoPlaying(true)}
+                      />
+                    )}
+                  </div>
+
+                  <p className="mt-3 text-center text-[12px] text-slate-500">
+                    Nothing loads from YouTube until you press play.
+                  </p>
+                </div>
+              ) : (
+                <div
+                  className={`transition-all duration-300 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col ${
+                    deviceView === 'mobile'
+                      ? 'w-[320px] h-[520px] rounded-[32px] border-4 border-slate-700'
+                      : 'w-full h-[440px]'
+                  }`}
+                >
                 {/* Browser Header Bar */}
                 <div className="h-8 bg-slate-950/90 border-b border-slate-800/80 px-3 flex items-center justify-between text-[12px] text-slate-400">
                   <div className="flex items-center gap-1.5">
@@ -329,7 +434,7 @@ export default function ProjectShowcase() {
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
                   </div>
                   <span className="text-[11px] font-mono text-slate-500 truncate max-w-[200px]">
-                    {activeModalProject.previewUrl || activeModalProject.videoUrl}
+                    {activeModalProject.previewUrl || activeModalProject.liveUrl}
                   </span>
                   <div className="w-8" />
                 </div>
@@ -343,19 +448,8 @@ export default function ProjectShowcase() {
                     sandbox="allow-scripts allow-same-origin allow-forms"
                     loading="lazy"
                   />
-                ) : activeModalProject.previewType === 'video' && activeModalProject.videoUrl ? (
-                  /* 2. VIDEO WALKTHROUGH MODE */
-                  <div className="w-full flex-1 bg-black flex items-center justify-center">
-                    <iframe
-                      src={activeModalProject.videoUrl}
-                      className="w-full h-full border-0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title={activeModalProject.title}
-                    />
-                  </div>
                 ) : (
-                  /* 3. INTERACTIVE SIMULATOR MOCK MODE */
+                  /* 2. INTERACTIVE SIMULATOR MOCK MODE */
                   <div className="flex-1 p-5 flex flex-col justify-between bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 overflow-y-auto">
                     <div>
                       <div className="flex items-center justify-between mb-4">
@@ -398,8 +492,8 @@ export default function ProjectShowcase() {
                     </div>
                   </div>
                 )}
-
-              </div>
+                </div>
+              )}
 
             </div>
 
