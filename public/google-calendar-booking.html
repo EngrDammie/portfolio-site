@@ -522,49 +522,66 @@
     <!-- 8 -->
     <section id="connect">
       <h2><span class="num">08</span> Plugging it into your website</h2>
-      <p class="lede">You have a working booking page. The last job is making your buttons point at it instead of the dead link.</p>
+      <p class="lede">How the booking page reaches your buttons.</p>
 
-      <h3>What is wrong with your site right now</h3>
-      <p>Three separate buttons all point at the same dead address:</p>
-      <ul>
-        <li>The <strong>“Launch Google Meet Session”</strong> button on the contact card</li>
-        <li>The <strong>“Book Google Meet”</strong> button in the top bar</li>
-        <li>The same button inside the small-screen menu</li>
-      </ul>
+      <div class="callout co-good">
+        <span class="ic">✅</span>
+        <div class="bd">
+          <div class="ct">This is done</div>
+          <p>A setting called <span class="codechip">BOOKING_URL</span> now controls all three booking buttons, and your live calendar is connected. Set the value to your booking page link and the buttons follow it.</p>
+        </div>
+      </div>
 
-      <h3>How they will be fixed</h3>
-      <p>I will add a single setting called <span class="codechip">BOOKING_URL</span> and point all three buttons at it. This is an ordinary setting, not a secret — you can change your booking page later by editing one value rather than touching any code.</p>
+      <h3>Your booking link</h3>
+      <div class="codewrap">
+        <button class="copy" type="button">Copy</button>
+        <pre>BOOKING_URL=https://calendar.app.google/QD12aQUafCYhjnhz6</pre>
+      </div>
 
-      <div class="fname">What you will do in the Cloudflare dashboard</div>
+      <h3>Where to set it</h3>
+      <div class="fname">In the Cloudflare dashboard</div>
       <div class="codewrap">
         <button class="copy" type="button">Copy</button>
         <pre>Cloudflare  →  Workers &amp; Pages  →  get-tech-solutions
             →  Settings  →  Variables and Secrets  →  Add
 
 Variable name:  BOOKING_URL
-Value:          &lt;your booking page link&gt;
+Value:          https://calendar.app.google/QD12aQUafCYhjnhz6
 
 Type:           Text        (NOT "Secret")
 Environment:    Production</pre>
       </div>
 
-      <div class="callout co-info">
-        <span class="ic">💡</span>
+      <h3>What changed on the site</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Before</th><th>After</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mono">meet.google.com/new</span></td><td>Your booking page</td></tr>
+            <tr><td>“Google Meet Strategy Call”</td><td>“Free Discovery Call”</td></tr>
+            <tr><td>“Launch Google Meet Session”</td><td>“Choose a Time”</td></tr>
+            <tr><td>Navbar: “Book Google Meet”</td><td>Navbar: “Book a Call”</td></tr>
+            <tr><td>A meeting only the client could see</td><td>A real slot, in both calendars</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Two things worth knowing</h3>
+
+      <div class="callout co-warn">
+        <span class="ic">🔁</span>
         <div class="bd">
-          <div class="ct">Why a setting rather than hard-coding the link</div>
-          <p>If you ever switch to Calendly, change your calendar, or want a different page per service, you edit one value in the dashboard. No code change, no redeployment, no waiting on a build.</p>
-          <p>And if the setting is ever missing, the buttons fall back to your WhatsApp link rather than breaking.</p>
+          <div class="ct">Changing the value needs a new build</div>
+          <p>The homepage is a prerendered static page, so the setting is read when the site is built, not on every visit.</p>
+          <p>If you change <span class="mono">BOOKING_URL</span> in the dashboard alone, the live site will keep using the old link. Push any commit, or hit <strong>Retry deployment</strong> in the Cloudflare dashboard, to pick up the new value.</p>
         </div>
       </div>
 
-      <h3>The wording will also change</h3>
-      <p>The current card says <em>“Book a 15-minute discovery session on Google Meet”</em> while doing nothing of the sort. The new wording will describe something that genuinely happens — for example: <em>“Pick a time that suits you. You'll get a confirmation with a private Google Meet link.”</em></p>
-
-      <div class="callout co-good">
-        <span class="ic">🎉</span>
+      <div class="callout co-info">
+        <span class="ic">🛟</span>
         <div class="bd">
-          <div class="ct">When you are ready</div>
-          <p>Paste your booking link here and I will make these changes, then explain exactly what to click in Cloudflare.</p>
+          <div class="ct">It cannot break</div>
+          <p>If the setting is ever missing, the booking card falls back to a pre-filled WhatsApp message and the navbar button reverts to “Get in Touch”. Both are checked in the build, so there is no state where a visitor lands on a dead link.</p>
         </div>
       </div>
     </section>
@@ -654,7 +671,7 @@ Environment:    Production</pre>
 
       <h4>Connecting it to the site</h4>
       <ul class="check">
-        <li>Sent the link so <span class="codechip">BOOKING_URL</span> can be set in Cloudflare</li>
+        <li>Set <span class="codechip">BOOKING_URL</span> in Cloudflare to the booking page link</li>
         <li>Confirmed the value is <strong>Text</strong>, not “Secret”</li>
         <li>Confirmed it is applied to <strong>Production</strong></li>
         <li>Tested the button on the live site</li>

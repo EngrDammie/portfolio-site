@@ -1,12 +1,22 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Video, Menu, X, Sparkles } from 'lucide-react';
+import { Video, Menu, X, Sparkles, CalendarClock } from 'lucide-react';
 import { BrandLogo } from './DOMonogram';
 import ThemeToggle from './ThemeToggle';
 
-export default function Navbar() {
+interface NavbarProps {
+  /** Public booking page (e.g. Google Calendar or Calendly). Optional. */
+  bookingUrl?: string;
+}
+
+export default function Navbar({ bookingUrl }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Fall back to the contact section when no booking page is configured, so the
+  // button always leads somewhere useful instead of a dead link.
+  const bookingHref = bookingUrl || '#contact';
+  const opensNewTab = Boolean(bookingUrl);
 
   return (
     <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-slate-950/80 border-b border-slate-800/80 transition-colors duration-300">
@@ -48,11 +58,12 @@ export default function Navbar() {
           <ThemeToggle />
 
           <a
-            href="#contact"
+            href={bookingHref}
+            {...(opensNewTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-md active:scale-95 cursor-pointer"
           >
-            <Video className="w-4 h-4 text-slate-950" />
-            <span>Book Google Meet</span>
+            {opensNewTab ? <CalendarClock className="w-4 h-4 text-slate-950" /> : <Video className="w-4 h-4 text-slate-950" />}
+            <span>{opensNewTab ? 'Book a Call' : 'Get in Touch'}</span>
           </a>
         </div>
 
@@ -97,12 +108,13 @@ export default function Navbar() {
             Scope Estimator
           </a>
           <a
-            href="#contact"
+            href={bookingHref}
+            {...(opensNewTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             onClick={() => setMobileMenuOpen(false)}
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-md"
           >
-            <Video className="w-4 h-4" />
-            <span>Book Google Meet</span>
+            {opensNewTab ? <CalendarClock className="w-4 h-4" /> : <Video className="w-4 h-4" />}
+            <span>{opensNewTab ? 'Book a Call' : 'Get in Touch'}</span>
           </a>
         </div>
       )}

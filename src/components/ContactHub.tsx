@@ -13,6 +13,7 @@ import {
   AlertCircle,
   Mail,
   Phone,
+  CalendarClock,
 } from 'lucide-react';
 import { BrandLogo } from './DOMonogram';
 import { PROJECT_TYPES } from '@/data/pricingConfig';
@@ -28,7 +29,12 @@ const WhatsAppIcon = ({ className = 'w-5 h-5' }: { className?: string }) => (
   </svg>
 );
 
-export default function ContactHub() {
+interface ContactHubProps {
+  /** Public booking page (e.g. Google Calendar or Calendly). Optional. */
+  bookingUrl?: string;
+}
+
+export default function ContactHub({ bookingUrl }: ContactHubProps) {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -43,7 +49,13 @@ export default function ContactHub() {
 
   const myWhatsAppNumber = '2347053331253';
   const directEmail = 'dammieoptimus@gmail.com';
-  const googleMeetLink = 'https://meet.google.com/new';
+  const whatsappLink = `https://wa.me/${myWhatsAppNumber}?text=Hello%20Dammie%20Optimus%20Solutions!%20I%20would%20like%20to%20arrange%20a%20discovery%20call.`;
+
+  // A real booking page (Google Calendar / Calendly) when one is configured.
+  // Without it we fall back to WhatsApp rather than linking somewhere dead.
+  const hasBooking = Boolean(bookingUrl);
+  const bookingHref = bookingUrl || whatsappLink;
+  const bookingLabel = hasBooking ? 'Choose a Time' : 'Message to Arrange';
 
   // Listen for the "Lock In Estimate" event from ScopeEstimator
   useEffect(() => {
@@ -113,7 +125,7 @@ export default function ContactHub() {
           Let’s Build Your Next Solution
         </h2>
         <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-          Connect directly with <strong className="text-white">Dammie Optimus Solutions</strong>. Jump on a Google Meet call, message on WhatsApp, or send an inquiry below.
+          Connect directly with <strong className="text-white">Dammie Optimus Solutions</strong>. Book a discovery call, message on WhatsApp, or send an inquiry below.
         </p>
       </div>
 
@@ -122,32 +134,43 @@ export default function ContactHub() {
         {/* Left Column (5 Cols) */}
         <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
           
-          {/* 1. Google Meet Strategy Call */}
+          {/* 1. Discovery Call — books a real slot when BOOKING_URL is set */}
           <div className="bg-gradient-to-br from-slate-900 to-slate-950 border border-emerald-500/30 rounded-2xl p-6 relative overflow-hidden group hover:border-emerald-500/50 transition-all shadow-lg">
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                 <Video className="w-6 h-6" />
               </div>
               <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
-                Direct Video
+                15 Minutes
               </span>
             </div>
 
             <h3 className="text-lg font-bold text-white mb-1">
-              Google Meet Strategy Call
+              Free Discovery Call
             </h3>
-            <p className="text-xs text-slate-400 mb-5 leading-relaxed">
-              Book a 15-minute discovery session on Google Meet to review your project scope, technical blueprint, and timeline.
+            <p className="text-xs sm:text-sm text-slate-400 mb-5 leading-relaxed">
+              {hasBooking ? (
+                <>
+                  Pick a slot from my live calendar and you will receive a confirmation with a
+                  private Google&nbsp;Meet link. I see the booking too, so we can go straight to
+                  the useful part: what to build, how long it takes, and the budget range to plan around.
+                </>
+              ) : (
+                <>
+                  Message me on WhatsApp and we will find a time that suits you. We will cover what
+                  to build, how long it realistically takes, and the budget range to plan around.
+                </>
+              )}
             </p>
 
             <a
-              href={googleMeetLink}
+              href={bookingHref}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm transition-all duration-150 shadow-md active:scale-98 cursor-pointer"
             >
-              <Video className="w-4 h-4 text-slate-950" />
-              <span>Launch Google Meet Session</span>
+              {hasBooking ? <CalendarClock className="w-4 h-4 text-slate-950" /> : <WhatsAppIcon className="w-4 h-4 text-slate-950" />}
+              <span>{bookingLabel}</span>
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>
