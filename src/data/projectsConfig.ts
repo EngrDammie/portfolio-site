@@ -85,6 +85,21 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
     previewUrl: 'https://tgr-playbook.dammieoptimus.workers.dev/'
   },
   {
+    id: 'bible-plans',
+    title: 'Scripture Path: Interactive Bible Reading Plans',
+    category: 'Full-Stack Web App',
+    summary: 'Three self-contained, offline-capable web apps that turn Bible reading into a trackable daily habit, with 15 selectable Bible translations, per-chapter deep links, and dual canonical and chronological orderings.',
+    problem: 'I wanted a structured way to read the entire Bible, but every plan I found was either a static PDF, a paywalled app, or a spreadsheet that lost my progress the moment I closed the tab. Existing plans also assumed you already know which translation to use, offered only one reading order, and gave no sense of how heavy a given chapter was before you committed to it, so I kept losing momentum and restarting from scratch.',
+    solution: 'I designed and built three matching single-file apps from scratch — a 30-day New Testament plan, a 120-day Old Testament plan, and a 365-day full-Bible plan — each shipping both a canonical and a chronological ordering so the Gospels can be read in narrative sequence or book order. Every daily reading string is parsed at runtime and expanded into individual clickable chapter pills that deep-link straight into the selected translation, each color-coded green through red by verse count and annotated with a hover tooltip pulled from an embedded 1,189-chapter dataset covering all 66 books, so difficulty is visible before reading begins. Progress is written to localStorage under app-scoped key prefixes, and a reset control clears only its own namespace, so the three plans never clobber each other. I also added per-day copy-to-clipboard for sharing a reading with friends, deep links of the form ?plan=chronological&day=183 that auto-switch tabs and flash the target card, and throttled scroll memory that restores your exact position on return. The entire thing runs on vanilla HTML, CSS, and JavaScript with no framework, no build step, and no backend, so each plan is a single file that works offline and loads in under a second.',
+    result: 'Converted an abandoned reading habit into a sustained daily practice, tracking 515 scheduled reading days across the three plans. Because there is no account, login, or server, a reader can open a single HTML file, start reading immediately, and keep their progress indefinitely. The translation selector broadened the audience considerably by supporting 15 versions including EasyEnglish, AMP, the Message, and Yoruba, Hausa, Igbo, and French translations, and the dual orderings let me read the Gospels chronologically without abandoning the full-Bible run. The zero-dependency architecture means the entire project is maintainable by editing one file, and the same duplicated app shell now lets a new plan be added by changing a single data array.',
+    metric: '1,189 Chapters Mapped',
+    techStack: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'Local Storage API', 'CSS Grid & Flexbox', 'Google Fonts', 'bible.com API', 'Google Tag Manager'],
+    liveUrl: 'https://bible-plans.dammieoptimus.workers.dev/',
+    featured: false,
+    previewType: 'iframe',
+    previewUrl: 'https://bible-plans.dammieoptimus.workers.dev/'
+  },
+  {
     id: 'tgr-epin-formatter',
     title: 'TGR EPIN Formatter: Instant Recharge Card Formatter',
     category: 'Full-Stack Web App',
