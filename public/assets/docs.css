@@ -141,8 +141,37 @@ header {
 @media (max-width: 940px) { .layout { grid-template-columns: 1fr; gap: 26px; } .toc { display: none; } }
 
 /* ---------- Table of contents ---------- */
-.toc { position: sticky; top: 92px; }
-.toc-title { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+/* The contents list is its own scroll panel. A long document's list is taller
+   than the screen, and sticky positioning alone does not help: the entries
+   below the fold simply cannot be reached. Capping the height and allowing
+   overflow-y scrolls the list independently while the page still scrolls
+   behind it. overscroll-behavior stops the list from flinging the page on
+   when the reader reaches either end. */
+.toc {
+  position: sticky; top: 92px;
+  max-height: calc(100vh - 116px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-soft) transparent;
+}
+.toc::-webkit-scrollbar { width: 7px; }
+.toc::-webkit-scrollbar-track { background: transparent; }
+.toc::-webkit-scrollbar-thumb { background: var(--border-soft); border-radius: 99px; }
+.toc::-webkit-scrollbar-thumb:hover { background: var(--emerald); }
+/* dvh tracks the shrinking mobile address bar, so the panel keeps a usable
+   height on a phone. Declared after the vh rule so it wins where supported. */
+@supports (max-height: 100dvh) {
+  .toc { max-height: calc(100dvh - 116px); }
+}
+.toc-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 12px; padding-bottom: 8px;
+  position: sticky; top: 0; z-index: 1;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px);
+}
 .toc a {
   display: block; padding: 7px 12px; margin-bottom: 2px; border-radius: 9px;
   font-size: 13.5px; color: var(--text-3); border-left: 2.5px solid transparent; transition: all .15s ease;

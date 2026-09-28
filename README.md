@@ -23,6 +23,7 @@ served as a static page — no build step, so the live copies are always current
 | Document | What it covers |
 | --- | --- |
 | **[App Documentation](https://get-tech-solutions.dammieoptimus.workers.dev/app-documentation.html)** | The complete 30-section reference: what the app is, every file, every field, the pricing formula, email delivery, deployment, rollback, recipes, and the problems already solved |
+| **[Market Pricing Report](https://get-tech-solutions.dammieoptimus.workers.dev/pricing-benchmark-report.html)** | What developers actually charge in 2026 for websites, web apps, mobile apps and AI automation, plus the five formal methods for costing software work — Function Point Analysis, COCOMO II, story points, PERT and loaded rates |
 | **[Brand Guidelines](https://get-tech-solutions.dammieoptimus.workers.dev/brand-guidelines.html)** | The definitive design reference — logo geometry, colours with real contrast ratios, type scale, spacing, radii, motion and brand voice |
 | **[Email Delivery Guide](https://get-tech-solutions.dammieoptimus.workers.dev/email-delivery-guide.html)** | How the contact form sends email, and how to move onto your own sending domain |
 | **[Google Calendar Booking](https://get-tech-solutions.dammieoptimus.workers.dev/google-calendar-booking.html)** | How to build the booking page the buttons open, with automatic Meet links |
@@ -184,6 +185,7 @@ dashboard's deploy history, then fix the cause with a `git revert`.
 ├── public/                       # Served as-is; no build step
 │   ├── docs.html                 # Document hub
 │   ├── app-documentation.html    # The 30-section reference
+│   ├── pricing-benchmark-report.html  # What developers charge + estimating methods
 │   ├── brand-guidelines.html
 │   ├── email-delivery-guide.html
 │   ├── google-calendar-booking.html

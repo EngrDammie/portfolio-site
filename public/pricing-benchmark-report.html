@@ -1,0 +1,2642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>What Developers Actually Charge | Dammie Optimus Solutions</title>
+<meta name="description" content="What developers charge in 2026 for websites, web apps, mobile apps and AI automation — plus the formal methods used to estimate software project cost: Function Point Analysis, COCOMO II, story points, PERT, loaded rates and total cost of ownership." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<style>
+  .toc-part { font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--cyan-ink); margin: 15px 0 5px 12px; }
+  .toc-part:first-of-type { margin-top: 0; }
+  .verdict { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin:22px 0; }
+  .vcard { border:1.5px solid var(--border); border-radius:14px; padding:18px 20px; background:var(--bg-2); border-top-width:4px; }
+  .vcard.low { border-top-color:var(--rose); }
+  .vcard.mid { border-top-color:var(--amber); }
+  .vcard .vh { font-size:11px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--text-3); margin-bottom:6px; }
+  .vcard .vv { font-size:19px; font-weight:800; letter-spacing:-.02em; line-height:1.25; }
+  .vcard .vd { font-size:12.5px; color:var(--text-3); margin-top:6px; line-height:1.6; }
+  .vcard.low .vv { color:var(--rose-ink); }
+  .vcard.mid .vv { color:var(--amber-ink); }
+  .src { font-size:11.5px; color:var(--text-3); }
+  table.tight td, table.tight th { padding:9px 12px; font-size:13px; }
+  .yours { color:var(--rose-ink); font-weight:700; }
+  .mkt { color:var(--emerald-ink); font-weight:700; }
+  .note { font-size:12.5px; color:var(--text-3); line-height:1.65; }
+  .q { border:1.5px solid var(--border); border-radius:11px; background:var(--bg-2); padding:14px 17px; font-size:14px; color:var(--text-2); }
+  .q b { color:var(--text); }
+  .doclinks { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:13px; margin:20px 0; }
+  .doclink { border:1.5px solid var(--border); border-radius:13px; padding:16px 18px; background:var(--bg-2); text-decoration:none; display:block; transition:all .15s ease; }
+  .doclink:hover { border-color:var(--emerald); text-decoration:none; transform:translateY(-2px); }
+  .doclink .dt { font-size:14px; font-weight:700; color:var(--text); margin-bottom:3px; }
+  .doclink .dd { font-size:12.5px; color:var(--text-3); }
+  ol.big { counter-reset:b; list-style:none; margin-left:0; }
+  ol.big > li { position:relative; padding-left:38px; margin-bottom:14px; }
+  ol.big > li::before { counter-increment:b; content:counter(b); position:absolute; left:0; top:0; width:26px; height:26px; border-radius:8px; background:var(--grad); color:#020617; font-size:12.5px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .rule-box { border:2px solid color-mix(in srgb,var(--emerald) 45%,transparent); border-radius:14px; padding:20px 22px; background:color-mix(in srgb,var(--emerald) 7%,transparent); margin:22px 0; }
+  .rule-box .rt { font-size:15px; font-weight:800; color:var(--emerald-ink); margin-bottom:10px; display:flex; align-items:center; gap:9px; }
+  .rule-box .codewrap, .rule-box pre { margin-bottom:0; }
+  .formula { border:1.5px solid color-mix(in srgb,var(--cyan) 40%,transparent); border-radius:12px; background:color-mix(in srgb,var(--cyan) 7%,transparent); padding:15px 18px; margin:16px 0; }
+  .formula .fl { font-size:10.5px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; color:var(--cyan-ink); margin-bottom:8px; }
+  .steps-num { counter-reset:s; list-style:none; margin-left:0; }
+  .steps-num > li { position:relative; padding-left:32px; margin-bottom:11px; }
+  .steps-num > li::before { counter-increment:s; content:counter(s); position:absolute; left:0; top:1px; width:21px; height:21px; border-radius:6px; background:color-mix(in srgb,var(--emerald) 22%,transparent); border:1.5px solid color-mix(in srgb,var(--emerald) 45%,transparent); color:var(--emerald-ink); font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .pull { border-left:4px solid var(--cyan); background:var(--bg-2); border-radius:0 12px 12px 0; padding:15px 19px; margin:16px 0; font-size:14.5px; }
+  .pull .pl { font-size:26px; line-height:1; color:var(--cyan-ink); font-weight:800; float:left; margin-right:10px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="dosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="progress"></div>
+
+<header>
+  <div class="hdr">
+    <div class="brandbox">
+      <svg viewBox="0 0 160 120" fill="none" aria-label="Dammie Optimus Monogram">
+        <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 30 25 L 30 95" />
+          <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+          <circle cx="100" cy="60" r="35" />
+        </g>
+        <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+      </svg>
+    </div>
+    <div class="brandtext">
+      <div class="brandname">Dammie Optimus Solutions</div>
+      <div class="brandsub">Market Pricing Report</div>
+    </div>
+    <div class="hdr-spacer"></div>
+    <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle colour theme">
+      <span id="themeIcon">◐</span> <span id="themeLabel">Light</span>
+    </button>
+    <a class="btn" href="docs.html">← All documents</a>
+    <button class="btn" id="printBtn" type="button">⎙ Save / Print</button>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="layout">
+
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+
+    <div class="toc-part">Part I · The landscape</div>
+    <a href="#why">01 · Why this report exists</a>
+    <a href="#short">02 · The short answer</a>
+    <a href="#method">03 · How this was researched</a>
+    <a href="#whyvary">04 · Why prices vary so much</a>
+
+    <div class="toc-part">Part II · What the market charges</div>
+    <a href="#hourly">05 · Hourly rates worldwide</a>
+    <a href="#region">06 · Rate by region</a>
+    <a href="#websites">07 · Websites</a>
+    <a href="#webapps">08 · Web apps &amp; SaaS</a>
+    <a href="#mobile">09 · Mobile apps</a>
+    <a href="#ai">10 · AI, chatbots &amp; automation</a>
+    <a href="#features">11 · Feature-by-feature costs</a>
+    <a href="#running">12 · Running costs people forget</a>
+
+    <div class="toc-part">Part III · Your numbers vs market</div>
+    <a href="#naira">13 · The naira question</a>
+    <a href="#cmp-website">14 · Website compared</a>
+    <a href="#cmp-webapp">15 · Web app compared</a>
+    <a href="#cmp-mobile">16 · Mobile app compared</a>
+    <a href="#cmp-ai">17 · AI automation compared</a>
+    <a href="#cmp-addons">18 · Add-ons compared</a>
+    <a href="#perhour">19 · What your price implies per hour</a>
+    <a href="#free">20 · What you give away free</a>
+
+    <div class="toc-part">Part IV · The estimating methods</div>
+    <a href="#m-why">21 · Why formulas exist</a>
+    <a href="#m-master">22 · The master formula</a>
+    <a href="#m-bottomup">23 · Method 1: bottom-up hours</a>
+    <a href="#m-fpa">24 · Method 2: Function Point Analysis</a>
+    <a href="#m-cocomo">25 · Method 3: COCOMO II</a>
+    <a href="#m-agile">26 · Method 4: story points &amp; velocity</a>
+    <a href="#m-pert">27 · Method 5: three-point PERT</a>
+    <a href="#m-loaded">28 · Loaded rates &amp; billable hours</a>
+    <a href="#m-buffer">29 · Buffers and contingency</a>
+    <a href="#m-tco">30 · Total cost of ownership</a>
+
+    <div class="toc-part">Part V · What to do</div>
+    <a href="#levers">31 · Raise the price you get</a>
+    <a href="#value">32 · Pricing by value</a>
+    <a href="#floor">33 · Find your own floor</a>
+    <a href="#reco">34 · What I would change</a>
+    <a href="#glossary">35 · Pricing words explained</a>
+    <a href="#sources">36 · Where this came from</a>
+  </nav>
+
+  <main>
+
+    <div class="hero">
+      <div class="pill"><span class="dot"></span> Independent research · September 2026</div>
+      <h1>What Developers <span class="grad-text">Actually Charge</span></h1>
+      <p>
+        What developers really charge in 2026 for websites, web applications, mobile apps and AI
+        automation — and, just as importantly, <strong>the formal methods the industry uses to put a
+        number on a piece of work</strong> before anyone starts coding. Your own estimator is compared
+        against the market throughout. Every figure comes from a named public source.
+      </p>
+      <div class="meta">
+        <span class="chip">36 sections</span>
+        <span class="chip">5 parts</span>
+        <span class="chip">~55 min read</span>
+        <span class="chip">5 estimating methods</span>
+        <span class="chip">25+ cited sources</span>
+        <span class="chip">Your estimator was not changed</span>
+      </div>
+    </div>
+
+    <div class="callout co-info">
+      <span class="ic">🔒</span>
+      <div class="bd">
+        <div class="ct">One promise, kept up front</div>
+        <p>
+          <strong>Nothing in your estimator has been changed.</strong> This is a reading document. It
+          contains analysis and recommendations, but the calculator on your live site is exactly as it
+          was this morning. Any change to a number is yours to make.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout co-warn">
+      <span class="ic">🧭</span>
+      <div class="bd">
+        <div class="ct">If you only have ten minutes</div>
+        <p>
+          Read <a href="#short">02 · The short answer</a> for the verdict, then
+          <a href="#m-master">22 · The master formula</a> for the one equation every pricing method
+          reduces to, then <a href="#m-fpa">24 · Function Point Analysis</a> — which is the closest thing
+          this industry has to a standard, and the most likely to give you defensible numbers.
+        </p>
+      </div>
+    </div>
+
+    <!-- ================= PART I ================= -->
+    <h2 style="margin-top:52px"><span class="num">I</span> The landscape</h2>
+
+    <section id="why">
+      <h3>01 · Why this report exists</h3>
+      <p class="lede">The question behind the question.</p>
+
+      <p>You did not ask "what is a website worth". You asked something more practical:</p>
+
+      <div class="q" style="margin:18px 0">
+        <b>"Am I pricing my work fairly — not so low that I am cheating myself, and not so high that I
+        lose every client to someone cheaper?"</b>
+      </div>
+
+      <p>
+        That is the right question, and it cannot be answered from inside your own head. Every developer
+        believes their price is reasonable. The only way to know is to compare against what the market
+        actually does — and that comparison has to use the same units, or it is useless.
+      </p>
+
+      <p>
+        You then asked a second, sharper question: whether there is an established <strong>formula or
+        convention</strong> for costing a piece of software work. There is, and it is older and more
+        formal than most freelancers realise. <strong>Part IV</strong> covers five established methods
+        in full, with the actual equations, the weight tables, the standard constants, and worked
+        examples you can copy.
+      </p>
+
+      <h4>The three traps in this kind of research</h4>
+      <div class="grid3">
+        <div class="card">
+          <div class="card-t"><span>⚠</span> The vendor's own number</div>
+          <p>Most cost guides are written by companies that sell the thing being priced. They are not
+          lying, but they have every reason to make the market look expensive. This report leans on
+          surveys of many firms and on live marketplace data wherever that exists.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>⚠</span> Comparing across currencies</div>
+          <p>A dollar figure for a US developer and a dollar figure for a Nigerian developer are not the
+          same product. Region alone moves prices by a factor of eight.
+          <a href="#region">Section 06</a> handles this properly.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>⚠</span> Prices that are not prices</div>
+          <p>Some published figures are sales pages. One firm publicly lists a $599 single-page site;
+          another lists a $38,000 "simple app". Both are real. Neither is comparable unless you know
+          what was inside.</p>
+        </div>
+      </div>
+
+      <h4>What this report will and will not tell you</h4>
+      <div class="tw">
+        <table>
+          <thead><tr><th>It will tell you</th><th>It will not tell you</th></tr></thead>
+          <tbody>
+            <tr><td>Where the market's centre of gravity sits for each type of work</td><td>What any individual client will actually pay you</td></tr>
+            <tr><td>Whether your price sits above, below or inside the normal band</td><td>Whether a specific project of yours deserves more or less</td></tr>
+            <tr><td>What your own price works out to per hour of work</td><td>How long your projects will actually take you</td></tr>
+            <tr><td>Which parts of your offer are given away without charge</td><td>Whether you should raise your prices — that is your call</td></tr>
+            <tr><td>The formal methods used to cost software work, with formulas</td><td>Which method will suit you best without trial and error</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="short">
+      <h3>02 · The short answer</h3>
+      <p class="lede">If you read one section, read this one.</p>
+
+      <p>
+        <strong>You are not overcharging. On most of your estimator you are undercharging — and on one
+        line, the naira, you are undercharging by a wide margin without meaning to.</strong>
+      </p>
+
+      <div class="verdict">
+        <div class="vcard mid">
+          <div class="vh">Business website</div>
+          <div class="vv">Fair to low</div>
+          <div class="vd">$600–$1,200 sits at the very bottom. Sixty percent of firms quote a basic site at
+          $1,000–$3,000, and the rest mostly run $5,000–$15,000. You are cheap, but not absurdly so.</div>
+        </div>
+        <div class="vcard low">
+          <div class="vh">Full-stack web app</div>
+          <div class="vv">Well below market</div>
+          <div class="vd">$1,500–$3,500 against a market where the cheapest published MVP is $3,460 and a
+          basic MVP across firms runs $5,000–$20,000. Your largest gap in dollar terms.</div>
+        </div>
+        <div class="vcard low">
+          <div class="vh">Mobile app</div>
+          <div class="vv">Well below market</div>
+          <div class="vd">$2,000–$4,500 against $10,000–$30,000 for a freelancer-built MVP. Even the
+          cheapest agency bundles start at $3,460.</div>
+        </div>
+        <div class="vcard low">
+          <div class="vh">AI &amp; automation</div>
+          <div class="vv">Far below market</div>
+          <div class="vd">$800–$1,600 against $7,500–$20,000 for a focused automation, and $3,000–$10,000
+          even for a rule-based chatbot. The biggest percentage gap on the estimator.</div>
+        </div>
+        <div class="vcard low">
+          <div class="vh">All four add-ons</div>
+          <div class="vv">Roughly a third of market</div>
+          <div class="vd">$200–$350 each against $800–$4,000 for the same features priced individually.
+          A payment integration alone is quoted at $800–$4,000.</div>
+        </div>
+        <div class="vcard low">
+          <div class="vh">Naira prices</div>
+          <div class="vv">~25% lower again</div>
+          <div class="vd">Your naira figures imply ₦1,000 per dollar. The real rate is about ₦1,330. So
+          every naira price is worth roughly a quarter less than the dollar price beside it.</div>
+        </div>
+      </div>
+
+      <h4>The honest summary in plain words</h4>
+      <p>
+        Your website price is defensible and genuinely competitive. It will win you work against local
+        competition and it is not insulting to anyone. Everything else is priced as though it were the
+        same size of job as a website, when in practice a mobile app or a web application takes several
+        times as long and carries far more risk.
+      </p>
+      <p>
+        The pattern suggests the estimator was built around the website and the other categories were
+        scaled by feel rather than by hours. That is the single most common way solo developers
+        underprice — and it is fixable. Not by inflating numbers, but by pricing each category against
+        the work it actually is, using one of the methods in Part IV.
+      </p>
+
+      <div class="callout co-stop">
+        <span class="ic">🛑</span>
+        <div class="bd">
+          <div class="ct">The risk of pricing this low</div>
+          <p>
+            Undercharging is not generosity — it is a slow business failure. A client who gets a $900
+            mobile app assumes a $900 mobile app, and will not pay for a second one. Someone who gets
+            everything for almost nothing does not feel grateful; they feel lucky, and they negotiate the
+            next project too. And once the market learns your time is cheap, reversing that is very
+            difficult.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="method">
+      <h3>03 · How this was researched</h3>
+      <p class="lede">So you can judge how much to trust the numbers.</p>
+
+      <p>
+        Every market figure in this report comes from a public source published in 2026. Where sources
+        disagree, both numbers are shown rather than averaged into a false middle. Averages hide exactly
+        what you need: that a market has a floor, a typical band, and a ceiling only agencies reach.
+      </p>
+
+      <h4>What kinds of source were used</h4>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Source type</th><th>Why it is useful</th><th>Where it is weaker</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Surveys of many firms</strong><br><span class="src">e.g. GoodFirms, 300+ firms across 31 countries</span></td>
+              <td>Covers the whole market rather than one seller's opinion, and reports the distribution, not just a midpoint.</td>
+              <td>Firms self-report, and cheaper firms are less likely to answer.</td></tr>
+            <tr><td><strong>Live marketplace data</strong><br><span class="src">e.g. 3,507 real Upwork job posts</span></td>
+              <td>Actual budgets people have committed to, not asking prices. Impossible to flatter yourself with.</td>
+              <td>Platform budgets are unusually low and unusually small in scope.</td></tr>
+            <tr><td><strong>Rate databases</strong><br><span class="src">e.g. 11,426 self-reported rates, 81 roles</span></td>
+              <td>Large samples broken down by country and experience level.</td>
+              <td>Self-selected, so people who feel underpaid are likelier to submit.</td></tr>
+            <tr><td><strong>Agency cost guides</strong></td>
+              <td>Good for structure: where a budget goes, what multiplies the cost.</td>
+              <td>Commercial interest sits in the high end. Treated with caution throughout.</td></tr>
+            <tr><td><strong>Freelancer survey bodies</strong><br><span class="src">e.g. IPSE, UK, 2025 survey</span></td>
+              <td>Real direct-client rates rather than platform rates.</td>
+              <td>One country only, and a year old.</td></tr>
+            <tr><td><strong>Published price lists</strong></td>
+              <td>The only way to see a real floor a firm is willing to sell at.</td>
+              <td>A sales page is a floor, not an average.</td></tr>
+            <tr><td><strong>Standards bodies</strong><br><span class="src">e.g. IFPUG, ISO 20926; COCOMO II from USC</span></td>
+              <td>The formal estimation methods in Part IV. Peer-reviewed, decades old, and genuinely standard.</td>
+              <td>Written for large systems and large buyers. Needs adapting for a solo freelancer.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>The one thing this research cannot do</h4>
+      <p>
+        It cannot tell you what a project of <em>yours</em> is worth, because value depends on who the
+        client is and what the work does for them. A $2,000 website for a company that wins one $40,000
+        contract through it is worth far more than $2,000 to you, and a great deal less to someone who
+        wanted a brochure. That is the subject of <a href="#value">section 32</a>.
+      </p>
+      <p class="note">
+        Exchange rate used throughout: roughly <strong>₦1,330 to $1</strong>, from Nigerian Foreign
+        Exchange Market and mid-market data for late September 2026. It moves daily, so treat any naira
+        conversion here as a snapshot, not a fixed fact.
+      </p>
+    </section>
+
+    <section id="whyvary">
+      <h3>04 · Why prices vary so much</h3>
+      <p class="lede">Five factors explain almost all of the spread you will see in the data.</p>
+
+      <ol class="big">
+        <li><strong>Where the developer is.</strong> By a distance the biggest factor. The same senior
+        developer bills about $150/hour in San Francisco and about $40/hour in Bucharest or Buenos Aires.
+        Most pricing guides note the quality difference is "often negligible" — which is exactly why one
+        project can legitimately cost three times as much in two places.</li>
+        <li><strong>Who the client is.</strong> A US enterprise with a compliance officer and a
+        procurement process pays for risk transfer, not just code. A founder bootstrapping a side project
+        pays less because they have less budget, not because the work differs.</li>
+        <li><strong>How the work is sold.</strong> There is a consistent premium running upwards:
+        <em>marketplace</em> cheapest, then <em>freelance direct</em>, then <em>dedicated team</em>,
+        then <em>agency</em>. UK data puts platform rates 20–40% <em>below</em> direct rates; India data
+        puts agency at roughly 2× a dedicated developer, because you pay for project management, QA and
+        sales too.</li>
+        <li><strong>What "simple" means to whoever is quoting.</strong> The biggest single cause of the
+        wild spread between published figures. One source's "simple app" is $15,000; another's is
+        $38,000. Both are honest descriptions of different things.</li>
+        <li><strong>How much of the sale is risk.</strong> The most underestimated cost in software is
+        not writing code — it is being accountable for it. A firm that guarantees the result, or absorbs
+        a failed launch, must charge for that certainty. A developer who personally owns the outcome can
+        charge less for identical code.</li>
+      </ol>
+
+      <div class="pull">
+        <span class="pl">“</span>The clearest published breakdown of where a software budget actually
+        goes comes from a mobile app cost analysis: <strong>backend 26%, frontend 22%, design 16%, QA
+        14%, project management 12%, DevOps 10%</strong>. Only front and back end together is under half
+        the bill — so a quote built purely on how long the coding takes will always come out too low,
+        because it silently omits five of the six categories.
+      </div>
+    </section>
+
+    <!-- ================= PART II ================= -->
+    <h2 style="margin-top:52px"><span class="num">II</span> What the market charges</h2>
+
+    <section id="hourly">
+      <h3>05 · Hourly rates worldwide</h3>
+      <p class="lede">The most trustworthy number in the industry, because it is the hardest to dress up.</p>
+
+      <p>
+        Even if you never charge by the hour, hourly rates still matter to you. If you divide what a
+        project costs by the hours it really took, the answer <em>is</em> an hourly rate. It is the
+        honest way to check whether your own prices make sense.
+      </p>
+
+      <p>
+        An <strong>hourly rate</strong> simply means: this is what one hour of work costs you. If someone
+        charges $80 an hour and a job takes 30 hours, it costs $2,400.
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>What is being measured</th><th>The figure</th><th>Where it came from</th></tr></thead>
+          <tbody>
+            <tr><td>Typical freelance rate worldwide, every kind of job</td><td class="mono"><strong>$75 per hour</strong></td><td>contractrates.fyi, from 11,426 rates people submitted, Aug 2026</td></tr>
+            <tr><td>Web developers in the United States</td><td class="mono">$50–$150, middle around $85</td><td>FreelanceNation, Jul 2026</td></tr>
+            <tr><td>US web developers, by experience</td><td class="mono">new $25–50 · middle $50–90 · senior $90–180</td><td>FreelanceNation</td></tr>
+            <tr><td>Full-stack developers worldwide</td><td class="mono">new $25 · middle $75 · senior $150</td><td>MyFreelanceKit, 2026</td></tr>
+            <tr><td>React / Next.js developers worldwide</td><td class="mono">new $30 · middle $80 · senior $155</td><td>MyFreelanceKit, 2026</td></tr>
+            <tr><td>iPhone app developers worldwide</td><td class="mono">new $35 · middle $90 · senior $170</td><td>MyFreelanceKit, 2026</td></tr>
+            <tr><td>US specialists by job</td><td class="mono">front-end $85–150 · back-end $90–175 · AI $100–200+</td><td>EstimateForge, 2026</td></tr>
+            <tr><td>UK freelancers, working for their own clients</td><td class="mono">£30–£80 per hour, or £250–£600 per day</td><td>Osdire, Apr 2026</td></tr>
+            <tr><td>UK freelancers by experience (IPSE survey)</td><td class="mono">new £25–45 · middle £45–80 · senior £80–130+</td><td>IPSE 2025</td></tr>
+            <tr><td>UK agencies (companies, not individuals)</td><td class="mono">£75–£200 per hour</td><td>Os dire</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>The number that surprises most developers</h4>
+      <p>
+        One research group tracked <strong>real job postings</strong> — not surveys, not opinions, but
+        budgets people had actually committed to. Across 3,507 web, mobile and software development jobs
+        on Upwork in a single month in September 2026:
+      </p>
+      <div class="grid3">
+        <div class="card">
+          <div class="card-t"><span>📊</span> $1,088 average</div>
+          <p>Average budget for a fixed-price job — but the <strong>middle job was only $115</strong>. The
+          average is pulled up by a small number of very large ones.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>⏱</span> $27 per hour</div>
+          <p>Average hourly figure offered by clients posting work. Much lower than what freelancers say
+          they actually charge.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>📉</span> 40% under $100</div>
+          <p>Two in every five fixed-price postings had a budget below $100. Another third sat between
+          $100 and $500. Only 4% went above $5,000.</p>
+        </div>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">What that does and does not mean</div>
+          <p>
+            It does <strong>not</strong> mean a proper mobile app costs $115. A $115 budget buys a small
+            fix, a single page, or a couple of hours of someone's time.
+          </p>
+          <p style="margin-bottom:0">
+            What it means is that the <strong>marketplace floor is extremely low</strong>, and a lot of
+            buyers arrive expecting to pay near it. If you look for work on a marketplace, your
+            competition is not the agency quoting $15,000 — it is the person bidding $200.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="region">
+      <h3>06 · Rate by region</h3>
+      <p class="lede">Why identical work costs eight times more in one country than another.</p>
+
+      <p>
+        Here is something that surprises people the first time they see it. The table below is
+        developers' <em>hourly rates</em>. A <strong>region</strong> just means where the developer lives
+        and works.
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Where they work</th><th>New / junior</th><th>Middle</th><th>Senior</th><th>Typical whole project</th></tr></thead>
+          <tbody>
+            <tr><td>United States / Canada</td><td class="mono">$50–80</td><td class="mono">$80–130</td><td class="mono">$130–200+</td><td class="mono">$3,000–20,000</td></tr>
+            <tr><td>United Kingdom</td><td class="mono">$55–120</td><td class="mono">$70–120</td><td class="mono">$120–180</td><td class="mono">$1,000–10,000+</td></tr>
+            <tr><td>Western Europe</td><td class="mono">$40–70</td><td class="mono">$70–120</td><td class="mono">$120–180</td><td>—</td></tr>
+            <tr><td>Eastern Europe</td><td class="mono">$25–45</td><td class="mono">$45–80</td><td class="mono">$80–120</td><td class="mono">$800–3,500</td></tr>
+            <tr><td>Latin America</td><td class="mono">$20–40</td><td class="mono">$40–70</td><td class="mono">$70–100</td><td>—</td></tr>
+            <tr><td>India</td><td class="mono">$15–30</td><td class="mono">$30–50</td><td class="mono">$50–80</td><td>—</td></tr>
+            <tr><td>Southeast Asia</td><td class="mono">$15–25</td><td class="mono">$25–45</td><td class="mono">$45–70</td><td>—</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 7%,transparent)">
+              <td><strong>Nigeria / Ghana / Kenya</strong></td>
+              <td class="mono"><strong>$15–28</strong></td>
+              <td class="mono"><strong>$28–45</strong></td>
+              <td class="mono"><strong>$40–65</strong></td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">
+        Compiled from Hire in South, Jobbers.io (April 2026), EstimateForge (August 2026) and Cadence
+        (May 2026). The shaded row is the one that matters most for your pricing.
+      </p>
+
+      <h4>What the African data specifically says</h4>
+      <p>
+        The table above is the general market. The more useful figures come from African developers
+        specifically — and they are encouraging rather than discouraging.
+      </p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>How you find the work</th><th>Typical rate</th><th>What to know</th></tr></thead>
+          <tbody>
+            <tr><td>Upwork, when starting out</td><td class="mono">$20–40/hr</td><td>Lots of volume, but everyone is competing on price</td></tr>
+            <tr><td>Upwork, once you have Top Rated status</td><td class="mono">$40–75/hr</td><td>Requires a track record and good reviews</td></tr>
+            <tr><td>Toptal</td><td class="mono">$60–100/hr</td><td>Very selective — accepts roughly 3% of applicants</td></tr>
+            <tr><td><strong>Direct clients and agencies</strong></td><td class="mono"><strong>$40–80/hr</strong></td><td>Where the money is. No platform fees, no race to the bottom.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Source: African developer income breakdown, mid-2026.</p>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">Two findings that should give you confidence</div>
+          <p>
+            <strong>One.</strong> A large global study of freelance earnings found that people earning in
+            dollars from <strong>overseas clients</strong> make about <strong>57% more per hour</strong> than
+            those who only work for local clients. The same skills, sold to a different market, are worth
+            over half as much again.
+          </p>
+          <p style="margin-bottom:0">
+            <strong>Two.</strong> A developer charging $50 an hour who can realistically bill 25 hours a
+            week earns about $65,000 a year. That is the number to test your own business against — not
+            the market average.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="websites">
+      <h3>07 · Websites</h3>
+      <p class="lede">The most researched category, and the one with the widest disagreement.</p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Source</th><th>What it says</th><th>What it covers</th></tr></thead>
+          <tbody>
+            <tr><td>GoodFirms, 300+ firms, 31 countries</td><td><strong>60%</strong> price a basic website at <strong>$1,000–$3,000</strong>; 71% say it takes <strong>2–4 weeks</strong></td><td>Basic business site</td></tr>
+            <tr><td>GoodFirms, the spread</td><td>33% quote <strong>$1,000–$5,000</strong>, another 30% quote <strong>$5,000–$15,000</strong></td><td>Nearly two-thirds of all projects quoted</td></tr>
+            <tr><td>Seahawk Media</td><td>Freelancer <strong>$1,499–$4,999</strong>; agency <strong>$4,999–$10,000+</strong></td><td>Small business site</td></tr>
+            <tr><td>Studio Mesa</td><td>Freelance designer <strong>$2,000–$8,000</strong>; a typical 5–10 page build <strong>$3,000–$6,000</strong></td><td>Small business site</td></tr>
+            <tr><td>Tack Media / One Little Web tiers</td><td>Small business <strong>$500–$8,000</strong>; online shop <strong>$5,000–$25,000+</strong></td><td>5–10 pages</td></tr>
+            <tr><td>EstimateForge, from 600+ quotes</td><td>Simple brochure site <strong>$500–$2,500</strong>; single landing page <strong>$300–$1,500</strong>; 5–10 pages <strong>$800–$3,500</strong></td><td>Freelancer pricing</td></tr>
+            <tr><td>Whito (UK)</td><td>Freelancer 5-page brochure <strong>£1,500–£3,000</strong>; agency <strong>£3,000–£5,000</strong></td><td>UK only</td></tr>
+            <tr><td>Media Village (UK)</td><td>Single page <strong>£300–£900</strong>; brochure site <strong>£2,000–£5,000</strong>; custom app <strong>£10,000+</strong></td><td>UK only</td></tr>
+            <tr><td>WebFX</td><td>Small business site <strong>$1,000–$48,000</strong>; design on its own <strong>$2,000–$15,000</strong></td><td>Very wide range</td></tr>
+            <tr><td>FineWright, prices published openly</td><td>Custom single page <strong>$599</strong>; multi-page <strong>from $1,499</strong>; online shop <strong>from $2,999</strong></td><td>A real, honest floor</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>What actually separates a cheap website from an expensive one</h4>
+      <p>Not the number of pages. Every source that breaks this down lands on the same three levers.</p>
+      <div class="grid3">
+        <div class="card">
+          <div class="card-t"><span>1️⃣</span> Made from scratch, or from a template</div>
+          <p>If someone takes a ready-made design and heavily adjusts it, that is <strong>$1,500–$4,000</strong>.
+          If every screen is designed individually, that is <strong>$4,000–$15,000+</strong>. This one
+          choice can be a five-times difference.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>2️⃣</span> What it can actually do</div>
+          <p>A page that just tells people about you, and a website where people can book, pay and sign
+          in, are not the same project. One UK source puts custom applications at <strong>£10,000+</strong>
+          versus <strong>£2,000–£5,000</strong> for a basic information site.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>3️⃣</span> Cost per extra page</div>
+          <p>Several firms publish this plainly: about <strong>$99–$299 for each extra page</strong> beyond
+          the starting package. Fifteen pages is not a five-page site with more words on it.</p>
+        </div>
+      </div>
+
+      <h4>A worked example, because it is the clearest number in this report</h4>
+      <p>
+        One rate source publishes the actual hours behind a brochure website, which lets you see the
+        arithmetic yourself. The hours are: 30 hours for the main build, 2 hours for the contact form, 4
+        hours for basic search-engine setup — <strong>36 hours total</strong>.
+      </p>
+      <div class="codewrap">
+<pre><span class="d">Total work needed .......... 36 hours  (the same for everyone)</span>
+
+<span class="d">× $40/hr  (Eastern Europe freelancer)</span> = <span class="k">$1,440</span>
+<span class="d">× $85/hr  (senior US freelancer)</span>     = <span class="k">$3,060</span>
+<span class="d">× $150/hr (US agency)</span>                = <span class="k">$5,400</span></pre>
+      </div>
+      <p>
+        <strong>The hours do not change.</strong> The same site, the same work, the same quality — priced at
+        more than three times the amount. That single line explains the whole regional argument, and it is
+        why comparing your $900 to a New York agency's $9,000 tells you nothing about whether you are
+        being fair.
+      </p>
+      <p class="src">Source: EstimateForge, 600+ scoped quotes, August 2026.</p>
+    </section>
+
+    <section id="webapps">
+      <h3>08 · Web apps &amp; SaaS</h3>
+      <p class="lede">Where prices climb fastest, and where your biggest gap is.</p>
+
+      <p>
+        A <strong>web application</strong> is a website that does things. It has logins, data, and
+        remembers things between visits. A <strong>SaaS product</strong> is a web application people
+        pay a subscription for.
+      </p>
+      <p>
+        This category has climbed the most in recent years. Three independent sources, published within
+        months of each other, all agree on the shape.
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Type of build</th><th>What it actually is</th><th>Cost</th><th>How long</th></tr></thead>
+          <tbody>
+            <tr><td>Clickable design only</td><td>Looks real, nothing works yet</td><td class="mono">$2,000–5,000</td><td class="mono">2–4 weeks</td></tr>
+            <tr><td>No-code version</td><td>Built with Bubble/Webflow; you can change it but not bend it</td><td class="mono">$8,000–18,000</td><td class="mono">4–8 weeks</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 7%,transparent)">
+              <td><strong>Basic MVP web app</strong></td>
+              <td>Logins, one main workflow, simple admin area, live on the internet</td>
+              <td class="mono"><strong>$5,000–20,000</strong></td>
+              <td class="mono">1–3 months</td>
+            </tr>
+            <tr><td>Internal dashboard</td><td>Forms over a database, used only by your own staff</td><td class="mono">$20,000–70,000</td><td class="mono">6–12 weeks</td></tr>
+            <tr><td>Customer portal</td><td>Customers log in, see their own stuff</td><td class="mono">$40,000–120,000</td><td class="mono">10–16 weeks</td></tr>
+            <tr><td>SaaS MVP</td><td>Logins, main workflow, billing, admin, live on the internet</td><td class="mono">$45,000–150,000</td><td class="mono">10–18 weeks</td></tr>
+            <tr><td>Large or multi-tenant</td><td>Many separate customers' data kept fully separate</td><td class="mono">$100,000–400,000+</td><td class="mono">20–40+ weeks</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Sources: PerfectionGeeks (June 2026), Moydus (June 2026), GMWARE (July 2026), Faintech (July 2026, converted from euros), EstimateForge (August 2026).</p>
+
+      <h4>The cheapest honest starting points</h4>
+      <p>If you want the true floor rather than a middle figure, these are the lowest published prices at which anyone will build a real, working, live web application:</p>
+      <ul>
+        <li><strong>$3,460–$8,000</strong> — a fixed-price agency offer, delivered in about 21 days. This is close to the rock bottom for a working product.</li>
+        <li><strong>$5,000–$30,000</strong> — the full price of a standard SaaS first version, broken down feature by feature by one agency that publishes it.</li>
+        <li><strong>$15,000–20,000</strong> — the lowest end of "basic web app" across several independent guides.</li>
+      </ul>
+
+      <h4>Why the numbers climb so steeply</h4>
+      <p>
+        Every source agrees the thing that drives cost is <strong>not</strong> how many screens there are.
+        It is who is allowed to log in, and whose data they can see.
+      </p>
+      <div class="flow">
+        <div class="fnode"><span class="fi">1️⃣</span><div><div class="ft">Only your own staff use it <span class="mono" style="font-size:11.5px;color:var(--text-3)">$20–50K</span></div><div class="fs">An internal tool. You build it, your team uses it, nobody outside sees it. Lowest risk, lowest price.</div></div></div>
+        <div class="farrow">↓</div>
+        <div class="fnode hi"><span class="fi">2️⃣</span><div><div class="ft">Real customers log in <span class="mono" style="font-size:11.5px;color:var(--text-3)">$40–120K</span></div><div class="fs">A portal. Now each person must only ever see their own information, accounts need securing and password resets, and someone has to help strangers use it.</div></div></div>
+        <div class="farrow">↓</div>
+        <div class="fnode"><span class="fi">3️⃣</span><div><div class="ft">You start charging them money <span class="mono" style="font-size:11.5px;color:var(--text-3)">$80–180K</span></div><div class="fs">Standard SaaS. Billing, free trials, cancellations, admin screens, several kinds of user. Handling money also brings legal duties with it.</div></div></div>
+        <div class="farrow">↓</div>
+        <div class="fnode"><span class="fi">4️⃣</span><div><div class="ft">Many customers, fully kept apart <span class="mono" style="font-size:11.5px;color:var(--text-3)">$200–500K+</span></div><div class="fs">Multi-tenant. One source warns this "is not a feature you sprinkle on later" — it reaches into the database, the login system and every single query.</div></div></div>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">📐</span>
+        <div class="bd">
+          <div class="ct">Where the hours go, in plain numbers</div>
+          <p>
+            Working out what to build takes about <strong>10%</strong> of the budget. Actually building it
+            takes <strong>60–70%</strong>. Design, testing and putting it live share the rest.
+          </p>
+          <p style="margin-bottom:0">
+            One US company at $150–250 an hour typically finishes the same SaaS first version in
+            <strong>1,000–1,500 hours</strong>, while a nearshore team at $80–130 an hour quotes
+            <strong>1,800–2,500 hours</strong> for it. Put bluntly: <strong>a $1,500 web app is roughly a
+            40-hour project</strong> — that is a landing page with a database behind it, not an
+            application.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="mobile">
+      <h3>09 · Mobile apps</h3>
+      <p class="lede">The category with the highest published averages.</p>
+
+      <p>
+        A <strong>mobile app</strong> is the software people install on a phone. Agency prices here are
+        consistently the highest of any category — often ten times what a capable freelancer charges for
+        the same product. Most of that gap is about who carries the risk if the app store rejects it, not
+        about the coding.
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Source</th><th>Simple</th><th>Medium</th><th>Complex</th><th>Worth knowing</th></tr></thead>
+          <tbody>
+            <tr><td>Netguru (Aug 2026)</td><td class="mono">$15–50K</td><td class="mono">$50–150K</td><td class="mono">$150–300K+</td><td>A first version for one platform alone: $25–60K</td></tr>
+            <tr><td>TechQware (Jun 2026)</td><td class="mono">$30–60K</td><td class="mono">$70–160K</td><td class="mono">$160–550K+</td><td>Simple takes 2–4 months</td></tr>
+            <tr><td>Creole Studios (Jun 2026)</td><td class="mono">$20–45K</td><td class="mono">$45–95K</td><td class="mono">$90–170K+</td><td>That is <em>per platform</em>. Both platforms: $40–300K+</td></tr>
+            <tr><td>Fora Soft (Jul 2026)</td><td class="mono">$15–50K</td><td class="mono">$50–120K</td><td class="mono">$120–300K+</td><td>AI-heavy apps start at $300K+</td></tr>
+            <tr><td>AIDEV, from 21 teardowns</td><td class="mono" colspan="3">Overall range $15K–$300K; middle first version ≈ <strong>$76K</strong></td><td>Based on analysing real apps</td></tr>
+            <tr><td>Freelancer route</td><td class="mono" colspan="3"><strong>$10,000–$30,000</strong>, 2–4 months</td><td>The number closest to your situation</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 7%,transparent)">
+              <td><strong>Cheapest agency bundle</strong></td>
+              <td class="mono" colspan="3"><strong>$3,460–$8,000</strong> for a first version</td>
+              <td>The honest floor</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">Be careful with the phrase "average mobile app cost"</div>
+          <p>
+            One source reports an average custom build of about <strong>$171,000</strong> — and then
+            admits that figure is "dragged up by a few enterprise monsters". The same source says most
+            ordinary business apps land between <strong>$50K and $120K</strong>. Averages are useful for
+            nothing here except as a warning.
+          </p>
+        </div>
+      </div>
+
+      <h4>What genuinely moves a mobile app's price</h4>
+      <div class="grid3">
+        <div class="card">
+          <div class="card-t"><span>📱</span> One platform or two?</div>
+          <p>Building separate versions for iPhone and Android roughly doubles the front-end work. Using
+          one codebase for both is <strong>30–45% cheaper</strong> and covers most apps.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>⚙</span> Each extra feature</div>
+          <p>Login beyond a simple email, buying things inside the app, push messages, working offline,
+          camera or location, live updates, an admin screen — <strong>each one adds 15–30%</strong> to the
+          total.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>🗄</span> The hidden half</div>
+          <p>About <strong>half the budget</strong> is not the app screens at all. It is the servers,
+          database and connections behind them. "A form that emails you is cheap" — everything else is
+          not.</p>
+        </div>
+      </div>
+
+      <h4>And what it costs to keep alive afterwards</h4>
+      <p>
+        Sources are consistent here: <strong>expect to spend 15–20% of the build cost every single
+        year</strong> keeping an app running and up to date. Publishing costs are small and fixed: about
+        $99 a year for Apple, and roughly $25 once for Google Play.
+      </p>
+    </section>
+
+    <section id="ai">
+      <h3>10 · AI, chatbots &amp; automation</h3>
+      <p class="lede">The newest category, and the one where your gap is largest.</p>
+
+      <p>
+        "AI automation" covers a very wide range, from a script that automatically moves data between two
+        spreadsheets, to a system that reads documents and makes decisions. Published prices span
+        <strong>$0 to $300,000+</strong>, so the honest thing is to sort them into bands.
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>What it is</th><th>What it does</th><th>Cost to build</th><th>Cost to run, per month</th></tr></thead>
+          <tbody>
+            <tr><td>Rule-based chatbot</td><td>Follows a fixed script. Breaks the moment someone asks something unusual.</td><td class="mono">$0–10,000</td><td class="mono">$0–200</td></tr>
+            <tr><td>AI-powered chatbot</td><td>Understands normal language, holds a real conversation</td><td class="mono">$3,000–50,000</td><td class="mono">$500–5,000</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 7%,transparent)">
+              <td><strong>One focused workflow, automated</strong></td>
+              <td>One specific process replaced end to end, with a clear result</td>
+              <td class="mono"><strong>$7,500–20,000</strong></td>
+              <td class="mono">Varies</td>
+            </tr>
+            <tr><td>Custom AI agent</td><td>Reads your data, uses tools, updates your systems, prepares actions</td><td class="mono">$15,000–50,000</td><td class="mono">Varies</td></tr>
+            <tr><td>Retrieval-based enterprise bot</td><td>Answers from your own documents and systems, accurately</td><td class="mono">$40,000–120,000</td><td class="mono">$3,000–8,000</td></tr>
+            <tr><td>Multi-system / enterprise build</td><td>Several teams, deep connections, private hosting, strict security</td><td class="mono">$50,000+</td><td class="mono">$5,000+</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Sources: Creole Studios, HummingAgent, Instadesk, Dante AI, Bakedwith, TheCrunch, Orangemantra — all 2026.</p>
+
+      <h4>Three things that decide which band you land in</h4>
+      <ol class="big">
+        <li><strong>Is it a script or a brain?</strong> A rule-based bot is a decision tree — cheap and
+        predictable. Anything using a language model is more expensive, because it can do more and can
+        also go wrong in more ways.</li>
+        <li><strong>How many systems does it touch?</strong> One workflow with one connection is the
+        cheapest useful thing to build. Reaching into a CRM, a calendar, documents and operating software
+        at once multiplies the work.</li>
+        <li><strong>Who carries the risk of a wrong answer?</strong> A system that drafts a reply for a
+        human to check is cheap. One that sends money or changes records on its own is not, because it
+        needs testing, permissions and safety checks.</li>
+      </ol>
+
+      <div class="callout co-info">
+        <span class="ic">💸</span>
+        <div class="bd">
+          <div class="ct">The cost people forget: running the AI</div>
+          <p style="margin-bottom:0">
+            Every AI system costs money every month to operate, on top of building it. Published 2026
+            model pricing runs from about <strong>$0.25–$3.00 per million input tokens</strong> for
+            lighter models up to <strong>$12–$15 per million output tokens</strong> for the strongest.
+            Building the system is the smaller half of the bill if it runs at all.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <h3>11 · Feature-by-feature costs</h3>
+      <p class="lede">What the individual pieces cost when priced on their own.</p>
+
+      <p>
+        This is the most directly useful table in the report for checking your add-ons, because one
+        agency publishes a full feature-by-feature price list for a standard SaaS first version.
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Feature</th><th>Low</th><th>High</th><th>Your add-on price</th><th>Your position</th></tr></thead>
+          <tbody>
+            <tr><td>Logins and multi-tenant setup</td><td class="mono">$600</td><td class="mono">$3,000</td><td class="yours">$300</td><td><span class="flag f-low">Half the floor</span></td></tr>
+            <tr><td>Payment / billing integration (Stripe)</td><td class="mono">$800</td><td class="mono">$4,000</td><td class="yours">$250</td><td><span class="flag f-low">A third of the floor</span></td></tr>
+            <tr><td>Team management and invitations</td><td class="mono">$500</td><td class="mono">$2,500</td><td class="yours">—</td><td><span class="flag f-low">Not offered</span></td></tr>
+            <tr><td>Feature flags per pricing plan</td><td class="mono">$300</td><td class="mono">$1,500</td><td class="yours">—</td><td><span class="flag f-low">Not offered</span></td></tr>
+            <tr><td>Onboarding flow</td><td class="mono">$400</td><td class="mono">$2,000</td><td class="yours">—</td><td><span class="flag f-low">Not offered</span></td></tr>
+            <tr><td>Admin panel</td><td class="mono">$400</td><td class="mono">$2,000</td><td class="yours">—</td><td><span class="flag f-low">Not offered</span></td></tr>
+            <tr><td>Payment gateway built from scratch</td><td class="mono">$5,000</td><td class="mono">$30,000</td><td class="yours">—</td><td><span class="flag f-low">Far above your range</span></td></tr>
+            <tr><td>Handling real money in a compliant way</td><td class="mono">$80,000</td><td class="mono">$150,000+</td><td class="yours">—</td><td><span class="flag f-low">A different industry</span></td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 7%,transparent)">
+              <td><strong>Their full first version, summed up</strong></td>
+              <td class="mono"><strong>$5,000</strong></td>
+              <td class="mono"><strong>$30,000</strong></td>
+              <td class="yours">—</td>
+              <td><span class="flag f-low">Context for everything above</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Source: BuildMVP, published SaaS feature pricing, 2026. A separate source puts third-party integrations and billing complexity at <strong>+30–50% on top of a project's base cost</strong>.</p>
+
+      <h4>What this tells you about your add-ons</h4>
+      <p>
+        Your four add-ons are priced at $200, $250, $300 and $350. The individual features they represent
+        are sold between $300 and $4,000 by firms publishing prices openly. You are charging roughly
+        <strong>a third of the going rate</strong> for the same features.
+      </p>
+      <p>
+        The practical point: <strong>add-ons are where you have the most room to move</strong>, because
+        they are additions to a project rather than the project itself. A client who has already agreed
+        to a base price is far easier to sell an extra feature to than a first-time buyer is to move from
+        $600 to $1,200.
+      </p>
+    </section>
+
+    <section id="running">
+      <h3>12 · Running costs people forget</h3>
+      <p class="lede">Where the true lifetime cost of a project actually sits.</p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Cost</th><th>Typical figure</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td>Keeping an app running, per year</td><td class="mono">15–20% of what it cost to build</td><td>Reliable across every source. Money you will spend whether or not you invoice for it.</td></tr>
+            <tr><td>Keeping a website running, per year</td><td class="mono">15–30% of build cost</td><td>Hosting, updates, security patches, small edits</td></tr>
+            <tr><td>Basic website upkeep</td><td class="mono">$50–$200 per month</td><td>The part most owners forget entirely</td></tr>
+            <tr><td>Hosting for a growing app</td><td class="mono">$20–$200 per month</td><td>Cheap while small, rises sharply with users</td></tr>
+            <tr><td>Database (managed)</td><td class="mono">$15–$150 per month</td><td>Stores the information your app depends on</td></tr>
+            <tr><td>Support retainer</td><td class="mono">$1,500+ per month</td><td>What many AI suppliers charge just to keep a system running</td></tr>
+            <tr><td>Rewriting later because it was rushed</td><td class="mono">Often more than the original build</td><td>Retrofitting costs 2–3× building it properly the first time</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-stop">
+        <span class="ic">🛑</span>
+        <div class="bd">
+          <div class="ct">The most useful line in this whole report</div>
+          <p>
+            Several sources make the same point in different words: <strong>the price of building
+            something is only 20–35% of what it costs to own over its life.</strong> Hosting, updates,
+            fixes, new devices, growing data and eventually rewriting it all keep going long after the
+            invoice has been paid.
+          </p>
+          <p style="margin-bottom:0">
+            That is good news for you, and you are not currently capturing it. You are charging a one-off
+            build fee and giving away the recurring revenue that every client will need. A support plan
+            priced at $50–$150 a month is a normal, expected line in a software invoice — and after two
+            years it has paid for the project twice.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PART III ================= -->
+    <h2 style="margin-top:52px"><span class="num">III</span> Your numbers vs the market</h2>
+
+    <p class="lede" style="margin-bottom:24px">
+      The next eight sections compare your live estimator, value by value, against the market data
+      above. Nothing is changed — this is a reading of where you currently sit.
+    </p>
+
+    <section id="naira">
+      <h3>13 · The naira question</h3>
+      <p class="lede">The one issue that is not really about pricing strategy at all.</p>
+
+      <p>
+        Your estimator shows a dollar price and a naira price side by side for every item. Here is the
+        thing worth noticing about them:
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Item</th><th>Your dollar price</th><th>Your naira price</th><th>Rate your naira price implies</th></tr></thead>
+          <tbody>
+            <tr><td>Modern Business Website</td><td class="mono">$600 – $1,200</td><td class="mono">₦600,000 – ₦1,200,000</td><td class="mono">₦1,000 = $1</td></tr>
+            <tr><td>Full-Stack Web App</td><td class="mono">$1,500 – $3,500</td><td class="mono">₦1,500,000 – ₦3,500,000</td><td class="mono">₦1,000 = $1</td></tr>
+            <tr><td>Mobile App</td><td class="mono">$2,000 – $4,500</td><td class="mono">₦2,000,000 – ₦4,500,000</td><td class="mono">₦1,000 = $1</td></tr>
+            <tr><td>AI Automation</td><td class="mono">$800 – $1,600</td><td class="mono">₦800,000 – ₦1,600,000</td><td class="mono">₦1,000 = $1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        Every naira figure is exactly 1,000 times the dollar figure beside it. In other words, your whole
+        estimator is built on the assumption that <strong>one US dollar is worth one thousand naira</strong>.
+      </p>
+
+      <div class="rule-box">
+        <div class="rt">💱 What one dollar is actually worth</div>
+        <p style="margin-bottom:0;font-size:15px">
+          In late September 2026, the Nigerian Foreign Exchange Market rate was about
+          <strong>₦1,327 per dollar</strong>, and the mid-market rate was around <strong>₦1,323–$1,330</strong>.
+          The parallel market sat slightly higher, near <strong>₦1,386–₦1,393</strong>.
+        </p>
+      </div>
+
+      <p>Here is what that means for a client choosing to pay in naira:</p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Item</th><th>Prices at in dollars</th><th>Prices at in naira</th><th>Difference</th></tr></thead>
+          <tbody>
+            <tr><td>Business website, lowest</td><td class="mono">$600</td><td class="mono">≈ $452</td><td class="yours">−25%</td></tr>
+            <tr><td>Business website, highest</td><td class="mono">$1,200</td><td class="mono">≈ $904</td><td class="yours">−25%</td></tr>
+            <tr><td>Mobile app, highest</td><td class="mono">$4,500</td><td class="mono">≈ $3,383</td><td class="yours">−25%</td></tr>
+            <tr><td>AI automation, highest</td><td class="mono">$1,600</td><td class="mono">≈ $1,203</td><td class="yours">−25%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">A real and separate problem</div>
+          <p>
+            This is not a rounding issue. Choosing to pay in naira is a genuine discount of about
+            <strong>one quarter</strong>, applied without you deciding to. It also means your two prices
+            for the same product are inconsistent, which is the sort of thing a sharp client notices.
+          </p>
+          <p style="margin-bottom:0">
+            There are three reasonable ways to fix it, and all of them are simple: set the naira figures
+            by multiplying the dollar figures by the current rate rather than by 1,000; or keep the
+            naira prices and raise the dollar prices so they match; or drop to one currency. Which one is
+            right depends on who you mostly sell to — but right now, neither currency is being converted
+            into the other correctly.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cmp-website">
+      <h3>14 · Website: your price vs the market</h3>
+      <p class="lede">The one line where you are closest to fair.</p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Point of comparison</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr style="background:color-mix(in srgb,var(--rose) 8%,transparent)"><td><strong>Your price (MVP)</strong></td><td class="yours">$600 – $1,200</td></tr>
+            <tr><td>Your price (production build, ×1.5)</td><td class="yours">$900 – $1,800</td></tr>
+            <tr><td>Cheapest published custom single page</td><td class="mkt">$599</td></tr>
+            <tr><td>Freelancer "simple brochure site"</td><td class="mkt">$500 – $2,500</td></tr>
+            <tr><td>60% of surveyed firms, basic website</td><td class="mkt">$1,000 – $3,000</td></tr>
+            <tr><td>Freelancer, small business site (Seahawk)</td><td class="mkt">$1,499 – $4,999</td></tr>
+            <tr><td>Third of surveyed firms</td><td class="mkt">$5,000 – $15,000</td></tr>
+            <tr><td>Semi-custom design, heavily modified template</td><td class="mkt">$1,500 – $4,000</td></tr>
+            <tr><td>Fully custom design from scratch</td><td class="mkt">$4,000 – $15,000+</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Verdict</h4>
+      <p>
+        <strong>You are at the very bottom of the market, but you are inside it.</strong> Your starting
+        price of $600 matches the cheapest published custom site almost exactly, and your top price of
+        $1,200 sits comfortably inside the "simple brochure site" band.
+      </p>
+      <p>
+        The important caveat: the firms quoting $5,000–$15,000 are not charging the same amount for the
+        same work. They are selling a different design experience, more pages, on-page search work, and a
+        process with a named strategy and design stage. A client comparing you to them is not comparing
+        like with like.
+      </p>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">This is your strongest line</div>
+          <p style="margin-bottom:0">
+            A $600–$1,200 website is a genuinely competitive offer and it will win you work. The
+            recommendation in <a href="#reco">section 34</a> is to <strong>leave the minimum where it is</strong>
+            and raise only the top of the range, so you can still win price-sensitive work while earning
+            properly on larger ones.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cmp-webapp">
+      <h3>15 · Web app: your price vs the market</h3>
+      <p class="lede">Your largest gap in dollar terms.</p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Point of comparison</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr style="background:color-mix(in srgb,var(--rose) 8%,transparent)"><td><strong>Your price (MVP)</strong></td><td class="yours">$1,500 – $3,500</td></tr>
+            <tr><td>Your price (production build)</td><td class="yours">$2,250 – $5,250</td></tr>
+            <tr><td>Cheapest published agency MVP</td><td class="mkt">$3,460</td></tr>
+            <tr><td>"Basic MVP web app" across firms</td><td class="mkt">$5,000 – $20,000</td></tr>
+            <tr><td>Freelancer, custom web app MVP</td><td class="mkt">$10,000 – $30,000</td></tr>
+            <tr><td>No-code first version</td><td class="mkt">$8,000 – $18,000</td></tr>
+            <tr><td>Internal dashboard or admin tool</td><td class="mkt">$20,000 – $70,000</td></tr>
+            <tr><td>Customer portal</td><td class="mkt">$40,000 – $120,000</td></tr>
+            <tr><td>Full custom app, US boutique agency</td><td class="mkt">$15,000 – $60,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Verdict</h4>
+      <p>
+        <strong>Your top price of $3,500 is about the cheapest MVP anyone publishes.</strong> Your
+        bottom price of $1,500 is below the floor — nothing in the published data describes a real web
+        application at that figure.
+      </p>
+      <p>
+        Remember what $1,500 actually buys when you divide it by the market's own arithmetic. A US
+        boutique firm builds a SaaS first version in 1,000–1,500 hours. At $1,500, that is
+        <strong>$1 to $1.50 per hour</strong> — which is not a price, it is a favour.
+      </p>
+      <p>
+        At your $3,500 top end you are nearer $2.30–$3.50 per hour for the same work. Even the
+        cheapest published agency bundle of $3,460–$8,000 is for a tightly scoped first version with a
+        fixed feature list and a 21-day delivery.
+      </p>
+
+      <div class="callout co-stop">
+        <span class="ic">🛑</span>
+        <div class="bd">
+          <div class="ct">Where the real danger is</div>
+          <p style="margin-bottom:0">
+            A web application is the kind of project that <strong>grows</strong>. Clients ask for another
+            screen, another report, another integration. If your first price taught them that your time
+            costs $5 an hour, every conversation after that starts from that number. This is the
+            category where underpricing is most expensive, because it is the category that generates
+            follow-on work.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cmp-mobile">
+      <h3>16 · Mobile app: your price vs the market</h3>
+      <p class="lede">The biggest single step up available to you.</p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Point of comparison</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr style="background:color-mix(in srgb,var(--rose) 8%,transparent)"><td><strong>Your price (MVP)</strong></td><td class="yours">$2,000 – $4,500</td></tr>
+            <tr><td>Your price (production build)</td><td class="yours">$3,000 – $6,750</td></tr>
+            <tr><td>No-code, not production grade</td><td class="mkt">$500 – $5,000</td></tr>
+            <tr><td>Cheapest published agency bundle</td><td class="mkt">$3,460 – $8,000</td></tr>
+            <tr><td><strong>Freelancer MVP, 2–4 months</strong></td><td class="mkt"><strong>$10,000 – $30,000</strong></td></tr>
+            <tr><td>Simple app, agency (Netguru)</td><td class="mkt">$15,000 – $50,000</td></tr>
+            <tr><td>Simple app, one platform (TechQware)</td><td class="mkt">$30,000 – $60,000</td></tr>
+            <tr><td>Medium app with accounts, payments, backend</td><td class="mkt">$50,000 – $120,000</td></tr>
+            <tr><td>Both platforms built separately</td><td class="mkt">$40,000 – $300,000+</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Verdict</h4>
+      <p>
+        <strong>You are priced with websites, not apps.</strong> Your mobile band overlaps almost
+        exactly with your website band — $600–$1,200 versus $2,000–$4,500 — even though a mobile app is
+        several times the work.
+      </p>
+      <p>Two numbers make the point sharply:</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>📊</span> Against a freelancer</div>
+          <p>Someone building this alone charges <strong>$10,000–$30,000</strong>. You charge up to
+          $4,500. You are at roughly <strong>one fifth</strong> of the comparable solo price.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>📊</span> Against the cheapest agency</div>
+          <p>Even a fixed-price shop selling a stripped-back first version asks <strong>$3,460–$8,000</strong>.
+          Your <em>top</em> price barely reaches the bottom of that band.</p>
+        </div>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">🎯</span>
+        <div class="bd">
+          <div class="ct">Where you have a genuine advantage</div>
+          <p style="margin-bottom:0">
+            You have shipped real mobile work. Your own case studies include a shift-attendance app built
+            as a single file with no backend, and an Android version of it. That is exactly the
+            "no-backend, works offline" profile that the published prices treat as the cheapest possible
+            app — so you are not far off the right band for <em>that specific kind</em> of app. You are
+            far off for a standard app with a server behind it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cmp-ai">
+      <h3>17 · AI automation: your price vs the market</h3>
+      <p class="lede">The largest percentage gap on the whole estimator.</p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Point of comparison</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr style="background:color-mix(in srgb,var(--rose) 8%,transparent)"><td><strong>Your price (MVP)</strong></td><td class="yours">$800 – $1,600</td></tr>
+            <tr><td>Your price (production build)</td><td class="yours">$1,200 – $2,400</td></tr>
+            <tr><td>Rule-based chatbot, custom built</td><td class="mkt">$3,000 – $10,000</td></tr>
+            <tr><td>Custom AI agent, simple</td><td class="mkt">$5,000 – $20,000</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 7%,transparent)">
+              <td><strong>One focused workflow, automated</strong></td>
+              <td class="mkt"><strong>$7,500 – $20,000</strong></td>
+            </tr>
+            <tr><td>AI-powered chatbot</td><td class="mkt">$3,000 – $50,000</td></tr>
+            <tr><td>Custom agent or integrated workflow</td><td class="mkt">$15,000 – $50,000</td></tr>
+            <tr><td>AI-powered software, whole product</td><td class="mkt">$40,000 – $300,000+</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Verdict</h4>
+      <p>
+        <strong>Your most expensive AI figure is below the cheapest AI figure in the market.</strong> The
+        least any published source will charge for a rule-based chatbot is $3,000. Your top is $1,600.
+      </p>
+      <p>
+        This is also the category where you are best placed to compete, because AI work is priced on
+        <em>judgement</em>, not just hours. It is the one area where a client genuinely cannot tell how
+        long something took, which means the price is a conversation rather than a calculation — and
+        that favours whoever asks first and frames it well.
+      </p>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">The premium exists for a reason</div>
+          <p style="margin-bottom:0">
+            AI specialists command <strong>$100–$200+ per hour</strong> in the US, and a senior
+            large-language-model developer has a median of <strong>$180/hour</strong>, with specialists
+            reaching $275–$500. AI is the highest-paid specialism in the industry. Your $800–$1,600 band
+            is priced as though it were ordinary web work.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="cmp-addons">
+      <h3>18 · Add-ons: your price vs the market</h3>
+      <p class="lede">The easiest place to fix, and the least risky.</p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Your add-on</th><th>Your price</th><th>Comparable market figure</th><th>Where you sit</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Payment Processing &amp; Checkout</td><td class="yours">$250</td>
+              <td class="mkt">$800 – $4,000 (Stripe billing integration)</td>
+              <td><span class="flag f-low">About a third of the floor</span></td>
+            </tr>
+            <tr>
+              <td>User Accounts &amp; Client Portal</td><td class="yours">$300</td>
+              <td class="mkt">$600 – $3,000 (auth + multi-tenant setup)</td>
+              <td><span class="flag f-low">Half the floor</span></td>
+            </tr>
+            <tr>
+              <td>Third-Party API &amp; CRM Sync</td><td class="yours">$200</td>
+              <td class="mkt">Integrations add <strong>+30–50%</strong> to a project's base cost</td>
+              <td><span class="flag f-low">Nowhere near the real weight</span></td>
+            </tr>
+            <tr>
+              <td>AI Agent / LLM Integration</td><td class="yours">$350</td>
+              <td class="mkt">$3,000 – $20,000 for a custom AI feature</td>
+              <td><span class="flag f-low">A small fraction</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Two things to be careful about here</h4>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>⚠</span> Not all integrations are equal</div>
+          <p>Adding one field to a form that posts to a webhook is a small job. Connecting to a payment
+          provider, or to a CRM that must stay in sync both ways, involves money, security, failure
+          handling and testing. A flat $200–$350 treats them as the same thing.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>⚠</span> The AI add-on is the outlier</div>
+          <p>An "AI Agent / LLM Integration" at $350 cannot cover a real AI feature. Anything using a
+          language model has an ongoing per-month cost as well as build cost, and needs testing for
+          wrong answers. This one needs both a higher price and a monthly component.</p>
+        </div>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">A structural point, not just a pricing one</div>
+          <p style="margin-bottom:0">
+            Your add-ons each add <strong>one week</strong> to the timeline regardless of what they are.
+            A webhook and a full payment integration are both "1 week". That under-sells the difficult
+            ones and over-sells the easy ones, and it means a client can select four add-ons and add only
+            four weeks — while the market treats each of them as a real project increment.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="perhour">
+      <h3>19 · What your price implies per hour</h3>
+      <p class="lede">The single most useful calculation in this report.</p>
+
+      <p>
+        A project price on its own tells you nothing. Divide it by the hours the work really takes and
+        you get an <strong>effective hourly rate</strong> — what you actually earn per hour of your life
+        spent on it. That is the number to judge everything by.
+      </p>
+
+      <p>
+        The market tells us how long each kind of project really takes. Using the published hour
+        estimates from <a href="#websites">section 07</a> and <a href="#webapps">section 08</a>:
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Project</th><th>Your price</th><th>Realistic hours</th><th>Your effective rate</th><th>Market rate for comparison</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Website, first version</td><td class="yours">$600–$1,200</td>
+              <td>25–36h</td><td class="yours">$17 – $48/hr</td><td class="mkt">$40–85/hr</td>
+            </tr>
+            <tr>
+              <td>Web app, first version</td><td class="yours">$1,500–$3,500</td>
+              <td>100–200h</td><td class="yours">$8 – $35/hr</td><td class="mkt">$40–85/hr</td>
+            </tr>
+            <tr>
+              <td>Mobile app, first version</td><td class="yours">$2,000–$4,500</td>
+              <td>150–300h</td><td class="yours">$7 – $30/hr</td><td class="mkt">$40–80/hr</td>
+            </tr>
+            <tr>
+              <td>AI automation, focused</td><td class="yours">$800–$1,600</td>
+              <td>40–80h</td><td class="yours">$10 – $40/hr</td><td class="mkt">$100–180/hr</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Hour figures derived from the published breakdowns cited earlier: a brochure site at 36 hours, and a SaaS first version at 1,000–1,500 hours for a full agency build, scaled down for a solo developer working alone.</p>
+
+      <div class="callout co-stop">
+        <span class="ic">📉</span>
+        <div class="bd">
+          <div class="ct">Read that table again, slowly</div>
+          <p>
+            At the <em>bottom</em> of your ranges you earn <strong>$7 to $17 an hour</strong>. At the
+            <em>top</em> you earn <strong>$30 to $48</strong>. Every one of those figures sits below the
+            published rate for the equivalent work in your own region, and far below the international
+            rate that African freelancers reach working directly for overseas clients.
+          </p>
+          <p style="margin-bottom:0">
+            Remember also that these are <em>pre-tax</em> and <em>before</em> the unpaid work described in
+            <a href="#m-loaded">section 28</a>: finding clients, writing proposals, invoicing, learning,
+            and the gaps between projects.
+          </p>
+        </div>
+      </div>
+
+      <h4>The uncomfortable but useful version</h4>
+      <p>
+        Suppose a web app takes 150 hours and pays you $2,500. That is $16.67 an hour. Now suppose you
+        find it takes 250 hours with three rounds of changes. Your real rate is $10 an hour, and you have
+        also lost two weeks you could have billed.
+      </p>
+      <p>
+        The two things that fix this are not "charge more" and "work faster". They are
+        <strong>price from a realistic hour count</strong> — which is exactly what Part IV is about — and
+        <strong>write down what you actually spend</strong> so the estimate stops being a guess.
+      </p>
+    </section>
+
+    <section id="free">
+      <h3>20 · What you give away free</h3>
+      <p class="lede">The parts of your offer that cost you real time and are not in any price.</p>
+
+      <p>
+        Your site promises a lot that no number on the calculator pays for. This is not a criticism —
+        these are good things to offer, and most freelancers do offer them. But you should know exactly
+        how much unpaid work is attached to every sale.
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>What you promise</th><th>What it costs you in reality</th><th>Market price for the same thing</th></tr></thead>
+          <tbody>
+            <tr><td>100% code ownership handed over</td><td>Hours of packaging, documentation and clean handover</td><td class="mkt">$500–$1,500 in legal fees alone for a written IP assignment</td></tr>
+            <tr><td>Weekly updates and async communication</td><td>Ongoing time every week, for the life of the project</td><td class="mkt">$1,500+ per month for a comparable support agreement</td></tr>
+            <tr><td>30-day warranty after launch</td><td>Unpaid time whenever the client calls</td><td class="mkt">15–20% of build cost per year is normal maintenance</td></tr>
+            <tr><td>A four-step process with wireframes and weekly previews</td><td>Real design and planning time before coding starts</td><td class="mkt">Discovery and planning ≈ 10% of the budget; design 15–20%</td></tr>
+            <tr><td>Interactive price calculator</td><td>A whole application you built, maintained, for free</td><td class="mkt">$3,460–$8,000 as a client project</td></tr>
+            <tr><td>Live, sandboxed previews of every project</td><td>Hosting, and the effort to make each one embeddable</td><td class="mkt">Part of the $200–$200/month hosting band</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">🎁</span>
+        <div class="bd">
+          <div class="ct">The strategic point</div>
+          <p style="margin-bottom:0">
+            These extras are why clients choose you, and I would not remove any of them. The issue is
+            only that they are invisible in the price. The most valuable move is not to charge for them
+            separately — it is to make sure the <em>base</em> price covers them. Once the base price
+            reflects a real hour count, the thirty-day warranty and weekly updates are comfortably
+            inside it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PART IV ================= -->
+    <h2 style="margin-top:52px"><span class="num">IV</span> The estimating methods</h2>
+
+    <p class="lede" style="margin-bottom:24px">
+      This is the part you asked for: is there an established formula for putting a number on a piece of
+      software work? <strong>Yes — five of them, and some are nearly fifty years old.</strong> They are
+      written out below in plain language, with the real equations, the weight tables and worked
+      examples you can copy.
+    </p>
+
+    <section id="m-why">
+      <h3>21 · Why formulas exist</h3>
+      <p class="lede">The reason a chef weighs ingredients instead of guessing.</p>
+
+      <p>
+        Two people estimating the same project by feel will differ by a factor of two. That is not
+        because one is lying — it is because both are guessing. Software estimation has been studied
+        since the 1960s precisely because intuitive estimating is unreliable, and the result is a set of
+        standard, repeatable methods.
+      </p>
+
+      <p>
+        They all exist to answer the same three questions, in this order:
+      </p>
+      <ol class="steps-num">
+        <li><strong>How big is the work?</strong> Not in hours — hours are an output, not an input. In
+        something that does not change when you change your mind, or your language, or your team.</li>
+        <li><strong>How long will it take, and how much does that cost?</strong> Turning size into
+        effort, then effort into money.</li>
+        <li><strong>How sure am I?</strong> Every estimate is a range. The method exists to tell you how
+        wide.</li>
+      </ol>
+
+      <div class="rule-box">
+        <div class="rt">★ Why "size" cannot be measured in hours</div>
+        <p style="margin-bottom:0;font-size:14.5px">
+          If you size a project in hours, you have already guessed the answer — you just wrote it down
+          earlier. If you size it in lines of code, the number changes completely depending on which
+          language you use: one behaviour might be five lines or fifty. All the formal methods therefore
+          size work in something <em>language-independent</em> — most commonly in
+          <strong>function points</strong>, which measure what the software <em>does</em> for its users.
+        </p>
+      </div>
+    </section>
+
+    <section id="m-master">
+      <h3>22 · The master formula</h3>
+      <p class="lede">Every method in this report reduces to this one line.</p>
+
+      <p>
+        If you remember nothing else from Part IV, remember this. Strip away the differences between all
+        five methods and they are all doing the same arithmetic:
+      </p>
+
+      <div class="formula">
+        <div class="fl">The master formula</div>
+<pre><span class="d">Total price  =  (Effort in hours  ×  Your loaded rate)</span>
+                <span class="c">+  Non-labour costs</span>
+                <span class="c">+  Risk buffer</span>
+
+<span class="c">where</span>  <span class="k">Effort</span>   = Size measure  ×  a productivity figure
+        <span class="k">Rate</span>     = what you need to earn per billable hour, after tax
+        <span class="k">Buffer</span>   = a percentage for what you do not yet know</pre>
+      </div>
+
+      <p>
+        The five methods differ only in how they answer "<strong>how big is it?</strong>" and
+        "<strong>what is the rate?</strong>". That is the whole secret, and it is why you can mix them.
+      </p>
+
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Method</th><th>Answers "how big?" with</th><th>Best when</th><th>Section</th></tr></thead>
+          <tbody>
+            <tr><td>Bottom-up decomposition</td><td>List every task, then add them up</td><td>Small, well-understood projects</td><td><a href="#m-bottomup">23</a></td></tr>
+            <tr><td>Function Point Analysis</td><td>What the user can do, counted and weighted</td><td>Fixed-price quotes, client defensibility</td><td><a href="#m-fpa">24</a></td></tr>
+            <tr><td>COCOMO II</td><td>Lines of code or function points, plus 17 risk ratings</td><td>Large projects, formal bids</td><td><a href="#m-cocomo">25</a></td></tr>
+            <tr><td>Story points and velocity</td><td>How much your team finished last sprint</td><td>Agile work, ongoing projects</td><td><a href="#m-agile">26</a></td></tr>
+            <tr><td>Three-point (PERT)</td><td>Your own best, worst and likely guesses</td><td>Anything at all — the cheapest improvement</td><td><a href="#m-pert">27</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">★</span>
+        <div class="bd">
+          <div class="ct">The order I would actually do them in</div>
+          <p style="margin-bottom:0">
+            For a solo developer pricing client work, <strong>Function Points</strong> for the size,
+            <strong>your own measured productivity</strong> for the hours, <strong>three-point PERT</strong>
+            for the uncertainty, and <strong>your loaded rate</strong> for the money. That combination is
+            defensible in front of a client, repeatable, and it is exactly what the sections that follow
+            give you the arithmetic for.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="m-bottomup">
+      <h3>23 · Method 1: bottom-up hours</h3>
+      <p class="lede">The oldest method, still the most accurate for small projects.</p>
+
+      <p>
+        Break the project into every individual task, estimate each one, add them up, then add a buffer.
+        It sounds obvious, and that is its weakness: it is only as good as your task list, and a task you
+        forgot to list contributes nothing.
+      </p>
+
+      <h4>How to do it</h4>
+      <ol class="steps-num">
+        <li><strong>List the deliverables,</strong> not the activities. "Contact page" is a deliverable.
+        "Coding" is not.</li>
+        <li><strong>Break each into tasks</strong> of a few hours each. Anything larger hides unknowns.</li>
+        <li><strong>Estimate each task in hours,</strong> including the time to test it.</li>
+        <li><strong>Add the tasks up.</strong> This is your base effort.</li>
+        <li><strong>Add the non-coding tasks:</strong> discovery, design, testing, deployment, handover,
+        and client communication time. Sources put these at roughly <strong>30–40%</strong> of the
+        total.</li>
+        <li><strong>Add a buffer</strong> — see <a href="#m-buffer">section 29</a>.</li>
+        <li><strong>Multiply by your loaded rate</strong> — see <a href="#m-loaded">section 28</a>.</li>
+      </ol>
+
+      <h4>A worked example — a business website</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Task</th><th>Hours</th></tr></thead>
+          <tbody>
+            <tr><td>Discovery call and brief</td><td class="mono">2</td></tr>
+            <tr><td>Wireframes and design</td><td class="mono">5</td></tr>
+            <tr><td>Home page</td><td class="mono">4</td></tr>
+            <tr><td>Two interior pages</td><td class="mono">6</td></tr>
+            <tr><td>Contact form and server handling</td><td class="mono">3</td></tr>
+            <tr><td>Mobile styling and testing</td><td class="mono">3</td></tr>
+            <tr><td>Basic search-engine setup</td><td class="mono">2</td></tr>
+            <tr><td>Deployment and domain</td><td class="mono">2</td></tr>
+            <tr><td>Testing, fixes, handover</td><td class="mono">3</td></tr>
+            <tr style="background:var(--bg-3)"><td><strong>Subtotal</strong></td><td class="mono"><strong>30</strong></td></tr>
+            <tr><td>Buffer at 20% <span class="note">(rounded, scope fairly clear)</span></td><td class="mono">6</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 12%,transparent)"><td><strong>Total effort</strong></td><td class="mono"><strong>36 hours</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        At a $45 loaded rate that is <strong>$1,620</strong>. At a $60 rate, <strong>$2,160</strong>. At a
+        $85 rate, <strong>$3,060</strong> — which matches the published market figure from
+        <a href="#websites">section 07</a> exactly, because it is the same 36 hours.
+      </p>
+    </section>
+
+    <section id="m-fpa">
+      <h3>24 · Method 2: Function Point Analysis</h3>
+      <p class="lede">The international standard, and the one that holds up in front of a client.</p>
+
+      <p>
+        <strong>Function Point Analysis</strong> was invented at IBM in the late 1970s by Allan Albrecht
+        and is now an ISO standard. It is the closest thing this industry has to a shared measuring unit
+        for software, and it is recognised in formal contracts worldwide.
+      </p>
+
+      <div class="rule-box">
+        <div class="rt">💡 The idea in one sentence</div>
+        <p style="margin-bottom:0;font-size:14.5px">
+          Measure the software by <strong>what it lets the user do</strong>, not by how much code it took
+          to write. Two developers in two countries writing the same product in different languages get
+          the same function point count — and therefore the same price.
+        </p>
+      </div>
+
+      <h4>Step 1 — Count five kinds of function</h4>
+      <p>
+        An <strong>elementary process</strong> is the smallest thing a user does that is meaningful to
+        them: "add a record", "view a list", "change a setting". You classify each one into five types.
+      </p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Type</th><th>What it means, in plain words</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td class="mono"><strong>EI</strong> — External Input</td><td>Data coming <em>into</em> the system from a user, which changes data or behaviour</td><td>Submitting a sign-up form; saving a record</td></tr>
+            <tr><td class="mono"><strong>EO</strong> — External Output</td><td>Data leaving the system, with calculation or derived logic behind it</td><td>A generated invoice; a report; a total</td></tr>
+            <tr><td class="mono"><strong>EQ</strong> — External Inquiry</td><td>A simple lookup with no calculation — just retrieval</td><td>Searching customers; viewing a list</td></tr>
+            <tr><td class="mono"><strong>ILF</strong> — Internal Logical File</td><td>A group of data the system holds and manages itself</td><td>Your customers table; the products database</td></tr>
+            <tr><td class="mono"><strong>EIF</strong> — External Interface File</td><td>A group of data held by <em>another</em> system that you read</td><td>Payment provider data; a third-party API feed</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Step 2 — Rate each one for complexity, then look up its weight</h4>
+      <p>
+        Each function is rated <strong>Low (1), Average (2) or High (3)</strong> based on how many data
+        elements it touches and how many files it reads or writes. You then look up the weight in this
+        table.
+      </p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Function type</th><th>Low</th><th>Average</th><th>High</th><th>Usual average</th></tr></thead>
+          <tbody>
+            <tr><td>EI — External Input</td><td class="mono">3</td><td class="mono">4</td><td class="mono">6</td><td class="mono">4</td></tr>
+            <tr><td>EO — External Output</td><td class="mono">4</td><td class="mono">5</td><td class="mono">7</td><td class="mono">5</td></tr>
+            <tr><td>EQ — External Inquiry</td><td class="mono">3</td><td class="mono">4</td><td class="mono">6</td><td class="mono">4</td></tr>
+            <tr><td>ILF — Internal Logical File</td><td class="mono">7</td><td class="mono">10</td><td class="mono">15</td><td class="mono">10</td></tr>
+            <tr><td>EIF — External Interface File</td><td class="mono">5</td><td class="mono">7</td><td class="mono">10</td><td class="mono">5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Source: IFPUG standard function point weights, confirmed across KnowledgeHut, UZH and IFPUG material.</p>
+      <p>
+        Add up every weighted function. That total is the <strong>Unadjusted Function Point count</strong>,
+        written as <span class="mono">UFP</span>.
+      </p>
+
+      <h4>Step 3 — Adjust for complexity of the whole system</h4>
+      <p>
+        Some systems are harder to build than their raw function count suggests, because of things like
+        performance demands, how hard the data is to reach across locations, or how often it must be
+        changed. You rate <strong>14 characteristics</strong> from 0 to 5, add them up, and convert:
+      </p>
+      <div class="formula">
+        <div class="fl">The value adjustment factor</div>
+<pre><span class="d">TDI</span> = sum of all 14 ratings        <span class="c">(0–5 each, so 0 to 70)</span>
+<span class="d">VAF</span> = 0.65 + (0.01 × TDI)          <span class="c">(ranges from 0.65 to 1.35)</span>
+<span class="d">Adjusted FP</span> = UFP × VAF</pre>
+      </div>
+      <p>The 14 characteristics are:</p>
+      <p class="note">
+        Data communication · distributed data processing · performance demands · heavily used
+        configuration · transaction role · online data entry · end-user efficiency · online update ·
+        complex processing · reusability · installation ease · operational ease · multiple sites ·
+        facilitate future change
+      </p>
+      <p>
+        A typical project lands on a <strong>TDI of around 35</strong>, giving <span class="mono">VAF = 1.00</span> —
+        which is exactly why the adjustment exists: it is designed to average out to "no change".
+      </p>
+
+      <h4>Step 4 — Turn function points into hours, using your own number</h4>
+      <p>
+        This is the step that decides everything, and there is only one correct source: <strong>your own
+        measured productivity</strong>. You need a figure meaning "how many hours does it take me to
+        deliver one function point?" Track it across three or four projects and use the average.
+      </p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Published benchmark</th><th>Hours per function point</th><th>Context</th></tr></thead>
+          <tbody>
+            <tr><td>Brazilian contract analysis, 37 projects</td><td class="mono">0.9 or less in 80% of contracts</td><td>Agile, high-maturity teams</td></tr>
+            <tr><td>SNAP (simplified metric)</td><td class="mono">1.27</td><td>Modern streamlined counting</td></tr>
+            <tr><td>SRM activity-based model</td><td class="mono">4.5 – 6.5</td><td>Across development activities</td></tr>
+            <tr><td>CMMI Level 1 → Level 5</td><td class="mono">22.0 → 17.6</td><td>Better process = fewer hours per point</td></tr>
+            <tr><td>IBM historical studies</td><td class="mono">16.5 – 39.6</td><td>Old mainframes, 1970s</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Sources: IFPUG, ACM research, CMMI process-maturity benchmarks.</p>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">A warning straight from IFPUG</div>
+          <p style="margin-bottom:0">
+            IFPUG itself notes that there are many counting variations and they can differ from the
+            standard by <strong>±15% or more</strong>. Counting is also slow — roughly 500 function
+            points per day. For a small project it will take a few hours of your time. That is
+            worthwhile for a quote you intend to sign, and excessive for a quick quote on a single page.
+          </p>
+        </div>
+      </div>
+
+      <h4>Step 5 — The full calculation, worked through</h4>
+      <p>
+        Here is a small web application priced properly, so you can see the whole method in one place.
+      </p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Function counted</th><th>Type</th><th>Complexity</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td>Sign-up form (name, email, password)</td><td class="mono">EI</td><td>Low</td><td class="mono">3</td></tr>
+            <tr><td>Login form</td><td class="mono">EI</td><td>Low</td><td class="mono">3</td></tr>
+            <tr><td>Edit own profile</td><td class="mono">EI</td><td>Average</td><td class="mono">4</td></tr>
+            <tr><td>Create a new record</td><td class="mono">EI</td><td>Average</td><td class="mono">4</td></tr>
+            <tr><td>Search and list records</td><td class="mono">EQ</td><td>Average</td><td class="mono">4</td></tr>
+            <tr><td>Dashboard totals (calculated)</td><td class="mono">EO</td><td>Average</td><td class="mono">5</td></tr>
+            <tr><td>Record list page</td><td class="mono">EO</td><td>Low</td><td class="mono">4</td></tr>
+            <tr><td>Users table</td><td class="mono">ILF</td><td>Average</td><td class="mono">10</td></tr>
+            <tr><td>Records table</td><td class="mono">ILF</td><td>Average</td><td class="mono">10</td></tr>
+            <tr><td>Payment provider data</td><td class="mono">EIF</td><td>Low</td><td class="mono">5</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 12%,transparent)"><td colspan="3"><strong>Unadjusted Function Points (UFP)</strong></td><td class="mono"><strong>56</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Now apply the rest of the master formula:</p>
+      <div class="codewrap">
+<pre><span class="d">UFP</span>                                  = <span class="k">56</span>
+<span class="d">VAF</span> (TDI of 35, typical)         = 0.65 + (0.01 × 35) = <span class="k">1.00</span>
+<span class="d">Adjusted FP</span>                       = 56 × 1.00            = <span class="k">56 FP</span>
+<span class="d">Your productivity</span> (measured)        = <span class="k">3.0 hours per FP</span>
+<span class="d">Effort</span>                              = 56 × 3.0             = <span class="k">168 hours</span>
+<span class="d">Buffer</span> at 20%                        = 168 × 0.20           = <span class="k">34 hours</span>
+<span class="d">Total</span>                                = 168 + 34              = <span class="k">202 hours</span>
+<span class="d">Loaded rate</span>                          = <span class="k">$45/hour</span>
+<span class="d">────────────────────────────────────────────────────────────────</span>
+<span class="d">PRICE</span>                                = 202 × $45            = <span class="k">$9,090</span>
+
+<span class="d">Your current top price for a web app:</span>   <span class="s">$3,500</span>
+<span class="d">The same work, priced by a standard method:</span> <span class="k">$9,090</span></pre>
+      </div>
+      <p>
+        Notice that the function point count of 56 is very close to the market's own bottom-up figure of
+        36 hours for a whole website. They are measuring the same reality from different directions.
+      </p>
+
+      <h4>Why this method is worth learning properly</h4>
+      <ul>
+        <li><strong>It is a standard,</strong> recognised in ISO 20926 and required for software contracts in some countries.</li>
+        <li><strong>It is defensible.</strong> "This is 56 function points at 3 hours each" is a far stronger sentence than "I think it will cost about two thousand dollars".</li>
+        <li><strong>It is language-independent,</strong> so it survives you changing framework mid-project.</li>
+        <li><strong>It makes you faster over time,</strong> because you accumulate a real productivity figure instead of guessing one.</li>
+        <li><strong>Some countries mandate it</strong> for public software contracts, so it is genuinely useful to know.</li>
+      </ul>
+    </section>
+
+    <section id="m-cocomo">
+      <h3>25 · Method 3: COCOMO II</h3>
+      <p class="lede">The NASA model, built on 161 real projects.</p>
+
+      <p>
+        <strong>COCOMO</strong> stands for Constructive Cost Model. The original was published by
+        Dr Barry Boehm in 1981 and <strong>COCOMO II</strong> was recalibrated against
+        <strong>161 completed projects</strong>. It is the most thoroughly researched cost model ever
+        built, and it is what a government or large enterprise expects to see in a formal bid.
+      </p>
+
+      <h4>The simple version first — the original COCOMO</h4>
+      <p>Worth knowing because it is easy to remember and still roughly right for small work.</p>
+      <div class="formula">
+        <div class="fl">Basic COCOMO — two lines of arithmetic</div>
+<pre><span class="d">Effort (person-months)</span> = a × (KLOC) ^ b
+<span class="d">Duration (months)</span>   = c × (Effort) ^ d
+<span class="d">Team size</span>              = Effort ÷ Duration</pre>
+      </div>
+      <p>
+        <span class="mono">KLOC</span> means thousands of lines of code. The letters
+        <span class="mono">a, b, c, d</span> are fixed constants that depend only on the kind of project:
+      </p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Project type</th><th>a</th><th>b</th><th>c</th><th>d</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Organic</strong></td><td class="mono">2.4</td><td class="mono">1.05</td><td class="mono">2.5</td><td class="mono">0.38</td><td>Small team, familiar problem, clear requirements. This is most client work.</td></tr>
+            <tr><td><strong>Semi-detached</strong></td><td class="mono">3.0</td><td class="mono">1.12</td><td class="mono">2.5</td><td class="mono">0.35</td><td>Medium team, mixed experience, some new tools</td></tr>
+            <tr><td><strong>Embedded</strong></td><td class="mono">3.6</td><td class="mono">1.20</td><td class="mono">2.5</td><td class="mono">0.32</td><td>Strict hardware or regulatory constraints</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Source: COCOMO Quick Reference, PC2544 Software Effort Estimation course.</p>
+      <p>
+        Note that <span class="mono">b</span> is always slightly above 1. That is <strong>software
+        diseconomies of scale</strong> — bigger projects get harder faster than linearly.
+      </p>
+
+      <h4>The full version — COCOMO II</h4>
+      <p>This is the one that replaced the original, and it is what you will see referenced.</p>
+      <div class="formula">
+        <div class="fl">COCOMO II — the two published equations</div>
+<pre><span class="d">Effort (person-months)</span> = A × (Size) ^ E × (EM1 × EM2 × ... × EMn)
+<span class="d">Duration (months)</span>   = C × (Effort) ^ SE
+
+<span class="c">where</span>   A  = <span class="k">2.94</span>   <span class="c">the calibration constant</span>
+        Size = KSLOC or unadjusted function points
+        E   = B + (0.01 × sum of scale factors),  where B = <span class="k">0.91</span>
+        C   = <span class="k">3.67</span>   <span class="c">the schedule constant</span>
+        SE  = D + 0.2 × (E − 0.91),  where D = <span class="k">0.28</span>
+        EFi = the effort multipliers you rated for this project
+
+<span class="c">Person-months convert at roughly 152 hours each.</span></pre>
+      </div>
+
+      <h4>The five scale factors</h4>
+      <p>These modify the exponent, and they are what make COCOMO II smarter than the original. Each is rated on a six-point scale from Very Low to Extra High.</p>
+      <ol class="big">
+        <li><strong>Precedentedness</strong> — has this team built something like this before? The single biggest factor. Low precedent pushes the exponent up sharply.</li>
+        <li><strong>Development flexibility</strong> — how free are you to change course? Fixed requirements score better than vague ones.</li>
+        <li><strong>Architecture and risk resolution</strong> — how much uncertainty has already been removed? A well-agreed design scores far better than none.</li>
+        <li><strong>Personnel capability</strong> — how capable and experienced is the team?</li>
+        <li><strong>Team cohesion</strong> — do the people know each other, and have they worked together before?</li>
+      </ol>
+      <p>
+        E ranges from <strong>0.91 to about 1.23</strong> depending on these five ratings. A typical
+        project with everything rated Nominal lands at <span class="mono">E = 1.0997</span>.
+      </p>
+
+      <h4>The effort multipliers</h4>
+      <p>
+        Unlike the scale factors, these <em>multiply</em> the answer rather than the exponent. There are
+        <strong>7 of them</strong> if you are estimating before the architecture exists, and
+        <strong>17 of them</strong> if you are estimating after. They cover the same ground as the 14
+        function point characteristics: product complexity, platform constraints, tool support, personnel
+        capability and experience, and project factors.
+      </p>
+      <p>A few real multiplier values, to show the scale of adjustment:</p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Driver</th><th>Low</th><th>Nominal</th><th>High</th><th>What a high rating means</th></tr></thead>
+          <tbody>
+            <tr><td>Analyst capability</td><td class="mono">1.19</td><td class="mono">1.00</td><td class="mono">0.86</td><td>Unusually good people — <em>reduces</em> effort</td></tr>
+            <tr><td>Programmer capability</td><td class="mono">1.17</td><td class="mono">1.00</td><td class="mono">0.86</td><td>Same idea</td></tr>
+            <tr><td>Programmer experience</td><td class="mono">1.13</td><td class="mono">1.00</td><td class="mono">0.91</td><td>Knows this stack deeply</td></tr>
+            <tr><td>Process maturity</td><td class="mono">6.24</td><td class="mono">4.68</td><td class="mono">3.12</td><td>A well-run process cuts effort by a third</td></tr>
+            <tr><td>Schedule compression</td><td class="mono">1.43</td><td class="mono">1.00</td><td class="mono">0.94</td><td>Hurry the schedule and effort goes up 43%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="src">Sources: COCOMO II Model Definition Manual (USC and University of Texas at Arlington versions), original COCOMO reference tables.</p>
+
+      <h4>Worked example, from the model manual itself</h4>
+      <div class="codewrap">
+<pre><span class="c">// A project with 8,000 lines of code, all cost drivers rated Nominal</span>
+<span class="d">EAF</span> (effort adjustment)  = 1.00
+<span class="d">E</span>   (exponent)           = 1.0997
+
+<span class="d">Effort</span>   = 2.94 × 1.00 × 8 ^ 1.0997   = <span class="k">28.9 person-months</span>
+<span class="d">Duration</span> = 3.67 × 28.9 ^ 0.3179        = <span class="k">12.1 months</span>
+<span class="d">Team size</span> = 28.9 ÷ 12.1                 = <span class="k">2.4 people</span>
+
+<span class="c">// Now rate Complexity as Very High (1.34) and Tools as Low (1.09)</span>
+<span class="d">EAF</span>  = 1.34 × 1.09                 = <span class="k">1.46</span>
+<span class="d">Effort</span> = 2.94 × 1.46 × 8 ^ 1.0997   = <span class="k">42.3 person-months</span></pre>
+      </div>
+      <p>
+        Note what that second block shows: the project did not grow, but the estimate rose by 46% purely
+        from recognising that the work was harder than average. That is exactly the judgement your
+        estimator currently skips.
+      </p>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">How much of COCOMO II you actually need</div>
+          <p style="margin-bottom:0">
+            The full 17-multiplier version is a large spreadsheet and was built for teams of ten to a
+            hundred. For solo client work, <strong>the original two-line COCOMO is the useful part</strong>:
+            get your line count right, pick the project type, and run the arithmetic. Use the multipliers
+            as a sanity check — if a hard project's estimate does not move when you raise the
+            multipliers, something is wrong.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="m-agile">
+      <h3>26 · Method 4: story points and velocity</h3>
+      <p class="lede">The modern method, and the one that suits ongoing work best.</p>
+
+      <p>
+        A <strong>story point</strong> is a unit of relative size, not time. A "3" does not mean three
+        days. It means "about as big as the things we called 3 before".
+      </p>
+
+      <h4>The scale</h4>
+      <p>
+        Teams use a Fibonacci-like scale, because the gaps grow: 1, 2, 3, 5, 8, 13, 21, 34. The reason
+        is deliberate — it reflects that going from 5 to 8 is a bigger relative jump than 1 to 2, and a
+        scale that grows too evenly would be pretending to more precision than we have.
+      </p>
+      <div class="grid3">
+        <div class="card"><div class="card-t"><span>1–2</span> Tiny</div><p>Hours, not days. A typo, a colour change, a small fix.</p></div>
+        <div class="card"><div class="card-t"><span>3–5</span> Small</div><p>Under a day or two. One simple form, one screen.</p></div>
+        <div class="card"><div class="card-t"><span>8</span> Medium</div><p>A few days. A whole feature with its server side.</p></div>
+        <div class="card"><div class="card-t"><span>13</span> Large</div><p>About a week. Should be split, honestly.</p></div>
+        <div class="card"><div class="card-t"><span>21+</span> Too big</div><p>Must be broken into pieces. If it is one story, the estimate is fiction.</p></div>
+        <div class="card"><div class="card-t"><span>?</span> Unknown</div><p>Spike it first — spend an hour researching, then re-estimate.</p></div>
+      </div>
+
+      <h4>Velocity, and the formula that uses it</h4>
+      <p>
+        <strong>Velocity</strong> is simply how many points your team actually finished in the last
+        sprint. It is measured, not predicted.
+      </p>
+      <div class="formula">
+        <div class="fl">The velocity formula</div>
+<pre><span class="d">Time to finish</span> = (Points still to do) ÷ (Velocity × Confidence factor)
+
+<span class="c">Confidence factors — be honest with yourself:</span>
+  <span class="k">90% confident</span>  →  × 0.85
+  <span class="k">80% confident</span>  →  × 0.80
+  <span class="k">50% confident</span>  →  × 0.70
+  <span class="k">Completely unknown</span> →  × 0.50</pre>
+      </div>
+
+      <h4>A worked example</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Step</th><th>Number</th></tr></thead>
+          <tbody>
+            <tr><td>Points remaining across the backlog</td><td class="mono">180</td></tr>
+            <tr><td>Points you completed last sprint (your velocity)</td><td class="mono">34</td></tr>
+            <tr><td>Points you finished the sprint before that</td><td class="mono">29</td></tr>
+            <tr><td>Points the one before that</td><td class="mono">38</td></tr>
+            <tr style="background:var(--bg-3)"><td><strong>Average velocity</strong> <span class="note">(34 + 29 + 38 ÷ 3)</span></td><td class="mono"><strong>33.7</strong></td></tr>
+            <tr><td>Confidence in the estimate <span class="note">(early on, so optimistic)</span></td><td class="mono">80%</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 12%,transparent)"><td colspan="2"><strong>180 ÷ (33.7 × 0.80) = 6.7 sprints left</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-info">
+        <span class="ic">🔁</span>
+        <div class="bd">
+          <div class="ct">Why this matters more than it looks</div>
+          <p style="margin-bottom:0">
+            Velocity is the only method here that produces a number you <em>know</em> rather than one you
+            believe. It is self-correcting: a team that consistently promises too much sees velocity fall,
+            and the forecast falls with it. If you keep a record of how long your own past projects
+            actually took, you have built a personal velocity measurement — and
+            <a href="#m-agile">that is worth more than any published constant in this document.</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="m-pert">
+      <h3>27 · Method 5: three-point estimation (PERT)</h3>
+      <p class="lede">The cheapest accuracy improvement available to you.</p>
+
+      <p>
+        Instead of giving one guess, give <strong>three</strong> — and the formula produces a better
+        answer than any of them, plus an honest measure of your own uncertainty.
+      </p>
+
+      <div class="formula">
+        <div class="fl">The PERT formulas</div>
+<pre><span class="d">Expected effort</span> = (Optimistic  +  4 × Most likely  +  Pessimistic) ÷ 6
+
+<span class="d">Standard deviation</span> = (Pessimistic − Optimistic) ÷ 6
+
+<span class="c">Why the 4? It is the weighted mean — most likely outcomes are far more</span>
+<span class="c">common than the extremes, so they get four times the weight.</span></pre>
+      </div>
+
+      <h4>Worked example — your web app</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Your three guesses</th><th>Hours</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Optimistic</strong> — everything goes perfectly, no surprises</td><td class="mono">90</td></tr>
+            <tr><td><strong>Most likely</strong> — what you honestly expect</td><td class="mono">150</td></tr>
+            <tr><td><strong>Pessimistic</strong> — things that normally go wrong, go wrong</td><td class="mono">280</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 12%,transparent)">
+              <td colspan="2"><strong>Expected effort</strong> = (90 + 4×150 + 280) ÷ 6 = <strong>153 hours</strong></td>
+            </tr>
+            <tr><td>Standard deviation = (280 − 90) ÷ 6</td><td class="mono">31.7 hours</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Now price it, using the range rather than a single number</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Probability you finish by…</th><th>Effort needed</th><th>Price at $45/hr</th></tr></thead>
+          <tbody>
+            <tr><td>About 50% of the time</td><td class="mono">153h</td><td class="mono">$6,885</td></tr>
+            <tr><td>About 84% of the time <span class="note">(+1 standard deviation)</span></td><td class="mono">185h</td><td class="mono">$8,325</td></tr>
+            <tr><td>About 98% of the time <span class="note">(+2 standard deviations)</span></td><td class="mono">216h</td><td class="mono">$9,720</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        <strong>This is the single most valuable idea in this report.</strong> Quoting the middle figure
+        means you overrun about half the time. Quoting one standard deviation above it means you almost
+        always finish. The difference between the two is only about 20% — and it is the difference
+        between a developer who keeps their promises and one who does not.
+      </p>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">Quote the safe number, tell the client the range</div>
+          <p style="margin-bottom:0">
+            "It will cost $8,300, and I would expect it to land between $6,900 and $9,700 depending on
+            what we find" is a far stronger, more professional sentence than "about seven grand, I
+            think". It is also worth roughly a fifth more money for the same work — and it is exactly
+            how a client is meant to be treated.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="m-loaded">
+      <h3>28 · Loaded rates and the billable-hours trap</h3>
+      <p class="lede">The most commonly ignored step in the whole calculation.</p>
+
+      <p>
+        Almost everyone divides their hours by a number they invented. The number you need is called a
+        <strong>loaded rate</strong>: what you must charge per hour of <em>invoiced</em> work to end up
+        with the income you need.
+      </p>
+
+      <div class="formula">
+        <div class="fl">The loaded rate formula</div>
+<pre><span class="d">Loaded rate</span> = ( Income you need  +  Business expenses  +  Tax)
+              ÷ ( Billable hours per year  ×  (1 − tax rate) )
+
+<span class="c">An easier, more accurate route — build it up from the bottom:</span>
+
+<span class="d">Loaded rate</span> = (Target take-home + expenses) ÷ (1 − tax%) ÷ billable hours</pre>
+      </div>
+
+      <h4>The billable-hours problem, which is the real trap</h4>
+      <p>
+        You do not get paid for every hour you work. Studies of freelance earnings repeatedly find that
+        <strong>only 50–65% of working hours ever turn into an invoice</strong>. The rest goes on:
+      </p>
+      <ul>
+        <li>Writing proposals and answering enquiries that lead nowhere</li>
+        <li>Marketing, your portfolio, keeping up with new tools</li>
+        <li>Invoicing, chasing payment, admin and record-keeping</li>
+        <li>Learning — which is unavoidable in this industry</li>
+        <li>Sick days, holidays, and the gaps between projects</li>
+      </ul>
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">The realistic figure</div>
+          <p style="margin-bottom:0">
+            The most commonly cited working assumption is <strong>25 billable hours a week across 48
+            working weeks = 1,200 billable hours a year</strong> — not 2,080. An employee gets roughly 125
+            billable hours a week; a freelancer without a full diary gets about 25. If you assume 40,
+            every rate you calculate will be around 40% too optimistic.
+          </p>
+        </div>
+      </div>
+
+      <h4>A worked example — what you actually need per hour</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Step</th><th>Example</th><th>Explanation</th></tr></thead>
+          <tbody>
+            <tr><td>Target take-home, per year</td><td class="mono">$30,000</td><td>What you want to actually receive</td></tr>
+            <tr><td>Add business expenses</td><td class="mono">$4,000</td><td>Equipment, software, internet, phone, insurance</td></tr>
+            <tr><td>Subtotal needed, before tax</td><td class="mono">$34,000</td><td>—</td></tr>
+            <tr><td>Add 10% for tax</td><td class="mono">$37,400</td><td>Gross up for tax. Adjust for your own situation.</td></tr>
+            <tr><td>Billable hours per year</td><td class="mono">1,200</td><td>25 a week × 48 weeks</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 12%,transparent)">
+              <td colspan="3"><strong>Loaded rate needed = $31.17 per hour</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Now put your own numbers through it</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Target take-home</th><th>Loaded rate needed</th><th>Annual revenue at that rate</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">$12,000 (about ₦16m at ₦1,330)</td><td class="mono">≈ $13.75/hr</td><td class="mono">$16,500</td></tr>
+            <tr><td class="mono">$24,000 (about ₦32m)</td><td class="mono">≈ $24.90/hr</td><td class="mono">$29,900</td></tr>
+            <tr><td class="mono">$36,000 (about ₦48m)</td><td class="mono">≈ $35.83/hr</td><td class="mono">$43,000</td></tr>
+            <tr><td class="mono">$60,000 (about ₦80m)</td><td class="mono">≈ $56.50/hr</td><td class="mono">$67,800</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-stop">
+        <span class="ic">🛑</span>
+        <div class="bd">
+          <div class="ct">The number that should concern you</div>
+          <p style="margin-bottom:0">
+            Your estimator's <em>best-case</em> effective rate is around <strong>$48 an hour</strong>
+            (<a href="#perhour">section 19</a>). That is roughly a <strong>$40,000 gross income</strong> if
+            every project hits the top of its range and is delivered on schedule — with no bad months,
+            no unpaid work, and no tax. Your <em>typical</em> rate is far below that.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="m-buffer">
+      <h3>29 · Buffers and contingency</h3>
+      <p class="lede">The part of the estimate that pays for what you have not thought of yet.</p>
+
+      <p>
+        A buffer is not padding. It is the honest allowance for work you could not have known about when
+        you wrote the estimate. Every project has some; the only question is whether you priced it in or
+        absorbed it yourself.
+      </p>
+
+      <h4>How much to add</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Situation</th><th>Buffer</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Requirements fully written down and agreed in writing</td><td class="mkt">10–15%</td><td>You know what you are building. Little room for surprises.</td></tr>
+            <tr><td>Requirements discussed but not written down</td><td class="mkt">20–30%</td><td>The most common case. People remember conversations differently.</td></tr>
+            <tr><td>Client still deciding what they want</td><td class="flag f-low">30–50%</td><td>Or do not quote a fixed price at all — quote a discovery phase first.</td></tr>
+            <tr><td>Integrating with an unfamiliar third-party system</td><td class="mkt">20–30%</td><td>Other people's documentation is rarely complete.</td></tr>
+            <tr><td>App store or payment provider involved</td><td class="mkt">20–30%</td><td>Compliance rules and review queues are outside your control.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Where your own promise leaves you exposed</h4>
+      <p>
+        You offer a <strong>30-day warranty</strong> and <strong>weekly async updates</strong>. Both are
+        good, and both should be priced. The warranty is roughly 1–2 days of unbilled time per project,
+        and the updates are an hour a week for the project's life. At your current rates, neither is
+        visible in the number.
+      </p>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">The two questions to ask before every quote</div>
+          <p style="margin-bottom:0">
+            <strong>One.</strong> If this project takes 50% longer than I think, do I still make money?
+            <strong>Two.</strong> If the client asks for one extra change, do I absorb it or is it
+            already in the price? If the answer to either is no, the buffer is too small — raise it in
+            the quote, not in your head.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="m-tco">
+      <h3>30 · Total cost of ownership</h3>
+      <p class="lede">The most commercially important idea in this report.</p>
+
+      <p>
+        <strong>Total Cost of Ownership</strong>, or TCO, is the whole cost of something over its entire
+        life — not just the invoice. Several sources make the same finding, and it is the one with the
+        biggest commercial consequence for you:
+      </p>
+
+      <div class="rule-box">
+        <div class="rt">💡 The finding</div>
+        <p style="margin-bottom:0;font-size:15px">
+          <strong>The cost of building something is only about 20–35% of what it costs to own.</strong>
+          Everything after launch — hosting, updates, security patches, new device versions, growing
+          data, and eventually a rewrite — keeps costing for years, and it is rarely in anyone's original
+          budget.
+        </p>
+      </div>
+
+      <h4>What the ongoing costs actually are</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Ongoing cost</th><th>Typical</th><th>Who pays it now?</th></tr></thead>
+          <tbody>
+            <tr><td>Hosting and storage</td><td class="mono">$20–$200 / month</td><td class="yours">yours</td></tr>
+            <tr><td>Database</td><td class="mono">$15–$150 / month</td><td class="yours">yours</td></tr>
+            <tr><td>Email delivery for the contact form</td><td class="mono">A few dollars / month</td><td class="yours">yours</td></tr>
+            <tr><td>Fixing things and answering questions</td><td class="mono">15–20% of build cost / year</td><td class="yours">yours</td></tr>
+            <tr><td>Monitoring and security</td><td class="mono">Unbilled</td><td class="yours">yours</td></tr>
+            <tr><td>New features the client asks for</td><td class="mono">Treated as free</td><td class="yours">yours</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 7%,transparent)">
+              <td><strong>Market price for all of the above</strong></td>
+              <td class="mkt"><strong>$50–$200 / month, or a written support plan</strong></td>
+              <td><strong>Should be the client</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>The TCO chart you should show a client</h4>
+      <p>
+        This is a genuinely persuasive conversation, because it reframes the price from a cost to an
+        investment. Take a $3,500 web app as the example.
+      </p>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Year</th><th>If the client pays nothing more</th><th>If the client takes a support plan</th></tr></thead>
+          <tbody>
+            <tr><td>Build, year 1</td><td class="yours">$3,500</td><td class="mkt">$3,500</td></tr>
+            <tr><td>Support, year 1</td><td class="yours">$0 (your time)</td><td class="mkt">$1,200</td></tr>
+            <tr><td>Changes, year 1</td><td class="yours">$0 (your time)</td><td class="mkt">included</td></tr>
+            <tr><td>Support, year 2</td><td class="yours">$0 (your time)</td><td class="mkt">$1,200</td></tr>
+            <tr style="background:color-mix(in srgb,var(--emerald) 12%,transparent)"><td><strong>Two-year total</strong></td><td class="yours"><strong>$3,500 paid by client, unknown hours for you</strong></td><td class="mkt"><strong>$5,900 paid by client, fixed hours for you</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">The genuinely valuable conclusion</div>
+          <p style="margin-bottom:0">
+            A support plan at $100 a month turns a one-off $3,500 job into <strong>$5,900 over two
+            years</strong>, with your hours capped. For a client it is cheap insurance and they can
+            budget it. For you it converts unpredictable unpaid work into predictable income — which is
+            the single biggest structural improvement available to your business, and it requires no new
+            skill at all.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PART V ================= -->
+    <h2 style="margin-top:52px"><span class="num">V</span> What to do</h2>
+
+    <section id="levers">
+      <h3>31 · Raise the price you get, not the number</h3>
+      <p class="lede">Five ways to earn more without touching the estimator.</p>
+
+      <p>
+        If you would rather not change the calculator, you still have room. These five changes alter what
+        you earn without altering a single number a visitor sees.
+      </p>
+
+      <ol class="big">
+        <li><strong>Stop the bleeding: charge for support.</strong> A written monthly plan covering
+        maintenance, small changes and a response time. Clients expect to pay for this and currently get
+        it free from you. This is the highest-value change on the list.</li>
+        <li><strong>Price by outcome, on the bigger jobs.</strong> Ask what the work is worth to the
+        client, then charge a fair share. Covered properly in <a href="#value">section 32</a>.</li>
+        <li><strong>Sell more to the international market.</strong> The evidence is that billing overseas
+        clients earns about 57% more per hour than billing locally, for identical work. You already
+        serve the UK, US and Europe in your contact section — price those conversations in dollars.</li>
+        <li><strong>Get paid for discovery.</strong> A paid discovery phase removes the guesswork that
+        makes fixed prices dangerous. Some sources credit the discovery cost back to the build price
+        when the project proceeds, so the risk is genuinely removed.</li>
+        <li><strong>Write down what things actually take you.</strong> Start recording hours per project
+        type today. In six months you will have a real productivity figure, and that is worth more than
+        any number in this document.</li>
+      </ol>
+
+      <div class="callout co-info">
+        <span class="ic">📌</span>
+        <div class="bd">
+          <div class="ct">One more that costs nothing</div>
+          <p style="margin-bottom:0">
+            Publish your rates instead of hiding them. A developer with visible pricing is trusted more,
+            wastes less of your time on unqualified enquiries, and attracts clients who have already
+            accepted the number. Published pricing is standard across the industry — several sources in
+            this report are agencies that do exactly that.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="value">
+      <h3>32 · Pricing by value</h3>
+      <p class="lede">The alternative to pricing by hours, and when it applies.</p>
+
+      <p>
+        Everything in Part IV prices by effort. That is correct for most work, and it has one weakness: it
+        cannot tell the difference between software that saves a business ten thousand a year and
+        software that saves it a million. The hours are identical.
+      </p>
+      <p>
+        <strong>Value-based pricing</strong> fixes that by setting the fee from what the work is worth to
+        the buyer, rather than what it costs you to produce.
+      </p>
+
+      <h4>The 10× rule</h4>
+      <div class="rule-box">
+        <div class="rt">The most commonly cited version</div>
+        <p style="margin-bottom:0;font-size:15px">
+          <strong>Charge roughly 10% of the value the client receives.</strong> If a project is worth
+          $50,000 to the business, a $5,000 fee leaves them with $45,000 of the upside and you with a
+          project worth doing.
+        </p>
+      </div>
+      <p>
+        A second common version uses <strong>10–20% of the first year's value</strong>. Sources that
+        advocate this report that freelancers using it earn around <strong>42% more per project</strong>
+        than those billing hourly, and that the small group of consultants using it close $10,000+
+        projects at 31% higher rates.
+      </p>
+
+      <h4>When it works, and when it does not</h4>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>✓</span> Value pricing works well</div>
+          <ul style="margin-left:18px;margin-bottom:0">
+            <li>Automation that saves staff time</li>
+            <li>A site that generates leads or sales</li>
+            <li>Anything replacing a measurable cost</li>
+            <li>Repeat work with a known error rate</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>✗</span> Value pricing does not work</div>
+          <ul style="margin-left:18px;margin-bottom:0">
+            <li>Requirements genuinely unknown</li>
+            <li>The result cannot be measured</li>
+            <li>Internal tools with no revenue link</li>
+            <li>One-off bespoke work with no repeating pattern</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Worked example, using your own case studies</h4>
+      <div class="tw">
+        <table class="tight">
+          <thead><tr><th>Project</th><th>Stated client impact</th><th>Value pricing at 10%</th><th>Your price today</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Order processing automation</td>
+              <td>Saves 2 hours 50 minutes of reconciliation per day — roughly 700 hours a year</td>
+              <td class="mkt">At even $30/hour of staff time saved, that is ~$21,000/yr → <strong>$2,100 per year of fee</strong></td>
+              <td class="yours">Web app, $1,500–$3,500 once</td>
+            </tr>
+            <tr>
+              <td>Recharge card formatter</td>
+              <td>3 hours of manual work reduced to under 5 seconds, with zero misprints on redeemable stock</td>
+              <td class="mkt">Higher still — it removes a costly error class</td>
+              <td class="yours">Web app, $1,500–$3,500 once</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The first example is instructive. The testimonial on your own site says the work saves about
+        <strong>three hours a day</strong>. Priced purely on hours, that project is $2,000. Priced on the
+        value it returns, it is a recurring annual saving for the client — and a supporting plan becomes
+        easy to justify.
+      </p>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">Two rules for doing this properly</div>
+          <p>
+            <strong>One.</strong> Get the number from the client, not from yourself. Ask what the problem
+            costs them today. If they cannot name it, value pricing is guesswork with a confident voice.
+          </p>
+          <p style="margin-bottom:0">
+            <strong>Two.</strong> Never show the hourly arithmetic behind a value price. The moment a
+            client sees "20 hours at $100", they negotiate to "just 10 hours". A value price is one
+            number tied to an outcome, and it stops being a negotiation about time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="floor">
+      <h3>33 · Find your own floor rate</h3>
+      <p class="lede">The number below which you should not accept work, whatever the project.</p>
+
+      <p>
+        A <strong>floor rate</strong> is the hourly rate below which a project is not worth taking. It
+        exists because some jobs are unprofitable no matter how interesting they are — the discovery call
+        that turns into a forty-hour build, or the client who asks for a fifth revision.
+      </p>
+
+      <div class="formula">
+        <div class="fl">Your floor rate</div>
+<pre><span class="d">Floor rate</span> = (Minimum acceptable income + expenses) 
+             ÷ billable hours
+             ×  (1 ÷ risk factor)
+
+<span class="c">A reasonable risk factor for a solo developer is 1.2 – 1.5,</span>
+<span class="c">reflecting the projects that overrun. Then take the market</span>
+<span class="c">rate for your region as a cross-check.</span></pre>
+      </div>
+
+      <h4>The three numbers to keep in your head</h4>
+      <div class="grid3">
+        <div class="card">
+          <div class="card-t"><span>1</span> Your floor</div>
+          <p>Below this, say no. Protects you from the projects that quietly cost you money. For a
+          developer in your region aiming to be paid properly, this tends to land somewhere in the
+          <strong>$25–40/hour</strong> range before risk loading.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>2</span> Your target</div>
+          <p>Where you want most work to sit. For you, that should be at or above the
+          <strong>$28–45/hour</strong> mid-level band for Nigeria, Ghana and Kenya — and you should be
+          able to reach <strong>$40–80</strong> for direct international clients.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>3</span> Your stretch</div>
+          <p>For the work you most want. Scarcity and speciality justify it: AI and LLM work commands
+          <strong>$100–200+</strong> in the US market. This is the rate for the flagship project, not the
+          one for the routine website.</p>
+        </div>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">What this all comes down to</div>
+          <p style="margin-bottom:0">
+            Your target rate for a routine website is about <strong>$45/hour</strong>. Your target for a
+            routine mobile app should be similar or higher, not a third of it. And your AI work — the
+            highest-paid specialism in the entire industry — should be your most expensive line, not your
+            cheapest. That is the whole argument of this report in one sentence.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reco">
+      <h3>34 · What I would change — and what I would not</h3>
+      <p class="lede">Recommendations only. Nothing has been altered.</p>
+
+      <div class="callout co-info">
+        <span class="ic">🔒</span>
+        <div class="bd">
+          <div class="ct">Stated plainly, in case it is unclear</div>
+          <p style="margin-bottom:0">
+            <strong>Your estimator has not been touched.</strong> Not one number in
+            <span class="mono">src/data/pricingConfig.ts</span> has changed. Everything below is a
+            suggestion for you to accept or reject.
+          </p>
+        </div>
+      </div>
+
+      <h4>What I would leave alone</h4>
+      <ul>
+        <li><strong>The bottom of the website range.</strong> $600 matches the cheapest published custom site in the market. It is your competitive weapon. Keep it.</li>
+        <li><strong>The structure of the calculator.</strong> Type, stage, add-ons is a good model and matches how <a href="#m-cocomo">the standard methods</a> think — base size, then complexity, then increments.</li>
+        <li><strong>The 1.5× production multiplier.</strong> That is a reasonable, defensible scaling for a deeper build and is well inside normal practice.</li>
+        <li><strong>Everything on the site that is not a number</strong> — the four-step process, the guarantees, the previews. They are why you win work, and they are not what is wrong here.</li>
+      </ul>
+
+      <h4>What I would change, in priority order</h4>
+      <ol class="steps-num">
+        <li><strong>Fix the naira conversion first.</strong> This is the fastest and cheapest fix, it
+        requires no courage, and it is currently costing you about 25% on every naira payment. Either
+        convert at the real rate, or make the two currencies agree.</li>
+        <li><strong>Add a support plan as a separate line.</strong> Do not fold it into the build price.
+        Price it monthly, and let the client see it as their choice. This changes no existing number and
+        can be the largest single increase in income.</li>
+        <li><strong>Rebuild the three larger categories from hours, not from feel.</strong> Work out what
+        a web app, a mobile app and an AI automation actually take you — the method is in
+        <a href="#m-bottomup">section 23</a> — then set the price from a real hour count at a rate of at
+        least $45. The website can stay where it is.</li>
+        <li><strong>Reprice the add-ones upward and stop pricing them all at one week.</strong> They are
+        the easiest increase because the client has already agreed to the base price. A payment
+        integration is $800–$4,000 of work; a webhook is not the same thing and should not share its
+        price or its timeline.</li>
+        <li><strong>Make AI your most expensive line, not your cheapest.</strong> It is the highest-paid
+        specialism in the industry. The current $800–$1,600 reads as though it were routine web work.</li>
+        <li><strong>Add a third stage option.</strong> A "production + integrations" tier at roughly
+        2–2.5× the MVP price would capture the client who needs the serious version. Right now a client
+        who wants a full production build with three add-ons tops out at $6,750 for a mobile app — less
+        than many agencies charge for a website.</li>
+      </ol>
+
+      <h4>What I would not do</h4>
+      <ul>
+        <li><strong>Do not triple your prices overnight.</strong> Your current clients bought at the old
+        price and are entitled to that. Raise the new rate for new work only, and let the old rate
+        expire naturally.</li>
+        <li><strong>Do not copy the US market figures.</strong> You are not selling to San Francisco, and
+        pricing against that market loses you the clients you can actually win.</li>
+        <li><strong>Do not drop to a single currency.</strong> Offering both is an advantage, and a
+        dollar price genuinely does let you bill international clients more.</li>
+        <li><strong>Do not remove anything from the estimator to make it cheaper.</strong> The problem is
+        that the numbers are too low, not that there is too much on the page.</li>
+      </ul>
+
+      <div class="callout co-good">
+        <span class="ic">★</span>
+        <div class="bd">
+          <div class="ct">The shortest possible summary</div>
+          <p style="margin-bottom:0">
+            You are not too expensive. You are underpriced in three of your four categories, in
+            inconsistent between currencies, and giving away support that every client will need anyway.
+            The website price is fine. The fix is arithmetic, not inflation — and
+            <a href="#m-fpa">Function Point Analysis</a> is the tool the industry actually uses to get it
+            right.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="glossary">
+      <h3>35 · Pricing words explained</h3>
+      <p class="lede">Every term used in this report, in ordinary language.</p>
+
+      <h4>The estimating words</h4>
+      <div class="gloss">
+        <div class="gitem"><div class="gterm">Effort</div><div class="gdef">The work needed, measured in hours or person-months. An output of your estimate, never an input to it.</div></div>
+        <div class="gitem"><div class="gterm">Size</div><div class="gdef">How big the work is, measured in something that does not change with language or team — usually function points.</div></div>
+        <div class="gitem"><div class="gterm">Function point</div><div class="gdef">A standard unit measuring one thing a user can do with a piece of software. One point is worth a few hours.</div></div>
+        <div class="gitem"><div class="gterm">UFP</div><div class="gdef">Unadjusted Function Points — the raw total before you account for the overall system's complexity.</div></div>
+        <div class="gitem"><div class="gterm">VAF</div><div class="gdef">Value Adjustment Factor. Scales the raw count up or down (0.65 to 1.35) for things like performance demands or how often it must change.</div></div>
+        <div class="gitem"><div class="gterm">Productivity</div><div class="gdef">How many function points you personally deliver per hour. This is <em>your</em> number, measured — never borrowed.</div></div>
+        <div class="gitem"><div class="gterm">KLOC</div><div class="gdef">Thousands of Lines Of Code. The old way of sizing software, used by the original COCOMO model.</div></div>
+        <div class="gitem"><div class="gterm">Person-month</div><div class="gdef">One person working for one month. COCOMO II treats this as roughly 152 hours.</div></div>
+        <div class="gitem"><div class="gterm">Exponent</div><div class="gdef">The power a number is raised to in a formula. In COCOMO it rises when a project is riskier, which makes the estimate grow faster than the size.</div></div>
+        <div class="gitem"><div class="gterm">Effort multiplier</div><div class="gdef">A factor above or below 1.00 that adjusts effort for a rated risk. Above 1 means more work than average; below 1 means less.</div></div>
+        <div class="gitem"><div class="gterm">Story point</div><div class="gdef">A relative unit of size in agile work. A 3 is "about as big as the things we called 3" — it is not a number of days.</div></div>
+        <div class="gitem"><div class="gterm">Velocity</div><div class="gdef">How many story points a team actually finished in the last sprint. Measured, not predicted — the only truly honest number in any method here.</div></div>
+        <div class="gitem"><div class="gterm">PERT</div><div class="gdef">Program Evaluation and Review Technique. Gives three estimates — optimistic, most likely, pessimistic — and combines them into one better number plus a measure of uncertainty.</div></div>
+        <div class="gitem"><div class="gterm">Loaded rate</div><div class="gdef">What you must charge per billable hour to end up with the income you need, after expenses and tax.</div></div>
+        <div class="gitem"><div class="gterm">Billable hours</div><div class="gdef">Hours that actually become an invoice. Usually 1,200 a year, not 2,080 — the rest goes on proposals, admin, learning and gaps.</div></div>
+        <div class="gitem"><div class="gterm">Buffer / contingency</div><div class="gdef">Money or time allowed for what you have not thought of yet. 10–15% when requirements are written down, 20–30% when they are only discussed.</div></div>
+        <div class="gitem"><div class="gterm">TCO</div><div class="gdef">Total Cost of Ownership — the whole cost over the life of something, not just the build. Usually 3–5× the build price.</div></div>
+      </div>
+
+      <h4>The commercial words</h4>
+      <div class="gloss">
+        <div class="gitem"><div class="gterm">MVP</div><div class="gdef">Minimum Viable Product — the smallest version that genuinely works and can be tested with real users. Not a broken full product.</div></div>
+        <div class="gitem"><div class="gterm">SaaS</div><div class="gdef">Software as a Service — a web application people pay a subscription for, rather than one they buy once.</div></div>
+        <div class="gitem"><div class="gterm">Multi-tenant</div><div class="gdef">One system serving many separate customers, with their data fully kept apart. It is an architecture decision, not a feature you add later.</div></div>
+        <div class="gitem"><div class="gterm">API</div><div class="gdef">A way for one piece of software to ask another for data or actions. Integrating one is real work with real failure modes.</div></div>
+        <div class="gitem"><div class="gterm">Ecommerce</div><div class="gdef">Selling directly online: catalogue, basket, payment, shipping. Far more expensive than an information website.</div></div>
+        <div class="gitem"><div class="gterm">Retainer</div><div class="gdef">A recurring monthly fee for ongoing work, rather than a one-off payment.</div></div>
+        <div class="gterm" style="display:none"></div>
+        <div class="gitem"><div class="gterm">Value-based pricing</div><div class="gdef">Charging a share of what the work is worth to the client, rather than a share of the hours it takes you.</div></div>
+        <div class="gitem"><div class="gterm">Effective hourly rate</div><div class="gdef">A project price divided by the hours it really took. The most useful number in this entire report.</div></div>
+        <div class="gitem"><div class="gterm">Floor rate</div><div class="gdef">The rate below which a job is not worth accepting, whatever else it might offer.</div></div>
+        <div class="gitem"><div class="gterm">Scope creep</div><div class="gdef">Work gradually being added to a project without the price changing. The single largest cause of freelance projects losing money.</div></div>
+        <div class="gitem"><div class="gterm">Discovery</div><div class="gdef">The work done before building: agreeing what is needed, why, and what it costs. Roughly 10% of a project's budget, and the best protection against a wrong estimate.</div></div>
+        <div class="gitem"><div class="gterm">Parallel / black market rate</div><div class="gdef">The naira exchange rate outside official channels. Usually slightly higher than the official rate, which is the rate that matters for your pricing.</div></div>
+        <div class="gitem"><div class="gterm">Offshore / nearshore</div><div class="gdef">Contracting a team in a cheaper country. "Offshore" means far away in time zone; "nearshore" means only a few hours apart.</div></div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <h3>36 · Where this came from</h3>
+      <p class="lede">Every source, so you can check any number yourself.</p>
+
+      <p>
+        All published in 2026 unless noted. Where a figure is disputed or sources disagree, both have been
+        shown rather than averaged.
+      </p>
+
+      <h4>Rate and salary data</h4>
+      <ul>
+        <li><strong>contractrates.fyi</strong> — 11,426 self-reported freelance rates, 81 roles, August 2026. Median $75/hour.</li>
+        <li><strong>FreelanceNation</strong> — US freelance web developer rates, July 2026.</li>
+        <li><strong>MyFreelanceKit</strong> — freelance rates across 150+ professions, 2026.</li>
+        <li><strong>Jobbers.io</strong> — hourly rate calculator by country and skill, April 2026. Source of the Nigeria/Ghana/Kenya band.</li>
+        <li><strong>Hire in South</strong> — developer hourly rates by region and specialisation, 2026.</li>
+        <li><strong>EstimateForge / projectcostestimator.com</strong> — rates from 600+ scoped project quotes, August 2026.</li>
+        <li><strong>Osdire</strong> — UK freelance and agency web developer rates, April 2026.</li>
+        <li><strong>IPSE freelancer survey 2025</strong> — UK direct-client rates by experience.</li>
+        <li><strong>Cadence (withremote.ai)</strong> — Indian developer rate cards across three engagement models, May 2026.</li>
+        <li><strong>Payoneer gig-economy research</strong> — the 57% international-client premium.</li>
+        <li><strong>African developer income breakdown</strong> — Upwork, Toptal and direct-client rates, mid-2026.</li>
+        <li><strong>CareerLead</strong> — software developer salaries across Africa, April 2026.</li>
+        <li><strong>Solohourly</strong> — freelance rate hub, 20 professions × 14 countries, June 2026.</li>
+      </ul>
+
+      <h4>Live marketplace data</h4>
+      <ul>
+        <li><strong>SnipeWork / Upwork</strong> — 3,507 live web, mobile and software development job posts over 30 days, September 2026. The most credible single dataset here, because it is money people actually committed.</li>
+      </ul>
+
+      <h4>Survey and aggregate cost data</h4>
+      <ul>
+        <li><strong>GoodFirms web development cost survey</strong> — 300+ firms across 31 countries. Source of the 60% / 33% / 30% distribution figures.</li>
+        <li><strong>WebFX</strong> — small business website cost ranges, 2026.</li>
+        <li><strong>FineWright</strong> — website cost statistics, July 2026, including their own published price list.</li>
+        <li><strong>Tack Media / One Little Web</strong> — 2026 website cost tier study.</li>
+        <li><strong>Seahawk Media</strong> — small business website costs, March 2026.</li>
+        <li><strong>Studio Mesa</strong> — small business website cost analysis, March 2026.</li>
+        <li><strong>Whito</strong> — UK website design costs, May 2026.</li>
+        <li><strong>Media Village</strong> — UK website costs, September 2025.</li>
+        <li><strong>Fora Soft</strong> — mobile app cost breakdown, July 2026.</li>
+        <li><strong>Fast Digital Marketing</strong> — line-item small business website costs, July 2026.</li>
+      </ul>
+
+      <h4>Agency cost guides</h4>
+      <ul>
+        <li><strong>Netguru</strong> — mobile app development cost, August 2026.</li>
+        <li><strong>TechQware</strong> — iOS app cost guide, June 2026.</li>
+        <li><strong>Creole Studios</strong> — iOS vs Android costs and AI agent costs, 2026.</li>
+        <li><strong>AIDEV</strong> — app cost statistics from 21 real app teardowns, July 2026.</li>
+        <li><strong>GMWARE</strong> — web application development cost, July 2026.</li>
+        <li><strong>Moydus</strong> — web application cost by project type, June 2026.</li>
+        <li><strong>Faintech Solutions</strong> — SaaS MVP cost bands, July 2026.</li>
+        <li><strong>BuildMVP</strong> — published feature-by-feature SaaS and mobile pricing, 2026.</li>
+        <li><strong>PerfectionGeeks</strong> — SaaS MVP and web app costs, June 2026.</li>
+        <li><strong>Softean</strong> — software development cost breakdown by type, 2026.</li>
+        <li><strong>HummingAgent</strong> — AI automation cost guide, August 2026.</li>
+        <li><strong>Instadesk</strong> — chatbot cost tiers, 2026.</li>
+        <li><strong>Dante AI</strong> — chatbot build costs, July 2026.</li>
+        <li><strong>creolestudios</strong> — AI agent development cost, 2026.</li>
+      </ul>
+
+      <h4>Estimation standards and models</h4>
+      <ul>
+        <li><strong>IFPUG</strong> (International Function Point Users Group) — the function point standard, ISO 20926. <span class="mono">ifpug.org</span></li>
+        <li><strong>COCOMO II Model Definition Manual</strong> — Barry Boehm, University of Southern California. Calibrated on 161 projects.</li>
+        <li><strong>COCOMO Quick Reference</strong> — original COCOMO constants and effort multipliers.</li>
+        <li><strong>KnowledgeHut</strong> — the function point weight tables and VAF formula in full.</li>
+        <li><strong>ACM / University of Zurich</strong> — research on function point counting speed and variation between methods.</li>
+        <li><strong>CMMI productivity benchmarks</strong> — function points per person-month by process maturity level.</li>
+        <li><strong>Robbin Wwaite / Feedsen / Solohourly</strong> — value-based pricing and the 10× rule, 2026.</li>
+      </ul>
+
+      <h4>Exchange rate</h4>
+      <ul>
+        <li><strong>Nigerian Foreign Exchange Market</strong> — approximately ₦1,327 per dollar, 28 September 2026.</li>
+        <li><strong>Monierate / Aboki Forex</strong> — parallel market rate around ₦1,386–₦1,393, September 2026.</li>
+        <li><strong>Pluang / ExchangeRates247</strong> — mid-market rate around ₦1,323–₦1,330, September 2026.</li>
+      </ul>
+
+      <div class="callout co-warn">
+        <span class="ic">📅</span>
+        <div class="bd">
+          <div class="ct">How long this stays true</div>
+          <p style="margin-bottom:0">
+            The naira rate changes daily, and the market figures move as demand changes. Everything here
+            is a snapshot of <strong>September 2026</strong>. The <em>shape</em> of the data — where each
+            category sits relative to the others, and that your prices are below the middle of the market
+            — is far more durable than any individual number. Re-check the rates twice a year.
+          </p>
+        </div>
+      </div>
+
+      <h4>The other documents</h4>
+      <div class="doclinks">
+        <a class="doclink" href="docs.html">
+          <div class="dt">📚 The Document Hub</div>
+          <div class="dd">The index of everything. Bookmark this one address.</div>
+        </a>
+        <a class="doclink" href="app-documentation.html">
+          <div class="dt">📘 App Documentation</div>
+          <div class="dd">The 30-section reference for the website itself — including the exact formula your calculator uses.</div>
+        </a>
+        <a class="doclink" href="brand-guidelines.html">
+          <div class="dt">🎨 Brand Guidelines</div>
+          <div class="dd">The definitive design reference: logo geometry, colours with real contrast ratios, type scale and motion.</div>
+        </a>
+        <a class="doclink" href="email-delivery-guide.html">
+          <div class="dt">📮 Email Delivery Guide</div>
+          <div class="dd">How the contact form sends mail, and how to move onto your own sending domain.</div>
+        </a>
+        <a class="doclink" href="google-calendar-booking.html">
+          <div class="dt">📅 Google Calendar Booking</div>
+          <div class="dd">How to build the booking page the buttons open, with automatic Meet links.</div>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+    <div class="fgrid">
+      <div class="brandbox" style="padding:9px">
+        <svg viewBox="0 0 160 120" fill="none" style="width:46px;height:34px;display:block" aria-label="Dammie Optimus Monogram">
+          <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 30 25 L 30 95" />
+            <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+            <circle cx="100" cy="60" r="35" />
+          </g>
+          <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+        </svg>
+      </div>
+      <div class="fnote" style="flex:1;min-width:260px">
+        <strong>Dammie Optimus Solutions</strong><br />
+        Market Pricing Report — what developers charge, and how to estimate it<br />
+        <a href="docs.html">All documents</a> &nbsp;·&nbsp;
+        <a href="app-documentation.html">App Documentation</a> &nbsp;·&nbsp;
+        <a href="mailto:dammieoptimus@gmail.com">dammieoptimus@gmail.com</a>
+      </div>
+      <div class="fnote" style="text-align:right">
+        Sections 01–36 · Living document<br />
+        Sources verified September 2026
+      </div>
+      </div>
+    </footer>
+  </main>
+</div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+<script src="assets/docs.js"></script>
+</body>
+</html>

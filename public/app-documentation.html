@@ -253,7 +253,7 @@
         </div>
         <div class="dcell">
           <div class="dl">Number of pages</div>
-          <div class="dv">1 app page + 4 documents</div>
+          <div class="dv">1 app page + 5 documents</div>
           <div class="dd2">The app itself is a single page with five sections.</div>
         </div>
         <div class="dcell">
@@ -806,10 +806,11 @@
           <tbody>
             <tr><td class="f">public/docs.html</td><td class="n">296</td><td>The Document Hub. The index of every guide, and the one address worth bookmarking.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">public/app-documentation.html</td><td class="n">—</td><td><strong>This document.</strong></td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">public/pricing-benchmark-report.html</td><td class="n">2,644</td><td><strong>The market pricing report.</strong> 36 sections of independent 2026 pricing research, plus the five formal methods for costing software work: Function Point Analysis, COCOMO II, story points, PERT and loaded rates.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/brand-guidelines.html</td><td class="n">1,534</td><td>The definitive design reference: logo geometry, colours with real contrast ratios, type scale, spacing, radii, motion, and brand voice.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/email-delivery-guide.html</td><td class="n">722</td><td>How the contact form sends mail, and how to move to your own sending domain.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">public/google-calendar-booking.html</td><td class="n">714</td><td>How to build the booking page the buttons point at.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">public/assets/docs.css</td><td class="n">342</td><td>The shared document design system. Every guide uses it, so a change here restyles all four documents at once.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/assets/docs.css</td><td class="n">342</td><td>The shared document design system. Every guide uses it, so a change here restyles all five documents at once.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/assets/docs.js</td><td class="n">108</td><td>The shared document behaviour: theme toggle, reading progress bar, contents highlighting, copy buttons, toast, and print.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/_headers</td><td class="n">2</td><td>Tells Cloudflare to cache the fingerprintless build assets for a year, because their filenames change on every build.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/file.svg</td><td class="n">—</td><td><strong>Unused.</strong> A leftover from the original project template. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
@@ -1526,9 +1527,9 @@ Additional notes:
           <tbody>
             <tr><td>Social sharing images</td><td>Show a branded card when the link is pasted into WhatsApp, LinkedIn or X. Currently they show a bare address.</td><td><strong>Yes.</strong> This is the single highest-return SEO-adjacent change, especially for a business whose links are shared on WhatsApp.</td></tr>
             <tr><td>A canonical address</td><td>Tells search engines which version of the page is the real one. Important once you have your own domain and the free workers.dev address both exist.</td><td>Yes, once the domain lands.</td></tr>
-            <tr><td>A sitemap and a robots file</td><td>Tells search engines what exists. With one page it adds little, but the four documents are worth listing.</td><td>Low, for now.</td></tr>
+            <tr><td>A sitemap and a robots file</td><td>Tells search engines what exists. With one page it adds little, but the five documents are worth listing.</td><td>Low, for now.</td></tr>
             <tr><td>Open Graph and structured data</td><td>Richer results in search, and a machine-readable description of what you do.</td><td>Medium, once you have a domain.</td></tr>
-            <tr><td>Per-document metadata</td><td>Each of the four documents already has its own title and description, hand-written. This is done.</td><td>Done.</td></tr>
+            <tr><td>Per-document metadata</td><td>Each of the five documents already has its own title and description, hand-written. This is done.</td><td>Done.</td></tr>
           </tbody>
         </table>
       </div>
@@ -2399,7 +2400,7 @@ npm run build</pre>
         <div class="rf">Files: <span class="path">src/components/DOMonogram.tsx</span>, <span class="path">src/app/icon.svg</span>, <span class="path">public/assets/docs.css</span></div>
         <ol>
           <li>The two brand hex values appear as gradient stops in the monogram and in the tab icon. Change both together — they are the same two colours.</li>
-          <li>The document pages have their own four colour tokens near the top of their stylesheet, in a dark block and a light block. Change them there and all four documents restyle together.</li>
+          <li>The document pages have their own four colour tokens near the top of their stylesheet, in a dark block and a light block. Change them there and all five documents restyle together.</li>
           <li>After changing colours, check contrast. Bright emerald text on a white background fails accessibility, which is exactly why the light theme uses separate, much darker "ink" values for text.</li>
           <li>Update the colour tables in the <a href="theme">section 14</a> of this document and the specifications in the <a href="brand-guidelines.html">Brand Guidelines</a>.</li>
         </ol>
@@ -2941,6 +2942,10 @@ npm run build</pre>
         <a class="doclink" href="docs.html">
           <div class="dt">📚 The Document Hub</div>
           <div class="dd">The index of everything. Bookmark this one address.</div>
+        </a>
+        <a class="doclink" href="pricing-benchmark-report.html">
+          <div class="dt">💰 Market Pricing Report</div>
+          <div class="dd">What developers actually charge in 2026, and the five formal methods for costing software work.</div>
         </a>
         <a class="doclink" href="brand-guidelines.html">
           <div class="dt">🎨 Brand Guidelines</div>
