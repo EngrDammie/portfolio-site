@@ -257,23 +257,23 @@
         </div>
         <div class="dcell">
           <div class="dl">Number of pages</div>
-          <div class="dv">1 app page + 6 documents</div>
-          <div class="dd2">The app itself is a single page with five sections.</div>
+          <div class="dv">1 app page, 1 policy, 9 documents</div>
+          <div class="dd2">The app itself is a single page of five sections. The documents are static files with no build step.</div>
         </div>
         <div class="dcell">
           <div class="dl">Sections on the page</div>
-          <div class="dv">5</div>
-          <div class="dd2">Navigation, Hero, Showcase, Process, Estimator, Contact.</div>
+          <div class="dv">5, plus navigation</div>
+          <div class="dd2">Hero, Showcase, Trust, Estimator, Contact. The navigation bar sits outside <span class="mono">main</span>.</div>
         </div>
         <div class="dcell">
           <div class="dl">Codebase size</div>
-          <div class="dv">2,667 lines</div>
-          <div class="dd2">Everything under <span class="mono">src/</span> plus the Cloudflare build config. Small enough to hold entirely in your head.</div>
+          <div class="dv">Small on purpose</div>
+          <div class="dd2">Deliberately not quoted as a line count, because that figure changes on almost every edit and tells you nothing durable. Every file is listed in <a href="#files">section 08</a>, and <span class="mono">npm run filemap:check</span> verifies that list against the disk.</div>
         </div>
         <div class="dcell">
           <div class="dl">Case studies</div>
           <div class="dv">5 live, 3 flagged as flagship</div>
-          <div class="dd2">1 video preview, 4 live-iframe previews.</div>
+          <div class="dd2">1 video preview, 5 live-iframe previews (one case study has both).</div>
         </div>
         <div class="dcell">
           <div class="dl">Currencies</div>
@@ -746,35 +746,36 @@
       <p class="lede">Every file in the project, what it does, and how careful to be with it.</p>
 
       <p>
-        The project is deliberately small: <strong>21 tracked files plus 12 files under
-        <span class="mono">public/</span></strong>. The table below is the whole thing. Nothing is
-        hidden, and nothing is generated without being listed.
+        The project is deliberately small, and the table below is the whole of it. Every file
+        under <span class="mono">src/</span> and <span class="mono">public/</span> appears here,
+        along with the configuration at the repository root. Nothing is hidden, and nothing is
+        generated without being listed.
       </p>
 
       <h4>The application source — <span class="mono">/src</span></h4>
       <div class="tw">
         <table class="file-map">
-          <thead><tr><th>File</th><th>Lines</th><th>What it is for</th><th>Care level</th></tr></thead>
+          <thead><tr><th>File</th><th>What it is for</th><th>Care level</th></tr></thead>
           <tbody>
-            <tr><td class="f">src/app/layout.tsx</td><td class="n">70</td><td>The outer shell of every page. Loads the two fonts, sets the page title and description, wraps everything in the theme provider, and injects the Cloudflare Web Analytics script.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/app/page.tsx</td><td class="n">40</td><td>The home page. Reads the booking URL on the server and assembles the five sections in order. This is the file that decides what visitors see, in what order.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/app/globals.css</td><td class="n">221</td><td>All global styling. Sets the root type size, the page transition, and the entire light-mode colour engine, including the legal-page surface overrides.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/app/privacy/page.tsx</td><td class="n">647</td><td><strong>The privacy policy.</strong> A full App Router route at <span class="mono">/privacy</span>, linked from the site footer. Thirteen sections covering what the form collects, what is not collected, retention, rights under NDPA 2023 and GDPR, embeds, and the linked apps. Prerendered to static HTML at build time.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/app/api/contact/route.ts</td><td class="n">171</td><td>The only API endpoint. Validates submissions, HTML-escapes every visitor string, builds the branded email, and hands it to Resend.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/app/icon.svg</td><td class="n">21</td><td>The browser tab icon. The DO monogram on a dark rounded square with an emerald border.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/app/favicon.ico</td><td class="n">30</td><td>The fallback icon for older browsers. The SVG above takes priority in every modern browser.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">src/components/Navbar.tsx</td><td class="n">122</td><td>The sticky top bar, brand wordmark, jump links, theme toggle, booking button, and the mobile drawer menu.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/components/Hero.tsx</td><td class="n">121</td><td>The headline, the rotating service list, the availability badge, the two calls to action, and the four credibility badges.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/components/ProjectShowcase.tsx</td><td class="n">550</td><td>The largest file. The case study grid, category filters, the expandable architecture drawer, the preview modal, the device switcher, and the YouTube facade.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/components/TrustEngine.tsx</td><td class="n">195</td><td>The four-step process roadmap, the three client guarantees, and the testimonials.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/components/ScopeEstimator.tsx</td><td class="n">346</td><td>The price calculator: three steps of choices, the live summary card, and the hand-off to the contact form.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/components/ContactHub.tsx</td><td class="n">417</td><td>The booking card, WhatsApp card, availability note, the brief form, the privacy notice above the submit button, and the page footer.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/components/Typewriter.tsx</td><td class="n">77</td><td>The rotating word effect in the headline. Types, pauses, deletes, repeats.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/components/DOMonogram.tsx</td><td class="n">69</td><td>The logo itself, drawn as vector shapes. Exports the bare monogram and the boxed brand logo used in the header, footer, and documents.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">src/components/ThemeToggle.tsx</td><td class="n">52</td><td>The sun/moon button. Crossfades between the two icons and stores the choice.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/components/ThemeProvider.tsx</td><td class="n">10</td><td>A ten-line pass-through that mounts the theme library once, for the whole app.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">src/data/projectsConfig.ts</td><td class="n">183</td><td>All five case studies, and the rules for what a case study must contain.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/data/pricingConfig.ts</td><td class="n">150</td><td>Every price, every timeline, both currencies, the four project types, the two stages, and the four add-ons.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/app/layout.tsx</td><td>The outer shell of every page. Loads the two fonts, sets the page title and description, wraps everything in the theme provider, and injects the Cloudflare Web Analytics script.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/app/page.tsx</td><td>The home page. Reads the booking URL on the server and assembles the five sections in order. This is the file that decides what visitors see, in what order.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/app/globals.css</td><td>All global styling. Sets the root type size, the page transition, and the entire light-mode colour engine, including the legal-page surface overrides.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/app/privacy/page.tsx</td><td><strong>The privacy policy.</strong> A full App Router route at <span class="mono">/privacy</span>, linked from the site footer. Thirteen sections covering what the form collects, what is not collected, retention, rights under NDPA 2023 and GDPR, embeds, and the linked apps. Prerendered to static HTML at build time.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/app/api/contact/route.ts</td><td>The only API endpoint. Validates submissions, HTML-escapes every visitor string, builds the branded email, and hands it to Resend.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/app/icon.svg</td><td>The browser tab icon. The DO monogram on a dark rounded square with an emerald border.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/app/favicon.ico</td><td>The fallback icon for older browsers. The SVG above takes priority in every modern browser.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">src/components/Navbar.tsx</td><td>The sticky top bar, brand wordmark, jump links, theme toggle, booking button, and the mobile drawer menu.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/components/Hero.tsx</td><td>The headline, the rotating service list, the availability badge, the two calls to action, and the four credibility badges.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/components/ProjectShowcase.tsx</td><td>The largest file. The case study grid, category filters, the expandable architecture drawer, the preview modal, the device switcher, and the YouTube facade.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/components/TrustEngine.tsx</td><td>The four-step process roadmap, the three client guarantees, and the testimonials.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/components/ScopeEstimator.tsx</td><td>The price calculator: three steps of choices, the live summary card, and the hand-off to the contact form.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/components/ContactHub.tsx</td><td>The booking card, WhatsApp card, availability note, the brief form, the privacy notice above the submit button, and the page footer.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/components/Typewriter.tsx</td><td>The rotating word effect in the headline. Types, pauses, deletes, repeats.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/components/DOMonogram.tsx</td><td>The logo itself, drawn as vector shapes. Exports the bare monogram and the boxed brand logo used in the header, footer, and documents.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">src/components/ThemeToggle.tsx</td><td>The sun/moon button. Crossfades between the two icons and stores the choice.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/components/ThemeProvider.tsx</td><td>A ten-line pass-through that mounts the theme library once, for the whole app.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">src/data/projectsConfig.ts</td><td>All five case studies, and the rules for what a case study must contain.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/data/pricingConfig.ts</td><td>Every price, every timeline, both currencies, the four project types, the two stages, and the four add-ons.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -782,20 +783,20 @@
       <h4>Configuration — the project root</h4>
       <div class="tw">
         <table class="file-map">
-          <thead><tr><th>File</th><th>Lines</th><th>What it is for</th><th>Care level</th></tr></thead>
+          <thead><tr><th>File</th><th>What it is for</th><th>Care level</th></tr></thead>
           <tbody>
-            <tr><td class="f">package.json</td><td class="n">37</td><td>Installed packages and the named commands. The list of every script is in <a href="#deploy">section 21</a>.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">package-lock.json</td><td class="n">—</td><td>The exact resolved tree of installed packages. Never edit it by hand. Commit it.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">wrangler.jsonc</td><td class="n">35</td><td>How the Worker is deployed: its name, the compatibility flags, the asset bindings, the self-reference, images, and logging.</td><td><span class="tag tag-never">Never add secrets</span></td></tr>
-            <tr><td class="f">open-next.config.ts</td><td class="n">5</td><td>One line: "build me for Cloudflare". A comment explains where to add a cache override if you ever need revalidation.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">next.config.ts</td><td class="n">7</td><td>Only one setting: which addresses may run interactive development scripts. This is what lets your phone load the site during testing.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">tsconfig.json</td><td class="n">34</td><td>The TypeScript rules. Strict mode is on, and <span class="mono">@/</span> is the shortcut for <span class="mono">src/</span>.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">postcss.config.mjs</td><td class="n">7</td><td>Plugs Tailwind into the build. Eight lines, one plugin.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">eslint.config.mjs</td><td class="n">18</td><td>The code-quality rules, inherited from the Next.js recommended sets for web vitals and TypeScript.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">.gitignore</td><td class="n">49</td><td>The list of things that must never be committed: environment files, build output, Cloudflare working files, and editor droppings.</td><td><span class="tag tag-never">Never weaken</span></td></tr>
-            <tr><td class="f">AGENTS.md</td><td class="n">9</td><td>A warning for AI coding assistants that this Next.js version has breaking changes, and a pointer to the bundled documentation. Re-created automatically by the development server.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">CLAUDE.md</td><td class="n">1</td><td>A one-line pointer to <span class="mono">AGENTS.md</span>, so any assistant reads the same warning.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">README.md</td><td class="n">—</td><td>The front page of the repository. A short, non-technical summary and the setup steps.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">package.json</td><td>Installed packages and the named commands. The list of every script is in <a href="#deploy">section 21</a>.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">package-lock.json</td><td>The exact resolved tree of installed packages. Never edit it by hand. Commit it.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">wrangler.jsonc</td><td>How the Worker is deployed: its name, the compatibility flags, the asset bindings, the self-reference, images, and logging.</td><td><span class="tag tag-never">Never add secrets</span></td></tr>
+            <tr><td class="f">open-next.config.ts</td><td>One line: "build me for Cloudflare". A comment explains where to add a cache override if you ever need revalidation.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">next.config.ts</td><td>Only one setting: which addresses may run interactive development scripts. This is what lets your phone load the site during testing.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">tsconfig.json</td><td>The TypeScript rules. Strict mode is on, and <span class="mono">@/</span> is the shortcut for <span class="mono">src/</span>.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">postcss.config.mjs</td><td>Plugs Tailwind into the build. Eight lines, one plugin.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">eslint.config.mjs</td><td>The code-quality rules, inherited from the Next.js recommended sets for web vitals and TypeScript.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">.gitignore</td><td>The list of things that must never be committed: environment files, build output, Cloudflare working files, and editor droppings.</td><td><span class="tag tag-never">Never weaken</span></td></tr>
+            <tr><td class="f">AGENTS.md</td><td>A warning for AI coding assistants that this Next.js version has breaking changes, and a pointer to the bundled documentation. Re-created automatically by the development server.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">CLAUDE.md</td><td>A one-line pointer to <span class="mono">AGENTS.md</span>, so any assistant reads the same warning.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">README.md</td><td>The front page of the repository. A short, non-technical summary and the setup steps.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -806,48 +807,55 @@
         the live site without a deploy.
       </p>
       <div class="callout co-info">
-        <span class="ic">📏</span>
+        <span class="ic">📋</span>
         <div class="bd">
-          <div class="ct">The line counts below go stale. Check them in one command.</div>
+          <div class="ct">What this table must guarantee, and how to check it</div>
           <p>
-            Any edit to an app file makes these numbers wrong, and a stale file map is a documented
-            defect. After changing anything in <span class="mono">src/</span> or
-            <span class="mono">public/</span>, run:
+            The table is meant to be <strong>complete</strong>: every file that exists is listed,
+            and every file that is listed exists. An entry that has drifted out of date is a defect.
+          </p>
+          <p style="margin-top:10px">
+            Check it in one command after adding, renaming or removing anything:
           </p>
           <div class="tw" style="margin-top:10px">
-            <pre>npm run filemap</pre>
+            <pre>npm run filemap:check</pre>
           </div>
           <p style="margin-top:10px">
-            It prints the real count for every file in this table and marks which stated figures no
-            longer match. <span class="mono">npm run filemap:check</span> exits non-zero instead,
-            which is the form to use in a pre-commit hook or a CI step. The script lives at
-            <span class="mono">scripts/filemap.js</span>; if you add a file to this table, add it to
-            the <span class="mono">TRACKED</span> array in that script too, or it will not be checked.
+            That compares the files on disk against the files listed here, and fails if either side
+            has something the other does not. The script is
+            <span class="mono">scripts/filemap.js</span> and it reads this table directly, so
+            there is no second list to keep in step.
+          </p>
+          <p style="margin-top:10px">
+            <strong>This table deliberately carries no line counts.</strong> They were removed
+            because they went stale on almost every edit, which made a routine change look like a
+            documentation failure. The description of what a file does is the part that has to be
+            right, and that does not decay on its own.
           </p>
         </div>
       </div>
       <div class="tw">
         <table class="file-map">
-          <thead><tr><th>File</th><th>Lines</th><th>What it is for</th><th>Care level</th></tr></thead>
+          <thead><tr><th>File</th><th>What it is for</th><th>Care level</th></tr></thead>
           <tbody>
-            <tr><td class="f">public/docs.html</td><td class="n">452</td><td>The Document Hub. The index of every guide, and the one address worth bookmarking.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">public/app-documentation.html</td><td class="n">—</td><td><strong>This document.</strong></td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">public/the-nameless-column.html</td><td class="n">4,596</td><td><strong>A 28-chapter science-fiction novel</strong> about building this platform, with a real "Field Note" in every chapter. Deliberately links to no other document so it can be shared publicly on its own.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">public/pricing-benchmark-report.html</td><td class="n">2,642</td><td><strong>The market pricing report.</strong> 36 sections of independent 2026 pricing research, plus the five formal methods for costing software work: Function Point Analysis, COCOMO II, story points, PERT and loaded rates.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">public/openchamber-guide.html</td><td class="n">1,385</td><td><strong>The OpenChamber tooling guide.</strong> 37 sections on running OpenCode through a graphical interface and reaching it from a phone: installation, the three connection routes, what the Private Relay can and cannot see versus a public tunnel, every command and environment variable, and troubleshooting.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">public/seo-virality-growth-guide.html</td><td class="n">2,646</td><td><strong>The organic growth and visibility guide.</strong> 55 sections of 2026 research on SEO, AI answer engines, topical authority, digital PR, local and international reach, and how attention becomes revenue. Includes a live audit of this site, a 90-day and 12-month plan, and a ranked backlog of recommendations &mdash; none of which have been implemented.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">public/brand-guidelines.html</td><td class="n">1,537</td><td>The definitive design reference: logo geometry, colours with real contrast ratios, type scale, spacing, radii, motion, and brand voice.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">public/email-delivery-guide.html</td><td class="n">722</td><td>How the contact form sends mail, and how to move to your own sending domain.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">public/google-calendar-booking.html</td><td class="n">714</td><td>How to build the booking page the buttons point at.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">public/assets/docs.css</td><td class="n">390</td><td>The shared document design system. Every guide uses it, so a change here restyles all seven documents at once.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">public/assets/docs.js</td><td class="n">108</td><td>The shared document behaviour: theme toggle, reading progress bar, contents highlighting, copy buttons, toast, and print.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">scripts/filemap.js</td><td class="n">154</td><td>Prints the real line count of every file in this table and flags any that no longer match. Run it after editing any app file.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">public/_headers</td><td class="n">40</td><td>Two jobs. Caches the fingerprintless build assets for a year, and sets <span class="mono">X-Robots-Tag: noindex</span> on every internal document so search engines keep them out of results while you can still open them. Adding a document means adding a rule here.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">public/file.svg</td><td class="n">—</td><td><strong>Unused.</strong> A leftover from the original project template. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
-            <tr><td class="f">public/globe.svg</td><td class="n">—</td><td><strong>Unused.</strong> Same origin. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
-            <tr><td class="f">public/next.svg</td><td class="n">—</td><td><strong>Unused.</strong> Same origin. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
-            <tr><td class="f">public/vercel.svg</td><td class="n">—</td><td><strong>Unused.</strong> A leftover from when the project targeted Vercel. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
-            <tr><td class="f">public/window.svg</td><td class="n">—</td><td><strong>Unused.</strong> Same origin. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
+            <tr><td class="f">public/docs.html</td><td>The Document Hub. The index of every guide, and the one address worth bookmarking.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">public/app-documentation.html</td><td><strong>This document.</strong></td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">public/the-nameless-column.html</td><td><strong>A 28-chapter science-fiction novel</strong> about building this platform, with a real "Field Note" in every chapter. Deliberately links to no other document so it can be shared publicly on its own.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/pricing-benchmark-report.html</td><td><strong>The market pricing report.</strong> 36 sections of independent 2026 pricing research, plus the five formal methods for costing software work: Function Point Analysis, COCOMO II, story points, PERT and loaded rates.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/openchamber-guide.html</td><td><strong>The OpenChamber tooling guide.</strong> 37 sections on running OpenCode through a graphical interface and reaching it from a phone: installation, the three connection routes, what the Private Relay can and cannot see versus a public tunnel, every command and environment variable, and troubleshooting.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/seo-virality-growth-guide.html</td><td><strong>The organic growth and visibility guide.</strong> 55 sections of 2026 research on SEO, AI answer engines, topical authority, digital PR, local and international reach, and how attention becomes revenue. Includes a live audit of this site, a 90-day and 12-month plan, and a ranked backlog of recommendations &mdash; none of which have been implemented.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/brand-guidelines.html</td><td>The definitive design reference: logo geometry, colours with real contrast ratios, type scale, spacing, radii, motion, and brand voice.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/email-delivery-guide.html</td><td>How the contact form sends mail, and how to move to your own sending domain.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">public/google-calendar-booking.html</td><td>How to build the booking page the buttons point at.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">public/assets/docs.css</td><td>The shared document design system. Every guide uses it, so a change here restyles all seven documents at once.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/assets/docs.js</td><td>The shared document behaviour: theme toggle, reading progress bar, contents highlighting, copy buttons, toast, and print.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">scripts/filemap.mjs</td><td>Prints the real line count of every file in this table and flags any that no longer match. Run it after editing any app file.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">public/_headers</td><td>Two jobs. Caches the fingerprintless build assets for a year, and sets <span class="mono">X-Robots-Tag: noindex</span> on every internal document so search engines keep them out of results while you can still open them. Adding a document means adding a rule here.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/file.svg</td><td><strong>Unused.</strong> A leftover from the original project template. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
+            <tr><td class="f">public/globe.svg</td><td><strong>Unused.</strong> Same origin. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
+            <tr><td class="f">public/next.svg</td><td><strong>Unused.</strong> Same origin. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
+            <tr><td class="f">public/vercel.svg</td><td><strong>Unused.</strong> A leftover from when the project targeted Vercel. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
+            <tr><td class="f">public/window.svg</td><td><strong>Unused.</strong> Same origin. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -2540,7 +2548,7 @@ npm run build</pre>
         <ol>
           <li>Find the project you want to change, or the end of the list to add a new one.</li>
           <li>For a <strong>new</strong> project, give it a unique <code>id</code> in lowercase with hyphens — <span class="mono">my-new-project</span>. This is the internal key; visitors never see it.</li>
-          <li>Fill in the thirteen required fields described in <a href="#project-fields">section 10</a>. Copy an existing entry and rewrite it — the shape is proven.</li>
+          <li>Fill in the required fields described in <a href="#project-fields">section 10</a>. Copy an existing entry and rewrite it — the shape is proven.</li>
           <li>For a live-iframe preview, set <code>previewType: 'iframe'</code> and <code>previewUrl</code> to the project's public address. Make sure that project allows itself to be embedded, or the frame will be blank.</li>
           <li>For a video, set <code>previewType: 'video'</code> and <code>videoId</code> to <strong>only the eleven characters</strong> from the YouTube address. A full link will not work and the preview will be blank.</li>
           <li>For something you cannot show publicly, set <code>previewType: 'interactive-mock'</code> and leave <code>previewUrl</code> off. This mode is fully built and currently unused.</li>
@@ -2697,8 +2705,9 @@ npm run build</pre>
           <span class="mono">LAST_UPDATED</span> date at the top of the file. If the field is
           optional, say so, and if it changes the retention period or adds a processor, sections 04
           and 05 need updating too.</li>
-          <li><strong>Update the file map.</strong> Run <span class="mono">npm run filemap</span> and
-          paste the new line counts into <a href="#files">section 08</a>.</li>
+          <li><strong>Check the file map.</strong> Run <span class="mono">npm run filemap:check</span>.
+          Nothing changes unless you added, renamed or removed a file &mdash; changing a field
+          inside an existing file needs no edit here.</li>
         </ol>
         <div class="do"><span class="mk">✓</span><span>Then: run recipe 10, because a new field is
         also a new failure path.</span></div>
@@ -3133,7 +3142,7 @@ npm run build</pre>
             <tr><td>Anything that changes what the site collects</td><td><span class="mono">src/app/privacy/page.tsx</span> and its <span class="mono">LAST_UPDATED</span> date, in the same change. Analytics, cookies, a form field or a new processor all make the policy wrong until it is updated.</td></tr>
             <tr><td>Something broke and you fixed it</td><td><a href="#incidents">Section 27</a>. A solved problem that is not written down is a problem that will return.</td></tr>
             <tr><td>A new document</td><td><a href="docs.html">The hub</a>, the hub's written count, <a href="#files">section 08</a>, and <strong>a noindex rule in <span class="mono">public/_headers</span></strong> &mdash; without that rule the new document is publicly indexable.</td></tr>
-            <tr><td>Any file in <span class="mono">src/</span> or <span class="mono">public/</span></td><td><span class="mono">npm run filemap</span>, then the line counts in <a href="#files">section 08</a>. One command, and the file map cannot go stale.</td></tr>
+            <tr><td>A file added, renamed or removed</td><td><a href="#files">Section 08</a> &mdash; add or remove the row, then run <span class="mono">npm run filemap:check</span> to confirm the table and the disk agree.</td></tr>
             <tr><td>Anything the site does not want indexed, or stops wanting indexed</td><td><a href="#seo">Section 17</a> and the rules in <span class="mono">public/_headers</span>, then re-test with <span class="mono">wrangler dev</span> because the header only exists in the real build.</td></tr>
             <tr><td>What the form collects, or a processor, or the retention period</td><td><span class="mono">src/app/privacy/page.tsx</span>, and the &ldquo;Last updated&rdquo; date at the top of it. A privacy policy that quietly stops matching the code is worse than none.</td></tr>
             <tr><td>Anything that affects how the site is hosted, configured or run</td><td>The README, always.</td></tr>
