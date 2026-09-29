@@ -349,7 +349,17 @@ export default function ContactHub({ bookingUrl }: ContactHubProps) {
                   />
                 </div>
 
-                {/* 5. Submit Button */}
+                {/* 5. Privacy notice, immediately above the submit button */}
+                <p className="text-xs text-slate-500 leading-relaxed -mt-1">
+                  By sending this, your brief goes straight to my inbox. I keep it for 12 months,
+                  never add you to a mailing list, and you can ask me to delete it any time.{' '}
+                  <a href="/privacy" className="text-emerald-400 hover:text-emerald-300 transition-colors">
+                    Privacy policy
+                  </a>
+                  .
+                </p>
+
+                {/* 6. Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -373,7 +383,7 @@ export default function ContactHub({ bookingUrl }: ContactHubProps) {
 
           <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500">
             <span>Direct Email: {directEmail}</span>
-            <span>🔒 Confidential & NDA Protected</span>
+            <span>🔒 Treated as confidential</span>
           </div>
 
         </div>

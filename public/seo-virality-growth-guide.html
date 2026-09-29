@@ -433,7 +433,7 @@
           <tr><td>Twitter card tags</td><td><span class="st no">Missing</span></td><td>Same consequence on X.</td></tr>
           <tr><td>Canonical URL</td><td><span class="st no">Missing</span></td><td>Search engines are left to guess the preferred address of the page.</td></tr>
           <tr><td>Structured data</td><td><span class="st no">Missing</span></td><td>No JSON-LD. No way to describe yourself as an organisation or person in machine-readable form.</td></tr>
-          <tr><td>Internal navigation</td><td><span class="st no">Critical gap</span></td><td>See <a href="#orphan">10</a>. This is the biggest single problem on the site.</td></tr>
+          <tr><td>Internal navigation</td><td><span class="st no">Critical gap</span></td><td>See <a href="#orphan">10</a>. At the time of measurement the homepage linked to no page on its own domain. A <span class="mono">/privacy</span> link now exists; the documents deliberately remain unlinked. <strong>Superseded — read the amendment in <a href="#orphan">10</a>.</strong></td></tr>
           <tr><td>Edge cache header</td><td><span class="st warn">Suspicious</span></td><td>Homepage sends <code>s-maxage=31536000</code> — cached at the CDN for a full year.</td></tr>
         </tbody>
       </table>
@@ -444,8 +444,8 @@
         <tbody>
           <tr><td><code>robots.txt</code></td><td><span class="st warn">Reachable but empty</span></td><td>Returns 200, but contains no directives at all — see <a href="#aicrawlers">19</a>.</td></tr>
           <tr><td><code>sitemap.xml</code></td><td><span class="st no">404 Not Found</span></td><td>No sitemap exists. This is a primary discovery mechanism that is simply not in use.</td></tr>
-          <tr><td>Links to documents from homepage</td><td><span class="st no">Zero</span></td><td>All 18 links on the homepage point to in-page anchors, WhatsApp, Google Calendar, or six <em>other</em> projects on separate <code>workers.dev</code> subdomains.</td></tr>
-          <tr><td>Document Hub reachability</td><td><span class="st ok">Works</span></td><td><code>/docs</code> returns 200. <code>/docs.html</code> correctly 307-redirects to <code>/docs</code>, so extensionless is already the canonical shape.</td></tr>
+          <tr><td>Links to documents from homepage</td><td><span class="st no">Zero</span></td><td>All links on the homepage point to in-page anchors, WhatsApp, Google Calendar, the privacy policy, or six <em>other</em> projects on separate <code>workers.dev</code> subdomains.</td></tr>
+          <tr><td>Document Hub reachability</td><td><span class="st ok">Works, now unlisted</span></td><td><code>/docs</code> returns 200 and <code>/docs.html</code> 307-redirects to <code>/docs</code>, so extensionless is the canonical shape. Since 29 September 2026 all documents return <code>X-Robots-Tag: noindex, nofollow, noarchive</code>, so they are reachable but kept out of search results.</td></tr>
           <tr><td>Document caching</td><td><span class="st warn">Inconsistent</span></td><td>Documents send <code>max-age=0, must-revalidate</code> while the homepage sends a one-year CDN cache.</td></tr>
         </tbody>
       </table>
@@ -586,7 +586,7 @@
       <h3>10 · The homepage links nowhere</h3>
       <p class="lede">The most important fix in this entire document.</p>
       <p>
-        Every link on your homepage was measured. There are 18 anchor tags. They resolve to:
+        Every link on your homepage was measured. There are 19 anchor tags. They resolve to:
       </p>
       <table class="tight">
         <thead><tr><th>Destination</th><th>Count</th><th>Effect</th></tr></thead>
@@ -598,11 +598,42 @@
           <tr style="background:color-mix(in srgb,var(--rose) 8%,transparent)"><td><strong>Any page on your own site</strong></td><td><strong>0</strong></td><td><strong>No crawl path exists from the homepage to any document</strong></td></tr>
         </tbody>
       </table>
+
+      <div class="callout co-warn">
+        <span class="ic">📌</span>
+        <div class="bd">
+          <div class="ct">Amendment, 29 September 2026 — read this before acting on section 10</div>
+          <p>
+            Two things changed after this audit was measured, and both change what you should do
+            here.
+          </p>
+          <p style="margin-top:10px">
+            <strong>1. The link count is now 19, not 18.</strong> A <span class="mono">/privacy</span>
+            link was added to the site footer, so the homepage now has exactly one link to a page on
+            its own domain. Everything else in this section stands as written.
+          </p>
+          <p style="margin-top:10px">
+            <strong>2. The documents have been taken out of search entirely, which makes most of this
+            section&rsquo;s advice wrong for you.</strong> A privacy policy was written, and all
+            eight internal documents now send <span class="mono">X-Robots-Tag: noindex, nofollow,
+            noarchive</span>. They stay reachable at their addresses but cannot appear in results.
+          </p>
+          <p style="margin-top:10px">
+            So the recommendation to &ldquo;add a documents section to the homepage&rdquo; is
+            <strong>deliberately not being followed</strong>. Linking them would be self-defeating:
+            the links would help crawlers find pages that are then told not to be indexed. The
+            original analysis below is retained because it is still a correct account of how
+            discoverability works &mdash; and because if you later decide to publish some of this
+            work properly, it is the section you would act on.
+          </p>
+        </div>
+      </div>
+
       <p>
-        The practical consequence: a person who lands on your homepage from a Google search and
-        wants to read your pricing report cannot find it, because nothing on the page suggests it
-        exists. A crawler has the same problem. Combined with the missing sitemap, a search engine
-        has to guess seven exact filenames — and it will not.
+        The practical consequence, as measured: a person who lands on your homepage from a Google
+        search and wants to read your pricing report cannot find it, because nothing on the page
+        suggests it exists. A crawler has the same problem. With no sitemap, a search engine has to
+        guess seven exact filenames — and it will not.
       </p>
       <h4>The fix, in order of value</h4>
       <ol class="big">
@@ -2499,7 +2530,7 @@
       <h4>Direct measurement of your site — <em>measured</em></h4>
       <ul>
         <li>HTTP status codes, response headers and content type for <code>/</code>, <code>/docs</code>, <code>/docs.html</code>, <code>/robots.txt</code> and <code>/sitemap.xml</code> — retrieved 28 September 2026</li>
-        <li>Full HTML of the homepage: metadata, heading structure, all 18 anchor targets, script and stylesheet count, document size (96,418 bytes)</li>
+        <li>Full HTML of the homepage: metadata, heading structure, all 19 anchor targets, script and stylesheet count, document size (96,418 bytes)</li>
         <li>Full <code>robots.txt</code> (1,248 bytes, comments only, no directives)</li>
       </ul>
 

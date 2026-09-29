@@ -484,9 +484,6 @@ export default function PrivacyPolicyPage() {
             <Link href="/" className="hover:text-emerald-400 transition-colors">
               Home
             </Link>
-            <a href="/docs" className="hover:text-emerald-400 transition-colors">
-              Documents
-            </a>
             <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-emerald-400 transition-colors">
               Contact
             </a>
