@@ -765,7 +765,7 @@
             <tr><td class="f">src/app/favicon.ico</td><td class="n">30</td><td>The fallback icon for older browsers. The SVG above takes priority in every modern browser.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
             <tr><td class="f">src/components/Navbar.tsx</td><td class="n">122</td><td>The sticky top bar, brand wordmark, jump links, theme toggle, booking button, and the mobile drawer menu.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">src/components/Hero.tsx</td><td class="n">121</td><td>The headline, the rotating service list, the availability badge, the two calls to action, and the four credibility badges.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/components/ProjectShowcase.tsx</td><td class="n">519</td><td>The largest file. The case study grid, category filters, the expandable architecture drawer, the preview modal, the device switcher, and the YouTube facade.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/components/ProjectShowcase.tsx</td><td class="n">550</td><td>The largest file. The case study grid, category filters, the expandable architecture drawer, the preview modal, the device switcher, and the YouTube facade.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/components/TrustEngine.tsx</td><td class="n">195</td><td>The four-step process roadmap, the three client guarantees, and the testimonials.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">src/components/ScopeEstimator.tsx</td><td class="n">346</td><td>The price calculator: three steps of choices, the live summary card, and the hand-off to the contact form.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/components/ContactHub.tsx</td><td class="n">417</td><td>The booking card, WhatsApp card, availability note, the brief form, the privacy notice above the submit button, and the page footer.</td><td><span class="tag tag-care">Careful</span></td></tr>
@@ -773,7 +773,7 @@
             <tr><td class="f">src/components/DOMonogram.tsx</td><td class="n">69</td><td>The logo itself, drawn as vector shapes. Exports the bare monogram and the boxed brand logo used in the header, footer, and documents.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
             <tr><td class="f">src/components/ThemeToggle.tsx</td><td class="n">52</td><td>The sun/moon button. Crossfades between the two icons and stores the choice.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">src/components/ThemeProvider.tsx</td><td class="n">10</td><td>A ten-line pass-through that mounts the theme library once, for the whole app.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">src/data/projectsConfig.ts</td><td class="n">135</td><td>All five case studies, and the rules for what a case study must contain.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">src/data/projectsConfig.ts</td><td class="n">183</td><td>All five case studies, and the rules for what a case study must contain.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">src/data/pricingConfig.ts</td><td class="n">150</td><td>Every price, every timeline, both currencies, the four project types, the two stages, and the four add-ons.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
           </tbody>
         </table>
@@ -784,15 +784,15 @@
         <table class="file-map">
           <thead><tr><th>File</th><th>Lines</th><th>What it is for</th><th>Care level</th></tr></thead>
           <tbody>
-            <tr><td class="f">package.json</td><td class="n">48</td><td>Installed packages and the named commands. The list of every script is in <a href="#deploy">section 21</a>.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">package.json</td><td class="n">37</td><td>Installed packages and the named commands. The list of every script is in <a href="#deploy">section 21</a>.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">package-lock.json</td><td class="n">—</td><td>The exact resolved tree of installed packages. Never edit it by hand. Commit it.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
             <tr><td class="f">wrangler.jsonc</td><td class="n">35</td><td>How the Worker is deployed: its name, the compatibility flags, the asset bindings, the self-reference, images, and logging.</td><td><span class="tag tag-never">Never add secrets</span></td></tr>
             <tr><td class="f">open-next.config.ts</td><td class="n">5</td><td>One line: "build me for Cloudflare". A comment explains where to add a cache override if you ever need revalidation.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">next.config.ts</td><td class="n">9</td><td>Only one setting: which addresses may run interactive development scripts. This is what lets your phone load the site during testing.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">tsconfig.json</td><td class="n">33</td><td>The TypeScript rules. Strict mode is on, and <span class="mono">@/</span> is the shortcut for <span class="mono">src/</span>.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">postcss.config.mjs</td><td class="n">8</td><td>Plugs Tailwind into the build. Eight lines, one plugin.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">next.config.ts</td><td class="n">7</td><td>Only one setting: which addresses may run interactive development scripts. This is what lets your phone load the site during testing.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">tsconfig.json</td><td class="n">34</td><td>The TypeScript rules. Strict mode is on, and <span class="mono">@/</span> is the shortcut for <span class="mono">src/</span>.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
+            <tr><td class="f">postcss.config.mjs</td><td class="n">7</td><td>Plugs Tailwind into the build. Eight lines, one plugin.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
             <tr><td class="f">eslint.config.mjs</td><td class="n">18</td><td>The code-quality rules, inherited from the Next.js recommended sets for web vitals and TypeScript.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
-            <tr><td class="f">.gitignore</td><td class="n">57</td><td>The list of things that must never be committed: environment files, build output, Cloudflare working files, and editor droppings.</td><td><span class="tag tag-never">Never weaken</span></td></tr>
+            <tr><td class="f">.gitignore</td><td class="n">49</td><td>The list of things that must never be committed: environment files, build output, Cloudflare working files, and editor droppings.</td><td><span class="tag tag-never">Never weaken</span></td></tr>
             <tr><td class="f">AGENTS.md</td><td class="n">9</td><td>A warning for AI coding assistants that this Next.js version has breaking changes, and a pointer to the bundled documentation. Re-created automatically by the development server.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
             <tr><td class="f">CLAUDE.md</td><td class="n">1</td><td>A one-line pointer to <span class="mono">AGENTS.md</span>, so any assistant reads the same warning.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
             <tr><td class="f">README.md</td><td class="n">—</td><td>The front page of the repository. A short, non-technical summary and the setup steps.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
@@ -839,9 +839,9 @@
             <tr><td class="f">public/brand-guidelines.html</td><td class="n">1,537</td><td>The definitive design reference: logo geometry, colours with real contrast ratios, type scale, spacing, radii, motion, and brand voice.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/email-delivery-guide.html</td><td class="n">722</td><td>How the contact form sends mail, and how to move to your own sending domain.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">public/google-calendar-booking.html</td><td class="n">714</td><td>How to build the booking page the buttons point at.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">public/assets/docs.css</td><td class="n">342</td><td>The shared document design system. Every guide uses it, so a change here restyles all seven documents at once.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/assets/docs.css</td><td class="n">390</td><td>The shared document design system. Every guide uses it, so a change here restyles all seven documents at once.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/assets/docs.js</td><td class="n">108</td><td>The shared document behaviour: theme toggle, reading progress bar, contents highlighting, copy buttons, toast, and print.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">scripts/filemap.js</td><td class="n">118</td><td>Prints the real line count of every file in this table and flags any that no longer match. Run it after editing any app file.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
+            <tr><td class="f">scripts/filemap.js</td><td class="n">154</td><td>Prints the real line count of every file in this table and flags any that no longer match. Run it after editing any app file.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">public/_headers</td><td class="n">40</td><td>Two jobs. Caches the fingerprintless build assets for a year, and sets <span class="mono">X-Robots-Tag: noindex</span> on every internal document so search engines keep them out of results while you can still open them. Adding a document means adding a rule here.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/file.svg</td><td class="n">—</td><td><strong>Unused.</strong> A leftover from the original project template. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
             <tr><td class="f">public/globe.svg</td><td class="n">—</td><td><strong>Unused.</strong> Same origin. Safe to delete.</td><td><span class="tag tag-keep">Removable</span></td></tr>
@@ -3070,8 +3070,8 @@ npm run build</pre>
         <table>
           <thead><tr><th>Property</th><th>Required</th><th>What it is</th></tr></thead>
           <tbody>
-            <tr><td class="mono">title</td><td>Yes</td><td>Short, human label for the link. A few words. Rendered in the emphasis weight above the subtext.</td></tr>
-            <tr><td class="mono">subtext</td><td>Yes</td><td>One sentence in smaller type explaining where the link goes and what it does. This is the reason the link exists &mdash; without it the visitor has to open the link to find out what it is.</td></tr>
+            <tr><td class="mono">title</td><td>Yes</td><td>Short, human label for the link. A few words. Rendered in the emphasis weight above the subtext, at <span class="mono">text-sm</span> &mdash; 15.75px, because the root type size is 18px.</td></tr>
+            <tr><td class="mono">subtext</td><td>Yes</td><td>One sentence in smaller type explaining where the link goes and what it does. This is the reason the link exists &mdash; without it the visitor has to open the link to find out what it is. Rendered at <span class="mono">text-[13px]</span>.</td></tr>
             <tr><td class="mono">href</td><td>Yes</td><td>The absolute URL including the <span class="mono">https://</span> scheme. Opened in a new tab with <span class="mono">rel=&quot;noopener noreferrer&quot;</span>. Not validated &mdash; a relative or malformed URL will simply fail when clicked, so check them.</td></tr>
           </tbody>
         </table>
@@ -3090,6 +3090,31 @@ npm run build</pre>
         Putting a live-site link in both places gives the same destination two competing treatments
         and the visitor no reason to prefer one.
       </p>
+
+      <div class="find">
+        <div class="ft">⚠️ Two things that caught this out, and will catch the next thing</div>
+        <p>
+          <strong>1. Arbitrary pixel sizes do not scale with the type system.</strong> The site sets
+          <span class="mono">html { font-size: 18px }</span>, so rem-based utilities resolve larger
+          than their Tailwind names suggest &mdash; <span class="mono">text-xs</span> is 13.5px and
+          <span class="mono">text-sm</span> is 15.75px. But <span class="mono">text-[11px]</span> is
+          a flat 11px regardless. The subtext was authored against a 16px assumption and came out as
+          the smallest text on the entire card, smaller than the tech tags beside it. When using
+          <span class="mono">text-[Npx]</span>, calculate from 18px, not 16px.
+        </p>
+        <p style="margin-top:10px">
+          <strong>2. A colour not in the light-mode override list is invisible in light mode.</strong>
+          The engine in <span class="mono">globals.css</span> remaps a specific list of text classes
+          &mdash; currently <span class="mono">text-white</span>,
+          <span class="mono">text-slate-300</span>, <span class="mono">text-slate-400</span>,
+          <span class="mono">text-slate-500</span>, <span class="mono">text-emerald-300</span> and
+          <span class="mono">text-emerald-400</span>. The title was written as
+          <span class="mono">text-slate-200</span>, which is <strong>not</strong> in that list, so on
+          a light canvas it rendered at roughly 1.1:1 contrast and could not be read at all. Restrict
+          new text colours to the six listed above, or add the class to
+          <span class="mono">globals.css</span> in the same change.
+        </p>
+      </div>
 
       <h4>Which document to update for which change</h4>
       <div class="tw">

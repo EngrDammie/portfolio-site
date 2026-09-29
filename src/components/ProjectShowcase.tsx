@@ -227,10 +227,14 @@ export default function ProjectShowcase() {
                         >
                           <LinkIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400 transition-colors group-hover/link:text-emerald-300" />
                           <span className="min-w-0">
-                            <span className="block text-xs font-semibold text-slate-200 transition-colors group-hover/link:text-emerald-300">
+                            {/* Colours are restricted to the set the light-mode
+                                engine overrides in globals.css. text-slate-200 is
+                                not in that set, so on a light canvas it rendered
+                                at roughly 1.1:1 contrast and was invisible. */}
+                            <span className="block text-sm font-semibold text-slate-300 transition-colors group-hover/link:text-emerald-400">
                               {link.title}
                             </span>
-                            <span className="mt-0.5 block text-[11px] leading-relaxed text-slate-500 transition-colors group-hover/link:text-slate-400">
+                            <span className="mt-1 block text-[13px] leading-relaxed text-slate-400 transition-colors group-hover/link:text-slate-300">
                               {link.subtext}
                             </span>
                           </span>
