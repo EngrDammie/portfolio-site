@@ -637,7 +637,7 @@
       </p>
       <h4>The fix, in order of value</h4>
       <ol class="big">
-        <li><strong>Add a documents section to the homepage.</strong> A short "Writing and research" or "Read the research" block linking to the hub and the three strongest documents. This alone creates the crawl path.</li>
+        <li><strong>Add a documents section to the homepage.</strong> <span class="pick pk-no">Decided against, 29 Sept 2026</span> A short "Writing and research" block linking to the hub would have created the crawl path &mdash; and the documents are now unlisted. See the amendment above. The only same-domain link from the homepage is the privacy policy.</li>
         <li><strong>Add a footer with document links.</strong> Present on every page by definition, which means it fixes the problem structurally rather than in one spot. This is the single most robust fix.</li>
         <li><strong>Link the documents to each other.</strong> Each document already links back to the hub; the hub links to all of them. That graph is already correct. It just needs one edge connecting it to the homepage.</li>
         <li><strong>Add the sitemap</strong> from <a href="#sitemap">09</a> as a second, independent route.</li>
@@ -2292,8 +2292,8 @@
       <p class="lede">Foundation, discovery, and the measurement that proves it worked.</p>
 
       <div class="days">
-        <div class="day d1"><div class="dn">Week 1</div><div class="dv">Make it findable</div><div class="dd">Footer links on the homepage, a documents section, and the sitemap. This single week is the highest-return work in the document.</div></div>
-        <div class="day d2"><div class="dn">Week 2</div><div class="dv">Get measured</div><div class="dd">Verify Search Console, submit the sitemap, confirm which pages are indexed, and add distinct tracked links to every document.</div></div>
+        <div class="day d1"><div class="dn">Week 1</div><div class="dv">Get measured</div><div class="dd">Verify Google Search Console and confirm what is and is not indexed. This is the highest-return hour in the document, and it costs nothing in privacy.</div></div>
+        <div class="day d2"><div class="dn">Week 2</div><div class="dv">Build the crawl path</div><div class="dd">Add a sitemap listing the public routes only, and put a <span class="mono">Sitemap:</span> line in robots.txt. The documents are unlisted, so they are deliberately absent from it.</div></div>
         <div class="day d3"><div class="dn">Week 3</div><div class="dv">Fix the labels</div><div class="dd">Open Graph, Twitter cards, canonical URLs, author metadata, and robots.txt content signals plus the Sitemap line.</div></div>
         <div class="day d4"><div class="dn">Week 4</div><div class="dv">Own a name</div><div class="dd">Register the domain, point it at the same Worker, confirm nothing breaks, and set it as canonical everywhere.</div></div>
       </div>
@@ -2301,7 +2301,7 @@
       <h4>Weeks 5–8</h4>
       <ul>
         <li>Add JSON-LD structured data — organisation, person, website, and article markup on the documents (<a href="#schema">18</a>).</li>
-        <li>Cross-link the documents properly and confirm the cluster structure around the pricing report (<a href="#clusters">22</a>).</li>
+        <li>Confirm the internal documents really are excluded: check the <span class="mono">X-Robots-Tag</span> header on every one and request removal in Search Console for any that were indexed before it was set (<a href="#aicrawlers">19</a>).</li>
         <li>Run a real Core Web Vitals measurement now that Search Console is live, and act on what it finds (<a href="#speed">12</a>).</li>
         <li>Investigate the CDN cache header question and confirm the current behaviour is intentional (<a href="#setup">46</a>).</li>
         <li>Give each document its own tracked WhatsApp link and a distinct message (<a href="#whatsapp">43</a>).</li>
@@ -2393,40 +2393,48 @@
       <table class="tight">
         <thead><tr><th>#</th><th>Action</th><th>Why</th><th>Effort</th><th>Priority</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Add a documents section and footer links on the homepage</td><td>Creates the only crawl path to seven substantial documents that currently have none (<a href="#orphan">10</a>)</td><td>1–2 hrs</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>2</td><td>Generate and submit a sitemap</td><td><code>sitemap.xml</code> is 404; independent discovery route, plus a <code>Sitemap:</code> line in robots.txt (<a href="#sitemap">09</a>)</td><td>1 hr</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>3</td><td>Verify Google Search Console</td><td>Unlocks indexing visibility, click data, and Core Web Vitals field data — all currently absent (<a href="#setup">46</a>)</td><td>2 hrs</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>4</td><td>Add distinct tracked links to every document</td><td>Cheapest conversion improvement available; reveals which content produces enquiries (<a href="#whatsapp">43</a>)</td><td>2 hrs</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>5</td><td>Register a real domain</td><td>Removes the workers.dev ceiling; enables authority, canonicals, hreflang, credible identity (<a href="#domain">11</a>)</td><td>1 day</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>6</td><td>Add Open Graph and Twitter card metadata</td><td>Every share currently renders as a bare link — free reach discarded (<a href="#audit">06</a>)</td><td>2 hrs</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>7</td><td>Add canonical URLs and author metadata</td><td>Removes ambiguity for search engines; named authorship is a baseline trust signal (<a href="#audit">06</a>, <a href="#eeat">24</a>)</td><td>2 hrs</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>8</td><td>Decide and declare AI content signals</td><td>Currently unstated by default; a business decision that should not be an accident (<a href="#aicrawlers">19</a>)</td><td>1 hr</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>9</td><td>Investigate the CDN cache header</td><td>Homepage cached at the edge for a year; confirm intent before any change (<a href="#setup">46</a>)</td><td>30 min</td><td><span class="prio p1">P1</span></td></tr>
-          <tr><td>10</td><td>Add JSON-LD structured data</td><td>Machine-readable entity and document identity (<a href="#schema">18</a>)</td><td>4–6 hrs</td><td><span class="prio p2">P2</span></td></tr>
-          <tr><td>11</td><td>Build the pricing topic cluster</td><td>Highest-value cluster; six supporting pages already implied by the pillar (<a href="#clusters">22</a>)</td><td>3–4 wks</td><td><span class="prio p2">P2</span></td></tr>
-          <tr><td>12</td><td>Cross-link the full document set</td><td>Activates authority flow across the site (<a href="#internallinks">23</a>)</td><td>1 day</td><td><span class="prio p2">P2</span></td></tr>
-          <tr><td>13</td><td>Measure and act on Core Web Vitals</td><td>Now measurable via Search Console; likely targets the homepage payload (<a href="#speed">12</a>)</td><td>2–3 days</td><td><span class="prio p2">P2</span></td></tr>
-          <tr><td>14</td><td>Accessibility pass on all documents</td><td>Two returns: genuine accessibility and better machine comprehension (<a href="#a11y">14</a>)</td><td>1 day</td><td><span class="prio p2">P2</span></td></tr>
-          <tr><td>15</td><td>Start the Nigerian software market dataset</td><td>The most citable, most linkable asset available to you (<a href="#data">30</a>)</td><td>4–8 wks</td><td><span class="prio p2">P2</span></td></tr>
-          <tr><td>16</td><td>Consistent media and community outreach</td><td>Digital PR is the top-rated channel; relationships compound (<a href="#dpr">29</a>, <a href="#ngpress">31</a>)</td><td>3 hrs/wk</td><td><span class="prio p2">P2</span></td></tr>
-          <tr><td>17</td><td>Improve the estimator result page</td><td>Turns a number into a landing page with a clear next step and stated assumptions (<a href="#calculator">42</a>)</td><td>2–3 days</td><td><span class="prio p2">P2</span></td></tr>
-          <tr><td>18</td><td>Publish shareable estimate links</td><td>Turns the estimator into a self-spreading acquisition channel (<a href="#calculator">42</a>)</td><td>2 days</td><td><span class="prio p3">P3</span></td></tr>
-          <tr><td>19</td><td>Start the monthly AI prompt panel</td><td>Only way to track citation trend over time (<a href="#prompttrack">47</a>)</td><td>1 hr/mo</td><td><span class="prio p3">P3</span></td></tr>
-          <tr><td>20</td><td>Establish entity consistency across directories</td><td>Cheapest support for AI attribution and local discovery (<a href="#mentions">28</a>, <a href="#guest">32</a>)</td><td>1 day</td><td><span class="prio p3">P3</span></td></tr>
-          <tr><td>21</td><td>Google Business Profile</td><td>Strong local channel if eligible; verify current rules first (<a href="#local">34</a>)</td><td>3 hrs</td><td><span class="prio p3">P3</span></td></tr>
-          <tr><td>22</td><td>Guest writing and podcast outreach</td><td>Reliable links and attribution at low effort (<a href="#guest">32</a>)</td><td>2 hrs/wk</td><td><span class="prio p3">P3</span></td></tr>
-          <tr><td>23</td><td>Build the delivery/platform cluster</td><td>Second core topic; the app documentation is an unusually strong foundation (<a href="#topics">21</a>)</td><td>3–4 wks</td><td><span class="prio p3">P3</span></td></tr>
-          <tr><td>24</td><td>Refresh underperforming pages</td><td>43% of the available gain at 23% of the effort (<a href="#refresh">25</a>)</td><td>Ongoing</td><td><span class="prio p3">P3</span></td></tr>
-          <tr><td>25</td><td>Add captions and a social image to the novel</td><td>Sharing metadata; the novel is a distribution asset in its own right</td><td>3 hrs</td><td><span class="prio p3">P3</span></td></tr>
-          <tr><td>26</td><td>Consider programmatic pages from the pricing dataset</td><td>Only after clusters and internal linking are solid (<a href="#pseo">26</a>)</td><td>2 wks</td><td><span class="prio p4">P4</span></td></tr>
-          <tr><td>27</td><td>Translate high-traffic pages, then add hreflang</td><td>Requires a real domain, stable English originals and proven demand (<a href="#hreflang">36</a>)</td><td>Per page</td><td><span class="prio p4">P4</span></td></tr>
-          <tr><td>28</td><td>Self-host or preload fonts</td><td>Removes a third-party connection from the render path (<a href="#speed">12</a>)</td><td>2 hrs</td><td><span class="prio p4">P4</span></td></tr>
+          <tr><td>1</td><td><strong>Verify Google Search Console</strong></td><td>Unlocks indexing visibility, click data and Core Web Vitals field data, and is the only way to request removal of any document that was indexed before <span class="mono">noindex</span> was set (<a href="#setup">46</a>)</td><td>1 hr</td><td><span class="prio p1">P1</span></td></tr>
+          <tr><td>2</td><td>Add distinct tracked links to the privacy policy and the contact form</td><td>Tells you which entry points produce enquiries. The documents are unlisted, so this now has to come from the public surfaces (<a href="#whatsapp">43</a>)</td><td>2 hrs</td><td><span class="prio p1">P1</span></td></tr>
+          <tr><td>3</td><td>Generate a sitemap listing the public routes only</td><td><code>sitemap.xml</code> is 404. List the homepage and <code>/privacy</code>; the internal documents must be left out, since listing them advertises what <span class="mono">noindex</span> exists to hide (<a href="#sitemap">09</a>)</td><td>1 hr</td><td><span class="prio p1">P1</span></td></tr>
+          
+          
+          <tr><td>4</td><td>Register a real domain</td><td>Removes the workers.dev ceiling; enables authority, canonicals, hreflang, credible identity (<a href="#domain">11</a>)</td><td>1 day</td><td><span class="prio p1">P1</span></td></tr>
+          <tr><td>5</td><td>Add Open Graph and Twitter card metadata</td><td>Every share currently renders as a bare link — free reach discarded (<a href="#audit">06</a>)</td><td>2 hrs</td><td><span class="prio p1">P1</span></td></tr>
+          <tr><td>6</td><td>Add canonical URLs and author metadata</td><td>Removes ambiguity for search engines; named authorship is a baseline trust signal (<a href="#audit">06</a>, <a href="#eeat">24</a>)</td><td>2 hrs</td><td><span class="prio p1">P1</span></td></tr>
+          <tr><td>7</td><td>Decide and declare AI content signals</td><td>Currently unstated by default; a business decision that should not be an accident (<a href="#aicrawlers">19</a>)</td><td>1 hr</td><td><span class="prio p1">P1</span></td></tr>
+          <tr><td>8</td><td>Investigate the CDN cache header</td><td>Homepage cached at the edge for a year; confirm intent before any change (<a href="#setup">46</a>)</td><td>30 min</td><td><span class="prio p1">P1</span></td></tr>
+          <tr><td>9</td><td>Add JSON-LD structured data</td><td>Machine-readable entity and document identity (<a href="#schema">18</a>)</td><td>4–6 hrs</td><td><span class="prio p2">P2</span></td></tr>
+          <tr><td>10</td><td>Build the pricing topic cluster</td><td>Highest-value cluster; six supporting pages already implied by the pillar (<a href="#clusters">22</a>)</td><td>3–4 wks</td><td><span class="prio p2">P2</span></td></tr>
+          <tr><td>11</td><td>Cross-link the full document set</td><td>Activates authority flow across the site (<a href="#internallinks">23</a>)</td><td>1 day</td><td><span class="prio p2">P2</span></td></tr>
+          <tr><td>12</td><td>Measure and act on Core Web Vitals</td><td>Now measurable via Search Console; likely targets the homepage payload (<a href="#speed">12</a>)</td><td>2–3 days</td><td><span class="prio p2">P2</span></td></tr>
+          <tr><td>13</td><td>Accessibility pass on all documents</td><td>Two returns: genuine accessibility and better machine comprehension (<a href="#a11y">14</a>)</td><td>1 day</td><td><span class="prio p2">P2</span></td></tr>
+          <tr><td>14</td><td>Start the Nigerian software market dataset</td><td>The most citable, most linkable asset available to you (<a href="#data">30</a>)</td><td>4–8 wks</td><td><span class="prio p2">P2</span></td></tr>
+          <tr><td>15</td><td>Consistent media and community outreach</td><td>Digital PR is the top-rated channel; relationships compound (<a href="#dpr">29</a>, <a href="#ngpress">31</a>)</td><td>3 hrs/wk</td><td><span class="prio p2">P2</span></td></tr>
+          <tr><td>16</td><td>Improve the estimator result page</td><td>Turns a number into a landing page with a clear next step and stated assumptions (<a href="#calculator">42</a>)</td><td>2–3 days</td><td><span class="prio p2">P2</span></td></tr>
+          <tr><td>17</td><td>Publish shareable estimate links</td><td>Turns the estimator into a self-spreading acquisition channel (<a href="#calculator">42</a>)</td><td>2 days</td><td><span class="prio p3">P3</span></td></tr>
+          <tr><td>18</td><td>Start the monthly AI prompt panel</td><td>Only way to track citation trend over time (<a href="#prompttrack">47</a>)</td><td>1 hr/mo</td><td><span class="prio p3">P3</span></td></tr>
+          <tr><td>19</td><td>Establish entity consistency across directories</td><td>Cheapest support for AI attribution and local discovery (<a href="#mentions">28</a>, <a href="#guest">32</a>)</td><td>1 day</td><td><span class="prio p3">P3</span></td></tr>
+          <tr><td>20</td><td>Google Business Profile</td><td>Strong local channel if eligible; verify current rules first (<a href="#local">34</a>)</td><td>3 hrs</td><td><span class="prio p3">P3</span></td></tr>
+          <tr><td>21</td><td>Guest writing and podcast outreach</td><td>Reliable links and attribution at low effort (<a href="#guest">32</a>)</td><td>2 hrs/wk</td><td><span class="prio p3">P3</span></td></tr>
+          <tr><td>22</td><td>Build the delivery/platform cluster</td><td>Second core topic; the app documentation is an unusually strong foundation (<a href="#topics">21</a>)</td><td>3–4 wks</td><td><span class="prio p3">P3</span></td></tr>
+          <tr><td>23</td><td>Refresh underperforming pages</td><td>43% of the available gain at 23% of the effort (<a href="#refresh">25</a>)</td><td>Ongoing</td><td><span class="prio p3">P3</span></td></tr>
+          <tr><td>24</td><td>Add captions and a social image to the novel</td><td>Sharing metadata; the novel is a distribution asset in its own right</td><td>3 hrs</td><td><span class="prio p3">P3</span></td></tr>
+          <tr><td>25</td><td>Consider programmatic pages from the pricing dataset</td><td>Only after clusters and internal linking are solid (<a href="#pseo">26</a>)</td><td>2 wks</td><td><span class="prio p4">P4</span></td></tr>
+          <tr><td>26</td><td>Translate high-traffic pages, then add hreflang</td><td>Requires a real domain, stable English originals and proven demand (<a href="#hreflang">36</a>)</td><td>Per page</td><td><span class="prio p4">P4</span></td></tr>
+          <tr><td>27</td><td>Self-host or preload fonts</td><td>Removes a third-party connection from the render path (<a href="#speed">12</a>)</td><td>2 hrs</td><td><span class="prio p4">P4</span></td></tr>
         </tbody>
       </table>
       <p class="note">
-        Items 1–4 are approximately six hours of work in total, require no new content, and are the
-        difference between a site that can be found and one that cannot. If nothing else from this
-        document is acted on, do those four.
+        <strong>Items 1, 2, 3 and 5 are free, private, and roughly five hours between them.</strong>
+        Search Console, tracked links, a public-routes sitemap, and share metadata. None of them
+        needs new content, none adds a cookie, and together they are the difference between a site
+        you can measure and one you cannot. If nothing else from this document is acted on, do
+        those four.
+
+        <strong>Item 4, the domain, is a purchase rather than a task, and nothing here waits for
+        it.</strong> Items 1, 2, 3, 5, 6, 7, 8 and 9 all work on a
+        <span class="mono">workers.dev</span> address today. The domain raises credibility and makes
+        cross-project links meaningful; it does not unlock the measurement work.
       </p>
     </section>
 
@@ -2440,14 +2448,14 @@
       <table class="tight">
         <thead><tr><th>Work</th><th>One-off</th><th>Ongoing</th><th>Who must do it</th></tr></thead>
         <tbody>
-          <tr><td>Foundation (items 1–9)</td><td>~1 week</td><td>—</td><td>You, or a developer for a few hours</td></tr>
-          <tr><td>Structured data and metadata (10, 12, 14)</td><td>~1 week</td><td>—</td><td>A developer</td></tr>
-          <tr><td>Performance work (13, 28)</td><td>~1 week</td><td>—</td><td>A developer</td></tr>
-          <tr><td>Content clusters (11, 23)</td><td>~8 weeks</td><td>2 pieces/month</td><td>Only you</td></tr>
-          <tr><td>Original dataset (15)</td><td>~6 weeks</td><td>Annual refresh</td><td>Only you</td></tr>
-          <tr><td>Outreach and relationships (16, 22)</td><td>—</td><td>~5 hrs/week</td><td>Only you</td></tr>
-          <tr><td>Measurement (3, 19, 24)</td><td>~4 hrs</td><td>~1 hr/month</td><td>You</td></tr>
-          <tr><td>Domain (5)</td><td>~1 day</td><td>Annual renewal</td><td>You</td></tr>
+          <tr><td>Foundation (items 1–8)</td><td>~1 week</td><td>—</td><td>You, or a developer for a few hours</td></tr>
+          <tr><td>Structured data and metadata (5, 6, 9)</td><td>~1 week</td><td>—</td><td>A developer</td></tr>
+          <tr><td>Performance work (12, 27)</td><td>~1 week</td><td>—</td><td>A developer</td></tr>
+          <tr><td>Content clusters (10, 22)</td><td>~8 weeks</td><td>2 pieces/month</td><td>Only you</td></tr>
+          <tr><td>Original dataset (14)</td><td>~6 weeks</td><td>Annual refresh</td><td>Only you</td></tr>
+          <tr><td>Outreach and relationships (15, 21)</td><td>—</td><td>~5 hrs/week</td><td>Only you</td></tr>
+          <tr><td>Measurement (1, 18, 23)</td><td>~4 hrs</td><td>~1 hr/month</td><td>You</td></tr>
+          <tr><td>Domain (4)</td><td>~1 day</td><td>Annual renewal</td><td>You</td></tr>
         </tbody>
       </table>
       <h4>For reference, what these skills cost when bought</h4>

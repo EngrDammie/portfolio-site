@@ -16,6 +16,7 @@ const DYNAMIC_SERVICES = [
   'smart business workflows.',
   'payment pipelines.',
   'client portals.',
+  'tech solutions.',
 ];
 
 export default function Hero() {
