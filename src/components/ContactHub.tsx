@@ -394,11 +394,12 @@ export default function ContactHub({ bookingUrl }: ContactHubProps) {
           </div>
         </div>
 
-        <div className="flex items-center gap-6 text-xs text-slate-400">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400">
           <a href="#projects" className="hover:text-emerald-400 transition-colors">Case Studies</a>
           <a href="#process" className="hover:text-emerald-400 transition-colors">How I Work</a>
           <a href="#estimator" className="hover:text-emerald-400 transition-colors">Estimator</a>
           <a href="#contact" className="hover:text-emerald-400 transition-colors">Contact</a>
+          <a href="/privacy" className="hover:text-emerald-400 transition-colors">Privacy Policy</a>
         </div>
       </footer>
 

@@ -758,7 +758,8 @@
           <tbody>
             <tr><td class="f">src/app/layout.tsx</td><td class="n">41</td><td>The outer shell of every page. Loads the two fonts, sets the page title and description, and wraps everything in the theme provider.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/app/page.tsx</td><td class="n">40</td><td>The home page. Reads the booking URL on the server and assembles the five sections in order. This is the file that decides what visitors see, in what order.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
-            <tr><td class="f">src/app/globals.css</td><td class="n">195</td><td>All global styling. Sets the root type size, the page transition, and the entire light-mode colour engine.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/app/globals.css</td><td class="n">221</td><td>All global styling. Sets the root type size, the page transition, and the entire light-mode colour engine, including the legal-page surface overrides.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/app/privacy/page.tsx</td><td class="n">~430</td><td><strong>The privacy policy.</strong> A full App Router route at <span class="mono">/privacy</span>, linked from the site footer. Thirteen sections covering what the form collects, what is not collected, retention, rights under NDPA 2023 and GDPR, embeds, and the linked apps. Prerendered to static HTML at build time.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/app/api/contact/route.ts</td><td class="n">133</td><td>The only API endpoint. Validates submissions, builds the branded email, and hands it to Resend.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/app/icon.svg</td><td class="n">21</td><td>The browser tab icon. The DO monogram on a dark rounded square with an emerald border.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">src/app/favicon.ico</td><td class="n">30</td><td>The fallback icon for older browsers. The SVG above takes priority in every modern browser.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
@@ -1522,6 +1523,7 @@ Additional notes:
             <tr><td>Viewport</td><td>Standard responsive meta tag</td><td>Makes the site render properly on phones.</td></tr>
             <tr><td>Tab icon</td><td>The DO monogram as a scalable image</td><td>Also a fallback for older browsers.</td></tr>
             <tr><td>Server-rendered content</td><td>Present</td><td>The full text of every case study and every price is in the delivered HTML, so a crawler sees it without running any JavaScript.</td></tr>
+<tr><td>Privacy policy</td><td>Present at <span class="mono">/privacy</span></td><td>A full static route, prerendered at build time, with its own title and description. Linked from the site footer.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1558,6 +1560,22 @@ Additional notes:
           backlog of every recommendation are in the
           <a href="seo-virality-growth-guide.html">Organic Growth &amp; Visibility Guide</a>.
           <strong>None of its recommendations have been implemented &mdash; it is a proposal, not a set of changes.</strong>
+        </p>
+
+        <h4>Input escaping in the contact route</h4>
+        <p>
+          <span class="mono">src/app/api/contact/route.ts</span> builds an HTML email out of
+          visitor input. Every interpolated value is now passed through
+          <span class="mono">escapeHtml()</span>, and the two values used in mail headers through
+          <span class="mono">singleLine()</span>. Without that, a visitor could close a tag in the
+          name or message field and inject markup into an email that arrives looking like it came
+          from this business. The email regex was never a defence &mdash; it permits quotes and
+          angle brackets, and the WhatsApp and message fields have no format restriction at all.
+        </p>
+        <p>
+          <strong>If you add a field to that form, escape it too.</strong> Any new value added to
+          the email template needs <span class="mono">escapeHtml()</span> if it lands in the HTML
+          body, or <span class="mono">singleLine()</span> if it lands in the subject line.
         </p>
       </div>
 
@@ -2344,7 +2362,7 @@ npm run build</pre>
         <table>
           <thead><tr><th>Gap</th><th>What it means</th><th>How much it matters</th></tr></thead>
           <tbody>
-            <tr><td>No privacy policy page</td><td>There is no page on the site telling a visitor what happens to the information they type into the form. For a site collecting names, email addresses and phone numbers, this is the most noticeable omission.</td><td><strong>High.</strong> This is the first thing to add.</td></tr>
+            <tr><td><span class="tag tag-keep">Resolved</span> Privacy policy page</td><td>A full policy now lives at <span class="mono">/privacy</span>, linked from the site footer and described in <a href="#seo">section 17</a>. It covers what the form collects, what is not collected, the three processors, the 12-month retention rule, rights under NDPA 2023 and GDPR, embeds, and the linked apps.</td><td><strong>Done.</strong> The page deliberately promises nothing about the future, so it stays true when accounts or a database arrive.</td></tr>
             <tr><td>No consent notice on the form</td><td>The form asks for a name, an email address and a phone number with no indication of what they will be used for or how long they will be kept.</td><td><strong>High.</strong> One sentence under the submit button fixes it.</td></tr>
             <tr><td>No automated reply to the sender</td><td>A visitor who submits the form never receives confirmation. They do not know it arrived unless they watch for your reply.</td><td>Medium. A scheduled "auto-reply" in the email provider solves it without touching the code.</td></tr>
             <tr><td>No delete-my-data mechanism</td><td>Once a brief is in your inbox there is no automated way for a visitor to ask for it to be removed. You would handle it by hand.</td><td>Low for now, and easy to handle by hand.</td></tr>
@@ -2358,13 +2376,19 @@ npm run build</pre>
       <div class="callout co-info">
         <span class="ic">📄</span>
         <div class="bd">
-          <div class="ct">The one addition I would make first</div>
+          <div class="ct">The privacy page, and what comes after it</div>
           <p>
-            A short privacy page, linked from the footer, saying four things: what the form collects, where
-            it goes (your inbox, via an email delivery service), that nothing is stored in a database or
-            tracked with cookies, and how to ask for a deletion. It costs one page, it removes the largest
-            gap in this section, and for a business that handles client briefs it is the responsible
-            default.
+            The first item on this list is now <strong>done</strong>: a full policy at
+            <span class="mono">/privacy</span>, linked from the footer. The remaining items are
+            smaller and in priority order &mdash; a consent sentence under the submit button, an
+            automatic reply to the sender, and a deletion route. The policy already promises that
+            requests are answered within 7 days, so the manual process is what has to catch up.
+          </p>
+          <p style="margin-top:10px">
+            One deliberate design decision: the policy does <strong>not</strong> promise that data is
+            never held. It describes the present and commits to updating the page when that changes.
+            A policy promising "never" would have been broken by the first account or database, and
+            breaking a published promise is far worse than a shorter document.
           </p>
         </div>
       </div>
@@ -2882,6 +2906,7 @@ npm run build</pre>
             <tr><td>A file added, removed or renamed</td><td><a href="#files">Section 08</a> — the file map is meant to be complete, so an out-of-date entry is a defect.</td></tr>
             <tr><td>Something broke and you fixed it</td><td><a href="#incidents">Section 27</a>. A solved problem that is not written down is a problem that will return.</td></tr>
             <tr><td>A new document</td><td><a href="docs.html">The hub</a>, the hub's written count, and the links at the end of this section.</td></tr>
+            <tr><td>What the form collects, or a processor, or the retention period</td><td><span class="mono">src/app/privacy/page.tsx</span>, and the &ldquo;Last updated&rdquo; date at the top of it. A privacy policy that quietly stops matching the code is worse than none.</td></tr>
             <tr><td>Anything that affects how the site is hosted, configured or run</td><td>The README, always.</td></tr>
           </tbody>
         </table>

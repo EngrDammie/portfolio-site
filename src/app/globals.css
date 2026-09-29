@@ -194,3 +194,28 @@ html:not(.dark) footer a {
   color: #1e293b !important;
   font-weight: 500 !important;
 }
+/* ========================================================
+   14. Legal / Policy Page Surfaces
+   The privacy page leans on bordered surfaces and a hairline
+   emerald accent that the override list above does not cover.
+   ======================================================== */
+
+/* Card and divider borders need a visible edge on a light canvas */
+html:not(.dark) .border-slate-800,
+html:not(.dark) .border-slate-800\/80,
+html:not(.dark) .divide-slate-800 {
+  border-color: #cbd5e1 !important;
+}
+
+/* Emerald borders darken so they stay visible against a light background */
+html:not(.dark) .border-emerald-500\/30,
+html:not(.dark) .border-emerald-500\/40,
+html:not(.dark) .border-emerald-500\/50 {
+  border-color: #059669 !important;
+}
+
+/* Hover states must not get lighter in light mode */
+html:not(.dark) .text-emerald-300,
+html:not(.dark) .hover\:text-emerald-300:hover {
+  color: #065f46 !important;
+}
