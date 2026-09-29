@@ -4,14 +4,14 @@ import { ArrowLeft, ShieldCheck, Mail, Lock, EyeOff, Database, Globe, FileText }
 import { BrandLogo } from '@/components/DOMonogram';
 import ThemeToggle from '@/components/ThemeToggle';
 
-const LAST_UPDATED = '29 September 2026';
+const LAST_UPDATED = '30 September 2026';
 const CONTACT_EMAIL = 'dammieoptimus@gmail.com';
 const RETENTION_MONTHS = 12;
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Dammie Optimus Solutions',
   description:
-    'How Dammie Optimus Solutions handles information you send through this website. No cookies, no analytics, no database. Plain English, and how to ask for a copy or deletion of your data.',
+    'How Dammie Optimus Solutions handles information you send through this website. No cookies, no database, no advertising or tracking pixels, and only cookieless aggregate analytics. Plain English, and how to ask for a copy or deletion of your data.',
   robots: {
     index: true,
     follow: true,
@@ -95,10 +95,11 @@ export default function PrivacyPolicyPage() {
           </div>
           <p className="text-slate-300 leading-relaxed">
             If you use the contact form, your message arrives in my email inbox and nowhere else.
-            There is <strong className="text-white">no database, no account, no tracking, no
-            cookies and no analytics</strong> on this site. I keep your brief for{' '}
-            {RETENTION_MONTHS} months so we can work together, and I delete it as soon as you ask.
-            I am one person, not a company with a data team, so I can do that.
+            There is <strong className="text-white">no database, no account, no cookies, and no
+            advertising or tracking of any kind</strong> on this site. The one thing I do collect is
+            anonymous, cookieless page-view counts, so I can tell which pages people actually read.
+            I keep your brief for {RETENTION_MONTHS} months so we can work together, and I delete it
+            as soon as you ask. I am one person, not a company with a data team, so I can do that.
           </p>
         </div>
 
@@ -191,14 +192,12 @@ export default function PrivacyPolicyPage() {
                 <h3 className="font-bold text-white">This is an unusually short list</h3>
               </div>
               <p className="text-sm text-slate-400 mb-4">
-                Most websites cannot write this section honestly. I can, because none of it is
-                built.
+                Most websites cannot write this section honestly. I can, because almost none of it
+                is built. The two items marked with a note below are the honest exceptions, and
+                they are described in full rather than glossed over.
               </p>
               <ul className="space-y-2.5 text-sm">
                 <NotCollected>Cookies of any kind. Nothing on this site sets one.</NotCollected>
-                <NotCollected>
-                  Analytics, including privacy-friendly cookieless analytics. I currently run none.
-                </NotCollected>
                 <NotCollected>Advertising, remarketing, or retargeting pixels of any kind.</NotCollected>
                 <NotCollected>Social media trackers, chat widgets, or embedded live-chat scripts.</NotCollected>
                 <NotCollected>Heatmaps, session recordings, or A/B testing tools.</NotCollected>
@@ -209,6 +208,43 @@ export default function PrivacyPolicyPage() {
                 </NotCollected>
                 <NotCollected>Your location, contacts, photos, or files, unless you paste them yourself.</NotCollected>
               </ul>
+
+              <div className="mt-5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
+                <div className="text-sm font-bold text-emerald-400 mb-1.5">
+                  The one exception: cookieless page-view counts
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  I run <strong>Cloudflare Web Analytics</strong>. It is worth being precise about
+                  what that means, because &ldquo;we use analytics&rdquo; is where most privacy
+                  policies quietly overstate themselves.
+                </p>
+                <ul className="mt-3 space-y-1.5 text-sm text-slate-300">
+                  <li className="flex gap-2">
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span>It sets <strong>no cookies</strong> and writes nothing to your device.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span>It collects <strong>no personal data</strong>: no name, no email, no account, no fingerprint, no cross-site tracking.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span>It reports <strong>aggregate counts only</strong>: which page was viewed, roughly where the visitor is, and the browser and device type.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span>Counts under a small threshold are <strong>not recorded at all</strong>, so no individual visit is distinguishable.</span>
+                  </li>
+                </ul>
+                <p className="mt-3 text-sm text-slate-400 leading-relaxed">
+                  It is Cloudflare&rsquo;s own free product, and they already operate the server that
+                  delivers this page, so it adds no new company to the list of processors in
+                  section 04. Because it uses no cookies and no personal data, it does not require
+                  your consent and produces no cookie banner. I have not included it because it is
+                  convenient; I have included it because knowing which pages people actually read
+                  is the only way to know what to build next.
+                </p>
+              </div>
             </div>
             <p>
               The one small exception is the theme preference. If you switch between light and dark,
@@ -228,7 +264,7 @@ export default function PrivacyPolicyPage() {
             <ul className="mt-4 space-y-3">
               <Processor
                 name="Cloudflare"
-                role="Hosts and serves this website, and runs the network that delivers it to you. It processes technical connection data such as IP addresses in order to deliver pages and block abuse."
+                role="Hosts and serves this website, runs the network that delivers it to you, and runs the cookieless page-view analytics described in section 03. It processes technical connection data such as IP addresses in order to deliver pages and block abuse. The analytics it collects are aggregate counts with no personal data attached, and individual visits below the reporting threshold are not recorded."
               />
               <Processor
                 name="Resend"
@@ -325,6 +361,13 @@ export default function PrivacyPolicyPage() {
               judgement about you, so there is no &ldquo;right to a human review&rdquo; to invoke
               here. I also do not sell or share your information for anyone else&apos;s commercial
               benefit. Neither of those things happens on this site.
+            </p>
+            <p className="mt-4">
+              The analytics in section 03 do not change that. They produce aggregate counts of which
+              pages are read, not a profile of who you are, and they are not used to make any
+              decision about you. If you would prefer this site ran no analytics at all, say so and
+              I will remove it &mdash; that is your call, not mine, and it costs the site very
+              little.
             </p>
           </Section>
 

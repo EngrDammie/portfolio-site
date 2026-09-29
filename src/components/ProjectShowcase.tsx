@@ -13,6 +13,7 @@ import {
   Sparkles,
   ArrowRight,
   ExternalLink,
+  Link as LinkIcon,
   Star,
 } from 'lucide-react';
 
@@ -212,6 +213,32 @@ export default function ProjectShowcase() {
                 }`}>
                   {project.summary}
                 </p>
+
+                {/* Supplementary Reference Links — rendered above the tech stack */}
+                {project.links && project.links.length > 0 && (
+                  <ul className="mt-4 grid gap-1.5">
+                    {project.links.map((link) => (
+                      <li key={`${project.id}-${link.href}`}>
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group/link flex items-start gap-2.5 rounded-lg border border-slate-800/80 bg-slate-950/60 px-3 py-2 transition-colors hover:border-emerald-500/40 hover:bg-slate-900/60"
+                        >
+                          <LinkIcon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400 transition-colors group-hover/link:text-emerald-300" />
+                          <span className="min-w-0">
+                            <span className="block text-xs font-semibold text-slate-200 transition-colors group-hover/link:text-emerald-300">
+                              {link.title}
+                            </span>
+                            <span className="mt-0.5 block text-[11px] leading-relaxed text-slate-500 transition-colors group-hover/link:text-slate-400">
+                              {link.subtext}
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 {/* Tech Stack Tags */}
                 <div className="mt-4 flex flex-wrap gap-1.5">

@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OpenChamber: Running OpenCode From Your Phone | Dammie Optimus Solutions</title>
+<meta name="description" content="A complete, plain-English guide to OpenChamber: installing it, reaching it from a phone, the three ways to connect, the security decisions that matter, every command, and how to fix it when it breaks." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/docs.css" />
+<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+<style>
+  .toc-part { font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--cyan-ink); margin: 15px 0 5px 12px; }
+  .toc-part:first-of-type { margin-top: 0; }
+  table.tight td, table.tight th { padding: 9px 12px; font-size: 13px; }
+  .src { font-size: 11.5px; color: var(--text-3); }
+  .note { font-size: 12.5px; color: var(--text-3); line-height: 1.65; }
+  .q { border: 1.5px solid var(--border); border-radius: 11px; background: var(--bg-2); padding: 14px 17px; font-size: 14px; color: var(--text-2); }
+  .q b { color: var(--text); }
+  .big { font-size: 15px; line-height: 1.75; }
+  .warnbox { border: 2px solid color-mix(in srgb, var(--rose) 42%, transparent); border-radius: 14px; padding: 20px 22px; background: color-mix(in srgb, var(--rose) 7%, transparent); margin: 22px 0; }
+  .warnbox .wt { font-size: 15px; font-weight: 800; color: var(--rose-ink); margin-bottom: 10px; display: flex; align-items: center; gap: 9px; }
+  .goodbox { border: 2px solid color-mix(in srgb, var(--emerald) 42%, transparent); border-radius: 14px; padding: 20px 22px; background: color-mix(in srgb, var(--emerald) 7%, transparent); margin: 22px 0; }
+  .goodbox .gt { font-size: 15px; font-weight: 800; color: var(--emerald-ink); margin-bottom: 10px; display: flex; align-items: center; gap: 9px; }
+  .infobox { border: 2px solid color-mix(in srgb, var(--cyan) 40%, transparent); border-radius: 14px; padding: 20px 22px; background: color-mix(in srgb, var(--cyan) 7%, transparent); margin: 22px 0; }
+  .infobox .it { font-size: 15px; font-weight: 800; color: var(--cyan-ink); margin-bottom: 10px; display: flex; align-items: center; gap: 9px; }
+  ol.big { counter-reset: b; list-style: none; margin-left: 0; }
+  ol.big > li { position: relative; padding-left: 38px; margin-bottom: 14px; }
+  ol.big > li::before { counter-increment: b; content: counter(b); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 8px; background: var(--grad); color: #020617; font-size: 12.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  ol.steps { counter-reset: s; list-style: none; margin-left: 0; }
+  ol.steps > li { position: relative; padding-left: 40px; margin-bottom: 16px; }
+  ol.steps > li::before { counter-increment: s; content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 8px; border: 1.5px solid color-mix(in srgb, var(--emerald) 40%, transparent); background: color-mix(in srgb, var(--emerald) 10%, transparent); color: var(--emerald-ink); font-size: 12.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .pick { font-size: 10.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; padding: 3px 9px; border-radius: 99px; white-space: nowrap; display: inline-block; }
+  .pk-best { background: color-mix(in srgb, var(--emerald) 20%, transparent); color: var(--emerald-ink); }
+  .pk-ok { background: color-mix(in srgb, var(--cyan) 18%, transparent); color: var(--cyan-ink); }
+  .pk-no { background: color-mix(in srgb, var(--rose) 20%, transparent); color: var(--rose-ink); }
+  .doclinks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 13px; margin: 20px 0; }
+  .doclink { border: 1.5px solid var(--border); border-radius: 13px; padding: 16px 18px; background: var(--bg-2); text-decoration: none; display: block; transition: all .15s ease; }
+  .doclink:hover { border-color: var(--emerald); text-decoration: none; transform: translateY(-2px); }
+  .doclink .dt { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .doclink .dd { font-size: 12.5px; color: var(--text-3); }
+  .steps-box { counter-reset: n; list-style: none; padding: 0; margin: 18px 0; }
+  .steps-box li { position: relative; padding: 14px 16px 14px 52px; border: 1.5px solid var(--border); border-radius: 12px; background: var(--bg-2); margin-bottom: 10px; }
+  .steps-box li::before { counter-increment: n; content: counter(n); position: absolute; left: 14px; top: 14px; width: 24px; height: 24px; border-radius: 7px; background: var(--grad); color: #020617; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .cmd { display: flex; align-items: flex-start; gap: 10px; margin: 10px 0; }
+  .cmd code { flex: 1; }
+  .copy { align-self: flex-start; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="dosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="progress"></div>
+
+<header>
+  <div class="hdr">
+    <div class="brandbox">
+      <svg viewBox="0 0 160 120" fill="none" aria-label="Dammie Optimus Monogram">
+        <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 30 25 L 30 95" />
+          <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+          <circle cx="100" cy="60" r="35" />
+        </g>
+        <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+      </svg>
+    </div>
+    <div class="brandtext">
+      <div class="brandname">Dammie Optimus Solutions</div>
+      <div class="brandsub">Tooling Guide</div>
+    </div>
+    <div class="hdr-spacer"></div>
+    <button class="btn ghost" id="themeBtn" type="button" aria-label="Toggle colour theme">
+      <span id="themeIcon">◐</span> <span id="themeLabel">Light</span>
+    </button>
+    <a class="btn" href="docs.html">← All documents</a>
+    <button class="btn" id="printBtn" type="button">⎙ Save / Print</button>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="layout">
+
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+
+    <div class="toc-part">Part I · What it is</div>
+    <a href="#why">01 · Why this document exists</a>
+    <a href="#what">02 · What OpenChamber is</a>
+    <a href="#relation">03 · How it relates to OpenCode</a>
+    <a href="#surfaces">04 · The four surfaces</a>
+    <a href="#can">05 · What you can actually do with it</a>
+    <a href="#caveats">06 · The honest caveats</a>
+
+    <div class="toc-part">Part II · Installing</div>
+    <a href="#prereq">07 · Before you start</a>
+    <a href="#install-oc">08 · Install OpenCode</a>
+    <a href="#install-web">09 · Install the web version</a>
+    <a href="#install-desktop">10 · Install the desktop app</a>
+    <a href="#install-vscode">11 · Install the VS Code extension</a>
+    <a href="#firstrun">12 · Your first run</a>
+
+    <div class="toc-part">Part III · Your phone</div>
+    <a href="#ways">13 · Three ways to reach it from a phone</a>
+    <a href="#home">14 · Option A: home network only</a>
+    <a href="#relay">15 · Option B: pairing and the Private Relay</a>
+    <a href="#tunnel">16 · Option C: a public tunnel for the browser</a>
+    <a href="#choose">17 · Which one you should pick</a>
+
+    <div class="toc-part">Part IV · Security</div>
+    <a href="#threat">18 · The threat model, plainly</a>
+    <a href="#auth">19 · Passwords, passkeys and device tokens</a>
+    <a href="#sees">20 · What a tunnel can and cannot see</a>
+    <a href="#rules">21 · The rules I would follow</a>
+    <a href="#check">22 · Verify before you trust it</a>
+
+    <div class="toc-part">Part V · The command line</div>
+    <a href="#commands">23 · Every command</a>
+    <a href="#env">24 · Environment variables</a>
+    <a href="#startup">25 · Run it at login</a>
+    <a href="#external">26 · Attach to an existing server</a>
+
+    <div class="toc-part">Part VI · Using it well</div>
+    <a href="#pwa">27 · Installing as an app on each device</a>
+    <a href="#notif">28 · Notifications</a>
+    <a href="#phone">29 · What genuinely works on a phone</a>
+    <a href="#workflow">30 · A phone workflow that is not miserable</a>
+
+    <div class="toc-part">Part VII · When it breaks</div>
+    <a href="#fix-basics">31 · Nothing loads at all</a>
+    <a href="#fix-paired">32 · A paired device will not connect</a>
+    <a href="#fix-tunnel">33 · A tunnel link does not work</a>
+    <a href="#fix-mobile">34 · Phone-specific problems</a>
+    <a href="#fix-cmds">35 · Diagnostic commands</a>
+
+    <div class="toc-part">Part VIII · Reference</div>
+    <a href="#glossary">36 · Glossary</a>
+    <a href="#sources">37 · Sources</a>
+  </nav>
+
+  <main>
+
+    <div class="hero">
+      <div class="pill"><span class="dot"></span> Tooling guide · 30 September 2026</div>
+      <h1>OpenChamber, <span class="grad-text">on your phone</span></h1>
+      <p>
+        OpenChamber is a graphical front end for OpenCode — the AI coding agent — and it can run
+        in a browser, which means it can run on a phone. This document covers the whole thing:
+        installing it, the three different ways to reach it from a phone, the security decisions
+        that actually matter, every command, and what to do when it breaks.
+      </p>
+      <div class="meta">
+        <span class="chip">37 sections</span>
+        <span class="chip">8 parts</span>
+        <span class="chip">~40 min read</span>
+        <span class="chip">MIT licensed</span>
+        <span class="chip">10.9k GitHub stars</span>
+        <span class="chip">Internal document</span>
+      </div>
+    </div>
+
+    <div class="callout co-info">
+      <span class="ic">📱</span>
+      <div class="bd">
+        <div class="ct">If you only want the short version</div>
+        <p>
+          Install OpenCode, install the OpenChamber CLI, run
+          <code>openchamber --ui-password something-strong</code>, open the URL it prints, and
+          press <em>Install</em> in your phone's address bar. That is a working OpenChamber on
+          that phone, on your home Wi-Fi, today.
+        </p>
+        <p style="margin-top:10px">
+          To reach it <strong>away from home</strong> there are two genuinely different options and
+          they are not equally safe. <a href="#choose">17 · Which one you should pick</a> explains
+          the difference, and it is the most important decision in this document.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout co-warn">
+      <span class="ic">🔐</span>
+      <div class="bd">
+        <div class="ct">Read this before you do anything else</div>
+        <p>
+          OpenChamber gives whoever reaches it <strong>access to your machine and your code</strong>,
+          and it can run terminal commands. It listens on your own machine only by default, which
+          is the right default. The moment you expose it to the internet, you have published a
+          control panel for your own computer. <strong>Read <a href="#threat">18</a> before you
+          expose it, and set a strong password every single time.</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ================= PART I ================= -->
+    <h2 style="margin-top:52px"><span class="num">I</span> What it is</h2>
+
+    <section id="why">
+      <h3>01 · Why this document exists</h3>
+      <p class="lede">Because the instructions are scattered across a large site and the security bits are easy to miss.</p>
+      <p>
+        OpenChamber is a genuinely useful tool, and its documentation is good — but it is spread
+        across a large documentation site, a GitHub README, and several pages that each assume you
+        already know terms from the others. The pages that matter most for using it from a phone are
+        not the ones a search engine hands you first.
+      </p>
+      <p>
+        This document puts it in one place, in the order you actually need it, and spends as much
+        time on the security decisions as on the installation. It is written to be read once and
+        referred back to.
+      </p>
+      <p>
+        It is an <strong>internal working document</strong>, not a client-facing one. It is excluded
+        from search results, so nothing here will ever be indexed.
+      </p>
+    </section>
+
+    <section id="what">
+      <h3>02 · What OpenChamber is</h3>
+      <p class="lede">A graphical interface for an AI coding agent. That is the whole idea.</p>
+      <p>
+        OpenCode is a command-line AI coding agent. You give it a task, it reads and edits your
+        code, runs commands, and reports back. It is powerful, and it is entirely text-based.
+      </p>
+      <p>
+        OpenChamber is the interface around that. It shows you the conversation, the files that
+        changed, the diffs, the terminal, running processes and their output — as a proper
+        application rather than a wall of text in a terminal. It is the difference between driving
+        with a command line and driving with a dashboard.
+      </p>
+      <p>
+        It ships in four forms, and they are the same product: a desktop application, a web
+        application you can install like a phone app, a VS Code extension, and native iOS and
+        Android apps. At the time of writing it had roughly <strong>10,900 GitHub stars</strong>,
+        more than 4,000 commits, and an MIT licence, so it is open source and actively developed.
+      </p>
+      <div class="q">
+        <b>The one-sentence version:</b> OpenChamber lets you supervise an AI coding agent from a
+        browser — including the browser on your phone — without sitting at your desk.
+      </div>
+    </section>
+
+    <section id="relation">
+      <h3>03 · How it relates to OpenCode</h3>
+      <p class="lede">OpenCode does the work. OpenChamber is the way you watch it happen.</p>
+      <p>
+        The relationship matters because it explains the setup order. OpenChamber does not
+        <em>replace</em> OpenCode and it does not contain it. It runs <strong>on top of</strong> an
+        OpenCode server, which it will start for you if one is not already running.
+      </p>
+      <p>There are three arrangements, and they matter at different times:</p>
+      <table class="tight">
+        <thead><tr><th>Arrangement</th><th>What happens</th><th>When to use it</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Managed</strong></td>
+            <td>OpenChamber starts and manages its own OpenCode server for you</td>
+            <td>The default. Simplest, and correct for almost everyone.</td>
+          </tr>
+          <tr>
+            <td><strong>Attach</strong></td>
+            <td>You already have an OpenCode server, so OpenChamber connects to it</td>
+            <td>You run OpenCode in a terminal or a service already, or you want the sessions shared</td>
+          </tr>
+          <tr>
+            <td><strong>API only</strong></td>
+            <td>OpenChamber serves API routes but no browser interface</td>
+            <td>Headless servers where only the desktop or mobile apps will connect</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        OpenChamber is an independent project and is <strong>not affiliated with the OpenCode
+        team</strong>. It was chosen because OpenCode is open source, has a solid API, and is easy
+        to extend. It is a third party relying on another project, which is worth remembering when
+        you are deciding how much to trust it with your machine.
+      </p>
+    </section>
+
+    <section id="surfaces">
+      <h3>04 · The four surfaces</h3>
+      <p class="lede">The same product in four shapes. You probably only need two.</p>
+      <table class="tight">
+        <thead><tr><th>Surface</th><th>Best for</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Desktop app</strong></td>
+            <td>Day-to-day work on macOS, Windows or Linux</td>
+            <td>The complete workspace. Multiple windows, remote machines, SSH, native notifications. Bundles its own OpenCode, so no separate install is needed.</td>
+          </tr>
+          <tr>
+            <td><strong>Web / PWA</strong></td>
+            <td>Remote access, and working from a phone</td>
+            <td>Hosted by the CLI, installable as an app. This is the one this document is mostly about.</td>
+          </tr>
+          <tr>
+            <td><strong>VS Code extension</strong></td>
+            <td>Sessions beside your code</td>
+            <td>Send selections to the agent, open results in the editor, compare parallel runs.</td>
+          </tr>
+          <tr>
+            <td><strong>iOS / Android</strong></td>
+            <td>Reviewing and steering work away from your desk</td>
+            <td>iPhone is on TestFlight. Android is an APK from the releases page. Uses the encrypted relay, so it works from anywhere with no public URL.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        The project's own guidance is: <strong>desktop for day-to-day work, web for remote access
+        and reviewing from your phone, VS Code for sessions right next to your code.</strong>
+      </p>
+    </section>
+
+    <section id="can">
+      <h3>05 · What you can actually do with it</h3>
+      <p class="lede">A realistic list, not the marketing version.</p>
+      <ul>
+        <li><strong>Chat with your agent and see what it changed</strong> as a proper diff, file by file, instead of a wall of text.</li>
+        <li><strong>Run a terminal inside it</strong>, with the output rendered properly.</li>
+        <li><strong>Start and watch dev servers</strong>, and preview the result in a panel beside the conversation. On the desktop app you can point at an element on a page and send the agent that element's screenshot, styles, position and browser errors — which is a genuinely useful way to say "this thing here".</li>
+        <li><strong>Set a goal for a session</strong> and let it keep working until it is met, blocked, or hits a limit you set — and let it keep going after you close the app.</li>
+        <li><strong>Run the same task on up to five models at once</strong>, each in its own session and optionally its own worktree, then compare what each actually built and keep the best, or fuse the strongest parts together.</li>
+        <li><strong>Turn a large diff into a guided walkthrough</strong> that groups related edits into steps in the order that makes sense.</li>
+        <li><strong>Work from a GitHub issue or pull request</strong>, with context attached, and send failed checks back to the agent.</li>
+        <li><strong>Schedule recurring work</strong> — once, daily, weekly, or on a cron schedule.</li>
+        <li><strong>See everything at a glance</strong>: which sessions are working, waiting, finished or failed, plus approvals, token use and cost.</li>
+        <li><strong>Keep notes, todos and reusable project actions</strong> next to the sessions they belong to.</li>
+      </ul>
+      <p>
+        For a phone specifically, the useful set is narrower: watch progress, answer questions,
+        review diffs, and steer. <a href="#phone">29</a> is honest about what does not work well on
+        a small screen.
+      </p>
+    </section>
+
+    <section id="caveats">
+      <h3>06 · The honest caveats</h3>
+      <p class="lede">Things to know before you commit to it.</p>
+      <ul>
+        <li><strong>It is a fast-moving third-party project.</strong> At the time of writing it was around version 1.23, which the documentation references when describing a data-directory migration. Expect the interface and the commands to change, and expect occasional breakage.</li>
+        <li><strong>It is young.</strong> Thousands of stars and an active community, but also hundreds of open issues and a large number of pull requests. That is normal for a popular project, and it is not the same as stability.</li>
+        <li><strong>Two projects, one supply chain.</strong> It sits on top of OpenCode. A problem in either reaches you.</li>
+        <li><strong>The install script is a pipe from the internet into your shell.</strong> It is the documented method and the project is reputable, but you should still look at what you are running.</li>
+        <li><strong>It runs commands as you.</strong> Whatever the agent does, it does with your permissions. That is the point of an agentic tool and also its risk.</li>
+      </ul>
+      <div class="warnbox">
+        <div class="wt">🔎 A note on one documentation inconsistency</div>
+        <p class="big" style="margin:0">
+          Some third-party write-ups and older copies of the package README show the install
+          command pointing at a <span class="mono">btriapitsyn/openchamber</span> repository. The
+          current official documentation, and the current README on the project&rsquo;s own
+          repository, both use <span class="mono">openchamber/openchamber</span>. Use the official
+          one, and if you ever see the other in an install command, stop and check.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= PART II ================= -->
+    <h2 style="margin-top:52px"><span class="num">II</span> Installing</h2>
+
+    <section id="prereq">
+      <h3>07 · Before you start</h3>
+      <p class="lede">What you need, and what to check first.</p>
+      <table class="tight">
+        <thead><tr><th>Requirement</th><th>Detail</th><th>Check with</th></tr></thead>
+        <tbody>
+          <tr><td>Node.js</td><td>Version 22 or newer for the web and PWA versions</td><td><code>node --version</code></td></tr>
+          <tr><td>OpenCode CLI</td><td>Already installed and working. Not needed for the desktop app, which bundles its own.</td><td><code>opencode --version</code></td></tr>
+          <tr><td>A terminal</td><td>On Windows, the project recommends WSL over PowerShell for the web server, because it gives better filesystem access and terminal integration.</td><td>—</td></tr>
+          <tr><td>A password manager</td><td>You are about to create a strong password that protects your machine.</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p>
+        If you already have OpenCode running well, you are ready. If you do not, install that
+        first — the next section covers it.
+      </p>
+    </section>
+
+    <section id="install-oc">
+      <h3>08 · Install OpenCode</h3>
+      <p class="lede">The prerequisite, briefly.</p>
+      <p>OpenCode installs with a one-line script on macOS and Linux:</p>
+      <div class="codewrap"><pre>curl -fsSL https://opencode.ai/install | bash</pre></div>
+      <p>
+        On Windows, follow the official instructions for OpenCode, which account for the
+        differences in how the shell works there. If you use the desktop app of OpenChamber you can
+        skip all of this — it bundles its own copy.
+      </p>
+      <p>
+        Confirm it works before moving on. Run <code>opencode --version</code>. If that fails,
+        OpenChamber will not start correctly, and the error it produces will point at OpenChamber
+        rather than the real cause.
+      </p>
+      <div class="note">
+        The general principle: before piping anything from the internet into a shell, it is worth
+        thirty seconds to read it. <code>curl -fsSL URL</code> fetches silently, so
+        <code>-fsSL</code> on its own shows you nothing.
+      </div>
+    </section>
+
+    <section id="install-web">
+      <h3>09 · Install the web version</h3>
+      <p class="lede">The one you want for phone access.</p>
+      <p>The documented install is a single line:</p>
+      <div class="codewrap"><pre>curl -fsSL https://raw.githubusercontent.com/openchamber/openchamber/main/scripts/install.sh | bash</pre></div>
+      <p>
+        Note the repository in that URL: <span class="mono">openchamber/openchamber</span>, the
+        official one.
+      </p>
+      <p>
+        If you would rather see what you are running, download the script first, read it, and
+        then run it:
+      </p>
+      <div class="codewrap"><pre>curl -fsSLO https://raw.githubusercontent.com/openchamber/openchamber/main/scripts/install.sh
+less install.sh
+bash install.sh</pre></div>
+      <p>
+        The package can also be installed directly through a package manager, which is the better
+        habit if you have one:
+      </p>
+      <div class="codewrap"><pre>bun add -g @openchamber/web
+# or
+npm install -g @openchamber/web
+# pnpm add -g @openchamber/web
+# yarn global add @openchamber/web</pre></div>
+      <p>
+        Once installed, start it with a password. The password is not optional if you intend to
+        reach it from anywhere:
+      </p>
+      <div class="codewrap"><pre>openchamber --ui-password be-creative-here</pre></div>
+      <p>
+        The CLI prints the URL it is serving on, usually <code>http://localhost:3000</code>. Open
+        that and you should see your session list. That is a working installation.
+      </p>
+      <div class="q">
+        <b>Generate a real password, not the example.</b> The project's own docs use
+        <code>be-creative-here</code> as a placeholder, which is fine in a tutorial and catastrophic
+        in practice. Use your password manager. A long passphrase is both stronger and easier to
+        type on a phone than a short complex one.
+      </div>
+    </section>
+
+    <section id="install-desktop">
+      <h3>10 · Install the desktop app</h3>
+      <p class="lede">The complete workspace, and the easiest path to a first success.</p>
+      <p>
+        Download the latest build from the
+        <a href="https://github.com/openchamber/openchamber/releases/latest" rel="nofollow noopener" target="_blank">GitHub releases page</a>.
+        It is available for macOS, Windows and Linux, and
+        <strong>it bundles the matching OpenCode CLI</strong>, so no separate OpenCode install is
+        needed.
+      </p>
+      <p>On Linux the release is an AppImage:</p>
+      <div class="codewrap"><pre>chmod +x OpenChamber-*.AppImage
+./OpenChamber-*.AppImage</pre></div>
+      <p>
+        Keep the AppImage in a writable location, or in-app updates will fail. AppImages need FUSE
+        (<code>libfuse.so.2</code>). Without it, run with
+        <code>APPIMAGE_EXTRACT_AND_RUN=1</code>.
+      </p>
+    </section>
+
+    <section id="install-vscode">
+      <h3>11 · Install the VS Code extension</h3>
+      <p class="lede">Thirty seconds, if you use VS Code.</p>
+      <p>
+        Install <strong>OpenChamber</strong> from the Visual Studio Marketplace, or search for
+        "OpenChamber" in the Extensions view. It opens in the sidebar. The extension uses your
+        installed OpenCode CLI, so it needs the same prerequisites as the web version.
+      </p>
+    </section>
+
+    <section id="firstrun">
+      <h3>12 · Your first run</h3>
+      <p class="lede">A ten-minute sanity check before you rely on it.</p>
+      <ol class="big">
+        <li>Start OpenChamber with a password and open the printed URL.</li>
+        <li>Confirm the session list loads. An empty list is correct — you have no sessions yet.</li>
+        <li>Check the server status. On the homepage there is a <em>See Servers</em> control that shows connected servers and whether OpenCode is running.</li>
+        <li>Start one small, harmless session. Ask it to read a single file and tell you what is in it. It can read but not change anything, so there is no risk.</li>
+        <li>Confirm you can see the result and that the session appears in the list.</li>
+        <li>Only then consider exposing it to a phone or the internet.</li>
+      </ol>
+      <p>
+        If something is wrong at this stage, fix it before adding remote access — a connection
+        problem and a configuration problem look identical once you are debugging from a phone.
+      </p>
+    </section>
+
+    <!-- ================= PART III ================= -->
+    <h2 style="margin-top:52px"><span class="num">III</span> Your phone</h2>
+
+    <p>
+      This is the part people actually want, and it is where the security decisions live. Read
+      <a href="#threat">18</a> before you expose anything.
+    </p>
+
+    <section id="ways">
+      <h3>13 · Three ways to reach it from a phone</h3>
+      <p class="lede">They are genuinely different, and the difference is security, not convenience.</p>
+      <table class="tight">
+        <thead>
+          <tr><th>Approach</th><th>Works away from home?</th><th>Public URL?</th><th>Risk</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>A · Home network only</strong></td>
+            <td>No</td>
+            <td>No</td>
+            <td><span class="pick pk-ok">Low</span></td>
+          </tr>
+          <tr>
+            <td><strong>B · Pairing + Private Relay</strong></td>
+            <td>Yes</td>
+            <td>No</td>
+            <td><span class="pick pk-best">Lowest</span></td>
+          </tr>
+          <tr>
+            <td><strong>C · Public tunnel to the browser</strong></td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td><span class="pick pk-no">Higher</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        The key fact, straight from the documentation: <strong>for your own devices, you usually
+        do not need a tunnel.</strong> Pair them and the end-to-end encrypted Private Relay handles
+        away-from-home access with nothing publicly exposed at all.
+      </p>
+      <div class="infobox">
+        <div class="it">ℹ️ The one place a tunnel is genuinely required</div>
+        <p class="big" style="margin:0">
+          You asked about reaching it <strong>through a phone browser</strong>. That is the PWA, and
+          the PWA cannot use the relay — the relay works with the native mobile apps. The
+          documentation says so directly: <em>&ldquo;To reach the PWA from outside your network
+          you&rsquo;ll need a tunnel and a strong UI password — the native apps handle this for you
+          via the relay.&rdquo;</em>
+        </p>
+        <p class="big" style="margin:10px 0 0">
+          So for away-from-home phone use, the honest advice is: <strong>install the native app
+          and pair it</strong>. If you specifically want the browser, you need a tunnel, and that
+          is a materially larger risk. Both routes are documented below.
+        </p>
+      </div>
+    </section>
+
+    <section id="home">
+      <h3>14 · Option A: home network only</h3>
+      <p class="lede">The simplest thing, and it is enough for most people.</p>
+      <p>
+        If you only ever want OpenChamber on your phone while you are at home, you need no
+        tunneling, no relay, and no public address. Both devices just need to be on the same
+        network, and the server needs to be willing to listen on it.
+      </p>
+      <h4>Step 1 — let the server listen on your network</h4>
+      <p>
+        By default OpenChamber binds to <span class="mono">127.0.0.1</span>, which is that machine
+        only. To reach it from your phone you must deliberately widen that:
+      </p>
+      <div class="codewrap"><pre>openchamber --lan --ui-password be-creative-here</pre></div>
+      <p>
+        <strong>Always combine <code>--lan</code> with a strong password.</strong> Those are not
+        two separate decisions — <code>--lan</code> on its own is an open door on your home
+        network, and every device on it, including anything compromised, can reach it.
+      </p>
+      <h4>Step 2 — find the address</h4>
+      <p>Ask the CLI:</p>
+      <div class="codewrap"><pre>openchamber connect-url --port 3000 --qr</pre></div>
+      <p>
+        This prints a link and a QR code. Scan it with your phone and you are connected. The command
+        warns you with <code>[LAN_UNREACHABLE]</code> if the direct route will not work — if you
+        see that, your server is not actually listening on the network.
+      </p>
+      <h4>Step 3 — install it as an app</h4>
+      <p>See <a href="#pwa">27</a>. The main benefit on a home network is a full-screen app icon
+        and no address bar.</p>
+      <div class="warnbox">
+        <div class="wt">⚠️ The limitation to understand</div>
+        <p class="big" style="margin:0">
+          This works on your Wi-Fi and <strong>nowhere else</strong>. The moment you leave home —
+          mobile data, a café, an office — it stops working, and the natural but wrong response is
+          to reach for a tunnel. If you expect to use it away from home, go straight to
+          <a href="#relay">15</a> and do it properly.
+        </p>
+      </div>
+    </section>
+
+    <section id="relay">
+      <h3>15 · Option B: pairing and the Private Relay</h3>
+      <p class="lede">The recommended way to reach your own devices from anywhere. Nothing is exposed publicly.</p>
+      <p>
+        The Private Relay is OpenChamber&rsquo;s answer to the problem that makes tunnels
+        uncomfortable. Your server opens an <em>outbound</em> connection to relay infrastructure and
+        keeps it alive. When your device is away from home it connects to the relay too, and the
+        relay passes encrypted traffic between the two.
+      </p>
+      <p>
+        The critical property: <strong>nothing on your machine ever listens for incoming
+        connections from the internet.</strong> The relay is a blind courier, not a middleman.
+      </p>
+
+      <h4>How it works, precisely</h4>
+      <ul>
+        <li><strong>End-to-end encrypted.</strong> Your device and your server agree encryption keys directly with each other. The relay forwards sealed traffic it has no keys for. It cannot read your code, your prompts, or your passwords.</li>
+        <li><strong>Only your devices can connect.</strong> A device must hold a token issued by <em>your</em> server through one-time pairing. Nobody can discover your server through the relay, and you can revoke any token at any time.</li>
+        <li><strong>Pairing links are single-use.</strong> A QR code works exactly once and expires if unused, so a leaked old link is worthless.</li>
+        <li><strong>It prefers a direct route.</strong> When you are home on the same Wi-Fi, devices connect directly and skip the relay entirely.</li>
+        <li><strong>It manages its own lifecycle.</strong> It starts on demand when you create an Anywhere pairing, and shuts down automatically once no paired device relies on it.</li>
+      </ul>
+
+      <h4>Pairing, step by step</h4>
+      <ol class="steps">
+        <li>On the computer running OpenChamber, open <strong>Settings → Remote Instances → Connect to this server</strong> and press <strong>Add a device</strong>.</li>
+        <li>Give the device a name you will recognise later — <em>My iPhone</em>.</li>
+        <li>Choose where you will use it:
+          <ul>
+            <li><strong>This computer only</strong> — for apps on that same machine.</li>
+            <li><strong>Home network only</strong> — direct over Wi-Fi, does not work away from home.</li>
+            <li><strong>Anywhere</strong> — home and away, with away traffic through the Private Relay. <strong>This is the one you want.</strong></li>
+          </ul>
+        </li>
+        <li>Press <strong>Create QR code</strong>.</li>
+        <li>On the phone, open the native app and tap <strong>Scan QR code</strong>. Point the camera at it.</li>
+        <li>The dialog closes on its own once the device connects, and the device appears in the list with a live status.</li>
+      </ol>
+
+      <h4>From a terminal instead</h4>
+      <p>If the server runs headless, create the link from the command line:</p>
+      <div class="codewrap"><pre># same network only
+openchamber connect-url --port 3000 --qr
+
+# works from anywhere — the equivalent of picking "Anywhere"
+openchamber connect-url --relay --qr</pre></div>
+      <p>
+        A <code>--relay</code> link carries both routes: direct when it can reach the server, relay
+        when it cannot. The relay starts on its own — a running instance picks it up within a
+        minute, a stopped one on its next launch.
+      </p>
+
+      <h4>Managing paired devices</h4>
+      <p>
+        <strong>Settings → Remote Instances → Connect to this server</strong> lists every device
+        that can reach the server, with a green dot when it is online and whether it is connected
+        over the local network or the relay. <strong>Revoke</strong> cuts a device off immediately.
+        <strong>Clear revoked</strong> tidies the list. The same physical device keeps one entry
+        even if it signs in again later.
+      </p>
+      <p>
+        You can see live relay state — Connected, Reconnecting, and how many devices are using it —
+        under <strong>Settings → Remote Instances → OpenChamber Relay</strong>. There is a
+        <strong>Disable</strong> button there that cuts relay access off immediately, without
+        affecting devices on your local network.
+      </p>
+
+      <h4>Installing the native apps</h4>
+      <table class="tight">
+        <thead><tr><th>Platform</th><th>How</th></tr></thead>
+        <tbody>
+          <tr><td><strong>iPhone / iPad</strong></td><td>Join the <a href="https://testflight.apple.com/join/5ek6GU1E" rel="nofollow noopener" target="_blank">TestFlight beta</a>, then install the build</td></tr>
+          <tr><td><strong>Android</strong></td><td>Download the APK from the <a href="https://github.com/openchamber/openchamber/releases/latest" rel="nofollow noopener" target="_blank">latest release</a>. You will need to allow installation from that source.</td></tr>
+        </tbody>
+      </table>
+      <p>
+        You can pair the app with several servers and switch between them, and the app shows for
+        each whether it is reachable and whether you are connected over the local network or the
+        relay.
+      </p>
+    </section>
+
+    <section id="tunnel">
+      <h3>16 · Option C: a public tunnel for the browser</h3>
+      <p class="lede">This is how you get OpenChamber in an ordinary phone browser from anywhere. It is also the option with the most risk.</p>
+      <p>
+        A tunnel creates a public URL that forwards to your machine. Anyone with that URL can
+        reach OpenChamber. This is what you need for the browser-based PWA away from home, and it
+        is not what you want if pairing will do.
+      </p>
+
+      <h4>Step 1 — install a tunnel provider</h4>
+      <p>OpenChamber starts the provider&rsquo;s CLI on your machine, so install it first:</p>
+      <div class="codewrap"><pre>brew install cloudflared
+# or
+brew install ngrok</pre></div>
+      <p>
+        Cloudflare quick tunnels can run with <span class="mono">cloudflared</span> alone. Ngrok
+        needs an account and an authtoken:
+      </p>
+      <div class="codewrap"><pre>ngrok config add-authtoken &lt;your-ngrok-token&gt;</pre></div>
+
+      <h4>Step 2 — start OpenChamber with a password</h4>
+      <div class="codewrap"><pre>openchamber --ui-password a-long-passphrase-you-generated</pre></div>
+      <p>
+        You can skip this and let <code>openchamber tunnel start</code> auto-start a server, but
+        being explicit means you cannot forget the password. Server options such as
+        <code>--port</code>, <code>--host</code>, <code>--lan</code>, <code>--ui-password</code>
+        and <code>--api-only</code> can be passed to the auto-start.
+      </p>
+
+      <h4>Step 3 — start the tunnel</h4>
+      <div class="codewrap"><pre># Cloudflare
+openchamber tunnel start --provider cloudflare --mode quick --qr
+
+# or Ngrok
+openchamber tunnel start --provider ngrok --mode quick --qr</pre></div>
+      <p>
+        By default OpenChamber prints a QR code in interactive terminal sessions. Use
+        <code>--qr</code> to force it, <code>--no-qr</code> to suppress it.
+      </p>
+
+      <h4>Step 4 — check it is up</h4>
+      <div class="codewrap"><pre>openchamber tunnel status</pre></div>
+      <p>
+        When the tunnel is up, status shows the public URL. Open it, or scan the QR code, and
+        OpenChamber is reachable from anywhere. On a phone, use the browser&rsquo;s install option
+        (<a href="#pwa">27</a>) to make it an app.
+      </p>
+
+      <h4>Modes and profiles</h4>
+      <p>
+        <code>--mode quick</code> is a throwaway URL. If you want a stable address, the managed
+        modes use your own Cloudflare token and hostname:
+      </p>
+      <div class="codewrap"><pre># managed remote — a token and hostname you control
+openchamber tunnel start --provider cloudflare --mode managed-remote \
+  --token-file ~/.secrets/cf-token --hostname app.example.com
+
+# managed local — a local cloudflared config
+openchamber tunnel start --provider cloudflare --mode managed-local \
+  --config ~/.cloudflared/config.yml
+
+# save it as a reusable profile
+openchamber tunnel profile add --provider cloudflare --mode managed-remote \
+  --name prod-main --hostname app.example.com --token-file ~/.secrets/cf-token
+
+openchamber tunnel start --profile prod-main</pre></div>
+
+      <h4>Useful tunnel commands</h4>
+      <div class="codewrap"><pre>openchamber tunnel providers
+openchamber tunnel ready --provider cloudflare
+openchamber tunnel ready --provider ngrok
+openchamber tunnel doctor --provider cloudflare
+openchamber tunnel doctor --provider ngrok
+openchamber tunnel stop --port 3000
+openchamber tunnel status --all</pre></div>
+
+      <h4>Behaviour worth knowing</h4>
+      <ul>
+        <li>One active tunnel per OpenChamber instance, keyed by port.</li>
+        <li>Starting a new mode or provider on the same instance replaces the previous tunnel.</li>
+        <li>Generating a new connect link revokes the previous unused one.</li>
+        <li>Tunnel auto-start preserves server flags such as <code>--ui-password</code> and <code>--api-only</code> across restart and update flows — which is a genuine convenience and also a reason to double-check the password is actually set.</li>
+      </ul>
+
+      <div class="warnbox">
+        <div class="wt">🔐 What a tunnel provider can see</div>
+        <p class="big" style="margin:0 0 10px">
+          This is the trade you are making, stated plainly by the project's own documentation:
+          <em>&ldquo;A tunnel provider decrypts traffic at its edge and sees every request in plain
+          text.&rdquo;</em>
+        </p>
+        <p class="big" style="margin:0">
+          A tunnel provider can therefore see your prompts, your code, and anything you type into
+          it. The relay exists precisely to avoid this. If you only need your own devices to reach
+          your own machine, use <a href="#relay">15</a> and skip this trade entirely.
+        </p>
+      </div>
+    </section>
+
+    <section id="choose">
+      <h3>17 · Which one you should pick</h3>
+      <p class="lede">A direct recommendation.</p>
+      <table class="tight">
+        <thead><tr><th>You want to…</th><th>Use</th><th>Because</th></tr></thead>
+        <tbody>
+          <tr><td>Use it at home only, on your phone</td><td><span class="pick pk-ok">A — home network</span></td><td>No public exposure, no relay, no tunnel. Nothing to secure beyond the password.</td></tr>
+          <tr><td>Check on work from anywhere, and do not mind installing an app</td><td><span class="pick pk-best">B — pairing</span></td><td>End-to-end encrypted, no public URL, revocable per device. The recommended route.</td></tr>
+          <tr><td>Use it from any browser on any device, including a borrowed one</td><td><span class="pick pk-no">C — tunnel</span></td><td>The only option that gives you a plain public URL. Necessary here, and the reason it carries real risk.</td></tr>
+          <tr><td>Share access with another person</td><td><span class="pick pk-no">C — tunnel</span></td><td>Requires a URL they can open. Give them a separate strong password, and revoke it when you are done.</td></tr>
+          <tr><td>Run a server with no UI, and connect only from the desktop or mobile app</td><td><span class="pick pk-ok">B — pairing, API only</span></td><td><code>--api-only</code> serves the API without the browser UI, so there is no web surface to attack.</td></tr>
+        </tbody>
+      </table>
+      <div class="goodbox">
+        <div class="gt">✅ My recommendation for you specifically</div>
+        <p class="big" style="margin:0 0 10px">
+          You asked about a phone browser, so tunnel C is what you asked for, and it will work. But
+          the sequence I would actually follow is this:
+        </p>
+        <ol style="margin:0; padding-left:20px" class="big">
+          <li><strong>Start with A</strong> — <code>--lan</code> on your home Wi-Fi. Costs nothing, exposes nothing, and proves the whole thing works.</li>
+          <li><strong>Install the native app and pair it (B)</strong> if you want to check on work from anywhere. This is the safe version and needs no public URL.</li>
+          <li><strong>Add C only if you need a browser on an unpaired device.</strong> When you do, set a long passphrase, keep the tunnel off when you are not using it, and stop the tunnel when you finish.</li>
+        </ol>
+      </div>
+      <p>
+        That order is not timidity. It means the dangerous capability is the last thing you turn
+        on, not the first, and you only enable it if you genuinely need it.
+      </p>
+    </section>
+
+    <!-- ================= PART IV ================= -->
+    <h2 style="margin-top:52px"><span class="num">IV</span> Security</h2>
+
+    <section id="threat">
+      <h3>18 · The threat model, plainly</h3>
+      <p class="lede">Understand what you are protecting before you expose anything.</p>
+      <p>
+        OpenChamber is not a website. It is a remote control for your computer, with the ability to
+        run commands as you, read and modify your files, and drive an agent that can do all of that
+        on its own. In the hands of an attacker it is a complete compromise of the machine it runs
+        on.
+      </p>
+      <p>So the only questions that matter are:</p>
+      <ol class="big">
+        <li><strong>Who can reach it?</strong> By default, only programs on your own machine. Widening that is always a deliberate act.</li>
+        <li><strong>How do they prove they are you?</strong> A password, a passkey, or a per-device pairing token.</li>
+        <li><strong>Can anyone else find it?</strong> With a tunnel, yes — anyone with the URL can try the door. That is why the password is not optional.</li>
+        <li><strong>Can a third party read the traffic?</strong> With a relay, no — it is end-to-end encrypted. With a tunnel, yes — the provider decrypts at its edge.</li>
+      </ol>
+      <p>
+        If you can answer all four correctly you are in good shape. Notice that nothing on that list
+        is about encryption strength or a clever feature — it is entirely about reachability and
+        authentication, which is where self-hosted tools are actually won and lost.
+      </p>
+    </section>
+
+    <section id="auth">
+      <h3>19 · Passwords, passkeys and device tokens</h3>
+      <p class="lede">Three different mechanisms for three different situations.</p>
+
+      <h4>The UI password</h4>
+      <p>This protects the browser interface. Set it with the flag:</p>
+      <div class="codewrap"><pre>openchamber --ui-password your-password</pre></div>
+      <p>Or, better, with an environment variable so it never appears in shell history:</p>
+      <div class="codewrap"><pre>export OPENCHAMBER_UI_PASSWORD='your-password'</pre></div>
+      <p>
+        After signing in, OpenChamber remembers the device for a while, so you are not prompted
+        every time. That is a convenience, not a weakness — but it does mean an unlocked device on
+        a shared machine stays unlocked for a while.
+      </p>
+      <p>
+        <strong>Always set a password if the instance is reachable by anyone else</strong> —
+        especially over a tunnel or the public internet. It is the only thing standing between an
+        open URL and your filesystem.
+      </p>
+
+      <h4>Passkeys</h4>
+      <p>
+        Once a password is set, add passkeys for much stronger, faster sign-in: Face ID, Touch ID,
+        or a hardware security key. Add them at <strong>Settings → OpenChamber → Passkeys</strong>.
+      </p>
+      <p>
+        Passkeys are tied to the current password. <strong>If you change or remove the password,
+        saved passkeys are cleared</strong> and you add them again. This is worth knowing before you
+        rotate a password, or you will find yourself locked out of a fast sign-in you thought you
+        had.
+      </p>
+
+      <h4>Device tokens</h4>
+      <p>
+        Devices paired through Connect a Device authenticate with their own per-device tokens, not
+        the UI password. Pairing links are single-use and expire if unused. Every paired device is
+        listed at <strong>Settings → Remote Instances → Connect to this server</strong>, where you
+        can revoke any of them at any time. Away-from-home connections go through the Private Relay,
+        which is end-to-end encrypted and cannot read your traffic.
+      </p>
+      <div class="q">
+        <b>The property that makes this safe:</b> scanning a pairing code never exposes your UI
+        password, and one device&rsquo;s token cannot be used to impersonate another. So you can
+        pair freely without weakening the password that protects browser access.
+      </div>
+    </section>
+
+    <section id="sees">
+      <h3>20 · What a tunnel can and cannot see</h3>
+      <p class="lede">The honest comparison, in one table.</p>
+      <table class="tight">
+        <thead>
+          <tr><th>Property</th><th>Private Relay</th><th>Cloudflare / ngrok tunnel</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Public URL</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Your machine listens for internet traffic</td><td>No — outbound connection only</td><td>Effectively yes, via the provider</td></tr>
+          <tr><td>Provider can read your traffic</td><td>No — end-to-end encrypted, blind courier</td><td><strong>Yes — decrypts at its edge</strong></td></tr>
+          <tr><td>Anyone with the URL can reach it</td><td>No — a device token is required</td><td>Yes — the URL is the only thing standing between a stranger and the login</td></tr>
+          <tr><td>Revocable per device</td><td>Yes</td><td>No — you would rotate the password</td></tr>
+          <tr><td>Works with the browser PWA</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Works with the native mobile apps</td><td>Yes</td><td>Yes</td></tr>
+          <tr><td>Setup effort</td><td>Scan a QR code</td><td>Install a provider CLI, start a tunnel</td></tr>
+        </tbody>
+      </table>
+      <p>
+        That is the whole case for the relay. The one thing the tunnel genuinely buys you is
+        <strong>a URL that works in any browser on any device, with no app installed</strong> — which
+        is exactly what you asked for, and also the only thing you give up privacy for.
+      </p>
+    </section>
+
+    <section id="rules">
+      <h3>21 · The rules I would follow</h3>
+      <p class="lede">A short, opinionated list.</p>
+      <ol class="big">
+        <li><strong>Never expose it without a strong password.</strong> A long passphrase, from your password manager, unique to this. Not the tutorial's example.</li>
+        <li><strong>Put the password in an environment variable</strong> (<code>OPENCHAMBER_UI_PASSWORD</code>), not on the command line, so it does not sit in your shell history or in a screenshot of your terminal.</li>
+        <li><strong>Prefer pairing over tunnels</strong> for anything that is your own device. Reach for a tunnel only when you need a URL in an ordinary browser.</li>
+        <li><strong>Stop the tunnel when you are not using it.</strong> There is no reason to leave a control panel for your machine reachable from the internet overnight because you were using it at lunch.</li>
+        <li><strong>Use <code>--api-only</code> on headless servers</strong> so there is no browser UI exposed at all. Desktop and mobile apps still connect.</li>
+        <li><strong>Revoke devices you no longer use.</strong> The paired-device list is one click and takes seconds.</li>
+        <li><strong>Do not port-forward.</strong> Opening a port straight to your machine bypasses everything above. Use a tunnel or a VPN.</li>
+        <li><strong>Behind your own server, use HTTPS.</strong> The connection to a LAN or reverse-proxy setup is plain HTTP, so on a shared network anyone can read it. If others can reach it, put your own HTTPS server in front — see the project's reverse proxy guide.</li>
+        <li><strong>Update it.</strong> <code>openchamber update</code>. It is a tool with real privileges and it is moving fast.</li>
+        <li><strong>Never install extensions from a source you do not trust.</strong> An extension can send data off your machine. In enterprise mode, extensions that talk to outside addresses only install from repositories you list in <code>allowedExtensions</code>.</li>
+      </ol>
+      <div class="note">
+        That last point is worth expanding for a solo user. OpenChamber has an extension system, and
+        extensions can talk to external APIs, load from outside addresses, or run a background
+        service. Installing one is closer to running third-party code on your machine than installing
+        a browser extension is. Treat the extension list with the same suspicion as a package you
+        would install from npm.
+      </div>
+    </section>
+
+    <section id="check">
+      <h3>22 · Verify before you trust it</h3>
+      <p class="lede">A five-minute security check worth doing once.</p>
+      <ol class="steps">
+        <li><strong>Confirm the default is safe.</strong> Start OpenChamber with no flags and check what it listens on. It should be <span class="mono">127.0.0.1</span> — your machine only. If it is listening more widely than you expected, stop and find out why.</li>
+        <li><strong>Confirm the password is actually set.</strong> Open the UI without signing in. If it lets you straight in, there is no password and you must not expose it.</li>
+        <li><strong>Confirm the tunnel is not left running.</strong> <code>openchamber tunnel status --all</code> when you are not using it. If a tunnel is up that you did not start, stop it.</li>
+        <li><strong>Review paired devices.</strong> Anything you do not recognise, revoke. It takes one click.</li>
+        <li><strong>Test that the password is the only way in.</strong> With a tunnel up, try the URL in a private window with no cookies. You should get a login prompt.</li>
+        <li><strong>Add a passkey</strong> once you are confident, so the password is not typed into a phone keyboard every time.</li>
+      </ol>
+    </section>
+
+    <!-- ================= PART V ================= -->
+    <h2 style="margin-top:52px"><span class="num">V</span> The command line</h2>
+
+    <section id="commands">
+      <h3>23 · Every command</h3>
+      <p class="lede">The complete surface, so you can stop guessing.</p>
+
+      <h4>Running it</h4>
+      <div class="codewrap"><pre>openchamber                                # start on port 3000
+openchamber --port 8080                    # custom port
+openchamber --lan                          # listen on the network (0.0.0.0)
+openchamber --lan --port 3000              # both
+openchamber --ui-password secret           # password-protect the UI
+openchamber --api-only                     # API routes, no browser UI
+openchamber --host 0.0.0.0                 # explicit bind address
+openchamber update                         # update to latest</pre></div>
+      <p>
+        <code>--host 0.0.0.0</code> is required to listen on all interfaces, since the default is
+        <code>127.0.0.1</code>. Use <code>--host &lt;ip&gt;</code> or
+        <code>OPENCHAMBER_HOST=&lt;ip&gt;</code> to bind to one specific interface instead.
+      </p>
+
+      <h4>Everyday operations</h4>
+      <div class="codewrap"><pre>openchamber status                         # is it running?
+openchamber logs                           # recent output
+openchamber stop                           # stop it
+openchamber connect-url --qr               # pairing link for this network
+openchamber connect-url --relay --qr       # pairing link that works anywhere
+openchamber startup enable                 # start at login as a service
+openchamber update                         # update to latest</pre></div>
+
+      <h4>Headless and server use</h4>
+      <div class="codewrap"><pre>openchamber connect-url --port 3000 --api-only --lan \
+  --server http://workstation.local:3000 --qr --ui-password your-password</pre></div>
+      <p>
+        This runs OpenChamber as a web/API server on a remote machine so you can connect from
+        OpenChamber Desktop on another machine. <code>--api-only</code> starts the API routes without
+        serving browser UI assets.
+      </p>
+      <div class="warnbox">
+        <div class="wt">⚠️ Client tokens are not UI passwords</div>
+        <p class="big" style="margin:0">
+          The documentation is explicit: <em>&ldquo;Generating a client token does not automatically
+          password-protect the hosted browser UI.&rdquo;</em> <code>--ui-password</code> protects
+          browser access; a client token only lets another OpenChamber app connect. If you serve
+          this on a network, you need both, and you need them to be different.
+        </p>
+      </div>
+    </section>
+
+    <section id="env">
+      <h3>24 · Environment variables</h3>
+      <p class="lede">Set at startup. The ones that matter, and the ones you will not need.</p>
+      <p>
+        The critical practical point: <code>openchamber startup enable</code> <strong>snapshots the
+        current environment by default</strong>. If you change a variable you want the service to
+        use, re-run it afterwards.
+      </p>
+      <table class="tight">
+        <thead><tr><th>Variable</th><th>What it does</th><th>Use it?</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">OPENCHAMBER_HOST</td><td>Bind address for the web server. <code>0.0.0.0</code> allows other machines.</td><td>Sometimes</td></tr>
+          <tr><td class="mono">OPENCHAMBER_UI_PASSWORD</td><td>Password for the browser UI</td><td><strong>Yes — always, if exposed</strong></td></tr>
+          <tr><td class="mono">OPENCHAMBER_API_ONLY</td><td>Headless mode: API routes only, no browser UI</td><td>Yes, on servers</td></tr>
+          <tr><td class="mono">OPENCHAMBER_DATA_DIR</td><td>Where OpenChamber stores everything. Default <code>~/.config/openchamber</code></td><td>Rarely</td></tr>
+          <tr><td class="mono">OPENCHAMBER_CHATS_DIR</td><td>Where managed chats live. Default <code>~/.config/openchamber/chats</code></td><td>Only if OpenChamber and OpenCode run as different users</td></tr>
+          <tr><td class="mono">OPENCODE_JWT_SECRET</td><td>Signs UI authentication tokens</td><td><strong>Yes, for persistent services</strong> — a long random value</td></tr>
+          <tr><td class="mono">OPENCODE_HOST</td><td>Connect to an existing OpenCode server. Must be an <code>http</code>/<code>https</code> origin with an explicit port, no path, query or hash. Takes precedence over <code>OPENCODE_PORT</code>.</td><td>Yes, if attaching</td></tr>
+          <tr><td class="mono">OPENCODE_PORT</td><td>OpenCode server port</td><td>Sometimes</td></tr>
+          <tr><td class="mono">OPENCODE_SKIP_START</td><td>Do not start your own OpenCode server</td><td>Yes, if attaching</td></tr>
+          <tr><td class="mono">OPENCHAMBER_VERBOSE_REQUEST_LOGS</td><td>Verbose HTTP request logs</td><td>When debugging</td></tr>
+          <tr><td class="mono">OPENCHAMBER_GIT_READ_CACHE_TTL_MS</td><td>Cache lifetime for Git-backed reads. <code>0</code> disables it</td><td>When debugging</td></tr>
+          <tr><td class="mono">NGROK_AUTHTOKEN</td><td>ngrok auth token for tunnel commands</td><td>If using ngrok</td></tr>
+          <tr><td class="mono">OPENCHAMBER_TERMINAL_SHELL</td><td>Shell used for terminal sessions</td><td>Rarely</td></tr>
+        </tbody>
+      </table>
+      <p class="note">
+        The documentation also lists <span class="mono">OPENCODE_WSL_DISTRO</span> and
+        <span class="mono">OPENCHAMBER_OPENCODE_WSL_DISTRO</span> for Windows, several
+        <span class="mono">*_BINARY</span> overrides, and enterprise-mode variables. Those cover
+        scenarios most people never meet; they are listed in the project's own environment reference
+        when you need them.
+      </p>
+    </section>
+
+    <section id="startup">
+      <h3>25 · Run it at login</h3>
+      <p class="lede">For a machine that is always on.</p>
+      <p>
+        If you want it available without launching it each time, enable the startup service. On
+        Linux that is a systemd user unit:
+      </p>
+      <div class="codewrap"><pre>systemctl --user daemon-reload
+systemctl --user enable --now opencode openchamber</pre></div>
+      <p>
+        The service file shown in the documentation is a minimal
+        <span class="mono">[Unit] WantedBy=default.target</span> unit, enabled with
+        <span class="mono">systemctl --user enable</span>. If you are running it as a persistent
+        service rather than a desktop session, set <span class="mono">OPENCODE_JWT_SECRET</span> to
+        a long random value so authentication tokens remain valid across restarts.
+      </p>
+      <div class="infobox">
+        <div class="it">🔁 Remember this</div>
+        <p class="big" style="margin:0">
+          <code>openchamber startup enable</code> snapshots your environment. Set your password and
+          any other variables <strong>first</strong>, then enable the service. Otherwise you will end
+          up with a service that is listening on the network with no password.
+        </p>
+      </div>
+    </section>
+
+    <section id="external">
+      <h3>26 · Attach to an existing server</h3>
+      <p class="lede">When you already run OpenCode yourself.</p>
+      <div class="codewrap"><pre># attach to an OpenCode server on port 4096
+OPENCODE_PORT=4096 OPENCODE_SKIP_START=true openchamber
+
+# attach to a remote OpenCode server
+OPENCODE_HOST=https://myhost:4096 OPENCODE_SKIP_START=true openchamber</pre></div>
+      <p>
+        <code>OPENCODE_SKIP_START=true</code> is what stops OpenChamber launching a second OpenCode
+        server of its own. <code>OPENCODE_HOST</code> takes precedence over
+        <code>OPENCODE_PORT</code>, and it must be an origin with an explicit port and no path,
+        query, or hash.
+      </p>
+      <p>
+        Attaching is the right choice when you want the same sessions visible in your terminal and
+        in the UI. There is also a related piece of OpenCode functionality worth knowing: you can
+        attach a terminal TUI to a running web server, so both interfaces share the same sessions
+        and state —
+        <code>opencode attach http://localhost:4096</code>.
+      </p>
+    </section>
+
+    <!-- ================= PART VI ================= -->
+    <h2 style="margin-top:52px"><span class="num">VI</span> Using it well</h2>
+
+    <section id="pwa">
+      <h3>27 · Installing as an app on each device</h3>
+      <p class="lede">The PWA route, per platform.</p>
+      <p>
+        A Progressive Web App is a web page that installs like a normal app: its own icon, its own
+        window, no address bar. It is the browser-based option and it is what you use when you do
+        not want an app store at all.
+      </p>
+      <table class="tight">
+        <thead><tr><th>Device</th><th>How to install</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Desktop browser</strong></td><td>Use the <strong>Install</strong> option in the address bar</td></tr>
+          <tr><td><strong>iPhone / iPad (Safari)</strong></td><td>Share → <strong>Add to Home Screen</strong></td></tr>
+          <tr><td><strong>Android (Chrome)</strong></td><td>Menu → <strong>Install app</strong> / <strong>Add to Home Screen</strong></td></tr>
+        </tbody>
+      </table>
+      <p>
+        Do this <em>before</em> trying to use it from a phone, not after. It makes the thing you
+        tap look and behave like an app, and — more practically — it means a PWA you have already
+        installed is far easier to reach when you are standing somewhere with a poor connection.
+      </p>
+      <div class="note">
+        Once installed, a PWA is cached by the browser. It will still need a network round trip to
+        reach your server, but it will open instantly and feel local rather than like a page being
+        downloaded.
+      </div>
+    </section>
+
+    <section id="notif">
+      <h3>28 · Notifications</h3>
+      <p class="lede">Knowing an agent finished while you are doing something else.</p>
+      <p>
+        OpenChamber sends background notifications so you know when the agent has responded, even
+        from another tab or another device. This is the single most useful feature on a phone,
+        because the usual problem is not the interface — it is remembering to go and look.
+      </p>
+      <p>
+        A scheduled or goal-driven session can keep working after you close the app, which makes
+        notifications the mechanism that closes the loop: start a long task, put the phone in your
+        pocket, get told when it is done.
+      </p>
+      <p class="note">
+        One privacy-relevant detail from the enterprise-mode documentation, worth knowing even if
+        you never enable that mode: in enterprise mode, push notifications to phones and browsers
+        carry only a generic title such as &ldquo;Agent response is ready&rdquo; — with no message
+        text or session name — while desktop notifications keep the full text. Useful to know if you
+        are ever in an environment where someone else might see your lock screen.
+      </p>
+    </section>
+
+    <section id="phone">
+      <h3>29 · What genuinely works on a phone</h3>
+      <p class="lede">An honest list, including the things that are awkward.</p>
+      <h4>Good on a phone</h4>
+      <ul>
+        <li><strong>Watching progress</strong> — which sessions are working, waiting, finished or failed, at a glance.</li>
+        <li><strong>Reading the diff.</strong> Seeing what changed, file by file, is the strongest argument for using this interface at all and it translates perfectly to a small screen.</li>
+        <li><strong>Answering a question</strong> the agent stopped to ask.</li>
+        <li><strong>Steering.</strong> Correcting course, rejecting an approach, adding a constraint.</li>
+        <li><strong>Approving something</strong> that needs your say-so.</li>
+        <li><strong>Not being at your desk</strong> when the task finishes.</li>
+      </ul>
+      <h4>Awkward on a phone</h4>
+      <ul>
+        <li><strong>Long prompts.</strong> Typing a long instruction on a phone keyboard is miserable. Use <em>Voice Mode</em>, or start long tasks from the desktop.</li>
+        <li><strong>Reviewing large diffs.</strong> Fine for a small change; genuinely hard for a big one.</li>
+        <li><strong>The terminal.</strong> It works, and it has touch controls in the native apps, but it is not a pleasant place to do real work.</li>
+        <li><strong>Element annotation.</strong> Point at an element and send the agent its context — that is desktop-only. In a browser tab the panel can display a page but cannot look inside one.</li>
+      </ul>
+      <div class="q">
+        <b>The honest summary:</b> a phone is a monitoring and steering device for OpenChamber, not
+        a development device. That is genuinely useful — most agent work is a long unattended run
+        punctuated by decisions — and it is a different job from the desk.
+      </div>
+    </section>
+
+    <section id="workflow">
+      <h3>30 · A phone workflow that is not miserable</h3>
+      <p class="lede">A pattern that actually works.</p>
+      <ol class="big">
+        <li><strong>Start long tasks at the desk.</strong> Anything involving a long prompt, heavy editing, or a terminal belongs on the desktop. Get it moving, then walk away.</li>
+        <li><strong>Let it run.</strong> If it is goal-driven, it keeps working after you close everything. That is the feature to lean on.</li>
+        <li><strong>Get told.</strong> Notifications tell you it is waiting on you — a question, an approval, a blocked step.</li>
+        <li><strong>Answer from the phone.</strong> Read the diff, answer the question, approve or redirect. This is where the phone earns its place.</li>
+        <li><strong>Come back for the heavy part.</strong> Review properly and commit at the desk.</li>
+      </ol>
+      <p>
+        Underneath that, use <strong>Session Goals</strong> rather than one-shot prompts. A goal
+        gives the session a finish line, and OpenChamber checks the result after every turn and
+        keeps working until the goal is met, the work is blocked, or it reaches the limit you set.
+        That is what makes unattended running safe to rely on rather than merely possible.
+      </p>
+      <p>
+        Two supporting features worth knowing: <strong>scheduled tasks</strong> for genuinely
+        recurring work, and <strong>Multi-run</strong> when you want the same task attempted by
+        several models at once so you can see which approach actually holds up.
+      </p>
+    </section>
+
+    <!-- ================= PART VII ================= -->
+    <h2 style="margin-top:52px"><span class="num">VII</span> When it breaks</h2>
+
+    <section id="fix-basics">
+      <h3>31 · Nothing loads at all</h3>
+      <p class="lede">Work down this list before anything else.</p>
+      <ol class="big">
+        <li><strong>Open <code>http://localhost:3000</code> on the computer itself.</strong> If that fails, it is not a remote problem and you are debugging the wrong thing. It points at OpenCode connection instead.</li>
+        <li><strong>Confirm the server is running:</strong> <code>openchamber status</code>.</li>
+        <li><strong>Check the port.</strong> If 3000 is taken, OpenChamber should pick another and print it — read the URL it actually printed rather than assuming.</li>
+        <li><strong>Read the logs:</strong> <code>openchamber logs</code>. Most startup failures are a missing OpenCode, a missing Node version, or a port conflict, and all three are usually visible here.</li>
+        <li><strong>Verify prerequisites:</strong> <code>node --version</code> should be 22+, and <code>opencode --version</code> should succeed.</li>
+      </ol>
+      <p class="note">
+        The project keeps a dedicated <em>OpenCode connection</em> troubleshooting page for the
+        cases where OpenChamber starts but cannot reach or start its OpenCode server. Go there
+        rather than working through remote-access issues.
+      </p>
+    </section>
+
+    <section id="fix-paired">
+      <h3>32 · A paired device will not connect</h3>
+      <p class="lede">Five causes, in the order worth checking.</p>
+      <ul>
+        <li><strong>The QR code or pairing link is single-use.</strong> If it was already scanned, or it expired, it is dead. Create a new one from <strong>Add a device</strong>. This is the most common cause by a wide margin.</li>
+        <li><strong>It was paired as &ldquo;Home network only&rdquo;.</strong> That device cannot connect from outside that network, ever. Pair it again and choose <strong>Anywhere</strong>.</li>
+        <li><strong>For an Anywhere pairing, check the relay state</strong> at <strong>Settings → Remote Instances → OpenChamber Relay</strong> on the server. It should say <strong>Connected</strong>. If it does not, disable and re-enable it.</li>
+        <li><strong>The device was revoked.</strong> Its token is gone permanently. Pair it again with a fresh QR code.</li>
+        <li><strong>Local-network reachability.</strong> The direct route only works if the server actually listens on the network. If you did not start with <code>--lan</code>, only the relay route works — which is fine, but it explains a direct connection that never falls back.</li>
+      </ul>
+    </section>
+
+    <section id="fix-tunnel">
+      <h3>33 · A tunnel link does not work</h3>
+      <p class="lede">Short list, because the causes are few.</p>
+      <ul>
+        <li>Run <code>openchamber tunnel status --all</code> to see every tunnel, including ones you may have forgotten.</li>
+        <li>Restart the tunnel from the same instance and port. A tunnel is bound to a port; starting a new mode on the same instance replaces the old one, and a mismatch is a common cause of a link that resolves to nothing.</li>
+        <li>Regenerate the connect link if the previous one was already used. Remember that generating a new one revokes the previous unused link.</li>
+        <li>Check the provider CLI is installed and authenticated. For ngrok that means <code>ngrok config add-authtoken</code> has been run; for Cloudflare that means <code>cloudflared</code> is on your path.</li>
+        <li>Use <code>openchamber tunnel doctor --provider cloudflare</code> to have it check the provider setup for you.</li>
+        <li>Confirm the UI password is set. A tunnel with no password is a public control panel, and the symptom is that the page loads but immediately redirects to a login you were not expecting.</li>
+      </ul>
+    </section>
+
+    <section id="fix-mobile">
+      <h3>34 · Phone-specific problems</h3>
+      <p class="lede">The things that are different on a phone.</p>
+      <ul>
+        <li><strong>The PWA will not connect away from home.</strong> This is expected and is not a bug. The browser route needs a tunnel; the native apps use the relay. See <a href="#choose">17</a>.</li>
+        <li><strong>Keyboard covers the input.</strong> The web build is mobile-first with keyboard-safe layouts, so this is usually handled. If it is not, the desktop app has more reliable behaviour.</li>
+        <li><strong>It will not install as an app.</strong> You need the browser&rsquo;s install option, not the OS one. On iOS that is Safari only — Share → Add to Home Screen. Chrome on iOS cannot install a PWA.</li>
+        <li><strong>Android blocks the APK.</strong> You must allow installation from that source in your settings when prompted.</li>
+        <li><strong>No background notifications.</strong> Both platforms require notification permission. On iOS especially, a web app you have not added to the home screen will not deliver them reliably.</li>
+        <li><strong>Slow on mobile data.</strong> A session with a large diff or a long tool output transfers a lot. Paired devices prefer a direct connection when you are on your own Wi-Fi, which is markedly faster than the relay.</li>
+        <li><strong>Typed passwords on a phone keyboard.</strong> This is the strongest argument for adding a passkey once it is set up.</li>
+      </ul>
+    </section>
+
+    <section id="fix-cmds">
+      <h3>35 · Diagnostic commands</h3>
+      <p class="lede">The ones worth memorising.</p>
+      <div class="codewrap"><pre>openchamber status                         # is it running at all?
+openchamber logs                           # recent output
+openchamber stop                           # stop it
+
+openchamber connect-url --qr               # pairing link, this network
+openchamber connect-url --relay --qr       # pairing link, works anywhere
+
+openchamber tunnel status --all            # every tunnel, current and past
+openchamber tunnel doctor --provider cloudflare
+openchamber tunnel providers                # which providers are available
+openchamber tunnel stop --port 3000
+
+openchamber startup enable                 # run at login (snapshots env!)
+openchamber update                         # update to latest</pre></div>
+      <p>
+        When something is deeply wrong, setting
+        <code>OPENCHAMBER_VERBOSE_REQUEST_LOGS=1</code> before starting gives you detailed HTTP
+        logging, and setting <code>OPENCHAMBER_GIT_READ_CACHE_TTL_MS=0</code> disables the
+        Git-backed file cache if you are chasing a stale-read problem.
+      </p>
+    </section>
+
+    <!-- ================= PART VIII ================= -->
+    <h2 style="margin-top:52px"><span class="num">VIII</span> Reference</h2>
+
+    <section id="glossary">
+      <h3>36 · Glossary</h3>
+      <p class="lede">Terms used above, in plain English.</p>
+      <div class="gloss-list">
+        <div class="gitem"><div class="gterm">Agent</div><div class="gdef">An AI program that carries out tasks on your behalf — reading files, editing code, running commands. OpenCode is the agent; OpenChamber is the interface you watch it through.</div></div>
+        <div class="gitem"><div class="gterm">Agentic</div><div class="gdef">Describing software that acts on your behalf in multiple steps rather than waiting for a command each time.</div></div>
+        <div class="gitem"><div class="gterm">API only</div><div class="gdef">Running OpenChamber without serving its browser interface, so only the desktop and mobile apps can connect. A meaningful reduction in attack surface on a server.</div></div>
+        <div class="gitem"><div class="gterm">Bind address</div><div class="gdef">The network interface a server listens on. <code>127.0.0.1</code> means this machine only; <code>0.0.0.0</code> means every interface, i.e. anyone who can route to you.</div></div>
+        <div class="gitem"><div class="gterm">Cloudflared</div><div class="gdef">Cloudflare's command-line tunnel client. OpenChamber drives it to create a public URL.</div></div>
+        <div class="gitem"><div class="gterm">Diff</div><div class="gdef">A structured view of what changed in your files, line by line. The core reason to use a graphical interface for an agent.</div></div>
+        <div class="gitem"><div class="gterm">Enterprise mode</div><div class="gdef">A lockdown mode that restricts which model providers, relays and extensions can be used, configured by a policy file or an environment variable. Written for managed work fleets rather than individuals.</div></div>
+        <div class="gitem"><div class="gterm">End-to-end encrypted</div><div class="gdef">Encryption where only the two endpoints hold the keys. An intermediary can route the traffic but cannot read it.</div></div>
+        <div class="gitem"><div class="gterm">mDNS</div><div class="gdef">Automatic local network discovery, letting a device be found by name without typing an address. More commonly discussed for OpenCode&rsquo;s own web server.</div></div>
+        <div class="gitem"><div class="gterm">Multi-run</div><div class="gdef">Running the same task on up to five models in parallel sessions, so you can compare what each actually produced and keep or fuse the best.</div></div>
+        <div class="gitem"><div class="gterm">Ngrok</div><div class="gdef">A tunnel provider, like Cloudflare. Requires an account and an authtoken.</div></div>
+        <div class="gitem"><div class="gterm">OpenCode</div><div class="gdef">The open-source command-line AI coding agent that OpenChamber runs on top of. The two are separate projects and OpenChamber is not affiliated with the OpenCode team.</div></div>
+        <div class="gitem"><div class="gterm">Pairing</div><div class="gdef">Connecting a second device by scanning a single-use QR code, giving that device its own revocable token rather than sharing a password.</div></div>
+        <div class="gitem"><div class="gterm">Passkey</div><div class="gdef">A credential tied to Face ID, Touch ID or a hardware key. Stronger and far more practical than typing a password on a phone. Cleared if the UI password changes.</div></div>
+        <div class="gitem"><div class="gterm">PWA</div><div class="gdef">A Progressive Web App — a web page that installs like a normal application, with its own icon and window. How you get OpenChamber in a phone browser.</div></div>
+        <div class="gitem"><div class="gterm">Private Relay</div><div class="gdef">OpenChamber&rsquo;s own relay infrastructure. Your server makes an outbound connection and paired devices reach it through it, end-to-end encrypted, with nothing publicly exposed. The recommended way to use OpenChamber on your own devices away from home.</div></div>
+        <div class="gitem"><div class="gterm">Reverse proxy</div><div class="gdef">A server you control that sits in front of OpenChamber, handling HTTPS. Recommended if others on your network can reach it, because the built-in connection is plain HTTP.</div></div>
+        <div class="gitem"><div class="gterm">Session</div><div class="gdef">One ongoing conversation with the agent, including its work, diffs and terminal state.</div></div>
+        <div class="gitem"><div class="gterm">Session Goals</div><div class="gdef">Giving a session a finish line. The result is checked after every turn and work continues until the goal is met, the agent is blocked, or a limit you set is reached — including after you close the app.</div></div>
+        <div class="gitem"><div class="gterm">Tunnel</div><div class="gdef">A public URL that forwards to your machine. Convenient and broad, but the provider decrypts traffic at its edge, so it is a real privacy trade.</div></div>
+        <div class="gitem"><div class="gterm">WSL</div><div class="gdef">Windows Subsystem for Linux. The project recommends running the OpenChamber web server under WSL rather than PowerShell on Windows, for better filesystem access and terminal integration.</div></div>
+        <div class="gitem"><div class="gterm">Worktree</div><div class="gdef">A separate checkout of a repository, letting an agent work on a branch without disturbing your working directory. Used with Multi-run to run tasks in parallel safely.</div></div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <h3>37 · Sources</h3>
+      <p class="lede">Everything cited, and where it came from.</p>
+      <p>
+        This document is based on the project's own documentation and repository, read directly on
+        30 September 2026. Where the documentation was explicit — particularly on the security
+        trade-offs — that wording is reproduced rather than paraphrased, because the distinctions
+        matter.
+      </p>
+      <ul>
+        <li><a href="https://docs.openchamber.dev/quickstart" rel="nofollow noopener" target="_blank">OpenChamber Docs — Quickstart</a> — the fastest path, and which surface to use when</li>
+        <li><a href="https://docs.openchamber.dev/install/" rel="nofollow noopener" target="_blank">Install</a> — prerequisites, the web and PWA install, desktop, and VS Code</li>
+        <li><a href="https://docs.openchamber.dev/connect-devices/" rel="nofollow noopener" target="_blank">Connect a Device</a> — pairing, the three scope options, and command-line pairing</li>
+        <li><a href="https://docs.openchamber.dev/private-relay/" rel="nofollow noopener" target="_blank">Private Relay</a> — how it works, what the relay can and cannot see, and relay versus tunnel</li>
+        <li><a href="https://docs.openchamber.dev/tunnels/" rel="nofollow noopener" target="_blank">Tunnels</a> — providers, quick and managed modes, profiles, behaviour notes</li>
+        <li><a href="https://docs.openchamber.dev/mobile/" rel="nofollow noopener" target="_blank">Mobile Apps &amp; PWA</a> — installing the native apps and PWAs, and connecting to the server</li>
+        <li><a href="https://docs.openchamber.dev/security/" rel="nofollow noopener" target="_blank">Security</a> — UI passwords, passkeys, device tokens, what to do before exposing an instance</li>
+        <li><a href="https://docs.openchamber.dev/environment/" rel="nofollow noopener" target="_blank">Environment Variables</a> — the full list, and the startup-snapshot behaviour</li>
+        <li><a href="https://docs.openchamber.dev/troubleshooting/remote-access/" rel="nofollow noopener" target="_blank">Troubleshooting — Remote Access</a> — paired devices, tunnels, remote instances</li>
+        <li><a href="https://github.com/openchamber/openchamber" rel="nofollow noopener" target="_blank">The OpenChamber repository</a> — feature list, surfaces, install commands, licence, star count</li>
+        <li><a href="https://openchamber.dev/about" rel="nofollow noopener" target="_blank">openchamber.dev</a> — project background and independence from the OpenCode team</li>
+      </ul>
+      <div class="callout co-info">
+        <span class="ic">🔄</span>
+        <div class="bd">
+          <div class="ct">This document will go out of date</div>
+          <p>
+            OpenChamber is moving quickly, and the commands, flags and menu paths above are
+            version-specific. Treat this as a well-researched starting point rather than a permanent
+            reference, and re-check the official documentation before anything irreversible. If a
+            detail here turns out to be wrong, correcting this document is part of keeping it
+            useful.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="nextdocs">
+      <div class="doclinks">
+        <a class="doclink" href="docs.html">
+          <div class="dt">📚 The Document Hub</div>
+          <div class="dd">The index of everything. Bookmark this one address.</div>
+        </a>
+        <a class="doclink" href="app-documentation.html">
+          <div class="dt">📘 App Documentation</div>
+          <div class="dd">The 30-section reference for the website itself, including deployment and rollback.</div>
+        </a>
+        <a class="doclink" href="seo-virality-growth-guide.html">
+          <div class="dt">🔍 Organic Growth &amp; Visibility Guide</div>
+          <div class="dd">How to get found, with a live audit and a ranked backlog.</div>
+        </a>
+        <a class="doclink" href="pricing-benchmark-report.html">
+          <div class="dt">📊 Market Pricing Report</div>
+          <div class="dd">What software projects really cost, and the methods for estimating it.</div>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+    <div class="fgrid">
+      <div class="brandbox" style="padding:9px">
+        <svg viewBox="0 0 160 120" fill="none" style="width:46px;height:34px;display:block" aria-label="Dammie Optimus Monogram">
+          <g stroke="url(#dosGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 30 25 L 30 95" />
+            <path d="M 30 25 L 60 25 A 35 35 0 0 1 60 95 L 30 95" />
+            <circle cx="100" cy="60" r="35" />
+          </g>
+          <circle cx="100" cy="60" r="10" fill="url(#dosGrad)" />
+        </svg>
+      </div>
+      <div class="fnote" style="flex:1;min-width:260px">
+        <strong>Dammie Optimus Solutions</strong><br />
+        Tooling Guide — OpenChamber on desktop, browser and phone<br />
+        <a href="docs.html">All documents</a> &nbsp;·&nbsp;
+        <a href="app-documentation.html">App Documentation</a> &nbsp;·&nbsp;
+        <a href="mailto:dammieoptimus@gmail.com">dammieoptimus@gmail.com</a>
+      </div>
+      <div class="fnote" style="text-align:right">
+        Sections 01–37 · Internal working document<br />
+        Sources verified 30 September 2026
+      </div>
+    </div>
+    </footer>
+  </main>
+</div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+<script src="assets/docs.js"></script>
+</body>
+</html>

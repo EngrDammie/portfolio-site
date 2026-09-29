@@ -45,6 +45,7 @@ const TRACKED = [
   'public/the-nameless-column.html',
   'public/pricing-benchmark-report.html',
   'public/seo-virality-growth-guide.html',
+  'public/openchamber-guide.html',
   'public/assets/docs.css',
   'public/assets/docs.js',
   'public/_headers',
@@ -53,13 +54,13 @@ const TRACKED = [
 
 // Counts the document states for the same paths, so --check can compare.
 const STATED = {
-  'src/app/layout.tsx': 41,
+  'src/app/layout.tsx': 70,
   'src/app/page.tsx': 40,
   'src/app/globals.css': 221,
-  'src/app/privacy/page.tsx': 604,
+  'src/app/privacy/page.tsx': 647,
   'src/app/api/contact/route.ts': 171,
   'src/components/ContactHub.tsx': 417,
-  'public/docs.html': 423,
+  'public/docs.html': 452,
   'public/app-documentation.html': null,
   'public/brand-guidelines.html': 1537,
   'public/email-delivery-guide.html': 722,

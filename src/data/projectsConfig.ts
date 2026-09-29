@@ -1,3 +1,26 @@
+/**
+ * A single supplementary reference link shown on a project card, rendered
+ * above the tech stack.
+ *
+ * Use these for anything a prospect would want to click that is not already
+ * covered by `liveUrl` or `githubUrl` — a case study write-up, a demo
+ * recording, a documentation page, a related project. The `subtext` is what
+ * makes them useful: it says where the link goes, so the visitor does not
+ * have to open it to find out.
+ */
+export interface LinkItem {
+  /** Short, human label for the link. Keep it to a few words. */
+  title: string;
+  /**
+   * One sentence in smaller type explaining where this link goes and what it
+   * does. This is the whole reason the link exists, so keep it concrete
+   * rather than restating the title.
+   */
+  subtext: string;
+  /** Absolute URL, including the https:// scheme. Opened in a new tab. */
+  href: string;
+}
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -8,6 +31,12 @@ export interface ProjectItem {
   result: string;
   metric: string;
   techStack: string[];
+  /**
+   * Optional supplementary links, rendered above the tech stack with a link
+   * icon. Omit the field entirely (or use an empty array) when a project has
+   * nothing extra worth linking to.
+   */
+  links?: LinkItem[];
   liveUrl?: string;
   githubUrl?: string;
   featured: boolean;
@@ -35,6 +64,13 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
     result: 'The platform now runs live in a personal test environment, awaiting only management approval to enter daily operations. Every production station can log a check in seconds, supervisors get a live command centre instead of paper piles, and managers gain data-driven insight into uptime, waste and QC — all maintained by one developer with no licence spend.',
     metric: '21 Modules',
     techStack: ['React', 'JavaScript', 'Firebase Auth', 'Cloud Firestore', 'Firestore Security Rules', 'Cloudflare Workers'],
+    links: [
+      {
+        title: 'Watch the factory walkthrough',
+        subtext: 'A screen recording of the Command Centre and the quality-control modules running on a real plant floor.',
+        href: 'https://www.youtube.com/watch?v=EjhFWjsLDcA',
+      },
+    ],
     liveUrl: 'https://starium-app.dammieoptimus.workers.dev/',
     featured: true,
     previewType: 'video',
@@ -101,6 +137,18 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
     result: 'Converted an abandoned reading habit into a sustained daily practice, tracking 515 scheduled reading days across the three plans. Because there is no account, login, or server, a reader can open a single HTML file, start reading immediately, and keep their progress indefinitely. The translation selector broadened the audience considerably by supporting 15 versions including EasyEnglish, AMP, the Message, and Yoruba, Hausa, Igbo, and French translations, and the dual orderings let me read the Gospels chronologically without abandoning the full-Bible run. The zero-dependency architecture means the entire project is maintainable by editing one file, and the same duplicated app shell now lets a new plan be added by changing a single data array.',
     metric: '1,189 Chapters Mapped',
     techStack: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'Local Storage API', 'CSS Grid & Flexbox', 'Google Fonts', 'bible.com API', 'Google Tag Manager'],
+    links: [
+      {
+        title: 'Old Testament in four months',
+        subtext: 'The 120-day Old Testament plan, with the same 15 translations and both reading orderings.',
+        href: 'https://bible-plans.dammieoptimus.workers.dev/old_testament_in_four_months',
+      },
+      {
+        title: 'Complete Bible in a year',
+        subtext: 'The 365-day full-Bible plan, colour-coded by reading weight so you can pace yourself.',
+        href: 'https://bible-plans.dammieoptimus.workers.dev/complete_bible_in_a_year',
+      },
+    ],
     liveUrl: 'https://bible-plans.dammieoptimus.workers.dev/',
     featured: false,
     previewType: 'iframe',
