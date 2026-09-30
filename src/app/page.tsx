@@ -1,9 +1,53 @@
+import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import ProjectShowcase from '@/components/ProjectShowcase';
 import TrustEngine from '@/components/TrustEngine';
 import ScopeEstimator from '@/components/ScopeEstimator';
 import ContactHub from '@/components/ContactHub';
+import { SITE_URL } from '@/config/site';
+
+/**
+ * The homepage's own share tags.
+ *
+ * These live here rather than in the root layout on purpose. Anything
+ * route-specific declared in the root layout is inherited by every other
+ * route that does not override it, which is how /privacy ended up
+ * advertising a canonical URL and an image belonging to this page. See
+ * the note in src/app/layout.tsx.
+ *
+ * Absolute URLs, not relative ones. Relative image paths are ignored by
+ * WhatsApp, LinkedIn and X, and the result is a bare link with no card.
+ * The explicit width and height let a platform lay the card out before
+ * the image has downloaded.
+ */
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    locale: 'en_NG',
+    url: SITE_URL,
+    siteName: 'Dammie Optimus Solutions',
+    title: 'Dammie Optimus Solutions | AI, Web & Mobile Software Engineering',
+    description:
+      'AI automations, web applications and mobile software engineered to be fast, reliable and built around the way your business actually runs.',
+    images: [
+      {
+        url: '/assets/og-homepage.png',
+        width: 1200,
+        height: 630,
+        alt: 'Dammie Optimus Solutions — AI, web and mobile software engineering',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dammie Optimus Solutions | AI, Web & Mobile Software Engineering',
+    description:
+      'AI automations, web applications and mobile software engineered to be fast, reliable and built around the way your business actually runs.',
+    images: ['/assets/og-homepage.png'],
+  },
+};
 
 export default function Home() {
   // Read here, in the server component, so the value is handed to the client

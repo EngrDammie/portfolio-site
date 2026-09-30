@@ -15,45 +15,39 @@ const geistMono = Geist_Mono({
 });
 
 /**
- * The site lives on a free workers.dev address until a real domain is
- * bought, so the canonical URL has to be written out rather than
- * inferred, and it has to be the same absolute address the share cards
- * point at. Every social and search tag below is an absolute URL on
- * purpose: relative ones are ignored by WhatsApp, LinkedIn and X.
+ * Site-wide metadata ONLY. Nothing route-specific belongs in this file.
+ *
+ * The distinction is not stylistic, it is a bug that was actually shipped
+ * and caught in production. A root layout's canonical and Open Graph tags
+ * are INHERITED by every child route that does not override them. With
+ * the homepage's tags here, /privacy was served a canonical pointing at
+ * "/" and the homepage's share image. That tells a search engine the
+ * privacy policy is a duplicate of the home page and should be dropped
+ * from the index, and it makes the policy share as a different page's
+ * card. Neither error is visible in the homepage's own HTML, so nothing
+ * local would ever have caught it.
+ *
+ * So the rule from here on: the root layout holds what is true of every
+ * page (the address, the author, the robots policy, the title template).
+ * Each route owns its own canonical, Open Graph and Twitter tags. A
+ * shared value belongs here; a claim about one specific page does not.
  */
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Dammie Optimus Solutions | AI, Web & Mobile Software Engineering',
+
+  // A default plus a template, so a route that sets only its own title
+  // still gets the brand appended rather than replacing it.
+  title: {
+    default: 'Dammie Optimus Solutions | AI, Web & Mobile Software Engineering',
+    template: '%s | Dammie Optimus Solutions',
+  },
   description:
     'Dammie Optimus Solutions designs and engineers high-performance AI automations, web applications, and mobile solutions for businesses worldwide.',
+
   authors: [{ name: 'Dammie Optimus' }],
   creator: 'Dammie Optimus Solutions',
   publisher: 'Dammie Optimus Solutions',
-  alternates: { canonical: '/' },
-  openGraph: {
-    type: 'website',
-    locale: 'en_NG',
-    url: SITE_URL,
-    siteName: 'Dammie Optimus Solutions',
-    title: 'Dammie Optimus Solutions | AI, Web & Mobile Software Engineering',
-    description:
-      'AI automations, web applications and mobile software engineered to be fast, reliable and built around the way your business actually runs.',
-    images: [
-      {
-        url: '/assets/og-homepage.png',
-        width: 1200,
-        height: 630,
-        alt: 'Dammie Optimus Solutions — AI, web and mobile software engineering',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Dammie Optimus Solutions | AI, Web & Mobile Software Engineering',
-    description:
-      'AI automations, web applications and mobile software engineered to be fast, reliable and built around the way your business actually runs.',
-    images: ['/assets/og-homepage.png'],
-  },
+
   robots: {
     index: true,
     follow: true,

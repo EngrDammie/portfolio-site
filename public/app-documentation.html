@@ -846,6 +846,8 @@
             <tr><td class="f">public/tgr-playbook-android.html</td><td><strong>Public.</strong> The branded download page for the TGR Playbook Android build. Same structure, for the field manual release. Indexable.</td><td><span class="tag tag-care">Careful</span></td></tr>
                   <tr><td class="f">public/assets/og-rafa-voucher.png</td><td>Share card for the Rafa Voucher download page, 1200&times;630. Referenced by <span class="mono">og:image</span>, so the link renders with a real preview when shared.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/assets/og-tgr-playbook.png</td><td>Share card for the TGR Playbook download page, 1200&times;630.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/assets/og-privacy.png</td><td>Share card for the privacy policy, 1200&times;630. Generated, not hand-made: <span class="mono">npm run og:privacy</span> rewrites it from the markup in <span class="mono">scripts/og-privacy.mjs</span>. The monogram is read from <span class="mono">src/app/icon.svg</span> so the card cannot drift from the site icon.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">scripts/og-privacy.mjs</td><td>Generates the privacy share card in headless Chrome. Exists because the other three cards were made ad hoc and so could not be regenerated or edited without starting over.</td><td><span class="tag tag-safe">Safe</span></td></tr>
             <tr><td class="f">public/assets/og-homepage.png</td><td>Home page share card, 1200&times;630. Referenced by the Open Graph and Twitter tags in the root layout.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/robots.txt</td><td>Deliberately permissive. Contains no <span class="mono">Disallow</span> rule on purpose: a blocked crawler cannot fetch the page, so it never reads the <span class="mono">noindex</span> header, and the page can still surface as a bare link. Its one job is the <span class="mono">Sitemap</span> line.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/sitemap.xml</td><td>Lists the four public pages only. Deliberately excludes every internal document, because a URL in a sitemap advertises what <span class="mono">X-Robots-Tag: noindex</span> exists to hide.</td><td><span class="tag tag-care">Careful</span></td></tr>
@@ -1569,6 +1571,28 @@ Additional notes:
           </tbody>
         </table>
       </div>
+
+      <h4>Where metadata is allowed to live, and why it matters</h4>
+      <p>
+        A root layout's <span class="mono">canonical</span>, <span class="mono">openGraph</span> and
+        <span class="mono">twitter</span> tags are <strong>inherited by every route that does not
+        override them</strong>. This is not a subtlety to be careful about, it is a bug that was
+        shipped and then caught in production: with the homepage's tags in the root layout,
+        <span class="mono">/privacy</span> was served a canonical pointing at <span class="mono">/</span>
+        and the homepage's share image. That instructs a search engine to treat the privacy policy
+        as a duplicate of the home page and drop it from the index, and it makes the policy share as
+        a different page's card. Neither error appears anywhere in the homepage's own HTML, so
+        nothing local would have caught it. It was only found by fetching the deployed page.
+      </p>
+      <p>
+        The rule this produced:
+      </p>
+      <ul>
+        <li><span class="mono">src/app/layout.tsx</span> holds only what is true of <em>every</em> page &mdash; the address, the author, the robots policy, and the title template.</li>
+        <li>Each route owns its own canonical and share tags. <span class="mono">src/app/page.tsx</span> and <span class="mono">src/app/privacy/page.tsx</span> each declare their own.</li>
+        <li>The template in the root layout is <span class="mono">%s | Dammie Optimus Solutions</span>, so a route setting only <span class="mono">title: 'Privacy Policy'</span> gets a clean result. Setting the full string in both places produces the brand twice.</li>
+        <li><strong>Verify against the deployed site, not the build output.</strong> A build only proves the route you inspected is correct. <span class="mono">curl</span> each route and read its own canonical back.</li>
+      </ul>
 
       <h4>What is missing</h4>
       <div class="tw">

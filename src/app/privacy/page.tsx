@@ -3,15 +3,46 @@ import Link from 'next/link';
 import { ArrowLeft, ShieldCheck, Mail, Lock, EyeOff, Database, Globe, FileText } from 'lucide-react';
 import { BrandLogo } from '@/components/DOMonogram';
 import ThemeToggle from '@/components/ThemeToggle';
+import { SITE_URL } from '@/config/site';
 
 const LAST_UPDATED = '30 September 2026';
 const CONTACT_EMAIL = 'dammieoptimus@gmail.com';
 const RETENTION_MONTHS = 12;
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Dammie Optimus Solutions',
+  // The title is set in full rather than through the root layout's
+  // template, because that template would produce
+  // "Privacy Policy | Dammie Optimus Solutions | Dammie Optimus Solutions".
+  title: 'Privacy Policy',
   description:
     'How Dammie Optimus Solutions handles information you send through this website. No cookies, no database, no advertising or tracking pixels, and only cookieless aggregate analytics. Plain English, and how to ask for a copy or deletion of your data.',
+  // Declared explicitly. Without this, the page inherits the homepage's
+  // canonical, which is a real instruction to a search engine: treat this
+  // page as a duplicate of the home page and drop it from the index.
+  alternates: { canonical: '/privacy' },
+  openGraph: {
+    type: 'article',
+    url: `${SITE_URL}/privacy`,
+    siteName: 'Dammie Optimus Solutions',
+    title: 'Privacy Policy | Dammie Optimus Solutions',
+    description:
+      'How Dammie Optimus Solutions handles information you send through this website, in plain English.',
+    images: [
+      {
+        url: '/assets/og-privacy.png',
+        width: 1200,
+        height: 630,
+        alt: 'Privacy Policy — Dammie Optimus Solutions',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy | Dammie Optimus Solutions',
+    description:
+      'How Dammie Optimus Solutions handles information you send through this website, in plain English.',
+    images: ['/assets/og-privacy.png'],
+  },
   robots: {
     index: true,
     follow: true,
