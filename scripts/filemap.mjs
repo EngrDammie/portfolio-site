@@ -49,6 +49,20 @@ const ROOT_FILES = [
 
 const IGNORED_DIRS = new Set(['node_modules', '.next', '.open-next', '.git']);
 
+/**
+ * Third-party verification artefacts that come and go.
+ *
+ * A Google Search Console HTML verification file is dropped into public/
+ * and deleted once verification passes. Requiring a documentation row for
+ * it would mean the file map churns every time Search Console is used
+ * again, which trains you to ignore the file map.
+ *
+ * The pattern is deliberately narrow: it matches only Google's own
+ * filename shape. It will not quietly excuse a real file that happens to
+ * be called something with "google" in it.
+ */
+const IGNORED_PATTERNS = [/^public\/google[0-9a-f]+\.html$/];
+
 const strict = process.argv.includes('--check');
 
 function readDocFiles() {
@@ -76,6 +90,11 @@ function walk(dir, out = []) {
   return out;
 }
 
+function isIgnored(relativePath) {
+  const normalised = relativePath.split(path.sep).join('/');
+  return IGNORED_PATTERNS.some((pattern) => pattern.test(normalised));
+}
+
 const documented = readDocFiles();
 const onDisk = new Set();
 
@@ -83,7 +102,9 @@ for (const area of AREAS) {
   const dir = path.join(ROOT, area);
   if (!fs.existsSync(dir)) continue;
   for (const full of walk(dir)) {
-    onDisk.add(path.relative(ROOT, full).split(path.sep).join('/'));
+    const relative = path.relative(ROOT, full).split(path.sep).join('/');
+    if (isIgnored(relative)) continue;
+    onDisk.add(relative);
   }
 }
 for (const f of ROOT_FILES) {

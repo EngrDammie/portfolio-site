@@ -574,12 +574,37 @@
         <li>❌ <strong>Does not</strong> fix a broken site. If pages are blocked or non-existent, a sitemap listing them produces warnings rather than results.</li>
       </ul>
       <div class="q">
-        <b>Recommendation:</b> generate a small, hand-maintained <code>sitemap.xml</code> listing the
-        homepage and the seven documents, reference it from
-        <a href="#aicrawlers">19</a> via a <code>Sitemap:</code> line in <code>robots.txt</code>, and
-        submit it in Search Console. Approximately 20 minutes of work. Listed as
-        <span class="prio p1">P1</span> in the <a href="#backlog">backlog</a>.
+        <b>Recommendation:</b> generate a small, hand-maintained <code>sitemap.xml</code>, reference it
+        from <a href="#aicrawlers">19</a> via a <code>Sitemap:</code> line in <code>robots.txt</code>, and
+        submit it in Search Console. Listed as <span class="prio p1">P1</span> in the
+        <a href="#backlog">backlog</a>.
       </div>
+      <p class="lede"><b>Amendment, 30 September 2026.</b> Done, with one deliberate change to the
+      original recommendation: it lists the <em>four public pages</em>, not the seven documents.
+      Listing a URL in a sitemap is an advertisement, and these documents are advertised nowhere.
+      They send <code>X-Robots-Tag: noindex</code>, and appearing in a sitemap would contradict the
+      exact thing that header exists to do.</p>
+
+      <div class="q">
+        <b>How Search Console verification actually works</b>, since it is easy to do in the wrong
+        order and get a failure recorded against the property:
+      </div>
+      <ul>
+        <li><strong>Add the property as a URL prefix</strong>, not as a Domain. A Domain property
+        covers every subdomain of <code>dammieoptimus.com</code> as soon as you own the domain. You do
+        not own it yet, and the prefix form verifies the exact address that exists today:
+        <code>https://get-tech-solutions.dammieoptimus.workers.dev/</code></li>
+        <li><strong>Choose the HTML file method.</strong> Google gives you a file named
+        <code>google&lt;token&gt;.html</code> whose entire contents are one line, and the token in that
+        line <em>includes the <code>.html</code> extension</em>. That is not a typo in the download, and
+        editing it out causes a verification failure that looks inexplicable.</li>
+        <li><strong>Deploy the file before clicking Verify.</strong> Verify fetches the
+        <em>live</em> address. Clicking it while the file is still only on your laptop returns
+        "verification failed" and, on some property types, starts a cooldown.</li>
+        <li><strong>Delete the file afterwards if you want.</strong> Verification does not depend on it
+        staying. It is excluded from the documentation file map in <span class="mono">scripts/filemap.mjs</span>,
+        so adding and removing it does not churn the documentation.</li>
+      </ul>
     </section>
 
     <section id="orphan">
