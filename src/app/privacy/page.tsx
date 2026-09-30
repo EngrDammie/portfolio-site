@@ -95,7 +95,9 @@ export default function PrivacyPolicyPage() {
           </div>
           <p className="text-slate-300 leading-relaxed">
             If you use the contact form, your message arrives in my email inbox and nowhere else.
-            There is <strong className="text-white">no database, no account, no cookies, and no
+            You will also get one automatic reply confirming it landed, sent to the address you
+            gave me, so you are not left waiting. There is{' '}
+            <strong className="text-white">no database, no account, no cookies, and no
             advertising or tracking of any kind</strong> on this site. The one thing I do collect is
             anonymous, cookieless page-view counts, so I can tell which pages people actually read.
             I keep your brief for {RETENTION_MONTHS} months so we can work together, and I delete it
@@ -260,6 +262,15 @@ export default function PrivacyPolicyPage() {
               Your message is turned into an email and sent through an email delivery service. It
               then lands in my inbox. That is the whole journey, and it is a short one.
             </p>
+            <p>
+              One addition to that, made after I found that enquiries were being sent into a
+              silence: you receive <strong className="text-white">one automatic reply</strong>,
+              straight away, confirming your brief reached me. It contains your name, the project
+              category you picked, and a link to my calendar. It is not a newsletter, it is not
+              stored anywhere new, and replying to it reaches me directly. It is only sent if you
+              gave me an email address; if you left that blank and gave a WhatsApp number instead,
+              you get the one-click chat link in my notification email and no automatic mail.
+            </p>
             <p>That route involves three organisations, each with a different job:</p>
             <ul className="mt-4 space-y-3">
               <Processor
@@ -268,11 +279,11 @@ export default function PrivacyPolicyPage() {
               />
               <Processor
                 name="Resend"
-                role="The email delivery service. It receives your message and forwards it to my inbox. It is a company separate from me, processing your data on my instructions so the form can send mail at all."
+                role="The email delivery service. It receives your message and forwards it to my inbox, and it delivers the automatic reply to the address you gave me. It is a company separate from me, processing your data on my instructions so the form can send mail at all."
               />
               <Processor
                 name="Your email provider"
-                role="If I reply to you, your own provider (for example Gmail, Outlook or Yahoo) receives my reply and stores it on their infrastructure, under their own terms. That is outside my control."
+                role="If you gave me an email address, your own provider (for example Gmail, Outlook or Yahoo) receives the automatic reply immediately, and my answers when I get back to you. It stores that mail on their infrastructure, under their own terms. That is outside my control."
               />
             </ul>
             <p className="mt-4">

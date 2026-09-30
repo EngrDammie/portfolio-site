@@ -846,6 +846,9 @@
             <tr><td class="f">public/tgr-playbook-android.html</td><td><strong>Public.</strong> The branded download page for the TGR Playbook Android build. Same structure, for the field manual release. Indexable.</td><td><span class="tag tag-care">Careful</span></td></tr>
                   <tr><td class="f">public/assets/og-rafa-voucher.png</td><td>Share card for the Rafa Voucher download page, 1200&times;630. Referenced by <span class="mono">og:image</span>, so the link renders with a real preview when shared.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/assets/og-tgr-playbook.png</td><td>Share card for the TGR Playbook download page, 1200&times;630.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/assets/og-homepage.png</td><td>Home page share card, 1200&times;630. Referenced by the Open Graph and Twitter tags in the root layout.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/sitemap.xml</td><td>Lists the four public pages only. Deliberately excludes every internal document, because a URL in a sitemap advertises what <span class="mono">X-Robots-Tag: noindex</span> exists to hide.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/config/site.ts</td><td>Public site details in one place: the canonical URL, the phone number, the email address, and the booking link. The booking link falls back to a hardcoded value because the environment variable is build-time only and the API route runs at runtime.</td><td><span class="tag tag-safe">Safe</span></td></tr>
             <tr><td class="f">public/assets/download.css</td><td>The design system for the two Android release pages: hero, download card, call to action, verification block, install steps, contact tiles and footer. Uses only the CSS variables in docs.css, so it themes automatically.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/openchamber-guide.html</td><td><strong>The OpenChamber tooling guide.</strong> 37 sections on running OpenCode through a graphical interface and reaching it from a phone: installation, the three connection routes, what the Private Relay can and cannot see versus a public tunnel, every command and environment variable, and troubleshooting.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/seo-virality-growth-guide.html</td><td><strong>The organic growth and visibility guide.</strong> 55 sections of 2026 research on SEO, AI answer engines, topical authority, digital PR, local and international reach, and how attention becomes revenue. Includes a live audit of this site, a 90-day and 12-month plan, and a ranked backlog of recommendations &mdash; none of which have been implemented.</td><td><span class="tag tag-care">Careful</span></td></tr>
@@ -1571,10 +1574,10 @@ Additional notes:
         <table>
           <thead><tr><th>Missing</th><th>What it would do</th><th>Worth it?</th></tr></thead>
           <tbody>
-            <tr><td>Social sharing images</td><td>Show a branded card when the link is pasted into WhatsApp, LinkedIn or X. Currently they show a bare address.</td><td><strong>Yes.</strong> This is the single highest-return SEO-adjacent change, especially for a business whose links are shared on WhatsApp.</td></tr>
-            <tr><td>A canonical address</td><td>Tells search engines which version of the page is the real one. Important once you have your own domain and the free workers.dev address both exist.</td><td>Yes, once the domain lands.</td></tr>
-            <tr><td>A sitemap and a sitemap line in <span class="mono">robots.txt</span></td><td>Tells search engines what exists. <span class="mono">sitemap.xml</span> currently returns 404, and <span class="mono">robots.txt</span> contains no directives at all, so nothing is being declared.</td><td><strong>Yes &mdash; now.</strong> Together with the missing internal links below, this is why seven substantial documents are currently undiscoverable.</td></tr>
-            <tr><td>Open Graph and structured data</td><td>Richer results in search, and a machine-readable description of what you do.</td><td>Medium, once you have a domain.</td></tr>
+            <tr><td>Social sharing images</td><td>Show a branded card when the link is pasted into WhatsApp, LinkedIn or X.</td><td><strong>Done.</strong> A 1200&times;630 card at <span class="mono">public/assets/og-homepage.png</span>, plus one card per Android download page. All three are referenced from the root layout metadata as absolute URLs, which is what WhatsApp and LinkedIn actually require.</td></tr>
+            <tr><td>A canonical address</td><td>Tells search engines which version of the page is the real one. Important once you have your own domain and the free workers.dev address both exist.</td><td><strong>Done, for the current address.</strong> The root layout declares <span class="mono">canonical</span> as the workers.dev URL, and the two download pages declare their own. When the real domain lands, this is the first thing to change &mdash; see section 19.</td></tr>
+            <tr><td>A sitemap</td><td>Tells search engines what is meant to be found.</td><td><strong>Done.</strong> <span class="mono">public/sitemap.xml</span> lists exactly four URLs: the home page, the privacy policy, and the two download pages. It deliberately lists none of the internal documents &mdash; putting a URL in a sitemap advertises the exact thing <span class="mono">X-Robots-Tag: noindex</span> exists to hide.</td></tr>
+            <tr><td>Open Graph and structured data</td><td>Richer results in search, and a machine-readable description of what you do.</td><td><strong>Done.</strong> Both are in the root layout. Open Graph and Twitter card tags for the home page, and a JSON-LD graph naming the Organization, the Person, and the WebSite. JSON-LD is rendered as a literal <span class="mono">&lt;script&gt;</span> in the server output rather than from a client component, because a crawler has to see it in the first HTML response, before any JavaScript runs.</td></tr>
             <tr><td>Per-document metadata</td><td>Each of the seven documents already has its own title and description, hand-written. This is done.</td><td>Done.</td></tr>
           </tbody>
         </table>
@@ -1876,6 +1879,52 @@ curl -sI http://localhost:8788/privacy | grep -i x-robots-tag</pre>
         consent under GDPR.
       </p>
 
+      <h4>What the visitor now receives back</h4>
+      <p>
+        Previously the form was a one-way street: the enquiry arrived in your inbox and the visitor
+        heard nothing at all until you replied. On a site whose entire purpose is to start a
+        conversation, silence is the most expensive bug you can ship. The endpoint now sends a
+        second email, the moment yours is accepted, confirming the brief landed.
+      </p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Question</th><th>Answer</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>What is in it?</td><td>Their name, the project category they picked, a link to the calendar, and the same 12-month retention promise the privacy policy makes.</td><td>Confirms it arrived and answers the only question they have.</td></tr>
+            <tr><td>Does it leak to anyone else?</td><td>No. It goes to the one address the visitor typed into that same form.</td><td>&mdash;</td></tr>
+            <tr><td>What if they left the email blank?</td><td>No automatic reply is sent. A visitor who gave only a WhatsApp number has told you to reach them on WhatsApp, and emailing an address they did not supply would be both useless and wrong.</td><td>Sending to a guessed or absent address is the wrong default.</td></tr>
+            <tr><td>What if the confirmation fails?</td><td>Nothing happens to the visitor. The failure is logged server-side and the enquiry is untouched.</td><td>See below. This is the important one.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-key">
+        <span class="ic">★</span>
+        <div class="bd">
+          <div class="ct">The order of these two sends is the whole design</div>
+          <p>
+            The acknowledgement is sent <strong>after</strong> your notification, inside its own
+            <span class="mono">try</span> and <span class="mono">catch</span>, and a failure is
+            caught and logged rather than allowed to escape. This is not defensive style, it is the
+            requirement. If the confirmation threw and were allowed to reach the outer
+            <span class="mono">catch</span>, the endpoint would return a 500 <em>and the enquiry
+            would look lost to the visitor</em> &mdash; even though it had already reached your inbox.
+            A cosmetic feature would be destroying a real lead. As written, the worst case is a
+            visitor who does not know their brief arrived, and you still have the email.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        The booking link inside the reply comes from <span class="mono">src/config/site.ts</span>,
+        not from an environment variable read in the route. This is a real constraint rather than a
+        preference: <span class="mono">BOOKING_URL</span> is a <strong>build-time</strong> variable
+        and gets baked into the rendered home page, but the API route executes at <strong>runtime</strong>
+        inside the worker where it is not defined. Read there and the button would silently vanish
+        from the email. The constant prefers the environment variable when it is available and falls
+        back to the published URL, so runtime code cannot quietly lose the link. See section 19.
+      </p>
+
       <h4>Two layers of protection, on purpose</h4>
       <div class="grid2">
         <div class="card">
@@ -1900,7 +1949,7 @@ curl -sI http://localhost:8788/privacy | grep -i x-robots-tag</pre>
             <tr><td>No length limits</td><td>A visitor could paste an enormous message. There is no cap on any field, in the browser or on the server.</td><td>Low</td></tr>
             <tr><td><span class="tag tag-keep">Resolved</span> Visitor text is not escaped</td><td>Every visitor string is now passed through <span class="mono">escapeHtml()</span> before it reaches the email body, and the two values used in mail headers through <span class="mono">singleLine()</span>. A visitor could previously close a tag in the name or message field and inject markup into an email arriving from this business. See <a href="#seo">section 17</a> and recipe 11.</td><td><strong>Fixed.</strong></td></tr>
             <tr><td>The email body is typed loosely</td><td>The payload object is not type-checked, so a typo in a field name would not be caught until the email came out wrong.</td><td>Low</td></tr>
-            <tr><td>No delivery confirmation to the visitor</td><td>They see "Inquiry Delivered" once the server accepts it. If Resend later bounces the message, you will find out in your own inbox, and the visitor will not know.</td><td>Low</td></tr>
+            <tr><td>Delivery is confirmed by Resend accepting the message, not by it arriving</td><td>They see "Inquiry Delivered" once the server accepts it. If Resend later bounces the message, you will find out in your own inbox, and the visitor will not know.</td><td>Low, and honest about a limit that is outside your control. Note that the visitor also now receives an automatic reply from the same sending address, so a total failure is now visible on both sides rather than only on yours.</td></tr>
             <tr><td>The sender is Resend's shared address</td><td>Covered in the next section.</td><td>See below</td></tr>
           </tbody>
         </table>
@@ -2509,7 +2558,7 @@ npm run build</pre>
           <tbody>
             <tr><td><span class="tag tag-keep">Resolved</span> Privacy policy page</td><td>A full policy now lives at <span class="mono">/privacy</span>, linked from the site footer and described in <a href="#seo">section 17</a>. It covers what the form collects, what is not collected, the three processors, the 12-month retention rule, rights under NDPA 2023 and GDPR, embeds, and the linked apps.</td><td><strong>Done.</strong> The page deliberately promises nothing about the future, so it stays true when accounts or a database arrive.</td></tr>
             <tr><td><span class="tag tag-keep">Resolved</span> Consent notice on the form</td><td>A plain-English notice now sits immediately above the submit button: where the brief goes, the 12-month retention period, no mailing list, the right to ask for deletion, and a link to the <span class="mono">/privacy</span> policy. No checkbox &mdash; replying to an enquiry is not a consent-based activity under NDPA or GDPR, so a mandatory tick box would add friction and buy nothing.</td><td><strong>Done.</strong></td></tr>
-            <tr><td>No automated reply to the sender</td><td>A visitor who submits the form never receives confirmation. They do not know it arrived unless they watch for your reply.</td><td>Medium. A scheduled "auto-reply" in the email provider solves it without touching the code.</td></tr>
+            <tr><td>Nothing</td><td>Every gap in this table is now closed.</td><td>&mdash;</td></tr>
             <tr><td>No delete-my-data mechanism</td><td>Once a brief is in your inbox there is no automated way for a visitor to ask for it to be removed. You would handle it by hand.</td><td>Low for now, and easy to handle by hand.</td></tr>
             <tr><td>Embedded third-party content</td><td>Pressing play on the flagship video contacts YouTube, which is a separate company with its own tracking. Nothing loads from YouTube until that press, and the player uses the privacy-enhanced host.</td><td>Low, and mitigated as far as is practical.</td></tr>
             <tr><td>Embedded project previews</td><td>Opening a live preview loads that project's own address inside a sandboxed frame, which may in turn load its own fonts or assets.</td><td>Low. They are your own projects.</td></tr>

@@ -428,11 +428,11 @@
           <tr><td>Language declared</td><td><span class="st ok">Present</span></td><td><code>&lt;html lang="en"&gt;</code> — matters for accessibility and for language targeting.</td></tr>
           <tr><td>Favicon</td><td><span class="st ok">Present</span></td><td>Two variants provided.</td></tr>
           <tr><td>One clear H1</td><td><span class="st ok">Present</span></td><td>Correct structure: one H1, four H2s.</td></tr>
-          <tr><td>Author metadata</td><td><span class="st no">Missing</span></td><td>No <code>author</code> meta. Minor, but it is one of the signals used for trust and attribution.</td></tr>
-          <tr><td>Open Graph tags</td><td><span class="st no">Missing</span></td><td>No <code>og:title</code>, <code>og:description</code> or <code>og:image</code>. Every share on WhatsApp, LinkedIn and X currently renders as a bare link.</td></tr>
-          <tr><td>Twitter card tags</td><td><span class="st no">Missing</span></td><td>Same consequence on X.</td></tr>
-          <tr><td>Canonical URL</td><td><span class="st no">Missing</span></td><td>Search engines are left to guess the preferred address of the page.</td></tr>
-          <tr><td>Structured data</td><td><span class="st no">Missing</span></td><td>No JSON-LD. No way to describe yourself as an organisation or person in machine-readable form.</td></tr>
+          <tr><td>Author metadata</td><td><span class="st ok">Present</span></td><td><code>author</code> and <code>creator</code> both name you, in the root layout metadata. <strong>Fixed 30 September 2026.</strong></td></tr>
+          <tr><td>Open Graph tags</td><td><span class="st ok">Present</span></td><td>Full set in the root layout, pointing at a 1200&times;630 card at <code>/assets/og-homepage.png</code>, with absolute URLs and explicit dimensions. <strong>Fixed 30 September 2026.</strong></td></tr>
+          <tr><td>Twitter card tags</td><td><span class="st ok">Present</span></td><td><code>summary_large_image</code> with the same image. <strong>Fixed 30 September 2026.</strong></td></tr>
+          <tr><td>Canonical URL</td><td><span class="st ok">Present</span></td><td>The root layout declares the workers.dev address, and each download page declares its own. <strong>Fixed 30 September 2026.</strong> When the domain lands these are the first things to change.</td></tr>
+          <tr><td>Structured data</td><td><span class="st ok">Present</span></td><td>A JSON-LD graph naming the <code>Organization</code>, the <code>Person</code> behind it, and the <code>WebSite</code>, emitted in the server HTML so a crawler sees it before any JavaScript runs. <strong>Fixed 30 September 2026.</strong> Deliberately modest: three entries, all checkable, no invented awards or ratings.</td></tr>
           <tr><td>Internal navigation</td><td><span class="st no">Critical gap</span></td><td>See <a href="#orphan">10</a>. At the time of measurement the homepage linked to no page on its own domain. A <span class="mono">/privacy</span> link now exists; the documents deliberately remain unlinked. <strong>Superseded — read the amendment in <a href="#orphan">10</a>.</strong></td></tr>
           <tr><td>Edge cache header</td><td><span class="st warn">Suspicious</span></td><td>Homepage sends <code>s-maxage=31536000</code> — cached at the CDN for a full year.</td></tr>
         </tbody>
@@ -443,7 +443,7 @@
         <thead><tr><th>Element</th><th>Status</th><th>Note</th></tr></thead>
         <tbody>
           <tr><td><code>robots.txt</code></td><td><span class="st warn">Reachable but empty</span></td><td>Returns 200, but contains no directives at all — see <a href="#aicrawlers">19</a>.</td></tr>
-          <tr><td><code>sitemap.xml</code></td><td><span class="st no">404 Not Found</span></td><td>No sitemap exists. This is a primary discovery mechanism that is simply not in use.</td></tr>
+          <tr><td><code>sitemap.xml</code></td><td><span class="st ok">Present</span></td><td>Lists the four public pages only. <strong>Added 30 September 2026.</strong> It lists none of the internal documents, on purpose: listing a URL is an advertisement of exactly what <code>X-Robots-Tag: noindex</code> exists to prevent.</td></tr>
           <tr><td>Links to documents from homepage</td><td><span class="st no">Zero</span></td><td>All links on the homepage point to in-page anchors, WhatsApp, Google Calendar, the privacy policy, or six <em>other</em> projects on separate <code>workers.dev</code> subdomains.</td></tr>
           <tr><td>Document Hub reachability</td><td><span class="st ok">Works, now unlisted</span></td><td><code>/docs</code> returns 200 and <code>/docs.html</code> 307-redirects to <code>/docs</code>, so extensionless is the canonical shape. Since 29 September 2026 all documents return <code>X-Robots-Tag: noindex, nofollow, noarchive</code>, so they are reachable but kept out of search results.</td></tr>
           <tr><td>Document caching</td><td><span class="st warn">Inconsistent</span></td><td>Documents send <code>max-age=0, must-revalidate</code> while the homepage sends a one-year CDN cache.</td></tr>

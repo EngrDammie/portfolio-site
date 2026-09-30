@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap for the public side of the site.
+
+  Deliberately short. It lists only the pages that are meant to be found:
+  the home page, the privacy policy, and the two Android download pages.
+
+  The internal working documents in public/ are NOT listed. They send
+  X-Robots-Tag: noindex, and putting a URL in a sitemap is an
+  advertisement of exactly the thing that header exists to hide.
+
+  The download pages are linked from their case studies on the home
+  page, so a crawler can already reach them. This file makes the
+  relationship explicit and gives search engines a lastmod date.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://get-tech-solutions.dammieoptimus.workers.dev/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://get-tech-solutions.dammieoptimus.workers.dev/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://get-tech-solutions.dammieoptimus.workers.dev/rafa-voucher-android</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://get-tech-solutions.dammieoptimus.workers.dev/tgr-playbook-android</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

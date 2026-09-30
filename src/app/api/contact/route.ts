@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { BOOKING_URL, CONTACT_EMAIL } from '@/config/site';
 
 /**
  * Escape a value for interpolation into the HTML email body.
@@ -30,6 +31,104 @@ function escapeHtml(value: unknown): string {
  */
 function singleLine(value: unknown): string {
   return String(value ?? '').replace(/[\r\n\t]+/g, ' ').trim();
+}
+
+/**
+ * The acknowledgement email the visitor receives the moment they submit
+ * the form. Kept separate from the notification template so the two can
+ * be read independently — one is written for a customer, the other for
+ * the business.
+ *
+ * Plain, short, and honest about when a reply is coming. It confirms
+ * what they sent, points them at the booking link, and repeats the one
+ * thing the privacy policy already promises: ask to be deleted and they
+ * will be.
+ */
+function buildAcknowledgementEmail({
+  name,
+  projectType,
+  bookingUrl,
+}: {
+  name: string;
+  projectType: string;
+  bookingUrl: string;
+}) {
+  const safeName = escapeHtml(name);
+  const safeType = escapeHtml(projectType);
+  const safeBooking = escapeHtml(bookingUrl);
+  const bookingBlock = bookingUrl
+    ? `<a href="${safeBooking}"
+         style="display:inline-block;background:#10b981;color:#020617;padding:13px 26px;border-radius:10px;
+                font-weight:bold;text-decoration:none;font-size:15px;margin:22px 0 6px;">
+         Choose a time
+       </a>
+       <p style="color:#64748b;font-size:12.5px;margin:0;">
+         Skipping that is fine &mdash; I will just reply to this email.
+       </p>`
+    : '';
+
+  return `<!DOCTYPE html>
+<html><body style="margin:0;padding:0;background:#020617;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#020617;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+             style="max-width:600px;background:#0f172a;border:1px solid #1e293b;border-radius:16px;overflow:hidden;">
+
+        <tr><td style="padding:28px 32px 22px;border-bottom:1px solid #1e293b;">
+          <div style="font-size:18px;font-weight:800;color:#f8fafc;letter-spacing:-.01em;">
+            Dammie Optimus Solutions
+          </div>
+          <div style="font-size:12px;color:#94a3b8;letter-spacing:.14em;text-transform:uppercase;margin-top:5px;">
+            AI, Web &amp; Mobile Software Engineering
+          </div>
+        </td></tr>
+
+        <tr><td style="padding:28px 32px 8px;">
+          <p style="color:#f8fafc;font-size:19px;font-weight:700;margin:0 0 14px;">
+            Thanks, ${safeName} &mdash; your brief is with me.
+          </p>
+          <p style="color:#cbd5e1;font-size:15px;line-height:1.7;margin:0 0 16px;">
+            I read every enquiry myself, and I reply with a real answer rather than a brochure.
+            You sent this just now, about:
+          </p>
+          <div style="background:#020617;border:1px solid #1e293b;border-left:3px solid #10b981;
+                      border-radius:10px;padding:16px 18px;margin:0 0 20px;">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#34d399;margin-bottom:6px;">
+              Project category
+            </div>
+            <div style="color:#f8fafc;font-size:15px;font-weight:600;">${safeType}</div>
+          </div>
+
+          <p style="color:#cbd5e1;font-size:15px;line-height:1.7;margin:0 0 4px;">
+            If it is easier, pick a slot on my calendar and we can talk directly:
+          </p>
+          ${bookingBlock}
+
+          <p style="color:#cbd5e1;font-size:15px;line-height:1.7;margin:22px 0 0;">
+            WhatsApp is usually fastest &mdash; it is the number on the site you just used.
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:24px 32px 30px;">
+          <div style="border-top:1px solid #1e293b;padding-top:20px;">
+            <p style="color:#94a3b8;font-size:13px;line-height:1.7;margin:0 0 8px;">
+              <strong style="color:#cbd5e1;">What happens to this message:</strong> it goes to my
+              inbox and nowhere else. No mailing list, no tracking, no database. I keep it for
+              12 months so we can work together, and if you would like it deleted before then,
+              just reply to this email and say so.
+            </p>
+            <p style="color:#64748b;font-size:12px;line-height:1.6;margin:14px 0 0;">
+              You are receiving this because you used the contact form on
+              get-tech-solutions.dammieoptimus.workers.dev. Full details in the
+              <a href="https://get-tech-solutions.dammieoptimus.workers.dev/privacy" style="color:#22d3ee;">privacy policy</a>.
+            </p>
+          </div>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
 }
 
 export async function POST(request: Request) {
@@ -161,6 +260,41 @@ export async function POST(request: Request) {
     }
 
     const data = await resend.emails.send(emailPayload);
+
+    // ---------------------------------------------------------------
+    // Auto-reply to the sender.
+    //
+    // Without this, a visitor fills in the form and hears nothing at
+    // all, which loses the enquiry. This is deliberately the LAST
+    // thing that happens: if the confirmation fails, the enquiry has
+    // already reached the inbox and the visitor still gets a success
+    // response. A broken confirmation must never cost a lead.
+    //
+    // Only sent when a valid email address was given. A visitor who
+    // left the email field blank gave a WhatsApp number instead, and
+    // emailing an address they did not supply would be both useless
+    // and wrong. They get the WhatsApp deep link in the notification
+    // instead.
+    // ---------------------------------------------------------------
+    if (isEmailValid) {
+      try {
+        await resend.emails.send({
+          from: 'Dammie Optimus Solutions Portfolio Site <onboarding@resend.dev>',
+          to: [trimmedEmail],
+          replyTo: CONTACT_EMAIL,
+          subject: `Thanks ${singleLine(name)} — I have your brief for Dammie Optimus Solutions`,
+          html: buildAcknowledgementEmail({
+            name: singleLine(name),
+            projectType: singleLine(projectType),
+            bookingUrl: BOOKING_URL,
+          }),
+        });
+      } catch (replyError) {
+        // Recorded, never surfaced. The enquiry itself is already safe.
+        console.error('Acknowledgement email failed to send:', replyError);
+      }
+    }
+
     return NextResponse.json({ success: true, data });
   } catch (error) {
     console.error('Email dispatch error:', error);
