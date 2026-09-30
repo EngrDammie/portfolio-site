@@ -30,9 +30,18 @@ export const WHATSAPP_NUMBER = '2347053331253';
 export const CONTACT_EMAIL = 'dammieoptimus@gmail.com';
 
 /**
- * The booking page. Prefer the environment variable when it is present
- * so a change there does not require a code edit, and fall back to the
- * published value so runtime code never silently loses the link.
+ * The booking page.
+ *
+ * This is the single source of truth, and it is what the home page actually
+ * uses. It did not used to be: page.tsx read process.env.BOOKING_URL directly
+ * and passed `undefined` whenever the variable was unset. Both consumers then
+ * degraded silently — the navbar link became a scroll to the contact form,
+ * the form's booking button became a WhatsApp link — and nothing errored.
+ *
+ * The environment variable is still preferred when it is set, so changing it
+ * in .env.local still works without a code edit. Note that .env.local is the
+ * only place a build-time variable is read from; .dev.vars holds Worker
+ * secrets and is ignored by next build.
  */
 export const BOOKING_URL =
   process.env.BOOKING_URL?.trim() ||

@@ -852,7 +852,7 @@
             <tr><td class="f">scripts/preflight.mjs</td><td>Post-deploy health check for the live worker: confirms the Resend secret is actually bound, the public pages respond, and the contact endpoint accepts a real message. Written after the form silently failed in production with no way to tell from the site itself.</td><td><span class="tag tag-safe">Safe</span></td></tr>
             <tr><td class="f">public/robots.txt</td><td>Deliberately permissive. Contains no <span class="mono">Disallow</span> rule on purpose: a blocked crawler cannot fetch the page, so it never reads the <span class="mono">noindex</span> header, and the page can still surface as a bare link. Its one job is the <span class="mono">Sitemap</span> line.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/sitemap.xml</td><td>Lists the four public pages only, each with a <span class="mono">lastmod</span>. Deliberately excludes every internal document, because a URL in a sitemap advertises what <span class="mono">X-Robots-Tag: noindex</span> exists to hide. One detail that looks like a bug and is not: the home page's <span class="mono">&lt;loc&gt;</span> ends in a slash and its canonical does not, because Next always normalises the root and strips it. Passing an explicit absolute canonical with a trailing slash does not change this. The root returns 200 with no redirect, and Google treats the two forms as the same URL, so the difference is recorded rather than fixed. Forcing them to match would need a site-wide <span class="mono">trailingSlash</span> config change to settle a detail the specification already handles.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/config/site.ts</td><td>Public site details in one place: the canonical URL, the phone number, the email address, and the booking link. The booking link falls back to a hardcoded value because the environment variable is build-time only and the API route runs at runtime.</td><td><span class="tag tag-safe">Safe</span></td></tr>
+            <tr><td class="f">src/config/site.ts</td><td>Public site details in one place: the canonical URL, the phone number, the email address, and the booking link. It is the single source of truth for the booking link. This was the fix for a silent failure: <span class="mono">page.tsx</span> used to read <span class="mono">process.env.BOOKING_URL</span> and pass <span class="mono">undefined</span> when unset, so the navbar link quietly became a scroll to the contact form and the form&rsquo;s booking button became a WhatsApp link. No error, and the calendar URL still appeared on the page because the JSON-LD read this same constant. It still prefers the environment variable when set.</td><td><span class="tag tag-safe">Safe</span></td></tr>
             <tr><td class="f">public/assets/download.css</td><td>The design system for the two Android release pages: hero, download card, call to action, verification block, install steps, contact tiles and footer. Uses only the CSS variables in docs.css, so it themes automatically.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/openchamber-guide.html</td><td><strong>The OpenChamber tooling guide.</strong> 37 sections on running OpenCode through a graphical interface and reaching it from a phone: installation, the three connection routes, what the Private Relay can and cannot see versus a public tunnel, every command and environment variable, and troubleshooting.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/seo-virality-growth-guide.html</td><td><strong>The organic growth and visibility guide.</strong> 55 sections of 2026 research on SEO, AI answer engines, topical authority, digital PR, local and international reach, and how attention becomes revenue. Includes a live audit of this site, a 90-day and 12-month plan, and a ranked backlog of recommendations &mdash; none of which have been implemented.</td><td><span class="tag tag-care">Careful</span></td></tr>
@@ -2050,11 +2050,11 @@ curl -sI http://localhost:8788/privacy | grep -i x-robots-tag</pre>
       <p>
         The booking link inside the reply comes from <span class="mono">src/config/site.ts</span>,
         not from an environment variable read in the route. This is a real constraint rather than a
-        preference: <span class="mono">BOOKING_URL</span> is a <strong>build-time</strong> variable
-        and gets baked into the rendered home page, but the API route executes at <strong>runtime</strong>
-        inside the worker where it is not defined. Read there and the button would silently vanish
-        from the email. The constant prefers the environment variable when it is available and falls
-        back to the published URL, so runtime code cannot quietly lose the link. See section 19.
+        preference: the home page is prerendered, so a build-time variable is frozen into it, but the
+        API route executes at <strong>runtime</strong> inside the worker where nothing is defined.
+        Read there and the button would silently vanish from the email. The constant prefers the
+        environment variable when it is available and falls back to the published URL, so runtime
+        code cannot quietly lose the link. See section 19.
       </p>
 
       <h4>Two layers of protection, on purpose</h4>
@@ -2479,8 +2479,10 @@ cd portfolio</pre>
 <pre><span class="c"># The email delivery key. Real values, or a fake one to test the failure path.</span>
 RESEND_API_KEY=re_your_key_here
 
-<span class="c"># Optional. Without it the booking buttons fall back to the contact section and WhatsApp.</span>
-BOOKING_URL=https://calendar.app.google/QD12aQUafCYhjnhz6</pre>
+<span class="c"># Required. Without it the contact form returns an error.</span>
+            <span class="c"># The booking link is NOT set here. It lives in</span>
+            <span class="c"># src/config/site.ts, which is the single source of truth.</span>
+</pre>
           </div>
           <div class="do"><span class="mk">✓</span><span>If you leave the API key out, the site still builds and runs. Only the contact form fails — which is the fastest way to test the WhatsApp fallback.</span></div>
         </div>
@@ -2505,7 +2507,7 @@ BOOKING_URL=https://calendar.app.google/QD12aQUafCYhjnhz6</pre>
       <div class="fname">.dev.vars — the Cloudflare version, also ignored by Git</div>
       <div class="codewrap">
 <pre>RESEND_API_KEY=re_your_key_here
-BOOKING_URL=https://calendar.app.google/QD12aQUafCYhjnhz6</pre>
+</pre>
       </div>
       <div class="do"><span class="mk">✓</span><span>Both files are already listed in the ignore file. Never remove them from that list.</span></div>
 

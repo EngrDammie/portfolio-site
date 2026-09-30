@@ -5,7 +5,7 @@ import ProjectShowcase from '@/components/ProjectShowcase';
 import TrustEngine from '@/components/TrustEngine';
 import ScopeEstimator from '@/components/ScopeEstimator';
 import ContactHub from '@/components/ContactHub';
-import { SITE_URL } from '@/config/site';
+import { SITE_URL, BOOKING_URL } from '@/config/site';
 
 /**
  * The homepage's own share tags.
@@ -60,25 +60,38 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  // Read here, in the server component, so the value is handed to the client
-  // components as a prop instead of being inlined into the browser bundle.
-  // This is a public URL, not a secret, but keeping it server-read means the
-  // name can stay BOOKING_URL and nothing is exposed to the client JS.
-  // Note: the homepage is prerendered, so this is resolved at build time.
-  // Changing the value therefore needs a new build, which Cloudflare runs on
-  // every push.
-  const bookingUrl = process.env.BOOKING_URL?.trim() || undefined;
+  /**
+   * The booking link, taken from src/config/site.ts rather than read from the
+   * environment here.
+   *
+   * It used to be `process.env.BOOKING_URL || undefined`, and that quietly
+   * did nothing: the variable was never set in the build, so both consumers
+   * silently degraded. The navbar's booking link became a scroll to the
+   * contact form, and the form's booking button became a WhatsApp link. No
+   * error anywhere, and the calendar URL still appeared on the page — inside
+   * the JSON-LD, coming from the fallback in that same file. Which is why it
+   * looked configured when it was not doing anything.
+   *
+   * src/config/site.ts is the single source of truth and already prefers the
+   * environment variable when it happens to be set, so setting BOOKING_URL in
+   * .env.local still works. This just removes the dependency on anyone
+   * remembering to.
+   */
+  const bookingUrl = BOOKING_URL;
 
   // HERO_MAGIC turns the closing line and its explosion on or off.
   //
-  // Read here, on the server, for the same reason BOOKING_URL is: it is a
-  // build-time value, so it must be resolved during the build rather than
-  // reached for in the browser. It is not a secret — the value is only ever
-  // used to decide what to render, and it is handed to Hero as a boolean.
+  // Read here, on the server, because it is a build-time value and must be
+  // resolved during the build rather than reached for in the browser. It is
+  // not a secret — it only decides what to render, and is handed to Hero as a
+  // boolean.
   //
-  // Defaults to ON when unset, so the effect works without any configuration.
-  // Set it to 'off' to get the original type-pause-delete loop with none of
-  // the extra stages, which requires a rebuild to take effect.
+  // Set it in .env.local, NOT .dev.vars: next build reads .env.local and
+  // ignores .dev.vars entirely, which is for Worker secrets such as
+  // RESEND_API_KEY.
+  //
+  // Defaults to ON when unset. Set to 'off' for the original type-pause-delete
+  // loop with none of the extra stages, which needs a rebuild to take effect.
   const heroMagic = (process.env.HERO_MAGIC?.trim() || 'on').toLowerCase() !== 'off';
 
   return (
