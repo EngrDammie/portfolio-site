@@ -1,0 +1,25 @@
+# robots.txt for get-tech-solutions.dammieoptimus.workers.dev
+#
+# This file is deliberately permissive. It does not block anything.
+#
+# The reason is worth stating, because "keep the documents out of search"
+# and "block the crawler" are opposite strategies and only one of them
+# works. If a crawler is blocked, it cannot fetch the page, so it never
+# sees the X-Robots-Tag: noindex header, and the page can still appear in
+# a search result as a bare link with no description. Blocking creates the
+# exact outcome it is meant to prevent.
+#
+# So instead: every crawler is welcome everywhere, and each internal
+# document answers with X-Robots-Tag: noindex, nofollow, noarchive. The
+# crawler reads that, and drops the page from the index. That is the
+# reliable mechanism, and it is the one in use.
+#
+# Do not add a Disallow block for /docs or any other internal path here.
+# It would break the arrangement above.
+
+User-agent: *
+Allow: /
+
+# The only pages meant to be found. Internal documents are deliberately
+# absent, and are also absent from the sitemap.
+Sitemap: https://get-tech-solutions.dammieoptimus.workers.dev/sitemap.xml
