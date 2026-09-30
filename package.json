@@ -13,7 +13,8 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy -- --keep-vars",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload -- --keep-vars",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "og:privacy": "node scripts/og-privacy.mjs"
+    "og:privacy": "node scripts/og-privacy.mjs",
+    "preflight": "node scripts/preflight.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.48.0",

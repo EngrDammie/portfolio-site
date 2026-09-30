@@ -849,6 +849,7 @@
             <tr><td class="f">public/assets/og-privacy.png</td><td>Share card for the privacy policy, 1200&times;630. Generated, not hand-made: <span class="mono">npm run og:privacy</span> rewrites it from the markup in <span class="mono">scripts/og-privacy.mjs</span>. The monogram is read from <span class="mono">src/app/icon.svg</span> so the card cannot drift from the site icon.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">scripts/og-privacy.mjs</td><td>Generates the privacy share card in headless Chrome. Exists because the other three cards were made ad hoc and so could not be regenerated or edited without starting over.</td><td><span class="tag tag-safe">Safe</span></td></tr>
             <tr><td class="f">public/assets/og-homepage.png</td><td>Home page share card, 1200&times;630. Referenced by the Open Graph and Twitter tags in the root layout.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">scripts/preflight.mjs</td><td>Post-deploy health check for the live worker: confirms the Resend secret is actually bound, the public pages respond, and the contact endpoint accepts a real message. Written after the form silently failed in production with no way to tell from the site itself.</td><td><span class="tag tag-safe">Safe</span></td></tr>
             <tr><td class="f">public/robots.txt</td><td>Deliberately permissive. Contains no <span class="mono">Disallow</span> rule on purpose: a blocked crawler cannot fetch the page, so it never reads the <span class="mono">noindex</span> header, and the page can still surface as a bare link. Its one job is the <span class="mono">Sitemap</span> line.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/sitemap.xml</td><td>Lists the four public pages only, each with a <span class="mono">lastmod</span>. Deliberately excludes every internal document, because a URL in a sitemap advertises what <span class="mono">X-Robots-Tag: noindex</span> exists to hide. One detail that looks like a bug and is not: the home page's <span class="mono">&lt;loc&gt;</span> ends in a slash and its canonical does not, because Next always normalises the root and strips it. Passing an explicit absolute canonical with a trailing slash does not change this. The root returns 200 with no redirect, and Google treats the two forms as the same URL, so the difference is recorded rather than fixed. Forcing them to match would need a site-wide <span class="mono">trailingSlash</span> config change to settle a detail the specification already handles.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/config/site.ts</td><td>Public site details in one place: the canonical URL, the phone number, the email address, and the booking link. The booking link falls back to a hardcoded value because the environment variable is build-time only and the API route runs at runtime.</td><td><span class="tag tag-safe">Safe</span></td></tr>
@@ -1961,6 +1962,40 @@ curl -sI http://localhost:8788/privacy | grep -i x-robots-tag</pre>
           <p>The endpoint re-checks everything regardless of what the browser said, because a browser can be bypassed. Name, message and one contact method are all required again, server-side.</p>
         </div>
       </div>
+
+      <h4>Deploying without breaking the contact form</h4>
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">Always deploy with <span class="mono">npm run deploy</span>. Never <span class="mono">npx wrangler deploy</span>.</div>
+          <p>
+            This is not a style preference, it is the thing that broke the form in production on
+            30 September 2026. The <span class="mono">deploy</span> script already passes
+            <span class="mono">--keep-vars</span> to wrangler. Running wrangler directly omits that
+            flag, and wrangler then drops bindings that are not declared in
+            <span class="mono">wrangler.jsonc</span> &mdash; which is where every secret lives. The
+            form started returning <span class="mono">500</span> with
+            &ldquo;Email delivery is not configured&rdquo; while the code, the build, and every page on
+            the site all looked perfect.
+          </p>
+          <p>
+            The reason this was so hard to see: the key is <strong>not</strong> inlined at build
+            time. The built route reads <span class="mono">process.env.RESEND_API_KEY</span> at
+            request time, so a local build that works locally proves nothing about production. And
+            having a key in <span class="mono">.dev.vars</span> or <span class="mono">.env.local</span>
+            is also no evidence &mdash; neither file is read by a deployed worker.
+          </p>
+        </div>
+      </div>
+      <p>
+        So there is now a command that asks the questions a build cannot.
+        <span class="mono">npm run preflight</span> checks that
+        <span class="mono">RESEND_API_KEY</span> is actually bound to the <em>deployed</em> worker
+        using <span class="mono">wrangler secret list</span>, confirms the four public pages respond,
+        and submits a real message through the live endpoint. That last check is the one that matters
+        most: it is the only thing that proves the whole path works rather than merely that the code
+        compiles. Run it after any deploy.
+      </p>
 
       <h4>Honest limitations</h4>
       <p>
