@@ -22,6 +22,16 @@ import { SITE_URL } from '@/config/site';
  * the image has downloaded.
  */
 export const metadata: Metadata = {
+  // Resolved against metadataBase, and Next normalises the result to
+  // `https://get-tech-solutions.dammieoptimus.workers.dev` with no trailing
+  // slash. Passing an explicit absolute URL with a slash does not change
+  // this; the root is always normalised. The home page's <loc> in
+  // sitemap.xml uses the conventional slashed form, so the two differ by
+  // one character. That is deliberate and harmless: the root returns 200
+  // with no redirect, and Google treats the slashed and unslashed root as
+  // the same URL. Forcing them to match would mean a site-wide
+  // trailingSlash config change to settle a detail the specification
+  // already handles.
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',

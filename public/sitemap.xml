@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Sitemap for the public side of the site.
+  Lists the four public pages only.
 
-  Deliberately short. It lists only the pages that are meant to be found:
-  the home page, the privacy policy, and the two Android download pages.
+  None of the internal working documents in public/ appear here, and that
+  is deliberate. Every one of them sends X-Robots-Tag: noindex. Listing a
+  URL in a sitemap is an advertisement, so doing so would contradict the
+  exact mechanism those headers exist to use.
 
-  The internal working documents in public/ are NOT listed. They send
-  X-Robots-Tag: noindex, and putting a URL in a sitemap is an
-  advertisement of exactly the thing that header exists to hide.
+  Two details worth preserving if this file is ever edited:
 
-  The download pages are linked from their case studies on the home
-  page, so a crawler can already reach them. This file makes the
-  relationship explicit and gives search engines a lastmod date.
+  1. Every <loc> matches its page's own canonical URL exactly. A sitemap
+     is meant to list canonical URLs, so a mismatch is a contradiction
+     even when the two addresses happen to load the same page.
+
+  2. The file is kept to the XML declaration, this comment, and the root
+     element. A leading comment is valid XML, but there is nothing to gain
+     from risking it against a parser that has no reason to be generous.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://get-tech-solutions.dammieoptimus.workers.dev/</loc>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://get-tech-solutions.dammieoptimus.workers.dev/privacy</loc>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://get-tech-solutions.dammieoptimus.workers.dev/rafa-voucher-android</loc>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://get-tech-solutions.dammieoptimus.workers.dev/tgr-playbook-android</loc>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
