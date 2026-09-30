@@ -19,7 +19,12 @@ const DYNAMIC_SERVICES = [
   'tech solutions.',
 ];
 
-export default function Hero() {
+interface HeroProps {
+  /** Enables the closing line and its effects. Read from HERO_MAGIC in page.tsx. */
+  magic?: boolean;
+}
+
+export default function Hero({ magic = false }: HeroProps) {
   return (
     <section className="relative overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-24 px-4 sm:px-6 max-w-5xl mx-auto">
       {/* Background ambient glow effect */}
@@ -36,14 +41,21 @@ export default function Hero() {
           <span>Available for client projects & contracts</span>
         </div>
 
-        {/* High-Impact Headline with Typewriter */}
+        {/* High-Impact Headline with Typewriter.
+
+            The "I build high-impact" half is passed INTO Typewriter rather
+            than sitting beside it, because the closing line replaces the whole
+            sentence. Left as a sibling here, it would survive the swap and the
+            heading would read "I build high-impact Let's build something
+            magical together!" */}
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.2] max-w-4xl min-h-[3.6em] sm:min-h-[2.4em] flex flex-wrap items-center justify-center">
-          <span>I build high-impact&nbsp;</span>
           <Typewriter
+            prefix="I build high-impact&#160;"
             words={DYNAMIC_SERVICES}
             typingSpeed={80}       // Speed per character while typing
             deletingSpeed={40}     // Speed per character while erasing
             pauseDuration={2000}   // 2 seconds reading pause
+            magic={magic}
           />
         </h1>
 

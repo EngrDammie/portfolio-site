@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Video,
   Send,
@@ -28,6 +28,31 @@ const WhatsAppIcon = ({ className = 'w-5 h-5' }: { className?: string }) => (
     <path d="M12.031 2C6.495 2 2 6.484 2 12.019c0 1.767.46 3.491 1.334 5.006L2 22l5.129-1.344a10.015 10.015 0 004.902 1.275h.005c5.535 0 10.03-4.484 10.03-10.02 0-2.677-1.043-5.195-2.936-7.089A9.967 9.967 0 0012.031 2zm0 18.347h-.004a8.318 8.318 0 01-4.238-1.163l-.304-.18-3.149.825.84-3.069-.198-.316a8.317 8.317 0 01-1.278-4.425c0-4.59 3.737-8.326 8.331-8.326a8.275 8.275 0 015.89 2.44 8.283 8.283 0 012.439 5.892c0 4.593-3.738 8.331-8.333 8.331zm4.566-6.24c-.25-.125-1.479-.73-1.708-.813-.23-.083-.396-.125-.563.125-.166.25-.646.813-.792.98-.146.166-.292.188-.542.063s-1.059-.39-2.017-1.244c-.746-.666-1.25-1.488-1.396-1.738-.146-.25-.016-.385.109-.51.112-.112.25-.292.375-.438.125-.146.167-.25.25-.417.084-.166.042-.312-.02-.437s-.563-1.354-.771-1.854c-.203-.487-.41-.421-.563-.429l-.479-.008c-.167 0-.438.063-.667.313-.23.25-.875.854-.875 2.083s.896 2.417 1.021 2.583c.125.167 1.763 2.693 4.271 3.776.597.258 1.064.412 1.428.528.6.191 1.146.164 1.577.1.48-.072 1.479-.604 1.688-1.188.208-.583.208-1.083.146-1.188-.063-.104-.229-.166-.479-.291z" />
   </svg>
 );
+
+/**
+ * The slice of Cloudflare's Turnstile API this form uses.
+ *
+ * Typed rather than reached for with `any`, so that a change in how the
+ * widget is called is a compile error rather than something discovered when a
+ * submit silently stops working.
+ */
+interface TurnstileApi {
+  render: (
+    container: HTMLElement,
+    options: {
+      sitekey: string;
+      callback: (token: string) => void;
+      'expired-callback': () => void;
+      'error-callback': () => void;
+      'timeout-callback': () => void;
+    },
+  ) => string;
+  remove: (widgetId: string) => void;
+}
+
+function getTurnstile(): TurnstileApi | undefined {
+  return (window as unknown as { turnstile?: TurnstileApi }).turnstile;
+}
 
 interface ContactHubProps {
   /** Public booking page (e.g. Google Calendar or Calendly). Optional. */
@@ -73,6 +98,86 @@ export default function ContactHub({ bookingUrl }: ContactHubProps) {
     return () => window.removeEventListener('populate-estimate' as any, handleEstimateBridge);
   }, []);
 
+  /**
+   * Cloudflare Turnstile.
+   *
+   * The widget hands back a short-lived token when it is satisfied with the
+   * visitor. That token travels with the submission and the server asks
+   * Cloudflare whether it is genuine. It is deliberately NOT checked in the
+   * browser: anything decided in the browser can be bypassed by posting
+   * straight to /api/contact, so the browser check here is only about giving
+   * the visitor a fast, clear answer.
+   *
+   * `turnstileReady` is false until the widget has actually rendered. If the
+   * script is blocked, the page is offline, or an extension interferes, the
+   * form must still work — see the server route, which fails open for the
+   * same reason. Losing a real enquiry to a broken third-party script would
+   * be far worse than the occasional spam message it prevents.
+   */
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const turnstileRef = useRef<HTMLDivElement | null>(null);
+  const widgetIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+    if (!siteKey || !turnstileRef.current) return;
+
+    let cancelled = false;
+
+    const mount = () => {
+      if (cancelled || !turnstileRef.current || widgetIdRef.current) return;
+      const turnstile = getTurnstile();
+      if (!turnstile) return;
+      widgetIdRef.current = turnstile.render(turnstileRef.current, {
+        sitekey: siteKey,
+        // Managed mode: invisible for ordinary visitors, challenged only when
+        // Cloudflare decides something looks automated. Deliberately no
+        // 'interactive' fallback — that would put a checkbox in front of
+        // every real person.
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(''),
+        'error-callback': () => setTurnstileToken(''),
+        'timeout-callback': () => setTurnstileToken(''),
+      });
+      setTurnstileReady(true);
+    };
+
+    // The script may already be present, or still be loading.
+    if (getTurnstile()) {
+      mount();
+    } else {
+      const existing = document.querySelector(
+        'script[data-do-turnstile="1"]',
+      ) as HTMLScriptElement | null;
+      if (existing) {
+        existing.addEventListener('load', mount);
+      } else {
+        const script = document.createElement('script');
+        script.src =
+          'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        script.async = true;
+        script.defer = true;
+        script.dataset.doTurnstile = '1';
+        script.onload = mount;
+        document.head.appendChild(script);
+      }
+    }
+
+    return () => {
+      cancelled = true;
+      const turnstile = getTurnstile();
+      if (widgetIdRef.current && turnstile) {
+        try {
+          turnstile.remove(widgetIdRef.current);
+        } catch {
+          /* the widget may already be gone; nothing to do */
+        }
+        widgetIdRef.current = null;
+      }
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -89,7 +194,13 @@ export default function ContactHub({ bookingUrl }: ContactHubProps) {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          // Empty string when the widget never loaded. The server treats that
+          // as "could not check" and accepts the message rather than turning
+          // away a genuine enquiry.
+          turnstileToken,
+        }),
       });
 
       const result = await response.json().catch(() => null);
@@ -359,7 +470,20 @@ export default function ContactHub({ bookingUrl }: ContactHubProps) {
                   .
                 </p>
 
-                {/* 6. Submit Button */}
+                {/* 6. Spam check */}
+                {/* Mount point for Cloudflare Turnstile. In Managed mode this
+                    renders nothing at all for an ordinary visitor, which is the
+                    point — a real person filling in a project brief should never
+                    be made to prove they are human. */}
+                <div ref={turnstileRef} aria-hidden="true" />
+                {process.env.NODE_ENV === 'development' && !turnstileReady && (
+                  <p className="text-[11px] text-slate-500">
+                    Spam check loading
+                    {turnstileToken ? ' — cleared' : ''}…
+                  </p>
+                )}
+
+                {/* 7. Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}

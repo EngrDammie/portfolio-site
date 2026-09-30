@@ -253,19 +253,19 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <ul className="mt-3 space-y-1.5 text-sm text-slate-300">
                   <li className="flex gap-2">
-                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">✓</span>
                     <span>It sets <strong>no cookies</strong> and writes nothing to your device.</span>
                   </li>
                   <li className="flex gap-2">
-                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">✓</span>
                     <span>It collects <strong>no personal data</strong>: no name, no email, no account, no fingerprint, no cross-site tracking.</span>
                   </li>
                   <li className="flex gap-2">
-                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">✓</span>
                     <span>It reports <strong>aggregate counts only</strong>: which page was viewed, roughly where the visitor is, and the browser and device type.</span>
                   </li>
                   <li className="flex gap-2">
-                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">✓</span>
                     <span>Counts under a small threshold are <strong>not recorded at all</strong>, so no individual visit is distinguishable.</span>
                   </li>
                 </ul>

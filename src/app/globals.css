@@ -219,3 +219,67 @@ html:not(.dark) .text-emerald-300,
 html:not(.dark) .hover\:text-emerald-300:hover {
   color: #065f46 !important;
 }
+
+/* ============================================================================
+   Hero "magic" sequence
+   ----------------------------------------------------------------------------
+   Keyframes for the burst, the smoke, and the star flurry that follow the
+   final service in the typewriter rotation.
+
+   They live here rather than as Tailwind utilities because each particle
+   needs its own animation-delay, distance and angle, which means inline
+   custom properties set per element. Defining the keyframes once and
+   animating them is both less markup and far easier to tune.
+
+   Every one of these is gated behind the hero magic flag AND behind
+   prefers-reduced-motion, so neither can run unless deliberately allowed.
+   ========================================================================== */
+
+/* A fire spark: shoots outward along its own vector, shrinks, and fades. */
+@keyframes do-spark {
+  0%   { opacity: 0;   transform: translate(-50%, -50%) scale(0.2); }
+  12%  { opacity: 1; }
+  70%  { opacity: 0.9; }
+  100% { opacity: 0;   transform:
+           translate(calc(-50% + var(--dx) * 1px), calc(-50% + var(--dy) * 1px))
+           scale(0.05); }
+}
+
+/* Smoke: drifts up and outward while expanding and blurring away. */
+@keyframes do-smoke {
+  0%   { opacity: 0;   transform: translate(-50%, -50%) scale(0.15); }
+  20%  { opacity: 0.55; }
+  100% { opacity: 0;   transform:
+           translate(calc(-50% + var(--dx) * 0.45px), calc(-50% - var(--drift) * 1px))
+           scale(1.6); }
+}
+
+/* The text itself burning out at the moment of the explosion. */
+@keyframes do-burn {
+  0%   { opacity: 1;   transform: scale(1);    filter: blur(0px); }
+  35%  { opacity: 0.95; transform: scale(1.06); filter: blur(0.6px); }
+  100% { opacity: 0;   transform: scale(1.35); filter: blur(9px); }
+}
+
+/* A star: scales in, twinkles, then drifts off. */
+@keyframes do-star {
+  0%   { opacity: 0;   transform: translate(-50%, -50%) scale(0) rotate(0deg); }
+  25%  { opacity: 1;   transform: translate(-50%, -50%) scale(1.15) rotate(90deg); }
+  60%  { opacity: 0.85; }
+  100% { opacity: 0;   transform:
+           translate(calc(-50% + var(--dx) * 1px), calc(-50% + var(--dy) * 1px))
+           scale(0.3) rotate(220deg); }
+}
+
+/* A word arriving with the stars. */
+@keyframes do-emerge {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.86); filter: blur(6px); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+}
+
+/* Clearing away before the rotation restarts. */
+@keyframes do-clear {
+  0%   { opacity: 1; transform: scale(1);    filter: blur(0px); }
+  100% { opacity: 0; transform: scale(0.94); filter: blur(5px); }
+}

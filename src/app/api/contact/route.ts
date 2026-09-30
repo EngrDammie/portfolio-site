@@ -131,6 +131,61 @@ function buildAcknowledgementEmail({
 </body></html>`;
 }
 
+/**
+ * Cloudflare Turnstile verification.
+ *
+ * Returns 'pass', 'fail', or 'unknown'. The distinction is the whole point.
+ *
+ * 'fail' means Cloudflare answered and said no: the submission is a bot. That
+ * is refused.
+ *
+ * 'unknown' means we could not ask. The network failed, Turnstile is down, or
+ * the secret is missing. In that case the message is allowed through.
+ *
+ * That asymmetry is deliberate and it is the only defensible choice here. A
+ * lead is worth money; a spam message costs a minute of deleting. If the
+ * third-party check is unavailable we would be discarding real enquiries over
+ * spam we could have filtered anyway, and the failure mode is silent — you
+ * would not find out until you noticed the enquiries were not arriving.
+ *
+ * The alternative, refusing on 'unknown', makes Cloudflare's availability a
+ * hard dependency of your entire contact form. During an outage, nobody can
+ * reach you at all and there is no error, just silence.
+ */
+async function verifyTurnstile(
+  token: string,
+  remoteIp: string,
+): Promise<'pass' | 'fail' | 'unknown'> {
+  const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
+  if (!secret) {
+    console.error('TURNSTILE_SECRET_KEY is not set; cannot verify the spam check.');
+    return 'unknown';
+  }
+  // No token at all means the widget never loaded — usually a blocked script
+  // or an ad blocker, not a bot trying its hardest.
+  if (!token) return 'unknown';
+
+  try {
+    const response = await fetch(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ secret, response: token, remoteip: remoteIp }),
+      },
+    );
+    if (!response.ok) {
+      console.error('Turnstile siteverify returned', response.status);
+      return 'unknown';
+    }
+    const result = await response.json();
+    return result.success === true ? 'pass' : 'fail';
+  } catch (error) {
+    console.error('Turnstile verification could not be completed:', error);
+    return 'unknown';
+  }
+}
+
 export async function POST(request: Request) {
   // Instantiate per request rather than at module scope. At module scope the
   // constructor throws when the key is missing, which crashed the whole route
@@ -139,8 +194,14 @@ export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error('RESEND_API_KEY is not set in this environment.');
+    // The specific cause is logged above for the site owner. The visitor is
+    // told something they can act on: telling a potential client that "email
+    // delivery is not configured" is confusing and sounds like their fault.
     return NextResponse.json(
-      { error: 'Email delivery is not configured. Please reach out via WhatsApp.' },
+      {
+        error:
+          'Something went wrong on our side and your message did not send. Please WhatsApp me on +234 705 333 1253 and I will pick it up straight away.',
+      },
       { status: 500 }
     );
   }
@@ -149,7 +210,28 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { name, email, whatsapp, projectType, message } = body;
+    const { name, email, whatsapp, projectType, message, turnstileToken: turnstileTokenRaw } = body;
+
+    const turnstileToken = singleLine(turnstileTokenRaw);
+
+    // Refuse only what Cloudflare positively identifies as automated. Anything
+    // unverifiable is let through, per the reasoning on verifyTurnstile.
+    const verdict = await verifyTurnstile(
+      turnstileToken,
+      request.headers.get('cf-connecting-ip') || '',
+    );
+    if (verdict === 'fail') {
+      // Answer with the same shape and tone as a success. Telling a bot it was
+      // detected only teaches it what to change, and it costs nothing to lie
+      // to software.
+      console.warn('Contact submission rejected by Turnstile.');
+      return NextResponse.json({ success: true, filtered: true });
+    }
+    if (verdict === 'unknown') {
+      console.warn(
+        'Contact submission could not be spam-checked; accepting it.',
+      );
+    }
 
     const trimmedEmail = (email || '').trim();
     const trimmedWhatsApp = (whatsapp || '').trim();
@@ -299,7 +381,10 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Email dispatch error:', error);
     return NextResponse.json(
-      { error: 'Failed to deliver message. Please reach out via WhatsApp.' },
+      {
+        error:
+          'Something went wrong on our side and your message did not send. Please WhatsApp me on +234 705 333 1253 and I will pick it up straight away.',
+      },
       { status: 500 }
     );
   }

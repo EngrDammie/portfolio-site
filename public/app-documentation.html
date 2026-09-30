@@ -760,7 +760,7 @@
             <tr><td class="f">src/app/layout.tsx</td><td>The outer shell of every page. Loads the two fonts, sets the page title and description, wraps everything in the theme provider, and injects the Cloudflare Web Analytics script.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/app/page.tsx</td><td>The home page. Reads the booking URL on the server and assembles the five sections in order. This is the file that decides what visitors see, in what order.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">src/app/globals.css</td><td>All global styling. Sets the root type size, the page transition, and the entire light-mode colour engine, including the legal-page surface overrides.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">src/app/privacy/page.tsx</td><td><strong>The privacy policy.</strong> A full App Router route at <span class="mono">/privacy</span>, linked from the site footer. Thirteen sections covering what the form collects, what is not collected, retention, rights under NDPA 2023 and GDPR, embeds, and the linked apps. Prerendered to static HTML at build time.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">src/app/privacy/page.tsx</td><td><strong>The privacy policy.</strong> The tick marks in its &ldquo;what is not collected&rdquo; list are the literal U+2713 character, not the <span class="mono">&amp;check;</span> entity: React escapes the ampersand in JSX text, so the entity reached the browser as the literal characters <span class="mono">&amp;amp;check;</span> even though ordinary HTML pages render it correctly. A full App Router route at <span class="mono">/privacy</span>, linked from the site footer. Thirteen sections covering what the form collects, what is not collected, retention, rights under NDPA 2023 and GDPR, embeds, and the linked apps. Prerendered to static HTML at build time.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/app/api/contact/route.ts</td><td>The only API endpoint. Validates submissions, HTML-escapes every visitor string, builds the branded email, and hands it to Resend.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">src/app/icon.svg</td><td>The browser tab icon. The DO monogram on a dark rounded square with an emerald border.</td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">src/app/favicon.ico</td><td>The fallback icon for older browsers. The SVG above takes priority in every modern browser.</td><td><span class="tag tag-keep">Leave alone</span></td></tr>
@@ -1749,6 +1749,112 @@ curl -sI http://localhost:8788/privacy | grep -i x-robots-tag</pre>
 
     <!-- ============ 18 ============ -->
     <section id="performance">
+      <h3>17b · The hero typewriter and its closing sequence</h3>
+      <p class="lede">The headline on the home page, and the seven-stage loop behind it.</p>
+      <p>
+        The home page headline reads <span class="mono">I build high-impact
+        &lt;service&gt;</span>, where the service cycles through twelve options
+        &mdash; web apps, mobile apps, AI automations and so on &mdash; typing a
+        character at a time, pausing, and erasing. That behaviour is unchanged.
+        What was added is what happens after the last one.
+      </p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Stage</th><th>What happens</th><th>Duration</th></tr></thead>
+          <tbody>
+            <tr><td>Typing</td><td>One character at a time, 80ms apart. Unchanged.</td><td>&mdash;</td></tr>
+            <tr><td>Reading pause</td><td>2 seconds before erasing. Unchanged.</td><td>2.0s</td></tr>
+            <tr><td>Erasing</td><td>Backspacing at 40ms per character. Unchanged.</td><td>&mdash;</td></tr>
+            <tr><td><strong>Explosion</strong></td><td>The instant the final service is fully typed, and before the normal pause, so the words are still on screen to burn away. Fire-coloured sparks shoot outward while grey smoke blooms and drifts up.</td><td>1.2s</td></tr>
+            <tr><td><strong>Stars</strong></td><td>The closing line arrives a word at a time in a flurry of twinkling stars.</td><td>&sim;1.2s</td></tr>
+            <tr><td>Hold</td><td>Sits there, readable.</td><td>3.5s</td></tr>
+            <tr><td>Clear</td><td>Blurs and fades away, then the rotation restarts from the first service with no pause.</td><td>0.6s</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The closing line is <strong>Let&rsquo;s <span class="mono">build</span>
+        something <span class="mono">magical</span> together!</strong>, where
+        <em>build</em> and <em>magical</em> carry the same green-to-cyan gradient
+        the services use, so it reads as one continuous sentence rather than a
+        separate caption.
+      </p>
+
+      <h4>Turning it off</h4>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Value</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mono">HERO_MAGIC=on</span> or unset</td><td>The full sequence. This is the default, so it works with no configuration at all.</td></tr>
+            <tr><td><span class="mono">HERO_MAGIC=off</span></td><td>The original loop exactly: type, pause, erase, repeat. No closing line, no particles, and the three extra stages never run.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        A plain build-time value, not a secret, and nothing is exposed to
+        visitors &mdash; it is read on the server in
+        <span class="mono">src/app/page.tsx</span> and handed down as a boolean,
+        for the same reason <span class="mono">BOOKING_URL</span> is read there.
+        Because it is resolved during the build, <strong>changing it requires a
+        rebuild and redeploy</strong>. It is not a switch on the live page and not
+        something you can flip in the Cloudflare dashboard and see change
+        immediately.
+      </p>
+
+      <h4>Three things that are deliberate, and look like mistakes</h4>
+      <ul>
+        <li><strong>The word gap is its own element.</strong> Each word is an
+        <span class="mono">inline-block</span> so it can animate independently,
+        and an inline-block trims the space at its edge. Leaving real spaces
+        between the words produced <span class="mono">Let&rsquo;sbuild
+        something</span> with no gaps at all.</li>
+        <li><strong>&ldquo;I build high-impact&rdquo; lives inside the
+        component.</strong> It is passed in as a <span class="mono">prefix</span>
+        rather than sitting beside it in the heading, because the closing line
+        replaces the <em>whole</em> sentence. As a sibling it survived the swap,
+        and the heading read <span class="mono">I build high-impact Let&rsquo;s
+        build something magical together!</span></li>
+        <li><strong>Particles are positioned with seeded random numbers, not
+        <span class="mono">Math.random()</span>.</strong> They are baked into
+        inline styles during render, so random values would differ between the
+        server and the client and break hydration. A seeded generator also means
+        they hold still between re-renders instead of jittering on every state
+        change.</li>
+      </ul>
+
+      <h4>Accessibility and performance</h4>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-t"><span>♿</span> Reduced motion is honoured</div>
+          <p>About one visitor in four has asked their device to reduce motion. They get the closing line appearing calmly, with no explosion, no sparks and no stars. An exploding headline is genuinely unpleasant for people with vestibular disorders, so this is a requirement and not a nicety. The check is live via <span class="mono">matchMedia</span> and reacts if the setting changes mid-visit.</p>
+        </div>
+        <div class="card">
+          <div class="card-t"><span>⚡</span> No new dependency</div>
+          <p>Built from CSS keyframes in <span class="mono">globals.css</span> plus 57 existing elements. No animation library was added: the usual one weighs roughly 50KB of JavaScript, and this is the first thing every visitor sees. Slow first paint is a worse trade than a puff of smoke. Particles mount only while the effect runs.</p>
+        </div>
+      </div>
+      <p>
+        The particles are all <span class="mono">aria-hidden</span> because they
+        carry no meaning. The closing line is also given as
+        <span class="mono">sr-only</span> text, so a screen reader hears
+        &ldquo;Let us build something magical together&rdquo; rather than
+        character-by-character changes. The heading keeps
+        <span class="mono">min-h</span> so the page does not lurch when the
+        longer closing line replaces the shorter service &mdash; both lines sit
+        in normal flow for exactly this reason.
+      </p>
+      <p>
+        One thing worth knowing: working through all twelve services at the
+        current speeds takes roughly <strong>47 seconds</strong> before the first
+        explosion. That is a deliberate decision &mdash; the brief was to keep all
+        twelve and add the sequence after them &mdash; but it does mean a visitor
+        who leaves inside the first half-minute never sees it. Shortening the
+        list or the pause would bring it forward; nothing needs changing in the
+        code to do that, only the <span class="mono">DYNAMIC_SERVICES</span> list
+        in <span class="mono">Hero.tsx</span> and the
+        <span class="mono">pauseDuration</span> prop.
+      </p>
+
       <h3>18 · Speed &amp; performance</h3>
       <p class="lede">Why the site feels instant, and what it costs to keep it that way.</p>
 
@@ -1962,6 +2068,45 @@ curl -sI http://localhost:8788/privacy | grep -i x-robots-tag</pre>
           <p>The endpoint re-checks everything regardless of what the browser said, because a browser can be bypassed. Name, message and one contact method are all required again, server-side.</p>
         </div>
       </div>
+
+      <h4>The spam check, in full</h4>
+      <p>
+        Three moving parts, and the split between them matters more than the
+        code does:
+      </p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Piece</th><th>Where it lives</th><th>Nature</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mono">NEXT_PUBLIC_TURNSTILE_SITE_KEY</span></td><td><span class="mono">src/components/ContactHub.tsx</span>, injected into the browser</td><td>Public. Like the analytics token, it is visible in the page source by design and grants no access to anything.</td></tr>
+            <tr><td><span class="mono">TURNSTILE_SECRET_KEY</span></td><td><span class="mono">src/app/api/contact/route.ts</span>, read at request time</td><td><strong>Secret.</strong> Set with <span class="mono">wrangler secret put</span>, exactly like <span class="mono">RESEND_API_KEY</span>.</td></tr>
+            <tr><td>The verification call</td><td><span class="mono">verifyTurnstile()</span>, above the route handler</td><td>Returns <span class="mono">pass</span>, <span class="mono">fail</span> or <span class="mono">unknown</span>. Only <span class="mono">fail</span> blocks a message.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Two decisions worth knowing about, because both look like mistakes from
+        the code alone.
+      </p>
+      <ul>
+        <li><strong>The browser check is not the real check.</strong> The client
+        reacts to the token so the visitor gets a fast answer, but anything
+        decided in a browser can be bypassed by posting straight to
+        <span class="mono">/api/contact</span>. Only the server-side call counts,
+        which is why it re-asks Cloudflare rather than trusting what arrived.</li>
+        <li><strong>A rejected bot is told it succeeded.</strong> The response is
+        the same success shape a real submission gets. Telling a bot it was
+        caught only teaches it what to change, and lying to software costs
+        nothing. The server logs the rejection for the site owner.</li>
+      </ul>
+      <p>
+        The widget is mounted on a <span class="mono">ref</span> and rendered
+        explicitly rather than by scanning for
+        <span class="mono">data-sitekey</span>, so a second form elsewhere on the
+        page would get its own widget instead of silently reusing this one.
+        The token is cleared on expiry, error and timeout, so a stale token is
+        never resubmitted.
+      </p>
 
       <h4>Deploying without breaking the contact form</h4>
       <div class="callout co-warn">
@@ -2619,7 +2764,9 @@ npm run build</pre>
             <tr><td><span class="tag tag-keep">Resolved</span> Privacy policy page</td><td>A full policy now lives at <span class="mono">/privacy</span>, linked from the site footer and described in <a href="#seo">section 17</a>. It covers what the form collects, what is not collected, the three processors, the 12-month retention rule, rights under NDPA 2023 and GDPR, embeds, and the linked apps.</td><td><strong>Done.</strong> The page deliberately promises nothing about the future, so it stays true when accounts or a database arrive.</td></tr>
             <tr><td><span class="tag tag-keep">Resolved</span> Consent notice on the form</td><td>A plain-English notice now sits immediately above the submit button: where the brief goes, the 12-month retention period, no mailing list, the right to ask for deletion, and a link to the <span class="mono">/privacy</span> policy. No checkbox &mdash; replying to an enquiry is not a consent-based activity under NDPA or GDPR, so a mandatory tick box would add friction and buy nothing.</td><td><strong>Done.</strong></td></tr>
             <tr><td>Each enquiry now costs two emails, not one</td><td>The acknowledgement is a second send, so the daily sending allowance is consumed twice per enquiry. On a free plan with a 100-per-day ceiling that is roughly 50 enquiries a day before anything is refused, and a refusal would cost you a real lead rather than a cosmetic reply. The acknowledgement is <strong>after</strong> the notification precisely so that if the second send fails on quota, the enquiry has already landed and the visitor has already been told nothing.</td><td>Worth watching. Check the <span class="mono">X-Resend-Daily-Quota</span> response header on the first enquiry of a day.</td></tr>
-            <tr><td>No spam protection</td><td>No captcha, no honeypot. Verified: the endpoint accepts repeated rapid submissions without complaint, so the &ldquo;no rate limiting&rdquo; claim is accurate. Cloudflare does emit generic <span class="mono">ratelimit-*</span> headers, but they are edge defaults and are not enforced here &mdash; confirmed by sending five in a row and receiving <span class="mono">200</span> each time. Because the mail only ever goes to your own inbox, the practical effect of abuse is a cluttered inbox rather than a compromised site.</td><td>Medium</td></tr>
+            <tr><td><span class="tag tag-keep">Resolved</span> No spam protection</td><td><strong>Now protected by Cloudflare Turnstile.</strong> The widget runs in Managed mode, so an ordinary visitor never sees a checkbox and never has to prove they are human &mdash; Cloudflare only challenges when it decides something looks automated. A short-lived token comes back with the submission and the server asks Cloudflare whether it is genuine; a confirmed bot is dropped. The endpoint still accepts repeated rapid submissions with no token, which is deliberate &mdash; see the fail-open note below.</td><td><strong>Fixed.</strong> Not a full stop, though: see the remaining rows.</td></tr>
+            <tr><td>Turnstile deliberately fails OPEN</td><td>If the spam check cannot be run &mdash; script blocked by an extension, visitor offline, Cloudflare outage &mdash; the message is <strong>accepted</strong> rather than refused. The asymmetry is the point: a lost lead costs money, spam costs a minute of deleting, and a closed form during an outage would fail silently with no error to notice. Only a definite rejection filters.</td><td>Accepted trade-off, and the reverse choice would make Cloudflare&rsquo;s uptime a hard dependency of every enquiry.</td></tr>
+            <tr><td>Still no honeypot, field caps or per-IP limit</td><td>Only Turnstile was wanted. There is no hidden decoy field, no cap on message length, and no limit on how often one address can submit. Combined with failing open, a determined bot that also blocks Turnstile gets through every time.</td><td>Low today, Medium if the inbox is ever targeted deliberately.</td></tr>
             <tr><td>Nothing else</td><td>Every other gap in this table is now closed.</td><td>&mdash;</td></tr>
             <tr><td>No delete-my-data mechanism</td><td>Once a brief is in your inbox there is no automated way for a visitor to ask for it to be removed. You would handle it by hand.</td><td>Low for now, and easy to handle by hand.</td></tr>
             <tr><td>Embedded third-party content</td><td>Pressing play on the flagship video contacts YouTube, which is a separate company with its own tracking. Nothing loads from YouTube until that press, and the player uses the privacy-enhanced host.</td><td>Low, and mitigated as far as is practical.</td></tr>

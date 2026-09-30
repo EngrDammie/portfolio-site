@@ -69,6 +69,18 @@ export default function Home() {
   // every push.
   const bookingUrl = process.env.BOOKING_URL?.trim() || undefined;
 
+  // HERO_MAGIC turns the closing line and its explosion on or off.
+  //
+  // Read here, on the server, for the same reason BOOKING_URL is: it is a
+  // build-time value, so it must be resolved during the build rather than
+  // reached for in the browser. It is not a secret — the value is only ever
+  // used to decide what to render, and it is handed to Hero as a boolean.
+  //
+  // Defaults to ON when unset, so the effect works without any configuration.
+  // Set it to 'off' to get the original type-pause-delete loop with none of
+  // the extra stages, which requires a rebuild to take effect.
+  const heroMagic = (process.env.HERO_MAGIC?.trim() || 'on').toLowerCase() !== 'off';
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
       {/* 1. Sticky Navigation Header with Brand Logo */}
@@ -76,7 +88,7 @@ export default function Home() {
 
       <main>
         {/* 2. Above-The-Fold Hero Section */}
-        <Hero />
+        <Hero magic={heroMagic} />
 
         {/* 3. Bento-Grid Project Showcase */}
         <ProjectShowcase />
