@@ -842,6 +842,11 @@
             <tr><td class="f">public/app-documentation.html</td><td><strong>This document.</strong></td><td><span class="tag tag-edit">Edit freely</span></td></tr>
             <tr><td class="f">public/the-nameless-column.html</td><td><strong>A 28-chapter science-fiction novel</strong> about building this platform, with a real "Field Note" in every chapter. Deliberately links to no other document so it can be shared publicly on its own.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/pricing-benchmark-report.html</td><td><strong>The market pricing report.</strong> 36 sections of independent 2026 pricing research, plus the five formal methods for costing software work: Function Point Analysis, COCOMO II, story points, PERT and loaded rates.</td><td><span class="tag tag-care">Careful</span></td></tr>
+                        <tr><td class="f">public/rafa-voucher-android.html</td><td><strong>Public.</strong> The branded download page for the Rafa Voucher Android build. Links the signed APK, shows a verifiable SHA-256 checksum, explains the sideload steps honestly, and carries the WhatsApp and email contact details. Indexable, and linked from the case study on the home page.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/tgr-playbook-android.html</td><td><strong>Public.</strong> The branded download page for the TGR Playbook Android build. Same structure, for the field manual release. Indexable.</td><td><span class="tag tag-care">Careful</span></td></tr>
+                  <tr><td class="f">public/assets/og-rafa-voucher.png</td><td>Share card for the Rafa Voucher download page, 1200&times;630. Referenced by <span class="mono">og:image</span>, so the link renders with a real preview when shared.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/assets/og-tgr-playbook.png</td><td>Share card for the TGR Playbook download page, 1200&times;630.</td><td><span class="tag tag-care">Careful</span></td></tr>
+            <tr><td class="f">public/assets/download.css</td><td>The design system for the two Android release pages: hero, download card, call to action, verification block, install steps, contact tiles and footer. Uses only the CSS variables in docs.css, so it themes automatically.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/openchamber-guide.html</td><td><strong>The OpenChamber tooling guide.</strong> 37 sections on running OpenCode through a graphical interface and reaching it from a phone: installation, the three connection routes, what the Private Relay can and cannot see versus a public tunnel, every command and environment variable, and troubleshooting.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/seo-virality-growth-guide.html</td><td><strong>The organic growth and visibility guide.</strong> 55 sections of 2026 research on SEO, AI answer engines, topical authority, digital PR, local and international reach, and how attention becomes revenue. Includes a live audit of this site, a 90-day and 12-month plan, and a ranked backlog of recommendations &mdash; none of which have been implemented.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/brand-guidelines.html</td><td>The definitive design reference: logo geometry, colours with real contrast ratios, type scale, spacing, radii, motion, and brand voice.</td><td><span class="tag tag-care">Careful</span></td></tr>
@@ -1614,9 +1619,11 @@ Additional notes:
 
       <h4>Keeping the internal documents out of search results</h4>
       <p>
-        The eight files in <span class="mono">public/</span> are working documents, not marketing
+        The eight working documents in <span class="mono">public/</span> are not marketing
         pages. They stay open at their normal addresses so you can read them, but they must never
-        appear in a search result. That is handled in
+        appear in a search result. <strong>The two Android download pages are the exception</strong>:
+        they are part of the public showcase, so they are indexable and are deliberately left out
+        of the rules below. That is handled in
         <span class="mono">public/_headers</span>, which sends this on every one of them:
       </p>
       <div class="tw">

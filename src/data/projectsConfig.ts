@@ -98,6 +98,13 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
       'Google Fonts (Poppins)',
       'Cloudflare Pages'
     ],
+    links: [
+      {
+        title: 'Download the Android app',
+        subtext: 'The native Android build of this tracker, as a signed APK with a checksum you can verify.',
+        href: '/rafa-voucher-android.html',
+      },
+    ],
     liveUrl: 'https://rafavoucherapp.dammieoptimus.workers.dev/',
     featured: true,
     previewType: 'iframe',
@@ -121,6 +128,13 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
       'Google Tag Manager',
       'Web Share & Clipboard APIs',
       'Font Awesome'
+    ],
+    links: [
+      {
+        title: 'Download the Android app',
+        subtext: 'The native Android build of this field manual, as a signed APK with a checksum you can verify.',
+        href: '/tgr-playbook-android.html',
+      },
     ],
     liveUrl: 'https://tgr-playbook.dammieoptimus.workers.dev/',
     featured: true,
