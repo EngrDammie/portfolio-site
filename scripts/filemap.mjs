@@ -43,6 +43,7 @@ const ROOT_FILES = [
   'package-lock.json',
   'README.md',
   'AGENTS.md',
+  'DESIGN_SYSTEM.md',
   'CLAUDE.md',
   '.gitignore',
 ];
