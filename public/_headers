@@ -37,6 +37,7 @@
 /seo-virality-growth-guide*
   X-Robots-Tag: noindex, nofollow, noarchive
 /openchamber-guide*
+  X-Robots-Tag: noindex, nofollow, noarchive
 
 # Internal working document. Not indexed, but reachable by direct URL
 /social-media-growth-playbook*

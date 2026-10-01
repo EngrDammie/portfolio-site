@@ -87,7 +87,41 @@ for (const path of ['/', '/privacy', '/robots.txt', '/sitemap.xml']) {
   else bad(`${path} returned ${status}`);
 }
 
-console.log('\n3. Contact endpoint accepts a message');
+console.log('\n3. Internal documents are excluded from search');
+// Every document meant to be internal must answer with noindex. A mistake in
+// public/_headers is silent: the page still returns 200, the styling still
+// works, and nothing looks broken. This exact bug happened — an inserted
+// comment orphaned the /openchamber-guide* pattern from its header, leaving
+// one internal document indexable in production with no visible symptom.
+const INTERNAL = [
+  '/docs',
+  '/app-documentation',
+  '/the-nameless-column',
+  '/pricing-benchmark-report',
+  '/brand-guidelines',
+  '/email-delivery-guide',
+  '/google-calendar-booking',
+  '/seo-virality-growth-guide',
+  '/openchamber-guide',
+  '/social-media-growth-playbook',
+];
+for (const path of INTERNAL) {
+  try {
+    const res = await fetch(SITE + path, { redirect: 'follow' });
+    const tag = res.headers.get('x-robots-tag') || '';
+    if (!res.ok) {
+      bad(`${path} returned ${res.status}`);
+    } else if (!/noindex/i.test(tag)) {
+      bad(`${path} is INDEXABLE — no X-Robots-Tag header (check public/_headers)`);
+    } else {
+      ok(`${path} noindex`);
+    }
+  } catch (e) {
+    warn(`${path} unreachable: ${e.message}`);
+  }
+}
+
+console.log('\n4. Contact endpoint accepts a message');
 try {
   // Sends a real notification to the business inbox. Uses a reserved
   // example.com address for the "visitor", so the auto-reply goes
