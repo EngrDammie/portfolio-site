@@ -117,7 +117,7 @@ function buildVersion() {
     '',
     `version : ${version}`,
     `content : ${digest}`,
-    `built   : portfolio repo ${commit} (informational only)`,
+    `# built : portfolio repo ${commit} (informational only)`,
     '',
     '# `content` is a hash of the source files, not of this folder, so it is',
     '# stable across commits and can be compared reliably.',
