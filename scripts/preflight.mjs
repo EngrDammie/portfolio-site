@@ -121,7 +121,24 @@ for (const path of INTERNAL) {
   }
 }
 
-console.log('\n4. Contact endpoint accepts a message');
+console.log('\n4. Brand tokens are consistent');
+// Deliberately a subprocess rather than an import: check-tokens exits non-zero
+// and prints its own report, and duplicating its logic here would create a
+// second implementation that drifts from the first.
+try {
+  const out = execFileSync('node', ['scripts/check-tokens.mjs'], {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  const lines = out.split('\n').filter((l) => l.includes('\u001b[32mok') || l.includes('All token checks'));
+  ok(`tokens.json conforms and every doc reference resolves (${lines.length} checks)`);
+} catch (err) {
+  bad('design tokens have drifted — run `npm run tokens:check`');
+  console.log(String(err.stdout || '').split('\n').filter(l => l.includes('FAIL') || l.includes('  ')).slice(0, 8)
+    .map(l => '        ' + l.replace(/\u001b\[\d+m/g, '')).join('\n'));
+}
+
+console.log('\n5. Contact endpoint accepts a message');
 try {
   // Sends a real notification to the business inbox. Uses a reserved
   // example.com address for the "visitor", so the auto-reply goes

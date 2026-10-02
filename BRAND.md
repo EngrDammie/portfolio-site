@@ -332,16 +332,19 @@ This file decides *what*. The platform guide decides *how*. Read both.
 
 | File | State |
 |---|---|
-| `tokens.json` | Complete |
+| `tokens.json` | Complete — 130 tokens, DTCG 2025.10 |
 | `BRAND.md` (this file) | Complete |
 | `DESIGN_SYSTEM.md` | Complete — covers web and documents |
-| `PLATFORM-mobile.md` | **Not yet written.** Covers touch targets, type scaling, navigation, safe areas, and how the brand shows through in a native app |
-| Platform adapters | **Not yet written.** `adapters/web.css` will replace the hand-written token block in `DESIGN_SYSTEM.md` |
-| `scripts/check-tokens.mjs` | **Not yet written.** Asserts every adapter carries every token in both themes |
+| `PLATFORM-mobile.md` | Complete — iOS and Android, with Jetpack Compose as the primary worked path |
+| `scripts/check-tokens.mjs` | Complete — run `npm run tokens:check` |
 
-Until the platform guide exists, mobile work should follow this file plus the current Apple and
-Material guidance, and should be reviewed against it later. Say so rather than presenting a first
-attempt as finished.
+**Still not written:** platform adapter files. `adapters/` will hold the token layers for each
+platform, generated from `tokens.json`, so that no screen ever hardcodes a value. `DESIGN_SYSTEM.md`
+and `docs.css` currently restate the values by hand; `tokens:check` compares them and fails on
+drift, but generating them is the better long-term answer.
+
+Until adapters exist, use the worked implementations inside `PLATFORM-mobile.md` as the reference
+and keep new values in `tokens.json`.
 
 ---
 

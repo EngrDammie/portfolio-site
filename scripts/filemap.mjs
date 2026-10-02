@@ -45,6 +45,7 @@ const ROOT_FILES = [
   'AGENTS.md',
   'DESIGN_SYSTEM.md',
   'BRAND.md',
+  'PLATFORM-mobile.md',
   'tokens.json',
   'CLAUDE.md',
   '.gitignore',
