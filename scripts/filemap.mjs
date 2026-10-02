@@ -29,7 +29,7 @@ const DOC = path.join(ROOT, 'public', 'app-documentation.html');
 
 // Directories the file map claims to describe. Anything inside these that is
 // not listed in the document is reported as missing from the map.
-const AREAS = ['adapters', 'src', 'public', 'scripts'];
+const AREAS = ['adapters', 'brand-kit', 'src', 'public', 'scripts'];
 
 // Root-level files the map also covers.
 const ROOT_FILES = [
@@ -52,6 +52,62 @@ const ROOT_FILES = [
 ];
 
 const IGNORED_DIRS = new Set(['node_modules', '.next', '.open-next', '.git']);
+
+/**
+ * Generated copies that are already documented at their source.
+ *
+ * brand-kit/ holds assembled copies of files that each have a row of their
+ * own — brand-kit/web/web.css is a copy of adapters/web.css, and so on. Listing
+ * every copy would mean the map churned on every token change, which trains
+ * you to ignore it.
+ *
+ * So the exclusion is by CONTENT, not by pattern: a file under brand-kit is
+ * skipped only while it is byte-identical to something already in the map. The
+ * moment a copy diverges it stops being an exact copy and gets flagged, which
+ * is the correct moment to be told.
+ */
+/** kit path -> the canonical file it was copied from. */
+const COPIED_FROM = {
+  'shared/BRAND.md': 'BRAND.md',
+  'shared/tokens.json': 'tokens.json',
+  'PLATFORM-mobile.md': 'PLATFORM-mobile.md',
+  'web/DESIGN_SYSTEM.md': 'DESIGN_SYSTEM.md',
+  'web/web.css': 'adapters/web.css',
+  'android/Brand.kt': 'adapters/compose/Brand.kt',
+  'ios/Brand.swift': 'adapters/swift/Brand.swift',
+  'react-native/tokens.ts': 'adapters/react-native/tokens.ts',
+};
+
+function isDocumentedCopy(relativePath) {
+  if (!relativePath.startsWith('brand-kit/')) return false;
+  const kitRel = relativePath.slice('brand-kit/'.length);
+  const source = COPIED_FROM[kitRel];
+  if (source) {
+    const full = path.join(ROOT, relativePath);
+    const src = path.join(ROOT, source);
+    try {
+      // Compare with HTML comments and blank lines removed. The kit builder
+      // inserts a provenance comment into every markdown copy, which adds a
+      // blank line either side, so a byte comparison would never match and the
+      // exclusion would never apply. Blank lines are not a meaningful
+      // difference, and the kit's own gate compares it exactly.
+      const normalise = (f) =>
+        fs
+          .readFileSync(f, 'utf8')
+          .replace(/<!--[\s\S]*?-->/g, '')
+          .split('\n')
+          .map((l) => l.trimEnd())
+          .filter((l) => l.trim() !== '')
+          .join('\n')
+          .trim();
+      return normalise(full) === normalise(src);
+    } catch {
+      return false;
+    }
+  }
+  // START-HERE.md and VERSION are authored here, so they get their own rows.
+  return false;
+}
 
 /**
  * Third-party verification artefacts that come and go.
@@ -96,6 +152,7 @@ function walk(dir, out = []) {
 
 function isIgnored(relativePath) {
   const normalised = relativePath.split(path.sep).join('/');
+  if (isDocumentedCopy(normalised)) return true;
   return IGNORED_PATTERNS.some((pattern) => pattern.test(normalised));
 }
 

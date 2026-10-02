@@ -17,7 +17,9 @@
     "preflight": "node scripts/preflight.mjs",
     "tokens:check": "node scripts/check-tokens.mjs",
     "tokens:build": "node scripts/build-adapters.mjs",
-    "adapters:check": "node scripts/build-adapters.mjs --check"
+    "adapters:check": "node scripts/build-adapters.mjs --check",
+    "kit:build": "node scripts/build-brand-kit.mjs",
+    "kit:check": "node scripts/build-brand-kit.mjs --check"
   },
   "dependencies": {
     "lucide-react": "^1.48.0",

@@ -1,0 +1,9 @@
+# Brand kit version 0.1.0
+#
+# Built from the portfolio repository at commit 69141f1.
+#
+# Record this string in a consuming project's README. It is how you answer
+# "which version of the design system is this project on?" months later,
+# which is the only thing that makes copying a snapshot safe.
+0.1.0
+69141f1
