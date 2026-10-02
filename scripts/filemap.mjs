@@ -44,6 +44,8 @@ const ROOT_FILES = [
   'README.md',
   'AGENTS.md',
   'DESIGN_SYSTEM.md',
+  'BRAND.md',
+  'tokens.json',
   'CLAUDE.md',
   '.gitignore',
 ];
