@@ -145,6 +145,14 @@ object Dimm {
  * darkTheme follows the system by default. Do not force it: the brand is
  * dark-native, which is unusually well suited to phones, so following the
  * user gets the benefit without doing anything.
+ *
+ * Do NOT swap this for dynamicLightColorScheme / dynamicDarkColorScheme.
+ * Android 12+ can derive a whole palette from the user wallpaper, which
+ * silently overrides the brand with no error and no crash. It also looks
+ * correct on the developer device and wrong on everyone else's, because it
+ * depends on which wallpaper they happen to have. A brand that varies per
+ * user is not a brand. If you need a wallpaper accent, reference it
+ * explicitly as a deliberate role, never as the scheme.
  */
 @Composable
 fun DammieTheme(

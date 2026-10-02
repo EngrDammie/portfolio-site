@@ -296,6 +296,13 @@ things. Paste this after the files are in place.
 >
 > Rules that override anything you would otherwise choose:
 >
+> 0. Use the provided `DammieTheme` unchanged. Do **not** use `dynamicLightColorScheme` /
+>    `dynamicDarkColorScheme`, and do not write your own `MaterialTheme(...)` call. Android 12+
+>    can derive an entire palette from the user wallpaper, which silently replaces the brand with
+>    no error and no crash. It also looks right on your own device and wrong on everyone else's,
+>    because it depends on which wallpaper they happen to have. A brand that changes per user is
+>    not a brand. If you want a wallpaper accent, reference it explicitly as a deliberate role,
+>    never as the scheme.
 > 1. Colour comes from `MaterialTheme.colorScheme` or `Palette`. Never a literal hex in a screen.
 > 2. Every text style maps to a Material typography style. Never a hardcoded `sp`.
 > 3. Never disable font scaling.
