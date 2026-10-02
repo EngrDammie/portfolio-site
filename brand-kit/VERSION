@@ -2,7 +2,7 @@
 
 version : 0.1.0
 content : 1eef73ae38e1
-# built : portfolio repo fa98580 (informational only)
+# built : portfolio repo c23b3b4 (informational only)
 
 # `content` is a hash of the source files, not of this folder, so it is
 # stable across commits and can be compared reliably.

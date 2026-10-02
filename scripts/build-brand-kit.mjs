@@ -151,7 +151,7 @@ const PROVENANCE = (from) => `<!--
  * looks like a rendering bug. Everything else is copied verbatim — the
  * adapters already carry their own generated-file banner.
  */
-function buildContent({ from, to, note }) {
+function buildContent({ from, note }) {
   const raw = fs.readFileSync(path.join(ROOT, from), 'utf8');
   if (note !== 'markdown') return raw;
   const lines = raw.split('\n');
