@@ -160,11 +160,17 @@ Design system: Dammie Optimus Solutions brand kit 0.1.0 (commit 69141f1)
 
 ## Which files go where
 
+The tables below list the code and the rules. One more file always travels with them:
+`START-HERE.md` — this document — because it carries the prompt you must paste to your agent. An
+agent handed colours with no instruction will reasonably invent the rest. Copy the platform rows
+if you like, but never leave this one behind.
+
 ### Website or web app
 
 | Copy | Do not copy |
 |---|---|
-| `shared/BRAND.md` | `android/` `ios/` `react-native/` |
+| `START-HERE.md` — carries the prompt | |
+| `shared/BRAND.md` | `android/` `ios/` `react-native/` `flutter/` |
 | `shared/tokens.json` | `PLATFORM-mobile.md` — it is mobile-only |
 | `web/DESIGN_SYSTEM.md` | |
 | `web/web.css` | |
@@ -184,7 +190,8 @@ are correct; mixing them in one component is not.
 
 | Copy | Do not copy |
 |---|---|
-| `shared/BRAND.md` | `web/` `ios/` `react-native/` |
+| `START-HERE.md` — carries the prompt | |
+| `shared/BRAND.md` | `web/` `ios/` `react-native/` `flutter/` |
 | `shared/tokens.json` | |
 | `PLATFORM-mobile.md` | |
 | `android/Brand.kt` | |
@@ -211,7 +218,8 @@ are correct; mixing them in one component is not.
 
 | Copy | Do not copy |
 |---|---|
-| `shared/BRAND.md` | `web/` `android/` `react-native/` |
+| `START-HERE.md` — carries the prompt | |
+| `shared/BRAND.md` | `web/` `android/` `react-native/` `flutter/` |
 | `shared/tokens.json` | |
 | `PLATFORM-mobile.md` | |
 | `ios/Brand.swift` | |
@@ -228,7 +236,8 @@ are correct; mixing them in one component is not.
 
 | Copy | Do not copy |
 |---|---|
-| `shared/BRAND.md` | `web/` `ios/` `android/` |
+| `START-HERE.md` — carries the prompt | |
+| `shared/BRAND.md` | `web/` `ios/` `android/` `flutter/` |
 | `shared/tokens.json` | |
 | `PLATFORM-mobile.md` | |
 | `react-native/tokens.ts` | |
@@ -252,6 +261,7 @@ Two React Native specifics that are easy to get wrong:
 
 | Copy | Do not copy |
 |---|---|
+| `START-HERE.md` — carries the prompt | |
 | `shared/BRAND.md` | `web/` `android/` `ios/` `react-native/` |
 | `shared/tokens.json` | |
 | `PLATFORM-mobile.md` | |
@@ -319,6 +329,35 @@ things. Paste this after the files are in place.
 `Brand.Role` for Material typography. Add: *never use `.system(size:)`.*
 
 **React Native:** as Android, substituting `theme('dark' | 'light')` for `MaterialTheme`.
+
+**Flutter:**
+
+> Read `BRAND.md`, `tokens.json` and `PLATFORM-mobile.md` before writing UI, in that order.
+> `brand.dart` is the generated theme and must not be edited.
+>
+> Rules that override anything you would otherwise choose:
+>
+> 0. Use `brandTheme(Brightness.light)` and `brandTheme(Brightness.dark)` as `theme` and
+>    `darkTheme` on `MaterialApp`, and leave `themeMode` at its default. Do not write your own
+>    `ThemeData(...)`, and do not reach for `ColorScheme.fromSeed` — it generates a plausible
+>    palette that is not this brand.
+> 1. Colour comes from `Theme.of(context).colorScheme`, or `BrandColors` / `BrandPalette`
+>    directly. Never a literal `Color(0xFF...)` in a widget.
+> 2. Text comes from `Theme.of(context).textTheme`. Never a hardcoded `fontSize`.
+> 3. Never set `textScaleFactor` or disable font scaling.
+> 4. Every interactive element meets a 48dp touch target, with at least 8dp between targets. The
+>    target may be larger than the visual; pad to reach it.
+> 5. Respect insets. No content under the status bar, cutout or gesture bar.
+> 6. System font family only — never bundle Geist or any custom font. `BrandText` supplies the
+>    size scale; let the platform supply the family, which is Roboto on Android and SF on iOS.
+> 7. Design loading, empty, offline and error states. On a phone these are most of the experience.
+>
+> This project targets **Flutter 3.32 or later**. `CardTheme` became `CardThemeData` and
+> `ColorScheme.background` was removed. If you hit a compile error on those names, upgrade Flutter
+> rather than patching `brand.dart`.
+>
+> When you finish, run the checklist in section 12 of `PLATFORM-mobile.md` and tell me which items
+> failed.
 
 Point 7 is the one that matters most. An agent that reports its own failures is useful; one that
 silently skips them is not.
