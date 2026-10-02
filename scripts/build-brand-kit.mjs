@@ -59,6 +59,7 @@ const COPIES = [
   { from: 'adapters/compose/Brand.kt', to: 'android/Brand.kt', note: null },
   { from: 'adapters/swift/Brand.swift', to: 'ios/Brand.swift', note: null },
   { from: 'adapters/react-native/tokens.ts', to: 'react-native/tokens.ts', note: null },
+  { from: 'adapters/flutter/brand.dart', to: 'flutter/brand.dart', note: null },
 ];
 
 /** Authored, not generated — the kit must not clobber it. */

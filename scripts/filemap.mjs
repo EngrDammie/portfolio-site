@@ -76,6 +76,7 @@ const COPIED_FROM = {
   'android/Brand.kt': 'adapters/compose/Brand.kt',
   'ios/Brand.swift': 'adapters/swift/Brand.swift',
   'react-native/tokens.ts': 'adapters/react-native/tokens.ts',
+  'flutter/brand.dart': 'adapters/flutter/brand.dart',
 };
 
 function isDocumentedCopy(relativePath) {

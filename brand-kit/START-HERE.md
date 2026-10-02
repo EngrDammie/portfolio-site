@@ -85,6 +85,7 @@ Every path in `brand-kit/` is fetchable this way. The ones you will use:
 | `android/Brand.kt` | `android/Brand.kt` |
 | `ios/Brand.swift` | `ios/Brand.swift` |
 | `react-native/tokens.ts` | `react-native/tokens.ts` |
+| `flutter/brand.dart` | `flutter/brand.dart` |
 | `VERSION` | `VERSION` |
 
 Prefix them all with `https://raw.githubusercontent.com/EngrDammie/portfolio-site/main/brand-kit/`.
@@ -114,7 +115,7 @@ brand-kit/
 ├── shared/
 │   ├── BRAND.md           every project. The decisions.
 │   └── tokens.json        every project. The values.
-├── PLATFORM-mobile.md     Android, iOS, React Native. Not Flutter's adapter.
+├── PLATFORM-mobile.md     Android, iOS, React Native, Flutter
 ├── web/
 │   ├── DESIGN_SYSTEM.md   the full web spec
 │   └── web.css            the generated token layer
@@ -122,8 +123,10 @@ brand-kit/
 │   └── Brand.kt           Jetpack Compose theme
 ├── ios/
 │   └── Brand.swift        SwiftUI
-└── react-native/
-    └── tokens.ts          Expo theme
+├── react-native/
+│   └── tokens.ts          Expo theme
+└── flutter/
+    └── brand.dart         Flutter theme. Needs Flutter 3.32+
 ```
 
 ---
@@ -252,20 +255,26 @@ Two React Native specifics that are easy to get wrong:
 | `shared/BRAND.md` | `web/` `android/` `ios/` `react-native/` |
 | `shared/tokens.json` | |
 | `PLATFORM-mobile.md` | |
+| `flutter/brand.dart` | |
 
-There is **no Flutter adapter.** That is deliberate: an adapter nobody exercises rots, and it was
-skipped until a project needed one.
-
-Until then, `tokens.json` is plain JSON and trivially importable:
+**Then:**
 
 ```dart
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
+import 'brand.dart';
 
-final tokens = json.decode(await rootBundle.loadString('assets/tokens.json'));
+MaterialApp(
+  theme: brandTheme(Brightness.light),
+  darkTheme: brandTheme(Brightness.dark),
+  // themeMode defaults to ThemeMode.system, which is what we want.
+)
 ```
 
-Map the roles the same way the other adapters do. **Do not set `textScaler` to a fixed value.**
+**Requires Flutter 3.32 or later.** The Material theming API has had breaking changes —
+`CardTheme` became `CardThemeData`, and `ColorScheme.background` was removed. On an older Flutter
+you will get compile errors; upgrade rather than patching the adapter.
+
+Run `dart analyze` on `brand.dart` the first time you use it. It is generated and structurally
+checked, but it has not been compile-verified.
 
 ---
 

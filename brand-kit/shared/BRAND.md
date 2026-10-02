@@ -356,6 +356,7 @@ produced from `tokens.json` by `npm run tokens:build`:
 | `adapters/compose/Brand.kt` | Jetpack Compose — the primary Android path |
 | `adapters/swift/Brand.swift` | SwiftUI |
 | `adapters/react-native/tokens.ts` | React Native and Expo |
+| `adapters/flutter/brand.dart` | Flutter |
 
 They are **generated files. Editing one by hand is a mistake**, because `npm run adapters:check`
 compares them against `tokens.json` and fails when they disagree. To change a value, change
@@ -364,8 +365,9 @@ compares them against `tokens.json` and fails when they disagree. To change a va
 `DESIGN_SYSTEM.md` and `docs.css` still restate values by hand — they must, since both are
 self-contained artefacts — so `npm run tokens:check` compares them and fails on drift.
 
-**Still not written:** a Flutter adapter. It was left out deliberately: no project needs it yet, and
-an adapter nobody exercises rots. Add it when one does.
+Flutter was originally left out because no project needed it yet. It now exists, built against
+Flutter 3.32 or later. Check that version before adopting it: the Material theming API has had
+breaking changes recently.
 
 ---
 

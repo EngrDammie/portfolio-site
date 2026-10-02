@@ -593,35 +593,34 @@ theme surface is the part most likely to move.
 
 ### Flutter
 
+**Use `adapters/flutter/brand.dart`.** It is generated from `tokens.json` and covers both colour
+schemes, the type roles, dimensions, and a `brandTheme()` builder.
+
 ```dart
-abstract final class Brand {
-  static const background = Color(0xFF020617);
-  static const textBody    = Color(0xFFCBD5E1);
-  static const brand      = Color(0xFF10B981);
-  static const onBrand    = Color(0xFF020617);
-
-  static const radiusControl = 11.0;
-  static const minTargetIOS  = 44.0;
-  static const minTargetAndroid = 48.0;
-  static const targetGap = 8.0;
-}
-
-// Roles map to the platform text theme, and textScaler is left alone.
-// Setting textScaler to a fixed value makes the app unusable for someone
-// who needs larger text.
-ThemeData buildTheme(Brightness brightness) => ThemeData(
-  colorScheme: brightness == Brightness.dark
-      ? const ColorScheme.dark(primary: Brand.brand, onPrimary: Brand.onBrand)
-      : const ColorScheme.light(),
-  textTheme: const TextTheme(
-    displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.w800),
-    titleLarge:   TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-    bodyLarge:    TextStyle(fontSize: 16, height: 1.5),
-    bodyMedium:   TextStyle(fontSize: 14, height: 1.5),
-    labelSmall:   TextStyle(fontSize: 11, letterSpacing: 1.4),
-  ),
-);
+MaterialApp(
+  theme: brandTheme(Brightness.light),
+  darkTheme: brandTheme(Brightness.dark),
+  // themeMode defaults to ThemeMode.system, which is what we want.
+)
 ```
+
+Two Flutter-specific rules:
+
+- **Never set `textScaler`.** Flutter scales text from the user's accessibility settings, and
+  pinning it makes the app unusable for someone who needs larger text. The adapter deliberately
+  leaves it alone.
+- **Type sizes come from Material's scale, not from the token file.** The tokens hold the web
+  baseline, and a phone is not a small browser. What the adapter does take from the tokens is the
+  generous line height and the tracking, which are the parts that carry the brand.
+
+**Requires Flutter 3.32 or later.** The Material theming API has had breaking changes: `CardTheme`
+became `CardThemeData`, and `ColorScheme.background` and `ColorScheme.surfaceVariant` were removed
+in favour of the `surfaceContainer*` family and an explicit `scaffoldBackgroundColor`. On an older
+Flutter you will get compile errors; the fix is to upgrade, not to patch the adapter.
+
+This has **not been compile-verified** — no Dart toolchain was available where it was written. It is
+checked structurally (colour literal widths, identifier validity, balanced delimiters, and the API
+names above) but you should run `dart analyze` on it before relying on it.
 
 ---
 

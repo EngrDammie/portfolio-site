@@ -750,6 +750,257 @@ function buildReactNative() {
   return lines.join('\n');
 }
 
+
+/**
+ * Dart's Color(int) reads the value as ARGB. A six-digit literal therefore
+ * becomes 0x000RRGGBB and is FULLY TRANSPARENT — every surface would vanish
+ * and the failure would look like a layout bug rather than a colour one.
+ * Always eight digits.
+ */
+const dartColor = (hex) => {
+  const s = hex.replace('#', '').toUpperCase();
+  const rgb = s.slice(0, 6);
+  const a = s.length === 8 ? s.slice(6, 8) : 'FF';
+  return `Color(0x${a}${rgb})`;
+};
+
+/** The same, with a translucent alpha applied, for container surfaces. */
+const dartColorAlpha = (hex, alphaHex) => {
+  const s = hex.replace('#', '').toUpperCase();
+  return `Color(0x${alphaHex}${s.slice(0, 6)})`;
+};
+
+/* ============================================================ Flutter */
+
+function buildFlutter() {
+  const L = (s = '') => lines.push(s);
+  const lines = [];
+
+  // Material 3's own type scale, at its documented default sizes. Used only
+  // to convert our em-based tracking into the logical pixels that Flutter's
+  // TextStyle.letterSpacing expects. Re-check if Material changes its scale.
+  const MATERIAL_DEFAULT_SIZE = {
+    displaySmall: 36, headlineMedium: 28, headlineSmall: 24,
+    titleLarge: 22, titleMedium: 16, titleSmall: 14,
+    bodyLarge: 16, bodyMedium: 14, bodySmall: 12,
+    labelLarge: 14, labelMedium: 12, labelSmall: 11,
+  };
+
+  L('// GENERATED FILE - DO NOT EDIT BY HAND.');
+  L('// Produced by scripts/build-adapters.mjs from tokens.json.');
+  L('// Edit tokens.json, then run: npm run tokens:build');
+  L('// Checked for staleness by: npm run adapters:check');
+  L('//');
+  L('// Source of truth: tokens.json');
+  L('//');
+  L('// API notes, verified 30 September 2026:');
+  L('//   * ThemeData.cardTheme is CardThemeData, not CardTheme, as of Flutter 3.32.');
+  L('//   * ColorScheme.background and ColorScheme.surfaceVariant were REMOVED in');
+  L('//     Flutter 3.22. The replacements are the surfaceContainer* family and');
+  L('//     scaffoldBackgroundColor, both set below.');
+  L('//   * Scaffold background is set explicitly because ThemeData otherwise');
+  L('//     derives it, and this brand has a specific page colour.');
+  L('//   * textScaler is deliberately never set. Flutter scales text from the');
+  L('//     user\'s accessibility settings, and pinning it makes the app');
+  L('//     unusable for someone who needs larger text.');
+  L('');
+  L("import 'package:flutter/material.dart';");
+  L('');
+  L('/// Raw palette. Referenced only by [BrandColors]. No widget should use this.');
+  L('abstract final class BrandPalette {');
+  const pal = [];
+  for (const [fam, step] of [
+    ['emerald', '400'], ['emerald', '500'], ['emerald', '700'],
+    ['cyan', '400'], ['cyan', '500'], ['cyan', '700'],
+    ['amber', '400'], ['amber', '500'], ['amber', '700'],
+    ['rose', '400'], ['rose', '500'], ['rose', '700'],
+    ['slate', '50'], ['slate', '100'], ['slate', '300'], ['slate', '400'],
+    ['slate', '700'], ['slate', '800'], ['slate', '900'], ['slate', '950'],
+  ]) {
+    pal.push(`  static const Color ${camel(fam)}${step} = ${dartColor(toHex(value(`palette.${fam}.${step}`)))};`);
+  }
+  pal.push(`  static const Color paper = ${dartColor(toHex(value('color.light.background')))};`);
+  pal.sort();
+  for (const line of pal) L(line);
+  L('}');
+  L('');
+  L('/// Colour roles, resolved to a full [ColorScheme] for each theme.');
+  L('///');
+  L('/// Screens read from `Theme.of(context).colorScheme` and never from');
+  L('/// [BrandPalette] directly.');
+  L('abstract final class BrandColors {');
+  for (const theme of ['dark', 'light']) {
+    const cs = (role) => toHex(value(`color.${theme}.${role}`));
+    L('');
+    L(`  static const ColorScheme ${theme} = ColorScheme(`);
+    L(`    brightness: Brightness.${theme},`);
+    L(`    primary: ${dartColor(cs('brand'))},`);
+    L(`    onPrimary: ${dartColor(cs('onBrand'))},`);
+    L(`    primaryContainer: ${dartColorAlpha(cs('brand'), '2E')},`);
+    L(`    onPrimaryContainer: ${dartColor(cs('brandText'))},`);
+    L(`    secondary: ${dartColor(cs('accent'))},`);
+    L(`    onSecondary: ${dartColor(cs('onBrand'))},`);
+    L(`    secondaryContainer: ${dartColorAlpha(cs('accent'), '2E')},`);
+    L(`    onSecondaryContainer: ${dartColor(cs('accentText'))},`);
+    L(`    tertiary: ${dartColor(cs('accent'))},`);
+    L(`    onTertiary: ${dartColor(cs('onBrand'))},`);
+    L(`    error: ${dartColor(cs('danger'))},`);
+    L(`    onError: ${dartColor(cs('dangerText'))},`);
+    L(`    errorContainer: ${dartColorAlpha(cs('danger'), '2E')},`);
+    L(`    onErrorContainer: ${dartColor(cs('dangerText'))},`);
+    L(`    surface: ${dartColor(cs('surface'))},`);
+    L(`    onSurface: ${dartColor(cs('text'))},`);
+    L(`    onSurfaceVariant: ${dartColor(cs('textMuted'))},`);
+    L(`    surfaceContainerLowest: ${dartColor(cs('background'))},`);
+    L(`    surfaceContainerLow: ${dartColor(cs('background'))},`);
+    L(`    surfaceContainer: ${dartColor(cs('surfaceRaised'))},`);
+    L(`    surfaceContainerHigh: ${dartColor(cs('surfaceRaised'))},`);
+    L(`    surfaceContainerHighest: ${dartColor(cs('surfaceRaised'))},`);
+    L(`    outline: ${dartColor(cs('border'))},`);
+    L(`    outlineVariant: ${dartColor(cs('borderStrong'))},`);
+    L(`    shadow: Colors.black,`);
+    L(`    scrim: Colors.black,`);
+    L(`    inverseSurface: ${dartColor(cs('background'))},`);
+    L(`    onInverseSurface: ${dartColor(cs('text'))},`);
+    L(`    inversePrimary: ${dartColor(cs('brand'))},`);
+    L('  );');
+  }
+  L('}');
+  L('');
+  L('/// Dimensions. Logical pixels, which are density independent, so the px');
+  L('/// values in the token file transfer without conversion.');
+  L('abstract final class BrandDim {');
+  for (const k of SPACE_KEYS) L(`  static const double ${camel(ident(k))} = ${round(value(`space.${k}`).value)};`);
+  L();
+  L(`  static const double radiusChip = ${round(value('radius.chip').value)};`);
+  L(`  static const double radiusControl = ${round(value('radius.control').value)};`);
+  L(`  static const double radiusCard = ${round(value('radius.card').value)};`);
+  L();
+  L('  /// Hit area, not visual size. Pad to reach it; never shrink below it.');
+  L(`  static const double touchTargetAndroid = ${round(value('touchTarget.minimumAndroid').value)};`);
+  L(`  static const double touchTargetIOS = ${round(value('touchTarget.minimumIOS').value)};`);
+  L(`  static const double touchGap = ${round(value('touchTarget.spacing').value)};`);
+  L();
+  L('  /// Durations in milliseconds.');
+  L(`  static const int motionFast = ${Math.round(durToMs(value('motion.duration.fast')))};`);
+  L(`  static const int motionNormal = ${Math.round(durToMs(value('motion.duration.normal')))};`);
+  L('}');
+  L('');
+  L('/// Type roles mapped onto Material slots.');
+  L('///');
+  L('/// Font sizes come from Material\'s own scale rather than from the token');
+  L('/// file, because the token file holds the web baseline and a phone is not');
+  L('/// a small browser. What comes from the tokens is the two things that');
+  L('/// actually carry the brand: the generous [TextStyle.height], and the');
+  L('/// tracking.');
+  L('abstract final class BrandText {');
+  const SLOT = {
+    display: 'displaySmall', title: 'headlineMedium', heading: 'titleLarge',
+    bodyLarge: 'bodyLarge', body: 'bodyMedium', label: 'labelLarge',
+    meta: 'bodySmall', eyebrow: 'labelSmall',
+  };
+  const t = [];
+  for (const r of ROLES) {
+    const slot = SLOT[r];
+    const height = value(`typography.role.${r}.lineHeight`);
+    const tracking = value(`typography.role.${r}.tracking`);
+    const parts = [`height: ${round(height, 2)}`];
+    if (tracking) {
+      const px = MATERIAL_DEFAULT_SIZE[slot] * tracking;
+      parts.push(`letterSpacing: ${round(px, 2)}`);
+    }
+    if (r === 'eyebrow') parts.push('fontWeight: FontWeight.w800');
+    if (r === 'label') parts.push('fontWeight: FontWeight.w600');
+    if (r === 'meta') parts.push('fontWeight: FontWeight.w500');
+    if (r === 'heading' || r === 'title' || r === 'display') {
+      parts.push('fontWeight: FontWeight.w700');
+    }
+    t.push(`  static const TextStyle ${camel(r)} = TextStyle(${parts.join(', ')});`);
+  }
+  for (const line of t) L(line);
+  L();
+  L('  /// The full [TextTheme]. Spread into ThemeData.textTheme.');
+  L('  static const TextTheme theme = TextTheme(');
+  for (const r of ROLES) {
+    const src = SLOT[r];
+    L(`    ${src}: ${camel(r)},`);
+  }
+  L('  );');
+  L('}');
+  L('');
+  L('/// Build the app theme. Call once, above [MaterialApp].');
+  L('///');
+  L('/// darkTheme follows the system rather than being forced: the brand is');
+  L('/// dark-native, so following the user gets the benefit without forcing it.');
+  L('///');
+  L('/// Example:');
+  L('///');
+  L('/// ```dart');
+  L('/// MaterialApp(');
+  L('///   theme: brandTheme(Brightness.light),');
+  L('///   darkTheme: brandTheme(Brightness.dark),');
+  L('///   // themeMode defaults to ThemeMode.system, which is what we want.');
+  L('/// )');
+  L('/// ```');
+  L('ThemeData brandTheme(Brightness brightness) {');
+  L('  final isDark = brightness == Brightness.dark;');
+  L('  final scheme = isDark ? BrandColors.dark : BrandColors.light;');
+  L('');
+  L('  return ThemeData(');
+  L('    brightness: brightness,');
+  L('    colorScheme: scheme,');
+  L('    // Set explicitly: ThemeData would otherwise derive it, and this brand');
+  L('    // has a specific page colour rather than a tinted surface.');
+  L('    scaffoldBackgroundColor: scheme.surfaceContainerLowest,');
+  L('    textTheme: BrandText.theme,');
+  L('    // Padded gives every tappable the 48dp Material minimum by default,');
+  L('    // so you do not have to remember it per widget.');
+  L('    materialTapTargetSize: MaterialTapTargetSize.padded,');
+  L('    splashFactory: InkSparkle.splashFactory,');
+  L('    cardTheme: CardThemeData(');
+  L(`      color: scheme.surface,`);
+  L(`      surfaceTintColor: Colors.transparent,`);
+  L(`      elevation: 0,`);
+  L('      margin: EdgeInsets.zero,');
+  L('      shape: RoundedRectangleBorder(');
+  L(`        borderRadius: BorderRadius.circular(BrandDim.radiusCard),`);
+  L(`        side: BorderSide(color: scheme.outline, width: ${round(value('borderWidth.default').value, 1)}),`);
+  L('      ),');
+  L('    ),');
+  L('    filledButtonTheme: FilledButtonThemeData(');
+  L('      style: FilledButton.styleFrom(');
+  L('        backgroundColor: scheme.primary,');
+  L('        foregroundColor: scheme.onPrimary,');
+  L('        shape: RoundedRectangleBorder(');
+  L('          borderRadius: BorderRadius.circular(BrandDim.radiusControl),');
+  L('        ),');
+  L('        minimumSize: const Size.fromHeight(0),');
+  L(`        padding: const EdgeInsets.symmetric(horizontal: ${round(value('space.md').value)}, vertical: ${round(value('space.sm').value)}),`);
+  L('      ),');
+  L('    ),');
+  L('    inputDecorationTheme: InputDecorationTheme(');
+  L('      filled: true,');
+  L('      fillColor: scheme.surface,');
+  L(`      contentPadding: const EdgeInsets.symmetric(horizontal: ${round(value('space.sm').value)}, vertical: ${round(value('space.sm').value)}),`);
+  L('      border: OutlineInputBorder(');
+  L('        borderRadius: BorderRadius.circular(BrandDim.radiusControl),');
+  L('        borderSide: BorderSide(color: scheme.outlineVariant),');
+  L('      ),');
+  L('      enabledBorder: OutlineInputBorder(');
+  L('        borderRadius: BorderRadius.circular(BrandDim.radiusControl),');
+  L('        borderSide: BorderSide(color: scheme.outlineVariant),');
+  L('      ),');
+  L('      focusedBorder: OutlineInputBorder(');
+  L('        borderRadius: BorderRadius.circular(BrandDim.radiusControl),');
+  L('        borderSide: BorderSide(color: scheme.primary, width: 1.5),');
+  L('      ),');
+  L('    ),');
+  L('  );');
+  L('}');
+
+  return lines.join('\n');
+}
+
 /* ------------------------------------------------------------------ write */
 
 const TARGETS = [
@@ -757,6 +1008,7 @@ const TARGETS = [
   { file: 'compose/Brand.kt', build: buildCompose },
   { file: 'swift/Brand.swift', build: buildSwift },
   { file: 'react-native/tokens.ts', build: buildReactNative },
+  { file: 'flutter/brand.dart', build: buildFlutter },
 ];
 
 /**
@@ -788,6 +1040,19 @@ function selfCheck(name, content) {
     }
     for (const m of content.matchAll(/^\s*(?:let|var|func|struct|enum|case)\s+([0-9][A-Za-z0-9]*)/gm)) {
       problems.push(`declaration "${m[1]}" starts with a digit, which is not a valid Swift identifier`);
+    }
+  }
+  if (name.endsWith('.dart')) {
+    for (const m of content.matchAll(/Color\(0x([0-9A-Fa-f]+)\)/g)) {
+      if (m[1].length !== 8) {
+        problems.push(
+          `Color(0x${m[1]}) is ${m[1].length} digits; Dart reads it as ARGB, ` +
+            'so a 6-digit literal is fully transparent',
+        );
+      }
+    }
+    for (const m of content.matchAll(/static const (?:double|int) ([0-9][A-Za-z0-9]*)/g)) {
+      problems.push(`declaration "${m[1]}" starts with a digit, which is not a valid Dart identifier`);
     }
   }
   if (name.endsWith('.ts')) {
