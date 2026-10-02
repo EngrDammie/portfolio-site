@@ -38,6 +38,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import nodeCrypto from 'node:crypto';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const KIT = path.join(ROOT, 'brand-kit');
@@ -74,7 +75,30 @@ const AUTHORED = ['START-HERE.md'];
  * So the kit carries a stamp. Record it in the consuming project's README
  * and "which version is this on?" stops being guesswork.
  */
+/**
+ * The version stamp.
+ *
+ * This is the answer to "is copying the files wrong?" It is not — vendoring
+ * a built artefact into a project is normal and correct, and is how every
+ * package manager works. What makes copying risky is not the copy, it is
+ * being unable to tell later which snapshot a project holds.
+ *
+ * The stamp carries a CONTENT HASH of the source files rather than a git
+ * commit. A commit stamp cannot work here: committing the stamp changes the
+ * commit, so it is always one behind and `kit:check` would fail forever.
+ * The commit is included for information only, and is not compared.
+ */
 function buildVersion() {
+  const crypto = require_crypto();
+  const hash = crypto.createHash('sha256');
+  // Hash the canonical sources, not the kit. Hashing the kit would be circular
+  // because VERSION is itself part of it.
+  for (const c of [...COPIES].sort((a, b) => a.from.localeCompare(b.from))) {
+    hash.update(c.from);
+    hash.update(fs.readFileSync(path.join(ROOT, c.from)));
+  }
+  const digest = hash.digest('hex').slice(0, 12);
+
   let commit = 'unknown';
   try {
     commit = execFileSync('git', ['rev-parse', '--short', 'HEAD'], {
@@ -85,18 +109,29 @@ function buildVersion() {
   } catch {
     /* not a git checkout, or git unavailable */
   }
+
   const version = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version;
+
   return [
-    `# Brand kit version ${version}`,
-    `#`,
-    `# Built from the portfolio repository at commit ${commit}.`,
-    '#',
-    '# Record this string in a consuming project\'s README. It is how you answer',
-    '# "which version of the design system is this project on?" months later,',
-    '# which is the only thing that makes copying a snapshot safe.',
-    version,
-    commit,
-  ].join('\n') + '\n';
+    `# Dammie Optimus Solutions — design system kit`,
+    '',
+    `version : ${version}`,
+    `content : ${digest}`,
+    `built   : portfolio repo ${commit} (informational only)`,
+    '',
+    '# `content` is a hash of the source files, not of this folder, so it is',
+    '# stable across commits and can be compared reliably.',
+    '',
+    '# Record the version and content hash in a consuming project\'s README.',
+    '# That single line is what makes copying a snapshot safe: it answers',
+    '# "which version is this project on?" months later.',
+    '',
+  ].join('\n');
+}
+
+/** Lazily imported so the rest of the script has no top-level dependency. */
+function require_crypto() {
+  return globalThis.__kitCrypto || (globalThis.__kitCrypto = nodeCrypto);
 }
 
 const PROVENANCE = (from) => `<!--
@@ -108,19 +143,23 @@ const PROVENANCE = (from) => `<!--
   source in the portfolio repo is changed instead.
 -->`;
 
+/**
+ * Produces the content of one kit file from its canonical source.
+ *
+ * Markdown gets a provenance block inserted directly beneath the H1, so it
+ * reads as part of the header rather than floating above the title where it
+ * looks like a rendering bug. Everything else is copied verbatim — the
+ * adapters already carry their own generated-file banner.
+ */
 function buildContent({ from, to, note }) {
   const raw = fs.readFileSync(path.join(ROOT, from), 'utf8');
   if (note !== 'markdown') return raw;
-  // Put the provenance block directly under the H1 so it reads as part of the
-  // header, rather than floating above the title where it looks like a bug.
   const lines = raw.split('\n');
   const h1 = lines.findIndex((l) => l.startsWith('# '));
   if (h1 === -1) return PROVENANCE(from) + '\n' + raw;
   lines.splice(h1 + 1, 0, '', PROVENANCE(from));
   return lines.join('\n');
 }
-
-/* ------------------------------------------------------------------ clean */
 
 /** Removes previously generated files so a rename cannot leave a stale copy. */
 function cleanGenerated() {
@@ -175,11 +214,15 @@ if (CHECK) {
   const vPath = path.join(KIT, 'VERSION');
   if (fs.existsSync(vPath)) {
     const stamp = fs.readFileSync(vPath, 'utf8');
-    if (stamp !== buildVersion()) {
-      console.log('  \x1b[31mFAIL\x1b[0m  VERSION — stale. The kit was built from a different commit.');
+    // The commit line is informational and changes with every commit, so only
+    // the version and content hash are compared.
+    const meaningful = (t) => t.split('\n').filter((l) => !l.startsWith('# built :')).join('\n');
+    if (meaningful(stamp) !== meaningful(buildVersion())) {
+      console.log('  \x1b[31mFAIL\x1b[0m  VERSION — stale. The kit content no longer matches its sources.');
       stale++;
     } else {
-      console.log('  \x1b[32mok\x1b[0m    VERSION');
+      const h = stamp.match(/^content : (\w+)$/m);
+      console.log(`  \x1b[32mok\x1b[0m    VERSION \u2014 content ${h ? h[1] : '?'}`);
     }
   } else {
     console.log('  \x1b[31mFAIL\x1b[0m  VERSION — missing. Run: npm run kit:build');

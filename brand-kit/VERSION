@@ -1,9 +1,12 @@
-# Brand kit version 0.1.0
-#
-# Built from the portfolio repository at commit 69141f1.
-#
-# Record this string in a consuming project's README. It is how you answer
-# "which version of the design system is this project on?" months later,
-# which is the only thing that makes copying a snapshot safe.
-0.1.0
-69141f1
+# Dammie Optimus Solutions — design system kit
+
+version : 0.1.0
+content : 1eef73ae38e1
+built   : portfolio repo 960b126 (informational only)
+
+# `content` is a hash of the source files, not of this folder, so it is
+# stable across commits and can be compared reliably.
+
+# Record the version and content hash in a consuming project's README.
+# That single line is what makes copying a snapshot safe: it answers
+# "which version is this project on?" months later.

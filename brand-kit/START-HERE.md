@@ -36,6 +36,75 @@ guessing.
 
 ---
 
+## Get the kit — for a project outside this repository
+
+Your new project will be somewhere else entirely: its own folder, its own Git repo, possibly a
+different machine. Nothing below assumes you are inside the portfolio repository, and you never
+need to run anything there.
+
+**These commands were run and verified against the live repository.** The repository is public, so
+no account, token or login is needed.
+
+### Get everything at once (recommended)
+
+```bash
+cd ~/your-new-project
+curl -sL https://codeload.github.com/EngrDammie/portfolio-site/tar.gz/refs/heads/main \
+  | tar -xz --strip-components=1 portfolio-site-main/brand-kit
+```
+
+That leaves you a `brand-kit/` folder. Check you have all ten files:
+
+```bash
+find brand-kit -type f | sort
+```
+
+### Get one file at a time
+
+Useful if you only need the Android adapter, for example:
+
+```bash
+BASE=https://raw.githubusercontent.com/EngrDammie/portfolio-site/main/brand-kit
+
+curl -sLO $BASE/shared/BRAND.md
+curl -sLO $BASE/shared/tokens.json
+curl -sLO $BASE/PLATFORM-mobile.md
+curl -sLO $BASE/android/Brand.kt
+curl -sLO $BASE/VERSION
+```
+
+Every path in `brand-kit/` is fetchable this way. The ones you will use:
+
+| File | URL suffix |
+|---|---|
+| `shared/BRAND.md` | `shared/BRAND.md` |
+| `shared/tokens.json` | `shared/tokens.json` |
+| `PLATFORM-mobile.md` | `PLATFORM-mobile.md` |
+| `web/DESIGN_SYSTEM.md` | `web/DESIGN_SYSTEM.md` |
+| `web/web.css` | `web/web.css` |
+| `android/Brand.kt` | `android/Brand.kt` |
+| `ios/Brand.swift` | `ios/Brand.swift` |
+| `react-native/tokens.ts` | `react-native/tokens.ts` |
+| `VERSION` | `VERSION` |
+
+Prefix them all with `https://raw.githubusercontent.com/EngrDammie/portfolio-site/main/brand-kit/`.
+
+### If you ever make that repository private
+
+The plain URLs stop working and you will need a GitHub personal access token
+(`gh auth token`, scope: `repo`) in front of it:
+
+```bash
+curl -sLH "Authorization: Bearer $(gh auth token)" -o BRAND.md \
+  https://raw.githubusercontent.com/EngrDammie/portfolio-site/main/brand-kit/shared/BRAND.md
+```
+
+**Consider that before you publish anything internal.** The portfolio repository is public. The
+design kit contains no business documents, contact details or secrets, and is meant to be public —
+but it is the whole repository, not just the kit, that is public.
+
+---
+
 ## What is in this folder
 
 ```
@@ -55,6 +124,33 @@ brand-kit/
 │   └── Brand.swift        SwiftUI
 └── react-native/
     └── tokens.ts          Expo theme
+```
+
+---
+
+## Move the files into your project
+
+The kit downloads as a `brand-kit/` folder. Move the files you need to the **root of your new
+project**, next to `package.json` — root, because that is where an AI coding agent looks first.
+
+For a web project:
+
+```bash
+cp brand-kit/shared/BRAND.md   .
+cp brand-kit/shared/tokens.json .
+cp brand-kit/web/DESIGN_SYSTEM.md .
+cp brand-kit/web/web.css       .
+```
+
+Then **delete the "COPY — generated" comment** from the top of `BRAND.md` and
+`DESIGN_SYSTEM.md`, so a reader is not told about a build step that has nothing to do with their
+project. Leave the "DO NOT EDIT BY HAND" banners on `web.css`, `Brand.kt`, `Brand.swift` and
+`tokens.ts` — those files should stay visibly marked.
+
+Record the version from `VERSION` in your project README:
+
+```
+Design system: Dammie Optimus Solutions brand kit 0.1.0 (commit 69141f1)
 ```
 
 ---
