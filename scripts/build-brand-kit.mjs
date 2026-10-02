@@ -66,6 +66,16 @@ const COPIES = [
 const AUTHORED = ['START-HERE.md'];
 
 /**
+ * The kit's own version, deliberately separate from package.json.
+ *
+ * These were once the same number, which meant bumping the kit also
+ * relabelled the website — so a change to a colour table would have
+ * claimed the site shipped a new release. The kit moves on its own
+ * cadence and says so here.
+ */
+const KIT_VERSION = '0.2.0';
+
+/**
  * The version stamp.
  *
  * This is the answer to "is copying the files wrong?" It is not — vendoring
@@ -94,9 +104,21 @@ function buildVersion() {
   const hash = crypto.createHash('sha256');
   // Hash the canonical sources, not the kit. Hashing the kit would be circular
   // because VERSION is itself part of it.
+  //
+  // START-HERE.md is included even though it is authored rather than copied.
+  // It carries the starter prompts, and a prompt is instructions: a project
+  // holding last month's prompt is meaningfully differently set up from one
+  // holding this month's, even when every colour is identical. Leaving it out
+  // meant two projects with different instructions recorded the same hash, so
+  // "which version is this project on?" had an incomplete answer — which is
+  // the one question the stamp exists to answer.
   for (const c of [...COPIES].sort((a, b) => a.from.localeCompare(b.from))) {
     hash.update(c.from);
     hash.update(fs.readFileSync(path.join(ROOT, c.from)));
+  }
+  for (const a of [...AUTHORED].sort()) {
+    hash.update(a);
+    hash.update(fs.readFileSync(path.join(KIT, a)));
   }
   const digest = hash.digest('hex').slice(0, 12);
 
@@ -111,7 +133,7 @@ function buildVersion() {
     /* not a git checkout, or git unavailable */
   }
 
-  const version = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).version;
+  const version = KIT_VERSION;
 
   return [
     `# Dammie Optimus Solutions — design system kit`,

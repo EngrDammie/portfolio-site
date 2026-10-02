@@ -26,9 +26,14 @@ So the arrangement is: the brand lives in **one place** (`tokens.json` and `BRAN
 repository). This folder is a **finished snapshot** of it, and this `VERSION` file says which one:
 
 ```
-# Brand kit version 0.1.0
-# Built from the portfolio repository at commit 69141f1.
+# Brand kit version 0.2.0
+# Built from the portfolio repository at commit <the one in your VERSION file>.
 ```
+
+Read both values from your own `VERSION` file. Do not copy them from a
+description of the kit — including this one. An earlier version of this file
+quoted a commit inline, and it was five commits out of date before anyone had
+finished reading it.
 
 **Record that version string in every project's README.** That single line is what makes copying a
 snapshot safe, because months later you can answer "which version is this project on?" instead of
@@ -153,8 +158,13 @@ project. Leave the "DO NOT EDIT BY HAND" banners on `web.css`, `Brand.kt`, `Bran
 Record the version from `VERSION` in your project README:
 
 ```
-Design system: Dammie Optimus Solutions brand kit 0.1.0 (commit 69141f1)
+Design system: Dammie Optimus Solutions brand kit <version> (<content hash>)
 ```
+
+Fill both values in from your `VERSION` file. The hash — not the version number
+— is the part that matters: it changes whenever the colours, the spacing or the
+starter prompt change, so it will tell you months later whether the kit you
+copied is still the kit you have.
 
 ---
 
