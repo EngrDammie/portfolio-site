@@ -15,7 +15,9 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "og:privacy": "node scripts/og-privacy.mjs",
     "preflight": "node scripts/preflight.mjs",
-    "tokens:check": "node scripts/check-tokens.mjs"
+    "tokens:check": "node scripts/check-tokens.mjs",
+    "tokens:build": "node scripts/build-adapters.mjs",
+    "adapters:check": "node scripts/build-adapters.mjs --check"
   },
   "dependencies": {
     "lucide-react": "^1.48.0",

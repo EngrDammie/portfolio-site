@@ -25,6 +25,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -33,7 +34,13 @@ const TOKENS_FILE = 'tokens.json';
 /** Docs that may reference token paths. BRAND.md and DESIGN_SYSTEM.md. */
 const DOCS = ['BRAND.md', 'DESIGN_SYSTEM.md', 'PLATFORM-mobile.md'];
 /** Files whose values are hand-written and must agree with the token file. */
-const VALUE_FILES = [{ file: 'public/assets/docs.css', scope: ':root' }];
+const VALUE_FILES = [
+  { file: 'public/assets/docs.css', scope: ':root' },
+  // DESIGN_SYSTEM.md is the copy-paste artefact other projects use. It must stay
+  // self-contained, which means it necessarily restates values by hand — so it
+  // is checked rather than generated.
+  { file: 'DESIGN_SYSTEM.md', scope: ':root', fromFence: true },
+];
 
 let failures = 0;
 let warnings = 0;
@@ -211,6 +218,34 @@ function resolveGroup(ref) {
   return cur && typeof cur === 'object' && !('$value' in cur) ? cur : undefined;
 }
 
+/**
+ * Renders a resolved token value the way a CSS declaration would spell it, so
+ * colour, dimension and duration tokens can all be compared the same way.
+ * Returns null when the type has no CSS equivalent, which the caller must
+ * treat as unverified rather than as a pass.
+ */
+function cssValue(v) {
+  if (typeof v === 'string') return v.toLowerCase();
+  if (!v || typeof v !== 'object') return null;
+  if (v.colorSpace) {
+    const h = (n) => Math.round(n * 255).toString(16).padStart(2, '0');
+    return ('#' + h(v.components[0]) + h(v.components[1]) + h(v.components[2])).toLowerCase();
+  }
+  if (v.unit === 'px' || v.unit === 'rem') return `${round(v.value)}${v.unit}`;
+  if (v.unit === 'ms' || v.unit === 's') return `${round(v.unit === 's' ? v.value * 1000 : v.value)}ms`;
+  return null;
+}
+const round = (n, p = 4) => String(Number(Number(n).toFixed(p)));
+
+/** Resolves an alias chain to a literal, or returns the value unchanged. */
+function resolve(v) {
+  if (typeof v !== 'string') return v;
+  const m = /^\{([^}]+)\}$/.exec(v);
+  if (!m) return v;
+  const t = resolveToken(m[1]);
+  return t ? resolve(t.$value) : v;
+}
+
 function resolveToken(ref) {
   let cur = tokens;
   for (const seg of ref.split('.')) {
@@ -275,13 +310,15 @@ for (const doc of DOCS) {
 
 head('4. Hand-maintained values agree with the token file');
 
-for (const { file, scope } of VALUE_FILES) {
+for (const { file, scope, fromFence } of VALUE_FILES) {
   const full = path.join(ROOT, file);
   if (!fs.existsSync(full)) {
     warn(`${file} not found, skipped`);
     continue;
   }
-  const css = fs.readFileSync(full, 'utf8');
+  const raw = fs.readFileSync(full, 'utf8');
+  // Markdown keeps its CSS inside a fenced block; take the first one.
+  const css = fromFence ? (raw.match(/```css\n([\s\S]*?)```/) || [, raw])[1] : raw;
   const block = css.match(new RegExp(`${scope}\\s*\\{([^}]*)\\}`));
   if (!block) {
     bad(`${file}: no ${scope} block found to compare against`);
@@ -314,11 +351,19 @@ for (const { file, scope } of VALUE_FILES) {
     if (!(prop in declared)) continue;
     const tok = resolveToken(tokenPath);
     if (!tok) continue;
-    const expected = tok.$value.hex?.toLowerCase();
-    if (!expected) continue;
-    const actual = declared[prop].toLowerCase();
+    const expected = cssValue(resolve(tok.$value));
+    // A mapped property whose token has no comparable form would otherwise be
+    // skipped silently. The earlier version compared colours only, so a
+    // dimension drift — a changed radius, a changed spacing step — passed the
+    // check while looking like it was being verified.
+    if (expected === null) {
+      failed();
+      drifted.push(`${prop}: no comparable form for ${tokenPath}, so it is UNVERIFIED`);
+      continue;
+    }
+    const actual = declared[prop].trim().toLowerCase();
     if (actual !== expected) {
-      drifted.push(`${prop}: ${declared[prop]} but ${tokenPath} is ${expected}`);
+      drifted.push(`${prop}: declared "${declared[prop]}" but ${tokenPath} is ${expected}`);
     }
   }
 
@@ -328,6 +373,29 @@ for (const { file, scope } of VALUE_FILES) {
     bad(`${file}: ${drifted.length} value(s) have drifted from ${TOKENS_FILE}`);
     for (const d of drifted) console.log(`          ${d}`);
   }
+}
+
+/* ------------------------------------------- 5. generated adapters are fresh */
+
+head('5. Generated adapters match the token file');
+
+try {
+  const out = execFileSync('node', ['scripts/build-adapters.mjs', '--check'], {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  const n = (out.match(/\x1b\[32mok/g) || []).length;
+  ok(`${n} generated adapter(s) are up to date`);
+} catch (err) {
+  bad('a generated adapter is stale — run: npm run tokens:build');
+  console.log(
+    String(err.stdout || '')
+      .split('\n')
+      .filter((l) => l.includes('FAIL') || l.includes('stale'))
+      .slice(0, 6)
+      .map((l) => '          ' + l.replace(/\u001b\[\d+m/g, ''))
+      .join('\n'),
+  );
 }
 
 /* ------------------------------------------------------------- summary */

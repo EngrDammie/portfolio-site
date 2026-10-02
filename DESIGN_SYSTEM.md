@@ -44,6 +44,11 @@ is generous, so screens feel precise rather than cramped.
 
 Paste this whole block. Everything else in this document refers to these names.
 
+> **If you are working in a repo that has the adapter, use `adapters/web.css` instead of copying
+> this block.** It is generated from `tokens.json`, so it cannot drift from the brand. This block is
+> the self-contained copy for projects that do not have it, which is why it is checked rather than
+> generated — `npm run tokens:check` fails if the two disagree.
+
 ```css
 :root {
   /* ---- Surfaces ---------------------------------------------- */

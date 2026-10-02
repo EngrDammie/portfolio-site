@@ -29,7 +29,7 @@ const DOC = path.join(ROOT, 'public', 'app-documentation.html');
 
 // Directories the file map claims to describe. Anything inside these that is
 // not listed in the document is reported as missing from the map.
-const AREAS = ['src', 'public', 'scripts'];
+const AREAS = ['adapters', 'src', 'public', 'scripts'];
 
 // Root-level files the map also covers.
 const ROOT_FILES = [

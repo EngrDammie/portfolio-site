@@ -338,13 +338,25 @@ This file decides *what*. The platform guide decides *how*. Read both.
 | `PLATFORM-mobile.md` | Complete — iOS and Android, with Jetpack Compose as the primary worked path |
 | `scripts/check-tokens.mjs` | Complete — run `npm run tokens:check` |
 
-**Still not written:** platform adapter files. `adapters/` will hold the token layers for each
-platform, generated from `tokens.json`, so that no screen ever hardcodes a value. `DESIGN_SYSTEM.md`
-and `docs.css` currently restate the values by hand; `tokens:check` compares them and fails on
-drift, but generating them is the better long-term answer.
+**Platform adapters exist and are generated.** `adapters/` holds a token layer per platform, all
+produced from `tokens.json` by `npm run tokens:build`:
 
-Until adapters exist, use the worked implementations inside `PLATFORM-mobile.md` as the reference
-and keep new values in `tokens.json`.
+| Adapter | For |
+|---|---|
+| `adapters/web.css` | Web and documents. The maintained alternative to the hand-written block in `DESIGN_SYSTEM.md` |
+| `adapters/compose/Brand.kt` | Jetpack Compose — the primary Android path |
+| `adapters/swift/Brand.swift` | SwiftUI |
+| `adapters/react-native/tokens.ts` | React Native and Expo |
+
+They are **generated files. Editing one by hand is a mistake**, because `npm run adapters:check`
+compares them against `tokens.json` and fails when they disagree. To change a value, change
+`tokens.json` and rebuild.
+
+`DESIGN_SYSTEM.md` and `docs.css` still restate values by hand — they must, since both are
+self-contained artefacts — so `npm run tokens:check` compares them and fails on drift.
+
+**Still not written:** a Flutter adapter. It was left out deliberately: no project needs it yet, and
+an adapter nobody exercises rots. Add it when one does.
 
 ---
 
