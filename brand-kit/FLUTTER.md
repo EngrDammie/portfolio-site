@@ -525,40 +525,40 @@ The exact, canonical numbers. Reach for these rather than choosing your own. Ref
 | `palette.rose.400` | `#FB7185` |
 | `palette.rose.500` | `#F43F5E` |
 | `palette.rose.700` | `#E11D48` |
-| `color.dark.background` | `"{palette.slate.950}"` |
-| `color.dark.surface` | `"{palette.slate.900}"` |
-| `color.dark.surfaceRaised` | `"{palette.slate.800}"` |
-| `color.dark.border` | `"{palette.slate.800}"` |
-| `color.dark.borderStrong` | `"{palette.slate.700}"` |
-| `color.dark.text` | `"{palette.slate.100}"` |
-| `color.dark.textBody` | `"{palette.slate.300}"` |
-| `color.dark.textMuted` | `"{palette.slate.400}"` |
-| `color.dark.brand` | `"{palette.emerald.500}"` |
-| `color.dark.brandText` | `"{palette.emerald.400}"` |
-| `color.dark.accent` | `"{palette.cyan.500}"` |
-| `color.dark.accentText` | `"{palette.cyan.400}"` |
-| `color.dark.warning` | `"{palette.amber.500}"` |
-| `color.dark.warningText` | `"{palette.amber.400}"` |
-| `color.dark.danger` | `"{palette.rose.500}"` |
-| `color.dark.dangerText` | `"{palette.rose.400}"` |
-| `color.dark.onBrand` | `"{palette.slate.950}"` |
+| `color.dark.background` | `{palette.slate.950}` |
+| `color.dark.surface` | `{palette.slate.900}` |
+| `color.dark.surfaceRaised` | `{palette.slate.800}` |
+| `color.dark.border` | `{palette.slate.800}` |
+| `color.dark.borderStrong` | `{palette.slate.700}` |
+| `color.dark.text` | `{palette.slate.100}` |
+| `color.dark.textBody` | `{palette.slate.300}` |
+| `color.dark.textMuted` | `{palette.slate.400}` |
+| `color.dark.brand` | `{palette.emerald.500}` |
+| `color.dark.brandText` | `{palette.emerald.400}` |
+| `color.dark.accent` | `{palette.cyan.500}` |
+| `color.dark.accentText` | `{palette.cyan.400}` |
+| `color.dark.warning` | `{palette.amber.500}` |
+| `color.dark.warningText` | `{palette.amber.400}` |
+| `color.dark.danger` | `{palette.rose.500}` |
+| `color.dark.dangerText` | `{palette.rose.400}` |
+| `color.dark.onBrand` | `{palette.slate.950}` |
 | `color.light.background` | `#EAEFF5` |
 | `color.light.surface` | `#FFFFFF` |
-| `color.light.surfaceRaised` | `"{palette.slate.50}"` |
-| `color.light.border` | `"{palette.slate.300}"` |
-| `color.light.borderStrong` | `"{palette.slate.400}"` |
-| `color.light.text` | `"{palette.slate.950}"` |
-| `color.light.textBody` | `"{palette.slate.700}"` |
+| `color.light.surfaceRaised` | `{palette.slate.50}` |
+| `color.light.border` | `{palette.slate.300}` |
+| `color.light.borderStrong` | `{palette.slate.400}` |
+| `color.light.text` | `{palette.slate.950}` |
+| `color.light.textBody` | `{palette.slate.700}` |
 | `color.light.textMuted` | `#556070` |
-| `color.light.brand` | `"{palette.emerald.700}"` |
-| `color.light.brandText` | `"{palette.emerald.700}"` |
-| `color.light.accent` | `"{palette.cyan.700}"` |
-| `color.light.accentText` | `"{palette.cyan.700}"` |
-| `color.light.warning` | `"{palette.amber.700}"` |
-| `color.light.warningText` | `"{palette.amber.700}"` |
-| `color.light.danger` | `"{palette.rose.700}"` |
-| `color.light.dangerText` | `"{palette.rose.700}"` |
-| `color.light.onBrand` | `"{palette.slate.950}"` |
+| `color.light.brand` | `{palette.emerald.700}` |
+| `color.light.brandText` | `{palette.emerald.700}` |
+| `color.light.accent` | `{palette.cyan.700}` |
+| `color.light.accentText` | `{palette.cyan.700}` |
+| `color.light.warning` | `{palette.amber.700}` |
+| `color.light.warningText` | `{palette.amber.700}` |
+| `color.light.danger` | `{palette.rose.700}` |
+| `color.light.dangerText` | `{palette.rose.700}` |
+| `color.light.onBrand` | `{palette.slate.950}` |
 | `gradient.brand` | `[{"color":"{palette.emerald.500}","position":0},{"color":"{palette.cyan.500}","position":1}]` |
 | `typography.family.web` | `["Geist","system-ui","sans-serif"]` |
 | `typography.family.native` | `["-apple-system","Roboto","system-ui","sans-serif"]` |
@@ -570,35 +570,35 @@ The exact, canonical numbers. Reach for these rather than choosing your own. Ref
 | `typography.weight.extrabold` | `800` |
 | `typography.role.display.fontSize` | `3rem` |
 | `typography.role.display.lineHeight` | `1.2` |
-| `typography.role.display.fontWeight` | `"{typography.weight.extrabold}"` |
+| `typography.role.display.fontWeight` | `{typography.weight.extrabold}` |
 | `typography.role.display.tracking` | `-0.02` |
 | `typography.role.title.fontSize` | `2rem` |
 | `typography.role.title.lineHeight` | `1.2` |
-| `typography.role.title.fontWeight` | `"{typography.weight.extrabold}"` |
+| `typography.role.title.fontWeight` | `{typography.weight.extrabold}` |
 | `typography.role.title.tracking` | `-0.02` |
 | `typography.role.heading.fontSize` | `1.375rem` |
 | `typography.role.heading.lineHeight` | `1.3` |
-| `typography.role.heading.fontWeight` | `"{typography.weight.bold}"` |
+| `typography.role.heading.fontWeight` | `{typography.weight.bold}` |
 | `typography.role.heading.tracking` | `-0.015` |
 | `typography.role.bodyLarge.fontSize` | `1rem` |
 | `typography.role.bodyLarge.lineHeight` | `1.6` |
-| `typography.role.bodyLarge.fontWeight` | `"{typography.weight.regular}"` |
+| `typography.role.bodyLarge.fontWeight` | `{typography.weight.regular}` |
 | `typography.role.bodyLarge.tracking` | `0` |
 | `typography.role.body.fontSize` | `0.9375rem` |
 | `typography.role.body.lineHeight` | `1.7` |
-| `typography.role.body.fontWeight` | `"{typography.weight.regular}"` |
+| `typography.role.body.fontWeight` | `{typography.weight.regular}` |
 | `typography.role.body.tracking` | `0` |
 | `typography.role.label.fontSize` | `0.8125rem` |
 | `typography.role.label.lineHeight` | `1.5` |
-| `typography.role.label.fontWeight` | `"{typography.weight.semibold}"` |
+| `typography.role.label.fontWeight` | `{typography.weight.semibold}` |
 | `typography.role.label.tracking` | `0` |
 | `typography.role.meta.fontSize` | `0.75rem` |
 | `typography.role.meta.lineHeight` | `1.5` |
-| `typography.role.meta.fontWeight` | `"{typography.weight.medium}"` |
+| `typography.role.meta.fontWeight` | `{typography.weight.medium}` |
 | `typography.role.meta.tracking` | `0` |
 | `typography.role.eyebrow.fontSize` | `0.6875rem` |
 | `typography.role.eyebrow.lineHeight` | `1.4` |
-| `typography.role.eyebrow.fontWeight` | `"{typography.weight.extrabold}"` |
+| `typography.role.eyebrow.fontWeight` | `{typography.weight.extrabold}` |
 | `typography.role.eyebrow.tracking` | `0.13` |
 | `typography.measure` | `70` |
 | `space.none` | `0px` |
@@ -620,8 +620,8 @@ The exact, canonical numbers. Reach for these rather than choosing your own. Ref
 | `touchTarget.spacing` | `8px` |
 | `borderWidth.default` | `1.5px` |
 | `borderWidth.emphasis` | `2px` |
-| `shadow.card` | `{"color":{"colorSpace":"srgb","components":[0,0,0],"alpha":0.6,"hex":"#000000"},"offsetX":{"value":0,"unit":"px"},"offsetY":{"value":18,"unit":"px"},"blur":{"value":40,"unit":"px"},"spread":{"value":-12,"unit":"px"}}` |
-| `shadow.brandGlow` | `{"color":{"colorSpace":"srgb","components":[0.0627,0.7255,0.5059],"alpha":0.25,"hex":"#10B981"},"offsetX":{"value":0,"unit":"px"},"offsetY":{"value":18,"unit":"px"},"blur":{"value":40,"unit":"px"},"spread":{"value":-12,"unit":"px"}}` |
+| `shadow.card` | `0px 18px 40px -12px #00000099` |
+| `shadow.brandGlow` | `0px 18px 40px -12px #10B98140` |
 | `motion.duration.instant` | `100ms` |
 | `motion.duration.fast` | `150ms` |
 | `motion.duration.normal` | `250ms` |
@@ -1589,10 +1589,6 @@ ThemeData brandTheme(Brightness brightness) {
 
 ## Part 6 — Report back
 
-When you have finished, end your reply with exactly the block below. Fill in every line, and do not claim a check you did not run.
-
-End your reply with exactly this block:
-
 ```
 Brand:    Dammie Optimus Solutions design kit <version> (<content hash>)
 Theme:    lib/brand.dart
@@ -1604,7 +1600,7 @@ Assumed:  <anything you decided that this file did not tell you>
 If a check failed, say so plainly. An agent that reports its own failures is useful. One that hides
 them costs more time than it saves.
 
-If something did not pass, say so plainly. An agent that reports its own failures is useful; one that hides them costs more time than it saves.
+Fill in every line, and do not claim a check you did not run. If something did not pass, say so plainly. An agent that reports its own failures is useful; one that hides them costs more time than it saves.
 
 <!--
   GENERATED FILE — composed by scripts/build-brand-kit.mjs from

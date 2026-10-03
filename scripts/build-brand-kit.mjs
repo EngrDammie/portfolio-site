@@ -518,9 +518,21 @@ function tokenTable() {
         const v = val.$value;
         let shown;
         if (v && typeof v === 'object' && v.colorSpace) shown = v.hex || '(colour)';
-        else if (v && typeof v === 'object' && v.unit) shown = `${v.value}${v.unit}`;
+        else if (v && typeof v === 'object' && v.color && v.offsetX !== undefined) {
+          // A shadow. Printed as raw JSON it was both unreadable and useless;
+          // this is the same string web.css emits.
+          const px = (n) => (n && n.value !== undefined ? n.value : 0);
+          const alphaHex = v.color.alpha === undefined || v.color.alpha === 1
+            ? ''
+            : Math.round(v.color.alpha * 255).toString(16).padStart(2, '0');
+          const base = (v.color.hex || '').replace('#', '').toUpperCase();
+          shown = `${px(v.offsetX)}px ${px(v.offsetY)}px ${px(v.blur)}px ${px(v.spread)}px `
+            + `#${base}${alphaHex}`.toUpperCase();
+        } else if (v && typeof v === 'object' && v.unit) shown = `${v.value}${v.unit}`;
         else if (v && typeof v === 'object' && v.value !== undefined) shown = JSON.stringify(v.value);
+        else if (typeof v === 'string') shown = v;
         else shown = JSON.stringify(v);
+        shown = String(shown).replace(/^"(.*)"$/, '$1');
         rows.push([next, shown]);
       } else if (val && typeof val === 'object') walk(val, next);
     }
@@ -615,18 +627,18 @@ function buildPlatformFile(name, spec) {
 
   parts.push(
     '## Part 6 — Report back\n\n' +
-      'When you have finished, end your reply with exactly the block below. Fill in every line, ' +
-      'and do not claim a check you did not run.\n\n' +
       (report
-        ? demoteHeadings(report)
+        ? demoteHeadings(report).replace(
+            /^End your reply with exactly this block:?\s*/im, '')
         : '```\n' +
           'Brand:    Dammie Optimus Solutions design kit <version> (<content hash>)\n' +
           `Theme:    ${spec.target}\n` +
           'Failures: <every checklist item that did not pass, or "none">\n' +
           'Assumed:  <anything you decided that this file did not tell you>\n' +
           '```') +
-      '\n\nIf something did not pass, say so plainly. An agent that reports its own failures is ' +
-      'useful; one that hides them costs more time than it saves.'
+      '\n\nFill in every line, and do not claim a check you did not run. If something did not ' +
+      'pass, say so plainly. An agent that reports its own failures is useful; one that hides ' +
+      'them costs more time than it saves.'
   );
 
   return (
