@@ -59,6 +59,12 @@
   --touch-gap: 8px;
 
   /* Type */
+  --font-sans: Geist, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  /* Elevation */
+  --shadow: 0px 18px 40px -12px #00000099;
+  --shadow-glow: 0px 18px 40px -12px #10B98140;
 
   /* Layout */
   --page-max: 1240px;

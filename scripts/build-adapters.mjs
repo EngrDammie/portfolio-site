@@ -104,6 +104,9 @@ function value(ref) {
 
 /* ------------------------------------------------------------- conversions */
 
+/** Tokens that resolved but produced no CSS. Reported at the end of the run. */
+const UNEMITTED = [];
+
 const toHex = (c) => {
   const h = (n) => Math.round(n * 255).toString(16).padStart(2, '0');
   const base = `#${h(c.components[0])}${h(c.components[1])}${h(c.components[2])}`.toUpperCase();
@@ -231,12 +234,31 @@ function buildWeb() {
   L();
   L(':root {');
 
-  const emit = (name, ref, unit = '') => {
+  // `quiet` is for references that are deliberately platform-specific.
+  const emit = (name, ref, unit = '', quiet = false) => {
     const v = value(ref);
     if (typeof v === 'string') return;
+    if (Array.isArray(v)) {
+      // A font stack. This case did not exist here, so every --font-* token
+      // silently resolved to nothing and web.css shipped without them.
+      L(`  --${name}: ${v.map((f) => (/\s/.test(f) ? `'${f}'` : f)).join(', ')};`);
+      return;
+    }
     if (v.colorSpace) L(`  --${name}: ${toHex(v)};`);
     else if (v.unit === 'px' || v.unit === 'rem') L(`  --${name}: ${round(v.value)}${unit || v.unit};`);
     else if (v.unit === 'ms' || v.unit === 's') L(`  --${name}: ${round(durToMs(v))}ms;`);
+    else if (v.color && v.offsetX !== undefined) {
+      // A DTCG shadow: colour plus four lengths, which is exactly a CSS
+      // box-shadow. Previously these tokens were never emitted at all, so
+      // `var(--shadow)` in a project resolved to nothing and every elevation
+      // silently fell back to whatever the browser decided.
+      const px = (n) => (n && n.value !== undefined ? round(n.value) : 0);
+      L(`  --${name}: ${px(v.offsetX)}px ${px(v.offsetY)}px ${px(v.blur)}px ${px(v.spread)}px ${toHex(v.color)};`);
+    } else if (!quiet) {
+      // Previously this fell through in silence. A token that resolves but
+      // emits nothing is a brand bug that shows up only as a missing value.
+      UNEMITTED.push(`${name} <- ${ref}`);
+    }
   };
 
   L('  /* Surfaces */');
@@ -281,6 +303,9 @@ function buildWeb() {
   L('  /* Type */');
   emit('font-sans', 'typography.family.web');
   emit('font-mono', 'typography.family.mono');
+  L();
+  L('  /* Elevation */');
+  for (const s of ['card', 'brandGlow']) emit(`shadow${s === 'brandGlow' ? '-glow' : ''}`, `shadow.${s}`);
   L();
   L('  /* Layout */');
   emit('page-max', 'layout.pageMax');

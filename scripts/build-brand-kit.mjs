@@ -62,8 +62,23 @@ const COPIES = [
   { from: 'adapters/flutter/brand.dart', to: 'flutter/brand.dart', note: null },
 ];
 
-/** Authored, not generated — the kit must not clobber it. */
-const AUTHORED = ['START-HERE.md'];
+/**
+ * Authored, not generated — the kit must not clobber them.
+ *
+ * START-HERE.md explains the kit to a human. The setup/ files are the ones
+ * that actually get a project built: one per platform, each written to be
+ * handed straight to an AI agent and followed to completion without further
+ * input. They are why copying the kit is a single instruction rather than a
+ * checklist a human has to remember.
+ */
+const AUTHORED = [
+  'START-HERE.md',
+  'setup/ANDROID.md',
+  'setup/FLUTTER.md',
+  'setup/IOS.md',
+  'setup/REACT-NATIVE.md',
+  'setup/WEB.md',
+];
 
 /**
  * The kit's own version, deliberately separate from package.json.
@@ -99,6 +114,134 @@ const KIT_VERSION = '0.2.0';
  * commit, so it is always one behind and `kit:check` would fail forever.
  * The commit is included for information only, and is not compared.
  */
+
+/**
+ * Symbols each setup file must genuinely resolve.
+ *
+ * The first Flutter prompt named `Brand` when the class is `BrandColors`,
+ * and told a project to use Roboto as a cross-platform font when iOS uses
+ * SF. Both were plausible, both were wrong, and neither produced any error —
+ * an agent would simply have followed them. Prose cannot be reviewed for
+ * this by eye, so it is checked mechanically: anything a setup file names
+ * must exist in the adapter that file points at.
+ */
+const SETUP_SYMBOLS = {
+  'setup/ANDROID.md': {
+    adapter: 'android/Brand.kt',
+    must: ['DammieTheme', 'Palette', 'Dimm.touchTarget', 'Dimm.touchGap'],
+  },
+  'setup/FLUTTER.md': {
+    adapter: 'flutter/brand.dart',
+    must: ['brandTheme', 'BrandColors', 'BrandPalette', 'BrandDim', 'BrandText'],
+  },
+  'setup/IOS.md': {
+    adapter: 'ios/Brand.swift',
+    must: ['Brand.Colors', 'Brand.Palette', 'Brand.Role'],
+  },
+  'setup/REACT-NATIVE.md': {
+    adapter: 'react-native/tokens.ts',
+    must: ['theme', 'colors', 'space', 'radius', 'fontSize', 'lineHeight', 'fontWeight', 'touch', 'duration', 'touch.minimumAndroid', 'touch.minimumIOS', 'touch.gap'],
+  },
+  'setup/WEB.md': {
+    adapter: 'web/web.css',
+    must: ['--bg', '--bg-2', '--bg-3', '--text', '--text-2', '--border', '--emerald', '--cyan', '--emerald-ink', '--cyan-ink', '--radius', '--space-lg', '--touch-min', '--touch-gap', '--motion-fast', '--page-max', '--content-max', '--gutter'],
+  },
+};
+
+/** Framework, platform and language names a setup file may use that we do not define. */
+const FOREIGN_SYMBOLS = new Set([
+  'MaterialTheme', 'MaterialApp', 'ColorScheme', 'ThemeData', 'CardTheme', 'CardThemeData',
+  'Typography', 'Shapes', 'Brightness', 'TextScaler', 'TextUnit', 'TextUnit.Unspecified',
+  'isSystemInDarkTheme', 'darkColorScheme', 'lightColorScheme', 'darkTheme',
+  'dynamicLightColorScheme', 'dynamicDarkColorScheme', 'Color', 'Dp', 'DpSize',
+  'Font', 'Font.TextStyle', 'StyleSheet', 'View', 'Text', 'SafeArea', 's', 'ms', 'px', 'rem',
+  'useColorScheme', 'allowFontScaling', 'minHeight', 'setContent', 'dynamicTypeSize',
+  'ColorScheme.fromSeed', 'copyWith', 'system', 'light', 'dark',
+]);
+
+/**
+ * Every CSS custom property any kit document mentions must exist in web.css.
+ *
+ * `--radius-card` and `--text-body` were both named in shipped guidance and
+ * neither exists; the real names are `--radius` and `--text`. Nothing failed
+ * visibly — the guidance simply pointed at a token that was not there, and a
+ * browser would have rendered the fallback. This walks every document instead
+ * of trusting review to catch it.
+ */
+function checkCssTokens() {
+  const css = fs.readFileSync(path.join(KIT, 'web/web.css'), 'utf8');
+  const problems = [];
+  const docs = [path.join(KIT, 'START-HERE.md'), path.join(KIT, 'web/DESIGN_SYSTEM.md')];
+  for (const a of AUTHORED) {
+    if (a.startsWith('setup/')) docs.push(path.join(KIT, a));
+  }
+  for (const doc of docs) {
+    if (!fs.existsSync(doc)) continue;
+    const text = fs.readFileSync(doc, 'utf8');
+    const rel = path.relative(KIT, doc);
+    // Only genuine CSS usage: a var() reference or a declaration. Matching a
+    // bare `--word` swept up markdown horizontal rules and shell flags like
+    // --strip-components, which produced dozens of false alarms.
+    const seen = new Set();
+    for (const m of text.matchAll(/var\(\s*(--[a-z][a-z0-9-]*)\s*\)/g)) seen.add(m[1]);
+    for (const m of text.matchAll(/^\s*(--[a-z][a-z0-9-]*)\s*:/gm)) seen.add(m[1]);
+    for (const token of seen) {
+      if (!new RegExp(`(^|[^\\w-])${token}\\s*:`, 'm').test(css)) {
+        problems.push(`${rel} names ${token}, which web.css does not define`);
+      }
+    }
+  }
+  return problems;
+}
+
+/** Check every symbol a setup file names actually exists. Returns a list of problems. */
+function checkSetupSymbols() {
+  const problems = [];
+  for (const [file, spec] of Object.entries(SETUP_SYMBOLS)) {
+    const setupPath = path.join(KIT, file);
+    const adapterPath = path.join(KIT, spec.adapter);
+    if (!fs.existsSync(setupPath) || !fs.existsSync(adapterPath)) {
+      problems.push(`${file} or ${spec.adapter} is missing`);
+      continue;
+    }
+    const setup = fs.readFileSync(setupPath, 'utf8');
+    const adapter = fs.readFileSync(adapterPath, 'utf8');
+
+    // Anything the setup file claims must exist must exist in the adapter.
+    // For a dotted path, the adapter spells it as nested declarations rather
+    // than one literal — `object Dimm { val touchTarget }`, not
+    // `Dimm.touchTarget` — so match on the final segment too.
+    for (const sym of spec.must) {
+      const leaf = sym.split('.').pop();
+      if (!setup.includes(sym)) {
+        problems.push(`${file} never mentions ${sym}`);
+      }
+      if (!adapter.includes(sym) && !adapter.includes(leaf)) {
+        problems.push(`${spec.adapter} does not define ${sym} (named by ${file})`);
+      }
+    }
+
+    // And nothing it names may be something we never made.
+    const cited = new Set();
+    for (const m of setup.matchAll(/`([A-Za-z_$][\w.$]*(?:\([^`]*\))?)`/g)) {
+      const raw = m[1];
+      const sym = raw.replace(/\(.*$/, '');
+      if (!sym || FOREIGN_SYMBOLS.has(sym) || sym.startsWith('--')) continue;
+      if (!/^[A-Z]/.test(sym) && !sym.includes('.')) continue;
+      cited.add(sym);
+    }
+    const known = [...spec.must, ...FOREIGN_SYMBOLS].join('\n');
+    for (const sym of cited) {
+      const base = sym.split('.').pop();
+      if (known.includes(sym) || known.includes(base)) continue;
+      if (adapter.includes(sym) || adapter.includes(base)) continue;
+      if (fs.readFileSync(path.join(KIT, 'shared/BRAND.md'), 'utf8').includes(sym)) continue;
+      problems.push(`${file} names \`${sym}\`, which is not defined in ${spec.adapter}`);
+    }
+  }
+  return problems;
+}
+
 function buildVersion() {
   const crypto = require_crypto();
   const hash = crypto.createHash('sha256');
@@ -184,17 +327,21 @@ function buildContent({ from, note }) {
   return lines.join('\n');
 }
 
-/** Removes previously generated files so a rename cannot leave a stale copy. */
+/**
+ * Removes previously generated files so a rename cannot leave a stale copy.
+ *
+ * Authored files are preserved, and preservation is derived from AUTHORED
+ * rather than hardcoded. This previously excepted `START-HERE.md` by name
+ * and deleted every subdirectory unconditionally, so the first authored
+ * file placed in one — the setup/ instructions — was silently destroyed by
+ * a routine `kit:build`. Nothing reported it.
+ */
 function cleanGenerated() {
   if (!fs.existsSync(KIT)) return;
+  const keep = new Set(AUTHORED.map((a) => a.split('/')[0]));
   for (const rel of fs.readdirSync(KIT, { withFileTypes: true })) {
-    const p = path.join(KIT, rel.name);
-    if (rel.isDirectory()) {
-      if (rel.name === '.') continue;
-      fs.rmSync(p, { recursive: true, force: true });
-    } else if (rel.name !== 'START-HERE.md') {
-      fs.rmSync(p, { force: true });
-    }
+    if (keep.has(rel.name)) continue;
+    fs.rmSync(path.join(KIT, rel.name), { recursive: true, force: true });
   }
 }
 
@@ -273,6 +420,22 @@ if (CHECK) {
     console.log(`  \x1b[31mFAIL\x1b[0m  START-HERE.md points at ${danglingRefs.length} missing file(s)`);
     for (const d of danglingRefs) console.log(`          ${d}`);
     stale++;
+  }
+
+  const tokenProblems = checkCssTokens();
+  if (tokenProblems.length === 0) {
+    console.log('  \x1b[32mok\x1b[0m    every CSS token named in any document exists in web.css');
+  } else {
+    for (const pr of tokenProblems) console.log(`  \x1b[31mFAIL\x1b[0m  ${pr}`);
+    stale += tokenProblems.length;
+  }
+
+  const symbolProblems = checkSetupSymbols();
+  if (symbolProblems.length === 0) {
+    console.log('  \x1b[32mok\x1b[0m    setup files name only symbols the adapters define');
+  } else {
+    for (const pr of symbolProblems) console.log(`  \x1b[31mFAIL\x1b[0m  ${pr}`);
+    stale += symbolProblems.length;
   }
 
   if (stale > 0) {

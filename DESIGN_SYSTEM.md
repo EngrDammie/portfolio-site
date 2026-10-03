@@ -97,7 +97,7 @@ Paste this whole block. Everything else in this document refers to these names.
   --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   /* ---- Layout -------------------------------------------------- */
-  --max-w:     1240px;
+  --page-max:     1240px;
   --gutter:      22px;
 }
 ```
@@ -383,7 +383,7 @@ pre {
 ### Marketing page — centred column
 
 ```css
-.page { max-width: var(--max-w); margin: 0 auto; padding: 34px var(--gutter) 90px; position: relative; z-index: 1; }
+.page { max-width: var(--page-max); margin: 0 auto; padding: 34px var(--gutter) 90px; position: relative; z-index: 1; }
 .section { max-width: 1024px; margin: 0 auto; padding: 64px 0; text-align: center; }
 .section-lede { color: var(--text-2); font-size: 0.96875rem; line-height: 1.7; max-width: 70ch; margin: 0 auto 22px; }
 ```
@@ -394,7 +394,7 @@ Headings are centred on marketing pages and left-aligned on document pages. Do n
 
 ```css
 .doc-layout {
-  max-width: var(--max-w); margin: 0 auto;
+  max-width: var(--page-max); margin: 0 auto;
   padding: 34px var(--gutter) 90px;
   display: grid; grid-template-columns: 252px 1fr;
   gap: 44px; align-items: start;
@@ -425,7 +425,7 @@ the viewport:
   border-bottom: var(--border-w) solid var(--border);
 }
 .site-header .inner {
-  max-width: var(--max-w); margin: 0 auto; padding: 14px var(--gutter);
+  max-width: var(--page-max); margin: 0 auto; padding: 14px var(--gutter);
   display: flex; align-items: center; gap: 16px;
 }
 .brand-name { font-size: 1.125rem; font-weight: 800; color: var(--text); letter-spacing: -.01em; }

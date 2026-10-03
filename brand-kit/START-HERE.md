@@ -186,7 +186,7 @@ if you like, but never leave this one behind.
 | `web/web.css` | |
 
 **Then:** import `web.css` at the top of your global stylesheet and reference `var(--bg)`,
-`var(--text-body)`, `var(--radius-card)` and the rest. Use `DESIGN_SYSTEM.md` as the spec and its
+`var(--text)`, `var(--radius)` and the rest. Use `DESIGN_SYSTEM.md` as the spec and its
 checklist as the review.
 
 If your project genuinely cannot take an extra stylesheet, paste the `:root` block out of
@@ -295,6 +295,31 @@ you will get compile errors; upgrade rather than patching the adapter.
 
 Run `dart analyze` on `brand.dart` the first time you use it. It is generated and structurally
 checked, but it has not been compile-verified.
+
+---
+
+## The one thing to do
+
+If you only read one part of this file, read this.
+
+Put the whole `brand-kit/` folder in your project, then tell your agent:
+
+> Read `brand-kit/setup/<PLATFORM>.md` and follow it exactly.
+
+That single file carries the read order, the wiring, the rules and the checks for your platform.
+It is written to be executed without further input, and it ends by making the agent report its own
+failures — which is the part that saves you the most time.
+
+| Your project | The one file |
+|---|---|
+| Android, Jetpack Compose | `brand-kit/setup/ANDROID.md` |
+| Flutter | `brand-kit/setup/FLUTTER.md` |
+| iOS, SwiftUI | `brand-kit/setup/IOS.md` |
+| React Native or Expo | `brand-kit/setup/REACT-NATIVE.md` |
+| Website or web app | `brand-kit/setup/WEB.md` |
+
+Everything below this line is for when you want the reasoning, or when the agent gets something
+wrong and you need to know why the rules exist.
 
 ---
 
