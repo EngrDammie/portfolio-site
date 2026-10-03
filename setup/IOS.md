@@ -1,23 +1,8 @@
-# iOS (SwiftUI) — brand setup
-
-You are applying the Dammie Optimus Solutions brand to this iOS project. Work through this file in
-order and finish all of it. Several rules below prevent failures that produce **no error message at
-all**, so "it builds" is not evidence that you followed them.
-
-Read `brand-kit/VERSION` and report both of its values at the end.
-
-## 1. Read these, in this order
-
-1. `brand-kit/shared/BRAND.md` — what the brand is and why. Decisions, not values.
-2. `brand-kit/shared/tokens.json` — the exact values, for any number this file does not give you.
-3. `brand-kit/PLATFORM-mobile.md` — mobile mechanics, plus the full checklist in its section 12.
-4. `brand-kit/ios/Brand.swift` — the generated theme. **Never edit this file.**
-
 ## 2. Wire it up
 
 ### 2.1 Add the theme to your target
 
-Add `brand-kit/ios/Brand.swift` to the app target in Xcode. Nothing else is required — the file
+Add Part 5 to the app target in Xcode. Nothing else is required — the file
 carries no fonts and no assets, so there is nothing to register.
 
 ### 2.2 Read values from the theme, not from constants you invent

@@ -44,35 +44,68 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const KIT = path.join(ROOT, 'brand-kit');
 const CHECK = process.argv.includes('--check');
 
-/** Files that are copied into the kit, and where they land. */
-const COPIES = [
-  // Shared by every platform.
-  { from: 'BRAND.md', to: 'shared/BRAND.md', note: 'markdown' },
-  { from: 'tokens.json', to: 'shared/tokens.json', note: null },
-  { from: 'PLATFORM-mobile.md', to: 'PLATFORM-mobile.md', note: 'markdown' },
-
-  // Web.
-  { from: 'DESIGN_SYSTEM.md', to: 'web/DESIGN_SYSTEM.md', note: 'markdown' },
-  { from: 'adapters/web.css', to: 'web/web.css', note: null },
-
-  // One folder per mobile target.
-  { from: 'adapters/compose/Brand.kt', to: 'android/Brand.kt', note: null },
-  { from: 'adapters/swift/Brand.swift', to: 'ios/Brand.swift', note: null },
-  { from: 'adapters/react-native/tokens.ts', to: 'react-native/tokens.ts', note: null },
-  { from: 'adapters/flutter/brand.dart', to: 'flutter/brand.dart', note: null },
-];
-
 /**
- * Authored, not generated — the kit must not clobber them.
+ * The shipped kit: one self-contained file per platform, and the stamp.
  *
- * START-HERE.md explains the kit to a human. The setup/ files are the ones
- * that actually get a project built: one per platform, each written to be
- * handed straight to an AI agent and followed to completion without further
- * input. They are why copying the kit is a single instruction rather than a
- * checklist a human has to remember.
+ * A project copies a single file and tells its agent to read it. Nothing
+ * else is needed, and nothing can be half-copied — which was the failure
+ * mode of shipping folders, where the theme arrived but the rules did not.
+ *
+ * These files are composed, never maintained. One file per platform means
+ * the same colour would otherwise be typed five times and would eventually
+ * disagree with itself, so each is generated from the sources below and
+ * `kit:check` fails if one drifts from its parts. The duplication is real
+ * and the single source of truth is still tokens.json.
  */
+const KIT_SOURCES = {
+  'ANDROID.md': {
+    label: 'Android — Jetpack Compose',
+    setup: 'setup/ANDROID.md',
+    docs: ['BRAND.md', 'PLATFORM-mobile.md'],
+    adapter: 'adapters/compose/Brand.kt',
+    lang: 'kotlin',
+    target: 'app/src/main/java/<your/package>/brand/Brand.kt',
+  },
+  'FLUTTER.md': {
+    label: 'Flutter',
+    setup: 'setup/FLUTTER.md',
+    docs: ['BRAND.md', 'PLATFORM-mobile.md'],
+    adapter: 'adapters/flutter/brand.dart',
+    lang: 'dart',
+    target: 'lib/brand.dart',
+  },
+  'IOS.md': {
+    label: 'iOS — SwiftUI',
+    setup: 'setup/IOS.md',
+    docs: ['BRAND.md', 'PLATFORM-mobile.md'],
+    adapter: 'adapters/swift/Brand.swift',
+    lang: 'swift',
+    target: 'Brand.swift (add to your app target)',
+  },
+  'REACT-NATIVE.md': {
+    label: 'React Native / Expo',
+    setup: 'setup/REACT-NATIVE.md',
+    docs: ['BRAND.md', 'PLATFORM-mobile.md'],
+    adapter: 'adapters/react-native/tokens.ts',
+    lang: 'tsx',
+    target: 'src/theme/tokens.ts',
+  },
+  'WEB.md': {
+    label: 'Web — CSS',
+    setup: 'setup/WEB.md',
+    docs: ['BRAND.md', 'DESIGN_SYSTEM.md'],
+    adapter: 'adapters/web.css',
+    lang: 'css',
+    target: 'src/styles/brand.css',
+  },
+};
+
+/** Everything the kit ships. Nothing else, and no folders. */
+const SHIPPED = [...Object.keys(KIT_SOURCES), 'VERSION'];
+
+/** Authored sources. Not shipped; they live in the portfolio repository. */
 const AUTHORED = [
-  'START-HERE.md',
+  'setup/START-HERE.md',
   'setup/ANDROID.md',
   'setup/FLUTTER.md',
   'setup/IOS.md',
@@ -80,14 +113,6 @@ const AUTHORED = [
   'setup/WEB.md',
 ];
 
-/**
- * The kit's own version, deliberately separate from package.json.
- *
- * These were once the same number, which meant bumping the kit also
- * relabelled the website — so a change to a colour table would have
- * claimed the site shipped a new release. The kit moves on its own
- * cadence and says so here.
- */
 const KIT_VERSION = '0.2.0';
 
 /**
@@ -126,24 +151,24 @@ const KIT_VERSION = '0.2.0';
  * must exist in the adapter that file points at.
  */
 const SETUP_SYMBOLS = {
-  'setup/ANDROID.md': {
-    adapter: 'android/Brand.kt',
+  'ANDROID.md': {
+    adapter: 'adapters/compose/Brand.kt',
     must: ['DammieTheme', 'Palette', 'Dimm.touchTarget', 'Dimm.touchGap'],
   },
-  'setup/FLUTTER.md': {
-    adapter: 'flutter/brand.dart',
+  'FLUTTER.md': {
+    adapter: 'adapters/flutter/brand.dart',
     must: ['brandTheme', 'BrandColors', 'BrandPalette', 'BrandDim', 'BrandText'],
   },
-  'setup/IOS.md': {
-    adapter: 'ios/Brand.swift',
+  'IOS.md': {
+    adapter: 'adapters/swift/Brand.swift',
     must: ['Brand.Colors', 'Brand.Palette', 'Brand.Role'],
   },
-  'setup/REACT-NATIVE.md': {
-    adapter: 'react-native/tokens.ts',
+  'REACT-NATIVE.md': {
+    adapter: 'adapters/react-native/tokens.ts',
     must: ['theme', 'colors', 'space', 'radius', 'fontSize', 'lineHeight', 'fontWeight', 'touch', 'duration', 'touch.minimumAndroid', 'touch.minimumIOS', 'touch.gap'],
   },
-  'setup/WEB.md': {
-    adapter: 'web/web.css',
+  'WEB.md': {
+    adapter: 'adapters/web.css',
     must: ['--bg', '--bg-2', '--bg-3', '--text', '--text-2', '--border', '--emerald', '--cyan', '--emerald-ink', '--cyan-ink', '--radius', '--space-lg', '--touch-min', '--touch-gap', '--motion-fast', '--page-max', '--content-max', '--gutter'],
   },
 };
@@ -156,8 +181,94 @@ const FOREIGN_SYMBOLS = new Set([
   'dynamicLightColorScheme', 'dynamicDarkColorScheme', 'Color', 'Dp', 'DpSize',
   'Font', 'Font.TextStyle', 'StyleSheet', 'View', 'Text', 'SafeArea', 's', 'ms', 'px', 'rem',
   'useColorScheme', 'allowFontScaling', 'minHeight', 'setContent', 'dynamicTypeSize',
-  'ColorScheme.fromSeed', 'copyWith', 'system', 'light', 'dark',
+  'ColorScheme.fromSeed', 'ColorScheme.surfaceVariant', 'copyWith', 'system', 'light', 'dark',
 ]);
+
+/** Every dotted path in tokens.json, so Part 3 is not mistaken for code symbols. */
+let _tokenPaths = null;
+function allTokenPaths() {
+  if (_tokenPaths) return _tokenPaths;
+  const tokens = JSON.parse(fs.readFileSync(path.join(ROOT, 'tokens.json'), 'utf8'));
+  const out = [];
+  const walk = (node, trail) => {
+    for (const [key, val] of Object.entries(node)) {
+      if (key.startsWith('$')) continue;
+      const next = trail ? `${trail}.${key}` : key;
+      if (val && typeof val === 'object' && '$value' in val) out.push(next);
+      else if (val && typeof val === 'object') walk(val, next);
+    }
+  };
+  walk(tokens, '');
+  _tokenPaths = out;
+  return out;
+}
+
+/**
+ * A shipped file must not reference any sibling file.
+ *
+ * The whole promise of this kit is that one file is enough. An agent handed
+ * ANDROID.md that is told to also read `brand-kit/shared/BRAND.md` will
+ * either fail or quietly proceed without it — which is precisely how the
+ * previous, folder-based kit lost its rules. Any path pointing outside this
+ * document is the bug, so it is checked rather than trusted.
+ */
+function checkSelfContained() {
+  const problems = [];
+  for (const name of Object.keys(KIT_SOURCES)) {
+    const p = path.join(KIT, name);
+    if (!fs.existsSync(p)) continue;
+    // Strip HTML comments: the generator's own provenance footer names the
+    // repository sources by path, which is correct for a maintainer reading
+    // the file and not an instruction for an agent using it.
+    const text = fs.readFileSync(p, 'utf8').replace(/<!--[\s\S]*?-->/g, '');
+    const refs = new Set();
+    for (const m of text.matchAll(/`(?:brand-kit\/|setup\/|adapters\/|shared\/|tokens\.json|BRAND\.md)[^`]*`/g)) {
+      refs.add(m[0].slice(1, -1));
+    }
+    for (const r of refs) {
+      problems.push(`${name} references ${r}, but a shipped file has no siblings to read`);
+    }
+  }
+  return problems;
+}
+
+/**
+ * The theme source embedded in Part 5 must be byte-identical to the adapter.
+ *
+ * An agent told to copy a code block sometimes "improves" it, and a theme
+ * is the one file where a silent edit is invisible until someone notices the
+ * app looks slightly off months later. Comparing bytes catches it.
+ */
+function checkVerbatimAdapters() {
+  const problems = [];
+  for (const [name, spec] of Object.entries(KIT_SOURCES)) {
+    const p = path.join(KIT, name);
+    if (!fs.existsSync(p)) continue;
+    const text = fs.readFileSync(p, 'utf8');
+    // Part 1 contains code blocks in this same language, so the search has to
+    // begin after the Part 5 heading. Anchoring on the first fence found the
+    // setup example instead of the theme, and reported a false mismatch.
+    const partFive = text.indexOf('## Part 5');
+    const fence = '```' + spec.lang;
+    const start = text.indexOf(fence, partFive === -1 ? 0 : partFive);
+    if (start === -1) {
+      problems.push(`${name} has no ${spec.lang} block for its theme file`);
+      continue;
+    }
+    const bodyStart = start + fence.length + 1;
+    const end = text.indexOf('\n```', bodyStart);
+    if (end === -1) {
+      problems.push(`${name} has an unterminated theme block`);
+      continue;
+    }
+    const embedded = text.slice(bodyStart, end).trim();
+    const source = fs.readFileSync(path.join(ROOT, spec.adapter), 'utf8').trim();
+    if (embedded !== source) {
+      problems.push(`${name} Part 5 does not match ${spec.adapter} byte for byte`);
+    }
+  }
+  return problems;
+}
 
 /**
  * Every CSS custom property any kit document mentions must exist in web.css.
@@ -169,25 +280,21 @@ const FOREIGN_SYMBOLS = new Set([
  * of trusting review to catch it.
  */
 function checkCssTokens() {
-  const css = fs.readFileSync(path.join(KIT, 'web/web.css'), 'utf8');
+  const css = fs.readFileSync(path.join(ROOT, 'adapters/web.css'), 'utf8');
   const problems = [];
-  const docs = [path.join(KIT, 'START-HERE.md'), path.join(KIT, 'web/DESIGN_SYSTEM.md')];
-  for (const a of AUTHORED) {
-    if (a.startsWith('setup/')) docs.push(path.join(KIT, a));
-  }
-  for (const doc of docs) {
+  for (const name of Object.keys(KIT_SOURCES)) {
+    const doc = path.join(KIT, name);
     if (!fs.existsSync(doc)) continue;
     const text = fs.readFileSync(doc, 'utf8');
-    const rel = path.relative(KIT, doc);
     // Only genuine CSS usage: a var() reference or a declaration. Matching a
-    // bare `--word` swept up markdown horizontal rules and shell flags like
-    // --strip-components, which produced dozens of false alarms.
+    // bare `--word` swept up markdown horizontal rules and shell flags, which
+    // produced dozens of false alarms.
     const seen = new Set();
     for (const m of text.matchAll(/var\(\s*(--[a-z][a-z0-9-]*)\s*\)/g)) seen.add(m[1]);
     for (const m of text.matchAll(/^\s*(--[a-z][a-z0-9-]*)\s*:/gm)) seen.add(m[1]);
     for (const token of seen) {
       if (!new RegExp(`(^|[^\\w-])${token}\\s*:`, 'm').test(css)) {
-        problems.push(`${rel} names ${token}, which web.css does not define`);
+        problems.push(`${name} names ${token}, which web.css does not define`);
       }
     }
   }
@@ -199,7 +306,7 @@ function checkSetupSymbols() {
   const problems = [];
   for (const [file, spec] of Object.entries(SETUP_SYMBOLS)) {
     const setupPath = path.join(KIT, file);
-    const adapterPath = path.join(KIT, spec.adapter);
+    const adapterPath = path.join(ROOT, spec.adapter);
     if (!fs.existsSync(setupPath) || !fs.existsSync(adapterPath)) {
       problems.push(`${file} or ${spec.adapter} is missing`);
       continue;
@@ -230,12 +337,12 @@ function checkSetupSymbols() {
       if (!/^[A-Z]/.test(sym) && !sym.includes('.')) continue;
       cited.add(sym);
     }
-    const known = [...spec.must, ...FOREIGN_SYMBOLS].join('\n');
+    const known = [...spec.must, ...FOREIGN_SYMBOLS, ...allTokenPaths()].join('\n');
     for (const sym of cited) {
       const base = sym.split('.').pop();
       if (known.includes(sym) || known.includes(base)) continue;
       if (adapter.includes(sym) || adapter.includes(base)) continue;
-      if (fs.readFileSync(path.join(KIT, 'shared/BRAND.md'), 'utf8').includes(sym)) continue;
+      if (fs.readFileSync(path.join(ROOT, 'BRAND.md'), 'utf8').includes(sym)) continue;
       problems.push(`${file} names \`${sym}\`, which is not defined in ${spec.adapter}`);
     }
   }
@@ -255,13 +362,24 @@ function buildVersion() {
   // meant two projects with different instructions recorded the same hash, so
   // "which version is this project on?" had an incomplete answer — which is
   // the one question the stamp exists to answer.
-  for (const c of [...COPIES].sort((a, b) => a.from.localeCompare(b.from))) {
-    hash.update(c.from);
-    hash.update(fs.readFileSync(path.join(ROOT, c.from)));
+  // Hash exactly what determines the shipped files: the token source, the
+  // brand doc, each platform's mechanics doc, each authored spine, and each
+  // adapter. The spines are instructions rather than values, and a project on
+  // last month's instructions is differently set up even when every colour is
+  // identical — so they count, or the stamp answers the question only halfway.
+  //
+  // setup/START-HERE.md is excluded on purpose. It documents the kit to
+  // contributors and never reaches a project, so editing it should not
+  // invalidate the version a project records.
+  const inputs = new Set(['tokens.json', 'BRAND.md']);
+  for (const spec of Object.values(KIT_SOURCES)) {
+    inputs.add(spec.setup);
+    inputs.add(spec.adapter);
+    for (const d of spec.docs) inputs.add(d);
   }
-  for (const a of [...AUTHORED].sort()) {
-    hash.update(a);
-    hash.update(fs.readFileSync(path.join(KIT, a)));
+  for (const f of [...inputs].sort()) {
+    hash.update(f);
+    hash.update(fs.readFileSync(path.join(ROOT, f)));
   }
   const digest = hash.digest('hex').slice(0, 12);
 
@@ -310,39 +428,231 @@ const PROVENANCE = (from) => `<!--
 -->`;
 
 /**
- * Produces the content of one kit file from its canonical source.
+ * Repoints a source document's repository-internal references at the Parts
+ * of the composed file.
  *
- * Markdown gets a provenance block inserted directly beneath the H1, so it
- * reads as part of the header rather than floating above the title where it
- * looks like a rendering bug. Everything else is copied verbatim — the
- * adapters already carry their own generated-file banner.
+ * BRAND.md and PLATFORM-mobile.md are written for someone standing in the
+ * portfolio repository, so they say "read `tokens.json`" and link to
+ * `./tokens.json`. Embedded verbatim in a standalone file those become
+ * dangling: the reader has no tokens.json, they have Part 3. This is the
+ * defect that made the first composed build unusable, and it is invisible
+ * unless something checks for it.
  */
-function buildContent({ from, note }) {
-  const raw = fs.readFileSync(path.join(ROOT, from), 'utf8');
-  if (note !== 'markdown') return raw;
-  const lines = raw.split('\n');
-  const h1 = lines.findIndex((l) => l.startsWith('# '));
-  if (h1 === -1) return PROVENANCE(from) + '\n' + raw;
-  lines.splice(h1 + 1, 0, '', PROVENANCE(from));
-  return lines.join('\n');
+function rewriteRefs(text, spec) {
+  const part = {
+    'tokens.json': 'Part 3',
+    'BRAND.md': 'Part 2',
+    'PLATFORM-mobile.md': 'Part 4',
+    'DESIGN_SYSTEM.md': 'Part 4',
+  };
+  let out = text;
+
+  // Markdown links first, so the link and its label change together.
+  for (const [file, target] of Object.entries(part)) {
+    out = out.split(`[\`${file}\`](./${file})`).join(target);
+    out = out.split(`[${file}](./${file})`).join(target);
+  }
+  for (const [file, target] of Object.entries(part)) {
+    out = out.split(`\`${file}\``).join(target);
+  }
+
+  // The adapter table in BRAND.md lists all five platforms. In a file
+  // serving one platform, four of those rows are noise pointing at things
+  // the reader does not have — so keep only this platform's row. Filtering
+  // line by line rather than through a replace callback, because returning
+  // null from a callback writes the string "null" into the document.
+  const mine = path.basename(spec.adapter);
+  out = out
+    .split('\n')
+    .filter((line) => {
+      const m = line.match(/^\|\s*`adapters\/[^`]+`/);
+      return !m || line.includes(mine);
+    })
+    .map((line) => {
+      if (!/^\|\s*`adapters\//.test(line)) return line;
+      return line.replace(/`adapters\/[^`]+`/, `Part 5 (\`${mine}\`)`);
+    })
+    .join('\n');
+
+  // Any remaining bare mention of an adapter path becomes this platform's.
+  out = out.replace(/`adapters\/[^`]*`/g, 'Part 5');
+  return out;
 }
 
 /**
- * Removes previously generated files so a rename cannot leave a stale copy.
+ * Demotes headings so Parts sit at the top of the hierarchy.
  *
- * Authored files are preserved, and preservation is derived from AUTHORED
- * rather than hardcoded. This previously excepted `START-HERE.md` by name
- * and deleted every subdirectory unconditionally, so the first authored
- * file placed in one — the setup/ instructions — was silently destroyed by
- * a routine `kit:build`. Nothing reported it.
+ * An embedded document's own `##` headings would otherwise be siblings of
+ * `## Part 2`, and its `## 1. Who we are` would read as a peer of
+ * `## Part 1`. Shifting everything down one level makes the composed file
+ * navigable: H2 is always a Part.
+ */
+function demoteHeadings(text) {
+  return text.replace(/^(#{1,5})(\s)/gm, (_, h) => '#' + h + ' ');
+}
+
+/** Strip the H1 and any provenance block, so an embedded doc reads as a section. */
+function asSection(raw, spec) {
+  let out = raw.replace(/<!--[\s\S]*?-->\n?/g, '');
+  out = out.replace(/^#\s+.*\n+/, '');
+  if (spec) out = rewriteRefs(out, spec);
+  return demoteHeadings(out.trim());
+}
+
+/**
+ * Every token as a flat reference table.
+ *
+ * Deliberately not filtered to the platform. A table of 130 rows costs
+ * almost nothing, and filtering it means an agent needing a value that was
+ * left out has to guess — which is the exact failure this kit exists to
+ * prevent.
+ */
+function tokenTable() {
+  const tokens = JSON.parse(fs.readFileSync(path.join(ROOT, 'tokens.json'), 'utf8'));
+  const rows = [];
+  const walk = (node, trail) => {
+    for (const [key, val] of Object.entries(node)) {
+      if (key.startsWith('$')) continue;
+      const next = trail ? `${trail}.${key}` : key;
+      if (val && typeof val === 'object' && '$value' in val) {
+        const v = val.$value;
+        let shown;
+        if (v && typeof v === 'object' && v.colorSpace) shown = v.hex || '(colour)';
+        else if (v && typeof v === 'object' && v.unit) shown = `${v.value}${v.unit}`;
+        else if (v && typeof v === 'object' && v.value !== undefined) shown = JSON.stringify(v.value);
+        else shown = JSON.stringify(v);
+        rows.push([next, shown]);
+      } else if (val && typeof val === 'object') walk(val, next);
+    }
+  };
+  walk(tokens, '');
+  const width = Math.max(...rows.map((r) => r[0].length));
+  return [
+    '| Token | Value |',
+    '|---|---|',
+    ...rows.map(([k, v]) => `| \`${k}\` | \`${v}\` |`),
+  ].join('\n');
+}
+
+/**
+ * Composes one platform file: instructions, brand, values, mechanics, and
+ * the theme source, in that order, so the agent reads the rules before it
+ * sees the numbers and the code last.
+ */
+function buildPlatformFile(name, spec) {
+  const rawSpine = fs.readFileSync(path.join(ROOT, spec.setup), 'utf8').trim();
+
+  // The spine ends with a platform-specific report-back block. It is lifted
+  // out and re-emitted as the final Part, so the agent is told how to report
+  // once, at the end, rather than twice in two different formats.
+  const reportAt = rawSpine.search(/^#{1,3}\s+\d*\.?\s*Report back\b.*$/m);
+  let spine = rawSpine;
+  let report = '';
+  if (reportAt !== -1) {
+    const head = rawSpine.slice(0, reportAt);
+    const tail = rawSpine.slice(reportAt);
+    // Drop the heading itself; Part 6 supplies one.
+    report = tail.replace(/^#{1,3}\s+.*$/m, '').trim();
+    // Renumber the sections that remain, since the removed read-order block
+    // used to be section 1.
+    let n = 0;
+    spine = head.replace(/^(#{1,3})\s+(\d+)\.\s+/gm, (m, h, num) => `${h} ${++n}. `);
+  }
+  const adapter = fs.readFileSync(path.join(ROOT, spec.adapter), 'utf8').trim();
+  const version = buildVersion();
+
+  const parts = [];
+  parts.push(`# Dammie Optimus Solutions — ${spec.label}`);
+  parts.push(
+    '**This is the whole brand kit for this platform.** It is self-contained: everything an ' +
+      'agent needs to build and style a correct app is in this one file. There is nothing else ' +
+      'to download, copy or read.\n\n' +
+      'Follow Part 1 to the letter. Several of its rules prevent failures that produce no error ' +
+      'message at all, so a successful build is not evidence that you followed them.'
+  );
+  parts.push(
+    '```\n' +
+      `# kit version ${version.match(/version : (.+)/)[1]}` +
+      `\n# content      ${version.match(/content : (.+)/)[1]}` +
+      '\n```\n\n' +
+      'Record that content hash in the project README. It changes whenever the colours, the ' +
+      'spacing or these instructions change, so it will tell you months later whether the kit ' +
+      'you copied is still the kit you have.'
+  );
+
+  parts.push(`## Part 1 — Set the project up\n\n${demoteHeadings(spine)}`);
+
+  parts.push(
+    '## Part 2 — The brand\n\n' +
+      'Why the brand is the way it is. Read this before making a judgement call the rules above ' +
+      'do not cover.\n\n' +
+      asSection(fs.readFileSync(path.join(ROOT, 'BRAND.md'), 'utf8'), spec)
+  );
+
+  parts.push(
+    '## Part 3 — Every value\n\n' +
+      'The exact, canonical numbers. Reach for these rather than choosing your own. References ' +
+      'in `{braces}` point at other rows in this table.\n\n' +
+      tokenTable()
+  );
+
+  const docNames = spec.docs.filter((d) => d !== 'BRAND.md');
+  for (const doc of docNames) {
+    parts.push(
+      `## Part 4 — Platform mechanics (${doc})\n\n` +
+        asSection(fs.readFileSync(path.join(ROOT, doc), 'utf8'), spec)
+    );
+  }
+
+  parts.push(
+    `## Part 5 — The theme file, copied verbatim\n\n` +
+      `Write this to \`${spec.target}\` exactly as it appears. Change the package or import ` +
+      'path if it needs one, and change nothing else. Do not reformat it, do not "improve" it, ' +
+      'and do not fix anything you think looks wrong — report it instead. Every value in it is ' +
+      'the brand.\n\n' +
+      '```' + spec.lang + '\n' + adapter + '\n```'
+  );
+
+  parts.push(
+    '## Part 6 — Report back\n\n' +
+      'When you have finished, end your reply with exactly the block below. Fill in every line, ' +
+      'and do not claim a check you did not run.\n\n' +
+      (report
+        ? demoteHeadings(report)
+        : '```\n' +
+          'Brand:    Dammie Optimus Solutions design kit <version> (<content hash>)\n' +
+          `Theme:    ${spec.target}\n` +
+          'Failures: <every checklist item that did not pass, or "none">\n' +
+          'Assumed:  <anything you decided that this file did not tell you>\n' +
+          '```') +
+      '\n\nIf something did not pass, say so plainly. An agent that reports its own failures is ' +
+      'useful; one that hides them costs more time than it saves.'
+  );
+
+  return (
+    parts.join('\n\n---\n\n').trim() +
+    '\n\n<!--\n' +
+    `  GENERATED FILE — composed by scripts/build-brand-kit.mjs from\n` +
+    `    ${spec.setup}\n` +
+    `    BRAND.md\n` +
+    `    tokens.json\n` +
+    docNames.map((d) => `    ${d}\n`).join('') +
+    `    ${spec.adapter}\n\n` +
+    '  Do not edit. Change a source in the portfolio repository and run\n' +
+    '  `npm run kit:build`. Any edit here is overwritten.\n' +
+    '-->\n'
+  );
+}
+
+/**
+ * brand-kit/ is entirely generated, so it is emptied rather than cleaned.
+ * Nothing is authored inside it, which is what makes a flat, folder-free kit
+ * possible — and it removes the earlier hazard where a build deleted an
+ * authored file that happened to live in a subdirectory.
  */
 function cleanGenerated() {
-  if (!fs.existsSync(KIT)) return;
-  const keep = new Set(AUTHORED.map((a) => a.split('/')[0]));
-  for (const rel of fs.readdirSync(KIT, { withFileTypes: true })) {
-    if (keep.has(rel.name)) continue;
-    fs.rmSync(path.join(KIT, rel.name), { recursive: true, force: true });
-  }
+  fs.rmSync(KIT, { recursive: true, force: true });
+  fs.mkdirSync(KIT, { recursive: true });
 }
 
 /* ------------------------------------------------------------------ check */
@@ -351,80 +661,50 @@ if (CHECK) {
   let stale = 0;
   console.log('Checking brand-kit is current\n');
 
-  for (const a of AUTHORED) {
-    const p = path.join(KIT, a);
-    if (fs.existsSync(p)) {
-      console.log(`  \x1b[32mok\x1b[0m    ${a} (authored)`);
-    } else {
-      console.log(`  \x1b[31mFAIL\x1b[0m  ${a} — missing. This file is written by hand, not generated.`);
+  for (const [name, spec] of Object.entries(KIT_SOURCES)) {
+    const target = path.join(KIT, name);
+    if (!fs.existsSync(target)) {
+      console.log(`  \x1b[31mFAIL\x1b[0m  ${name} — missing. Run: npm run kit:build`);
       stale++;
+      continue;
     }
-  }
-
-  for (const c of COPIES) {
-    const p = path.join(KIT, c.to);
-    let existing = null;
-    try {
-      existing = fs.readFileSync(p, 'utf8');
-    } catch {
-      /* absent */
-    }
-    const expected = buildContent(c);
-    if (existing === null) {
-      console.log(`  \x1b[31mFAIL\x1b[0m  ${c.to} — missing. Run: npm run kit:build`);
-      stale++;
-    } else if (existing !== expected) {
-      console.log(`  \x1b[31mFAIL\x1b[0m  ${c.to} — out of date with ${c.from}`);
-      stale++;
+    const expected = buildPlatformFile(name, spec);
+    const actual = fs.readFileSync(target, 'utf8');
+    if (actual === expected) {
+      console.log(`  \x1b[32mok\x1b[0m    ${name}`);
     } else {
-      console.log(`  \x1b[32mok\x1b[0m    ${c.to}`);
+      console.log(`  \x1b[31mFAIL\x1b[0m  ${name} — out of date with its sources`);
+      stale++;
     }
   }
 
   const vPath = path.join(KIT, 'VERSION');
-  if (fs.existsSync(vPath)) {
-    const stamp = fs.readFileSync(vPath, 'utf8');
-    // The commit line is informational and changes with every commit, so only
-    // the version and content hash are compared.
-    const meaningful = (t) => t.split('\n').filter((l) => !l.startsWith('# built :')).join('\n');
-    if (meaningful(stamp) !== meaningful(buildVersion())) {
-      console.log('  \x1b[31mFAIL\x1b[0m  VERSION — stale. The kit content no longer matches its sources.');
-      stale++;
-    } else {
-      const h = stamp.match(/^content : (\w+)$/m);
-      console.log(`  \x1b[32mok\x1b[0m    VERSION \u2014 content ${h ? h[1] : '?'}`);
-    }
-  } else {
+  if (!fs.existsSync(vPath)) {
     console.log('  \x1b[31mFAIL\x1b[0m  VERSION — missing. Run: npm run kit:build');
     stale++;
+  } else if (fs.readFileSync(vPath, 'utf8') !== buildVersion()) {
+    console.log('  \x1b[31mFAIL\x1b[0m  VERSION — stale. Run: npm run kit:build');
+    stale++;
+  } else {
+    const h = fs.readFileSync(vPath, 'utf8').match(/content : (\w+)/);
+    console.log(`  \x1b[32mok\x1b[0m    VERSION — content ${h ? h[1] : '?'}`);
   }
 
-  // Every file the instructions point at must actually be in the kit. A
-  // START-HERE.md that references a file nobody shipped is worse than none.
-  const shipped = new Set(COPIES.map((c) => c.to).concat(AUTHORED));
-  const startHere = fs.readFileSync(path.join(KIT, 'START-HERE.md'), 'utf8');
-  const referenced = new Set(
-    [...startHere.matchAll(/`([\w./-]+\.(?:md|json|css|kt|swift|ts|dart))`/g)].map((m) => m[1]),
-  );
-  // Match on the kit-relative path OR the basename. The prose legitimately
-  // refers to `web.css` and `Brand.kt` rather than `web/web.css` and
-  // `android/Brand.kt`, and flagging those would train the reader to ignore
-  // the check. A name that matches nothing in the kit still fails.
-  const shippedBase = new Set([...shipped].map((f) => path.posix.basename(f)));
-  const danglingRefs = [...referenced].filter(
-    (r) => !shipped.has(r) && !shippedBase.has(path.posix.basename(r)) && !fs.existsSync(path.join(ROOT, r)),
-  );
-  if (danglingRefs.length === 0) {
-    console.log('  \x1b[32mok\x1b[0m    START-HERE.md references only files that exist');
+  // Nothing but the shipped files may exist: the kit promises one file per
+  // platform, and a leftover folder would quietly reintroduce the multi-file
+  // layout this replaced.
+  const onDisk = fs.readdirSync(KIT).sort();
+  const extra = onDisk.filter((f) => !SHIPPED.includes(f));
+  if (extra.length === 0) {
+    console.log('  \x1b[32mok\x1b[0m    brand-kit holds exactly the shipped files, no folders');
   } else {
-    console.log(`  \x1b[31mFAIL\x1b[0m  START-HERE.md points at ${danglingRefs.length} missing file(s)`);
-    for (const d of danglingRefs) console.log(`          ${d}`);
-    stale++;
+    console.log(`  \x1b[31mFAIL\x1b[0m  brand-kit contains ${extra.length} unexpected entr(y/ies): ${extra.join(', ')}`);
+    stale += extra.length;
   }
 
   const tokenProblems = checkCssTokens();
   if (tokenProblems.length === 0) {
-    console.log('  \x1b[32mok\x1b[0m    every CSS token named in any document exists in web.css');
+    console.log('  \x1b[32mok\x1b[0m    every CSS token named in a shipped file exists in web.css');
   } else {
     for (const pr of tokenProblems) console.log(`  \x1b[31mFAIL\x1b[0m  ${pr}`);
     stale += tokenProblems.length;
@@ -432,37 +712,44 @@ if (CHECK) {
 
   const symbolProblems = checkSetupSymbols();
   if (symbolProblems.length === 0) {
-    console.log('  \x1b[32mok\x1b[0m    setup files name only symbols the adapters define');
+    console.log('  \x1b[32mok\x1b[0m    every symbol a shipped file names is really defined');
   } else {
     for (const pr of symbolProblems) console.log(`  \x1b[31mFAIL\x1b[0m  ${pr}`);
     stale += symbolProblems.length;
+  }
+
+  const selfContained = checkSelfContained();
+  if (selfContained.length === 0) {
+    console.log('  \x1b[32mok\x1b[0m    every shipped file stands alone, referencing no sibling');
+  } else {
+    for (const pr of selfContained) console.log(`  \x1b[31mFAIL\x1b[0m  ${pr}`);
+    stale += selfContained.length;
+  }
+
+  const verbatim = checkVerbatimAdapters();
+  if (verbatim.length === 0) {
+    console.log('  \x1b[32mok\x1b[0m    every embedded theme file is byte-identical to its adapter');
+  } else {
+    for (const pr of verbatim) console.log(`  \x1b[31mFAIL\x1b[0m  ${pr}`);
+    stale += verbatim.length;
   }
 
   if (stale > 0) {
     console.log(`\n\x1b[31m${stale} problem(s).\x1b[0m Run: npm run kit:build\n`);
     process.exit(1);
   }
-  console.log(`\n\x1b[32mbrand-kit is current — ${COPIES.length + AUTHORED.length} files.\x1b[0m\n`);
+  console.log(`\n\x1b[32mbrand-kit is current — ${SHIPPED.length} files, no folders.\x1b[0m\n`);
 } else {
   cleanGenerated();
-  let n = 0;
   console.log('Building brand-kit\n');
-  for (const c of COPIES) {
-    const target = path.join(KIT, c.to);
-    fs.mkdirSync(path.dirname(target), { recursive: true });
-    fs.writeFileSync(target, buildContent(c));
+  let n = 0;
+  for (const [name, spec] of Object.entries(KIT_SOURCES)) {
+    fs.writeFileSync(path.join(KIT, name), buildPlatformFile(name, spec));
     n++;
-    console.log(`  copied  ${c.from.padEnd(28)} ->  ${c.to}`);
+    console.log(`  composed  ${name}`);
   }
   fs.writeFileSync(path.join(KIT, 'VERSION'), buildVersion());
   n++;
-  console.log('  wrote   VERSION');
-
-  for (const a of AUTHORED) {
-    const p = path.join(KIT, a);
-    if (!fs.existsSync(p)) {
-      console.log(`  \x1b[33mnote\x1b[0m  ${a} does not exist yet — write it by hand`);
-    }
-  }
-  console.log(`\n\x1b[32m${n} file(s) assembled.\x1b[0m\n`);
+  console.log('  wrote     VERSION');
+  console.log(`\n\x1b[32m${n} file(s) composed — one per platform, plus the stamp.\x1b[0m\n`);
 }

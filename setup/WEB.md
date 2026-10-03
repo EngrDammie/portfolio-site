@@ -1,33 +1,17 @@
-# Web — brand setup
-
-You are applying the Dammie Optimus Solutions brand to this project. Work through this file in order
-and finish all of it. Several rules below prevent failures that produce **no error message at all**,
-so "it renders" is not evidence that you followed them.
-
-Read `brand-kit/VERSION` and report both of its values at the end.
-
-## 1. Read these, in this order
-
-1. `brand-kit/shared/BRAND.md` — what the brand is and why. Decisions, not values.
-2. `brand-kit/shared/tokens.json` — the exact values, for any number this file does not give you.
-3. `brand-kit/web/DESIGN_SYSTEM.md` — the web implementation, and its checklist at the end. This is
-   the spec; where it and your instincts disagree, it wins.
-4. `brand-kit/web/web.css` — the generated token layer. **Never edit this file.**
-
 ## 2. Wire it up
 
-### 2.1 Import the token layer once, at the root
+### 2.1 Write the token layer, then import it
+
+Write Part 5 to `src/styles/brand.css` exactly as it appears, then import it once at the root:
 
 ```css
-@import 'brand-kit/web/web.css';
+@import './brand.css';
 ```
 
-Or import it from your global stylesheet entry point. It defines the custom properties on `:root`
-and the dark scheme; nothing else is needed.
+It defines the custom properties on `:root` and the dark scheme; nothing else is needed.
 
-If your build genuinely cannot take an extra stylesheet, paste the `:root` block out of
-`DESIGN_SYSTEM.md` instead. That block is checked against `tokens.json`, so it cannot drift. Do not
-mix the two conventions inside one component.
+If your build genuinely cannot take an extra stylesheet, paste the `:root` block out of Part 4
+instead. Do not mix the two conventions inside one component.
 
 ### 2.2 Reference tokens, never raw values
 

@@ -1,23 +1,8 @@
-# Android (Jetpack Compose) — brand setup
-
-You are applying the Dammie Optimus Solutions brand to this Android project. Work through this file
-in order and finish all of it. Several rules below prevent failures that produce **no error message
-at all**, so "it compiles" is not evidence that you followed them.
-
-Read `brand-kit/VERSION` and report both of its values at the end.
-
-## 1. Read these, in this order
-
-1. `brand-kit/shared/BRAND.md` — what the brand is and why. Decisions, not values.
-2. `brand-kit/shared/tokens.json` — the exact values, for any number this file does not give you.
-3. `brand-kit/PLATFORM-mobile.md` — mobile mechanics, plus the full checklist in its section 12.
-4. `brand-kit/android/Brand.kt` — the generated theme. **Never edit this file.**
-
 ## 2. Wire it up
 
 ### 2.1 Move the theme file
 
-Copy `brand-kit/android/Brand.kt` to:
+Copy Part 5 to:
 
 ```
 app/src/main/java/<your/package>/brand/Brand.kt
