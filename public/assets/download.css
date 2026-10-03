@@ -588,3 +588,77 @@
   .dl-btn { box-shadow: none; }
   .dl-eyebrow::before, .dl-eyebrow::after { display: none; }
 }
+
+/* ---------- Screenshots ----------
+   A phone capture is tall and must not be cropped into a letterbox, so the
+   two kinds are framed differently: the phone is centred in a narrow column,
+   the document runs full width. Captions sit outside the frame so a long
+   caption never squeezes the image. */
+.dl-shots {
+  display: grid;
+  gap: 34px;
+  margin-top: 26px;
+}
+
+.dl-shot { margin: 0; }
+
+.dl-shot-frame {
+  position: relative;
+  overflow: hidden;
+  background: #0b1220;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.9);
+}
+
+.dl-shot--phone .dl-shot-frame {
+  max-width: 280px;
+  margin: 0 auto;
+  border-radius: 26px;
+  border-width: 6px;
+  border-color: #1e293b;
+}
+
+.dl-shot--document .dl-shot-frame {
+  border-radius: 14px;
+}
+
+.dl-shot-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* A faint brand wash behind the image so a transparent PNG does not sit on a
+   flat block of nothing. */
+.dl-shot-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.05), transparent 42%);
+}
+
+.dl-shot-cap {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.62;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.dl-shot--document .dl-shot-cap { text-align: left; }
+
+.dl-shot-cap b {
+  display: block;
+  margin-bottom: 5px;
+  color: #e2e8f0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* The caption has to stay readable and the frame has to stay intact on a
+   narrow phone, so the phone frame steps down rather than overflowing. */
+@media (max-width: 560px) {
+  .dl-shot--phone .dl-shot-frame { max-width: 230px; }
+  .dl-shot-cap { font-size: 13px; }
+}

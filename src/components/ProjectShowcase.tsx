@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { SHOWCASE_PROJECTS, ProjectItem } from '@/data/projectsConfig';
 import {
   ChevronDown,
@@ -465,13 +466,51 @@ export default function ProjectShowcase() {
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
                   </div>
                   <span className="text-[11px] font-mono text-slate-500 truncate max-w-[200px]">
-                    {activeModalProject.previewUrl || activeModalProject.liveUrl}
+                    {activeModalProject.screenshots && activeModalProject.screenshots.length > 0
+                      ? `${activeModalProject.screenshots.length} screenshot${
+                          activeModalProject.screenshots.length === 1 ? '' : 's'
+                        }`
+                      : activeModalProject.previewUrl || activeModalProject.liveUrl}
                   </span>
                   <div className="w-8" />
                 </div>
 
-                {/* 1. IFRAME PREVIEW MODE */}
-                {activeModalProject.previewType === 'iframe' && activeModalProject.previewUrl ? (
+                {/* 1. SCREENSHOTS — used when a project ships screenshots and has no
+                    live site to frame. Rendered above the iframe branch on
+                    purpose: framing an image URL produces a browser chrome around
+                    a bare JPEG, which looks like a broken embed. */}
+                {activeModalProject.screenshots && activeModalProject.screenshots.length > 0 && (
+                  <div className="flex-1 overflow-y-auto bg-slate-950 p-4 sm:p-5">
+                    <div className="mx-auto flex max-w-3xl flex-col gap-5">
+                      {activeModalProject.screenshots.map((shot, i) => (
+                        <figure key={`${activeModalProject.id}-shot-${i}`}>
+                          <div
+                            className={`mx-auto overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-xl ${
+                              shot.kind === 'phone' ? 'max-w-[260px]' : 'max-w-full'
+                            }`}
+                          >
+                            <Image
+                              src={shot.src}
+                              alt={shot.caption}
+                              width={shot.width}
+                              height={shot.height}
+                              loading="lazy"
+                              className="block h-auto w-full"
+                            />
+                          </div>
+                          <figcaption className="mt-2.5 text-center text-[13px] leading-relaxed text-slate-400">
+                            {shot.caption}
+                          </figcaption>
+                        </figure>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. IFRAME PREVIEW MODE */}
+                {(!activeModalProject.screenshots || activeModalProject.screenshots.length === 0) &&
+                  activeModalProject.previewType === 'iframe' &&
+                  activeModalProject.previewUrl ? (
                   <iframe
                     src={activeModalProject.previewUrl}
                     className="w-full flex-1 border-0 bg-white"
@@ -479,8 +518,9 @@ export default function ProjectShowcase() {
                     sandbox="allow-scripts allow-same-origin allow-forms"
                     loading="lazy"
                   />
-                ) : (
-                  /* 2. INTERACTIVE SIMULATOR MOCK MODE */
+                ) : (!activeModalProject.screenshots ||
+                     activeModalProject.screenshots.length === 0) ? (
+                  /* 3. INTERACTIVE SIMULATOR MOCK MODE */
                   <div className="flex-1 p-5 flex flex-col justify-between bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 overflow-y-auto">
                     <div>
                       <div className="flex items-center justify-between mb-4">
@@ -522,7 +562,7 @@ export default function ProjectShowcase() {
                       </div>
                     </div>
                   </div>
-                )}
+                ) : null}
                 </div>
               )}
 

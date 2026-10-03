@@ -21,6 +21,28 @@ export interface LinkItem {
   href: string;
 }
 
+/**
+ * A screenshot shown inside the project preview, with a caption.
+ *
+ * The caption is not decoration. A visitor who cannot see the interface needs
+ * to be told what they are looking at and why it matters, so `caption`
+ * states what the screen demonstrates. `kind` decides the aspect ratio and
+ * framing: a phone screenshot is tall and must not be cropped into a
+ * letterbox, while a desktop capture is wide.
+ */
+export interface ScreenshotItem {
+  /** What this screen shows. Plain language, no marketing. */
+  caption: string;
+  /** Absolute URL to the image, including the https:// scheme. */
+  src: string;
+  /** Intrinsic width in pixels, used to stop layout shift while loading. */
+  width: number;
+  /** Intrinsic height in pixels. */
+  height: number;
+  /** Framing. "phone" is a tall device capture; "document" is a landscape page. */
+  kind: 'phone' | 'document';
+}
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -37,6 +59,13 @@ export interface ProjectItem {
    * nothing extra worth linking to.
    */
   links?: LinkItem[];
+  /**
+   * Optional screenshots, rendered inside the preview panel beneath the
+   * project copy. Used instead of an iframe when there is no live site to
+   * frame — a native APK has no URL, so the screenshots are the only honest
+   * thing the preview can show.
+   */
+  screenshots?: ScreenshotItem[];
   liveUrl?: string;
   githubUrl?: string;
   featured: boolean;
@@ -140,6 +169,65 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
     featured: true,
     previewType: 'iframe',
     previewUrl: 'https://tgr-playbook.dammieoptimus.workers.dev/'
+  },
+  {
+    id: 'quickreceipt',
+    title: 'QuickReceipt: Offline PDF Receipts & WhatsApp Sharing for Retail Merchants',
+    category: 'Mobile App',
+    summary:
+      'A native Android app that turns a merchant and their customer into a professional, ink-friendly PDF receipt in seconds — then shares it straight to WhatsApp or sends it to a thermal or office printer, with every sale tracked offline on the device.',
+    problem:
+      'Small retailers, Instagram vendors and gadget stores issue receipts by hand or in a generic invoicing app that wants an account, a subscription and a connection. The merchant retypes the same store details and the same fast-moving products into every single sale, and if the network drops mid-transaction the record is simply lost — which for a business with no back office means the day’s takings live in memory until someone counts the drawer. Sending the customer a receipt is worse: photographing a paper one produces a blurry, skewed photo that looks unprofessional and quietly damages the brand the merchant is trying to build.',
+    solution:
+      'Built a 100% Kotlin, Jetpack Compose application that removes the account, the subscription and the network entirely. A Room database holds receipts, the merchant profile and a fast-moving inventory shortcut list, so the store name, address, phone and return policy are saved once and pre-saved products load in a single tap instead of being retyped. Receipt creation is a dynamic repeatable item list with live subtotal, discount and total calculation, quantity steppers, and one-tap shortcut chips for the products that actually sell. The PDF engine draws an A4 vector document natively through android.graphics.pdf.PdfDocument — pure black text on white with clean vector outlines rather than filled dark blocks, because a receipt is printed on paper and thermal stock where every filled block is wasted ink and a blurred thermal print. Documents are written to the app’s private cache and shared through the system sheet as application/pdf via FileProvider, or sent straight to a Wi-Fi, Bluetooth or USB printer through PrintManager. A dashboard surfaces total sales today, revenue split by cash, transfer and card, and a searchable receipt history with re-share, re-print and delete. Room keeps the whole app offline-first, so a dead network costs nothing.',
+    result:
+      'A merchant issues a branded, professional receipt in under a minute without creating an account, paying a subscription or needing a connection — and the customer receives it as a clean PDF on WhatsApp instead of a crooked photo. Because the store profile and top products are saved once, repeat sales need no retyping at all, and every receipt keeps the merchant’s own name, address and return policy on the document. The ink-friendly vector layout prints legibly on 58mm thermal rolls and ordinary A4 alike. Everything is stored on the device, so daily takings and customer records remain complete and searchable with no server to go down, no data to migrate and nothing to maintain.',
+    metric: '100% Offline · No Account Needed',
+    techStack: [
+      'Kotlin',
+      'Jetpack Compose',
+      'Material Design 3',
+      'Android Room Database',
+      'MVVM + StateFlow',
+      'android.graphics.pdf.PdfDocument',
+      'Android FileProvider',
+      'PrintManager',
+      'Jetpack Navigation',
+    ],
+    links: [
+      {
+        title: 'Get the Android app',
+        subtext: 'Screenshots, what it does, how to install it, and a SHA-256 checksum so you can confirm the file is exactly the one I built.',
+        href: '/quickreceipt-android.html',
+      },
+      {
+        title: 'Download the APK directly',
+        subtext: 'QuickReceipt_base.apk, 22.3 MB. One signed file, no sign-up and nothing to install alongside it.',
+        href: 'https://www.dropbox.com/scl/fi/56sok2d8lz3zztsmv17u3/QuickReceipt_base.apk?rlkey=3o2ftoamdapsq4n2xntxanf9l&st=n1al79vd&dl=1',
+      },
+    ],
+    screenshots: [
+      {
+        caption:
+          'The dashboard opens on today’s takings: total sales for the day, the revenue split across cash, transfer and card, and a searchable log of every receipt issued.',
+        src: '/assets/quickreceipt/dashboard.jpg',
+        width: 576,
+        height: 1280,
+        kind: 'phone',
+      },
+      {
+        caption:
+          'The finished output — a vector PDF receipt carrying the merchant’s branding, itemised lines, discount and total, ready to send to the customer or hand to a printer.',
+        src: '/assets/quickreceipt/receipt-pdf.png',
+        width: 878,
+        height: 582,
+        kind: 'document',
+      },
+    ],
+    liveUrl: '/assets/quickreceipt/dashboard.jpg',
+    featured: true,
+    previewType: 'iframe',
+    previewUrl: '/assets/quickreceipt/receipt-pdf.png'
   },
   {
     id: 'bible-plans',
