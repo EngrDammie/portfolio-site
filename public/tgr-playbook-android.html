@@ -24,6 +24,19 @@
 <link rel="stylesheet" href="assets/docs.css" />
 <link rel="stylesheet" href="assets/download.css" />
 <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <!-- Cloudflare Web Analytics. Cookieless page-view counts, no personal
+       data, no consent banner required. A plain script rather than a loader
+       library because the token has to reach the tag as data-cf-beacon; the
+       Next.js pages in src/app/layout.tsx carry the identical snippet and the
+       reason is documented there. Reported here because a release page is
+       where people arrive straight from a social post, and those visits were
+       previously the one kind of traffic this site could not see. -->
+  <script
+    type="module"
+    async
+    src="https://static.cloudflareinsights.com/beacon.min.js"
+    data-cf-beacon='{"token":"2d767b1a8ce04f4bb704867de491143c"}'
+  />
 </head>
 <body class="dl-page">
 
@@ -108,7 +121,7 @@
 
     <a
       class="dl-btn"
-      href="https://www.dropbox.com/scl/fi/p2ytwlj670h8438irwy3f/TGR_Playbook_base.apk?rlkey=f7fyo7dy7r0umhdz48tgivpg6&st=bf5hjgbb&dl=1"
+      href="/dl/tgr-playbook"
       rel="noopener noreferrer"
       download
     >

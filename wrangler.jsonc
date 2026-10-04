@@ -20,6 +20,16 @@
 		"directory": ".open-next/assets",
 		"binding": "ASSETS"
 	},
+	// Download click counting. Each app owns one key, "dl:<slug>", holding a
+	// small JSON record of totals, per-day counts and referrer breakdown.
+	// A namespace rather than a Worker route because OpenNext generates
+	// .open-next/worker.js, so nothing hand-written survives a build.
+	"kv_namespaces": [
+		{
+			"binding": "DOWNLOADS",
+			"id": "cda89d6e87c941e3a521e2defa17b666"
+		}
+	],
 	"services": [
 		{
 			"binding": "WORKER_SELF_REFERENCE",

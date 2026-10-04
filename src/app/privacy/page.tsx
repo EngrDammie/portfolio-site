@@ -129,8 +129,9 @@ export default function PrivacyPolicyPage() {
             You will also get one automatic reply confirming it landed, sent to the address you
             gave me, so you are not left waiting. There is{' '}
             <strong className="text-white">no database, no account, no cookies, and no
-            advertising or tracking of any kind</strong> on this site. The one thing I do collect is
-            anonymous, cookieless page-view counts, so I can tell which pages people actually read.
+            advertising or cross-site tracking of any kind</strong> on this site. The only two things
+            I count are anonymous, cookieless page views, and the number of times a download button
+            is pressed.
             I keep your brief for {RETENTION_MONTHS} months so we can work together, and I delete it
             as soon as you ask. I am one person, not a company with a data team, so I can do that.
           </p>
@@ -276,6 +277,55 @@ export default function PrivacyPolicyPage() {
                   your consent and produces no cookie banner. I have not included it because it is
                   convenient; I have included it because knowing which pages people actually read
                   is the only way to know what to build next.
+                </p>
+              </div>
+
+              {/* Second exception. The card above covers page views; this one
+                  covers download-button presses, which are counted on this
+                  server and involve no client script at all. */}
+              <div className="mt-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
+                <div className="text-sm font-bold text-emerald-400 mb-1.5">
+                  The other exception: download button presses
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  On the app release pages, pressing a download button sends the request through this
+                  site first so I can count it, and then forwards you to the file. What is recorded is
+                  three numbers: how many times each button was pressed, which day, and the{' '}
+                  <strong>name of the site</strong> you came from &mdash; for example{' '}
+                  <span className="mono">facebook.com</span>.
+                </p>
+                <ul className="mt-3 space-y-1.5 text-sm">
+                  <li className="flex gap-2">
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span className="text-slate-300">
+                      Only the site name is kept, never the rest of the address. A full referring
+                      address can contain someone&rsquo;s search terms.
+                    </span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span className="text-slate-300">No IP address is stored, at any point.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span className="text-slate-300">
+                      No cookies and nothing written to your device. The count happens entirely on my
+                      side, so there is no script on your machine to block or accept.
+                    </span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-emerald-400 shrink-0" aria-hidden="true">&check;</span>
+                    <span className="text-slate-300">
+                      It cannot tell me who you are, and it cannot tell me whether the download
+                      finished &mdash; the file is served by Dropbox, which sends nothing back.
+                    </span>
+                  </li>
+                </ul>
+                <p className="text-sm text-slate-300 leading-relaxed mt-3">
+                  Because none of this is personal data and none of it is stored on your device, it does
+                  not require your consent and produces no cookie banner. If you would rather a press
+                  were not counted at all, that is entirely your choice &mdash; open the app directly and
+                  nothing is recorded.
                 </p>
               </div>
             </div>

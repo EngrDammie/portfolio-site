@@ -26,6 +26,7 @@
  */
 
 import { execFileSync } from 'node:child_process';
+import fs from 'node:fs';
 
 const SITE = 'https://get-tech-solutions.dammieoptimus.workers.dev';
 const REQUIRED_SECRET = 'RESEND_API_KEY';
@@ -165,6 +166,74 @@ try {
   warn(`contact endpoint unreachable: ${e.message}`);
 }
 
+
+console.log('\n6. Download tracking is wired up');
+// The failure this guards against is silent and specific: someone edits a
+// release page, the button goes back to pointing straight at Dropbox, and the
+// page keeps working perfectly while every click stops being counted. Nothing
+// looks broken. So the check is that each page's button href agrees with the
+// registry, not merely that the page is reachable.
+try {
+  const registry = fs.readFileSync('src/data/downloads.ts', 'utf8');
+  const block = registry.slice(registry.indexOf('export const DOWNLOADS'));
+  const entries = [...block.matchAll(/^\s{2}'?([a-z0-9-]+)'?:\s*\{([\s\S]*?)\n  \},/gm)].map((m) => ({
+    slug: m[1],
+    body: m[2],
+  }));
+
+  if (entries.length === 0) {
+    bad('src/data/downloads.ts has no entries — the registry is unreadable');
+  }
+
+  // Release-page stem, then the registry slug. They are deliberately not the
+  // same string: the page is called quickreceipt-android.html and the route is
+  // /dl/quickreceipt, and conflating them is how one drifts from the other.
+  const PAGES = {
+    'quickreceipt-android': { file: 'public/quickreceipt-android.html', slug: 'quickreceipt' },
+    'rafa-voucher-android': { file: 'public/rafa-voucher-android.html', slug: 'rafa-voucher' },
+    'tgr-playbook-android': { file: 'public/tgr-playbook-android.html', slug: 'tgr-playbook' },
+  };
+
+  for (const [page, cfg] of Object.entries(PAGES)) {
+    const entry = entries.find((e) => e.slug === cfg.slug);
+    if (!entry) {
+      bad(`${cfg.slug} has no entry in the downloads registry — its clicks cannot be counted`);
+      continue;
+    }
+    const file = cfg.file;
+    const html = fs.readFileSync(file, 'utf8');
+    const button = html.match(/class="dl-btn"[\s\S]{0,200}?href="([^"]+)"/);
+
+    if (!button) {
+      bad(`${file} has no download button, or it has lost its dl-btn class`);
+      continue;
+    }
+    if (button[1] === `/dl/${cfg.slug}`) {
+      ok(`${page} button points at /dl/${cfg.slug}`);
+    } else {
+      bad(`${page} button points at ${button[1]}, not /dl/${cfg.slug} — clicks will not be counted`);
+      console.log('        the Dropbox URL belongs in src/data/downloads.ts, not in the HTML');
+    }
+    if (html.includes('dropbox.com')) {
+      bad(`${file} still contains a Dropbox URL — the registry must be the only copy`);
+    }
+    if (!html.includes('cloudflareinsights')) {
+      bad(`${file} is missing the analytics beacon — visits here will not be counted`);
+    }
+    if (/\bbroken:\s*true/.test(entry.body)) {
+      warn(`${page} is flagged broken in the registry — its download link needs replacing`);
+    }
+  }
+
+  const route = fs.existsSync('src/app/dl/[slug]/route.ts');
+  route ? ok('the /dl/[slug] redirect route exists') : bad('src/app/dl/[slug]/route.ts is missing');
+
+  const wrangler = JSON.parse(fs.readFileSync('wrangler.jsonc', 'utf8').replace(/^\s*\/\/.*$/gm, ''));
+  const binding = (wrangler.kv_namespaces || []).some((k) => k.binding === 'DOWNLOADS');
+  binding ? ok('the DOWNLOADS KV binding is declared') : bad('no DOWNLOADS binding in wrangler.jsonc');
+} catch (e) {
+  bad(`download tracking check failed: ${e.message}`);
+}
 console.log('');
 if (failed) {
   console.log('\x1b[31mPreflight FAILED.\x1b[0m Enquiries are probably being lost.\n');

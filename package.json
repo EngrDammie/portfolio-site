@@ -15,6 +15,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "og:privacy": "node scripts/og-privacy.mjs",
     "preflight": "node scripts/preflight.mjs",
+    "downloads": "node scripts/read-downloads.mjs",
     "tokens:check": "node scripts/check-tokens.mjs",
     "tokens:build": "node scripts/build-adapters.mjs",
     "adapters:check": "node scripts/build-adapters.mjs --check",

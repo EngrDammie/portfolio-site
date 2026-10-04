@@ -144,6 +144,7 @@
     <div class="toc-part">Part III · Running it</div>
     <a href="#contact">19 · The contact form system</a>
     <a href="#env">20 · Environment variables</a>
+    <a href="#downloads">21b · Download click tracking</a>
     <a href="#deploy">21 · Building &amp; deploying</a>
     <a href="#local">22 · Working on it locally</a>
     <a href="#services">23 · Third-party services</a>
@@ -372,15 +373,20 @@
         </table>
       </div>
 
-      <div class="callout co-warn">
-        <span class="ic">⚠</span>
+      <div class="callout co-info">
+        <span class="ic">i</span>
         <div class="bd">
-          <div class="ct">One thing that surprises people</div>
+          <div class="ct">What this site does and does not measure</div>
           <p>
-            There is no analytics on this site. No Google Analytics, no tracking pixels, no cookies, no
-            fingerprinting. You will not be able to see how many people visited. That is a privacy
-            feature, but it is also a real blind spot — see <a href="#privacy">section 25</a> for
-            what would need to change if you want traffic numbers.
+            There is no Google Analytics, no tracking pixels, no cookies and no fingerprinting here.
+            What there <em>is</em> is Cloudflare Web Analytics: cookieless page-view counts, with no
+            personal data and no consent banner. Download button clicks are counted too, server-side —
+            see <a href="#downloads">section 21b</a>.
+          </p>
+          <p>
+            So page views and download clicks are visible. Who the visitor is, where they came from
+            beyond the site name, and whether an install ever finished are not — the file is served by
+            Dropbox, which reports nothing back. Full detail in <a href="#privacy">section 25</a>.
           </p>
         </div>
       </div>
@@ -849,7 +855,7 @@
             <tr><td class="f">public/assets/og-privacy.png</td><td>Share card for the privacy policy, 1200&times;630. Generated, not hand-made: <span class="mono">npm run og:privacy</span> rewrites it from the markup in <span class="mono">scripts/og-privacy.mjs</span>. The monogram is read from <span class="mono">src/app/icon.svg</span> so the card cannot drift from the site icon.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">scripts/og-privacy.mjs</td><td>Generates the privacy share card in headless Chrome. Exists because the other three cards were made ad hoc and so could not be regenerated or edited without starting over.</td><td><span class="tag tag-safe">Safe</span></td></tr>
             <tr><td class="f">public/assets/og-homepage.png</td><td>Home page share card, 1200&times;630. Referenced by the Open Graph and Twitter tags in the root layout.</td><td><span class="tag tag-care">Careful</span></td></tr>
-            <tr><td class="f">scripts/preflight.mjs</td><td>Post-deploy health check for the live worker: confirms the Resend secret is actually bound, the public pages respond, and the contact endpoint accepts a real message. Written after the form silently failed in production with no way to tell from the site itself.</td><td><span class="tag tag-safe">Safe</span></td></tr>
+            <tr><td class="f">src/data/downloads.ts</td><td>The single list of downloadable apps: slug, label, Dropbox address, file name and size. Exists because the address used to be hardcoded separately into each release page, and the counting route needs the same list. Two copies of one fact drift silently — the page keeps working while clicks stop being counted — so the registry is the only copy and preflight section 6 enforces that.</td><td><span class="tag tag-careful">Careful</span></td></tr><tr><td class="f">src/app/dl/[slug]/route.ts</td><td>Counts a download-button click in Workers KV, then forwards to the file with a 307. A server-side redirect rather than a browser beacon, so it counts every time and cannot be blocked or skipped. If counting throws, the redirect still happens: a wrong number is a smaller problem than a broken download.</td><td><span class="tag tag-careful">Careful</span></td></tr><tr><td class="f">src/types/cloudflare-bindings.d.ts</td><td>Declares the DOWNLOADS binding for TypeScript. Declared in a tracked file rather than only in the generated cloudflare-env.d.ts, because that file is gitignored and absent on a fresh clone — code depending on it builds locally and fails in CI.</td><td><span class="tag tag-careful">Careful</span></td></tr><tr><td class="f">scripts/read-downloads.mjs</td><td>Backs <span class="mono">npm run downloads</span>, which prints the click counts as a table. Reads the registry and the namespace id straight from the config so neither can drift, and authenticates with the existing Cloudflare login. A terminal command rather than a dashboard on purpose — see section 21b.</td><td><span class="tag tag-careful">Careful</span></td></tr><tr><td class="f">scripts/preflight.mjs</td><td>Post-deploy health check for the live worker: confirms the Resend secret is actually bound, the public pages respond, and the contact endpoint accepts a real message. Written after the form silently failed in production with no way to tell from the site itself.</td><td><span class="tag tag-safe">Safe</span></td></tr>
             <tr><td class="f">public/social-media-growth-playbook.html</td><td>The social and advertising playbook, and the WhatsApp AI Assistant setup. Internal only, and noindexed. Kept in <span class="mono">public/</span> purely so it is served by the Worker with the same styling as the other documents; it must never be linked from any public page. Section 16b holds the WhatsApp Business AI Assistant instructions: the short profile, the full knowledge base, the guardrails the assistant must not break, and two ready-to-send messages.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/robots.txt</td><td>Deliberately permissive. Contains no <span class="mono">Disallow</span> rule on purpose: a blocked crawler cannot fetch the page, so it never reads the <span class="mono">noindex</span> header, and the page can still surface as a bare link. Its one job is the <span class="mono">Sitemap</span> line.</td><td><span class="tag tag-care">Careful</span></td></tr>
             <tr><td class="f">public/sitemap.xml</td><td>Lists the four public pages only, each with a <span class="mono">lastmod</span>. Deliberately excludes every internal document, because a URL in a sitemap advertises what <span class="mono">X-Robots-Tag: noindex</span> exists to hide. One detail that looks like a bug and is not: the home page's <span class="mono">&lt;loc&gt;</span> ends in a slash and its canonical does not, because Next always normalises the root and strips it. Passing an explicit absolute canonical with a trailing slash does not change this. The root returns 200 with no redirect, and Google treats the two forms as the same URL, so the difference is recorded rather than fixed. Forcing them to match would need a site-wide <span class="mono">trailingSlash</span> config change to settle a detail the specification already handles.</td><td><span class="tag tag-care">Careful</span></td></tr>
@@ -2331,6 +2337,264 @@ curl -sI http://localhost:8788/privacy | grep -i x-robots-tag</pre>
     </section>
 
     <!-- ============ 21 ============ -->
+    <section id="downloads">
+      <h3>21b &middot; Download click tracking</h3>
+      <p class="lede">How many people pressed the button, where they came from, and the one number this cannot tell you.</p>
+
+      <p>
+        Before this existed the site had no idea how many people wanted the apps. That is not a gap you can
+        see on the page — the button works perfectly either way. It was invisible because the button pointed
+        straight at Dropbox, so the click left this website entirely and there was nothing left here to observe.
+      </p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Question</th><th>Can you answer it?</th><th>How</th></tr></thead>
+          <tbody>
+            <tr><td>How many people came to a release page?</td><td><strong>Yes</strong></td><td>Cloudflare Web Analytics, cookieless page-view counts</td></tr>
+            <tr><td>Where did that traffic come from?</td><td><strong>Yes</strong></td><td>The analytics referrer, plus the <span class="mono">?ref=</span> campaign tag</td></tr>
+            <tr><td>How many people pressed a download button?</td><td><strong>Yes</strong></td><td>This system. Run <span class="mono">npm run downloads</span></td></tr>
+            <tr><td>How many installs actually finished?</td><td class="dcell"><strong>No</strong></td><td>The file is served by Dropbox, which reports nothing back</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-warn">
+        <span class="ic">⚠</span>
+        <div class="bd">
+          <div class="ct">Why this says &ldquo;click&rdquo; and never &ldquo;download&rdquo;</div>
+          <p>
+            A click is something this site can witness. A completed download is not, because the bytes are
+            transferred by Dropbox and nothing is sent back afterwards. Calling the number a download count
+            would be a claim the system cannot support, so the word is never used for it — in the code, in
+            the command output, or in anything you publish about it.
+          </p>
+          <p>
+            The same rule is why &ldquo;signed build&rdquo; was removed from the QuickReceipt release page.
+            Unverifiable is not the same as untrue, but it is not worth printing either.
+          </p>
+        </div>
+      </div>
+
+      <h4>How a click is counted</h4>
+      <p>The button no longer points at Dropbox. It points at this website:</p>
+
+      <div class="codewrap">
+<pre>Visitor  &rarr;  /quickreceipt-android     a page on this site
+        &rarr;  /dl/quickreceipt          this site counts the click
+        &rarr;  Dropbox                   the file downloads</pre>
+      </div>
+
+      <p>
+        The middle step is the whole trick. Because it happens on this domain the site can record it, with
+        no tracking script, nothing for a browser extension to block, and nothing that can be skipped. The
+        visitor is forwarded with a <span class="mono">307</span>, so the hop is never cached and the redirect
+        always follows whatever URL the registry currently holds.
+      </p>
+      <p>
+        If counting fails for any reason the visitor still gets their file: the redirect is only sent after
+        counting has been attempted, and a failure is swallowed. A wrong number is a far smaller problem than
+        a broken download.
+      </p>
+
+      <h4>Reading the numbers</h4>
+      <p>One command, from the project folder:</p>
+
+      <div class="codewrap">
+<pre>npm run downloads</pre>
+      </div>
+
+      <p>It prints something like this:</p>
+
+      <div class="codewrap">
+<pre>  Download button clicks — last 30 days
+  ------------------------------------------------------------------------
+  APP                  TOTAL   30 DAYS   TOP SOURCES
+  ------------------------------------------------------------------------
+  quickreceipt             23        19   facebook 11, whatsapp 6
+  rafa-voucher             41         4   direct 30
+  tgr-playbook              8         1   direct 7
+  ------------------------------------------------------------------------
+  3 apps                   72</pre>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>Column</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">TOTAL</td><td>Every click since tracking began. Never resets.</td></tr>
+            <tr><td class="mono">30 DAYS</td><td>Clicks in the last 30 days. Change it with <span class="mono">-- --days 7</span>.</td></tr>
+            <tr><td class="mono">TOP SOURCES</td><td>Where they came from, largest first. <span class="mono">direct</span> means they typed or pasted the address with no referring site.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Two other forms:</p>
+
+      <div class="codewrap">
+<pre>npm run downloads -- --days 7      # last week instead of last month
+npm run downloads -- --json       # for spreadsheets or scripting</pre>
+      </div>
+
+      <p>
+        It uses your existing Cloudflare login, so there is no key to copy and nothing new to keep secret.
+        Numbers are read live from storage — nothing is cached or summarised.
+      </p>
+
+      <h4>Tagging a link so you know which post it came from</h4>
+      <p>Add <span class="mono">?ref=</span> to the address in a social post. It travels with the link, so it survives being forwarded:</p>
+
+      <div class="codewrap">
+<pre>https://get-tech-solutions.dammieoptimus.workers.dev/quickreceipt-android?ref=facebook</pre>
+      </div>
+
+      <p>
+        Someone shares that link in a WhatsApp group. A visitor arriving from it is counted as
+        <span class="mono">facebook</span>, not <span class="mono">whatsapp.com</span>, because the tag is still
+        attached. Without the tag you would learn only that somebody shared it, which is less useful than
+        knowing which post started it.
+      </p>
+
+      <div class="callout co-info">
+        <span class="ic">i</span>
+        <div class="bd">
+          <div class="ct">The habit that makes this work</div>
+          <p>
+            Use one tag per post and keep the list small: <span class="mono">facebook</span>,
+            <span class="mono">linkedin</span>, <span class="mono">x</span>, <span class="mono">whatsapp</span>,
+            <span class="mono">instagram</span>. A tag nobody uses is worse than no tag, because it makes the
+            totals look more precise than they are. Traffic from an untagged post lands in
+            <span class="mono">direct</span>, which is the honest place for it.
+          </p>
+        </div>
+      </div>
+
+      <h4>Adding another app later</h4>
+      <p>Four steps, no new infrastructure.</p>
+
+      <div class="step">
+        <div class="badge">1</div>
+        <div class="step-b">
+          <h4>Add it to the registry</h4>
+          <p>
+            One entry in <span class="mono">src/data/downloads.ts</span>. The <span class="mono">slug</span> becomes
+            the web address <span class="mono">/dl/&lt;slug&gt;</span> and must be unique.
+          </p>
+          <div class="codewrap">
+<pre>'mynewapp': {
+  slug: 'mynewapp',
+  label: 'My New App',
+  href: 'https://www.dropbox.com/scl/fi/.../MyNewApp.apk?dl=1',
+  fileName: 'MyNewApp.apk',
+  sizeMb: 18.4,
+},</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">2</div>
+        <div class="step-b">
+          <h4>Point the page button at it</h4>
+          <p>
+            On the release page the button&rsquo;s <span class="mono">href</span> becomes
+            <span class="mono">/dl/mynewapp</span>. Never paste the Dropbox address into the page — the registry
+            must stay the only copy, and step 4 of the preflight check enforces that.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">3</div>
+        <div class="step-b">
+          <h4>Add the page to the preflight check</h4>
+          <p>
+            One line in section&nbsp;6 of <span class="mono">scripts/preflight.mjs</span>, naming the page stem and
+            its slug. The page stem and the slug are deliberately different strings — the file is
+            <span class="mono">mynewapp-android.html</span> and the route is <span class="mono">/dl/mynewapp</span> —
+            and conflating them is how one drifts from the other.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="badge">4</div>
+        <div class="step-b">
+          <h4>Run the checks, then deploy</h4>
+          <div class="codewrap">
+<pre>npm run preflight
+npm run deploy</pre>
+          </div>
+          <p>The new app appears in <span class="mono">npm run downloads</span> immediately, at zero.</p>
+        </div>
+      </div>
+
+      <h4>Replacing a download link that expires</h4>
+      <p>
+        Dropbox links break. When one does, the button still counts the click — which is honest, because people
+        really do press it — but the visitor gets an error page instead of a file. Fix it in one place:
+      </p>
+
+      <div class="codewrap">
+<pre># edit the href in src/data/downloads.ts, then
+npm run preflight
+npm run deploy</pre>
+      </div>
+
+      <p>
+        A registry entry can also carry <span class="mono">broken: true</span>, which makes preflight print a
+        warning naming that app. <strong>TGR Playbook is currently flagged this way</strong> — its Dropbox
+        address returns an HTML page instead of the APK, so its button on the live site is not yet delivering a
+        file. Replace that link when the new address is available.
+      </p>
+
+      <h4>What is stored, and what is not</h4>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Kept</th><th>Not kept</th></tr></thead>
+          <tbody>
+            <tr><td>A hostname, such as <span class="mono">facebook.com</span></td><td>The rest of the address. A full referrer can carry somebody&rsquo;s search terms.</td></tr>
+            <tr><td>Counts per app, per day, per source</td><td>Your IP address, ever</td></tr>
+            <tr><td>Nothing that identifies a person</td><td>No cookies, no fingerprint, no cross-site tracking</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        There is no consent banner because there is nothing to consent to: no cookies and no personal data,
+        the same position as the page-view analytics described in section&nbsp;25. Daily counts are kept for 90
+        days and older days are trimmed, while the all-time total is never reduced. If this is ever removed,
+        section&nbsp;25 must be updated in the same change.
+      </p>
+
+      <h4>If something looks wrong</h4>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td>Clicks stay at zero</td><td>Button points straight at Dropbox</td><td><span class="mono">npm run preflight</span> names the page. Point the button at <span class="mono">/dl/&lt;slug&gt;</span>.</td></tr>
+            <tr><td>Clicks stay at zero</td><td>KV binding missing or renamed</td><td><span class="mono">npm run preflight</span> checks it. Section&nbsp;24 covers rolling back.</td></tr>
+            <tr><td>Visitor gets a 404</td><td>Slug not in the registry</td><td>Add the entry. The slugs are listed by <span class="mono">npm run downloads</span>.</td></tr>
+            <tr><td>Totals lose one click in a burst</td><td>Two simultaneous clicks read the same value</td><td>Expected and harmless here — a read-then-write has no atomic increment. At most one click, rarely.</td></tr>
+            <tr><td>Everything reads <span class="mono">direct</span></td><td>Posts have no <span class="mono">?ref=</span> tag</td><td>Add tags to future posts. Traffic already lost cannot be recovered.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout co-good">
+        <span class="ic">✓</span>
+        <div class="bd">
+          <div class="ct">The habit that keeps this honest</div>
+          <p>
+            Look at the counts when a post goes out, and once a week after. The number worth reacting to is
+            not the total — it is the ratio of clicks to WhatsApp messages that follow. Many clicks and no
+            messages means the post reached the wrong people. Few clicks and one conversation means it
+            reached exactly the right one.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <section id="deploy">
       <h3>21 · Building &amp; deploying</h3>
       <p class="lede">How a change reaches the public, and the three ways it can happen.</p>
