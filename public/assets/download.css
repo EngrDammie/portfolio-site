@@ -42,7 +42,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 11.5px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: .16em;
   text-transform: uppercase;
@@ -125,7 +125,7 @@
 }
 
 .dl-sub {
-  font-size: 17px;
+  font-size: 1.25rem;
   color: var(--text-2);
   max-width: 60ch;
   margin: 0 auto;
@@ -134,7 +134,7 @@
 
 .dl-origin {
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 1.0625rem;
   color: var(--text-3);
 }
 
@@ -172,7 +172,7 @@
 }
 
 .dl-file {
-  font-size: 14.5px;
+  font-size: 1.094rem;
   font-weight: 600;
   color: var(--text);
   word-break: break-all;
@@ -188,7 +188,7 @@
 }
 
 .dl-facts span {
-  font-size: 11.5px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -221,7 +221,7 @@
   background: var(--grad);
   color: #02121a;
   font-family: inherit;
-  font-size: 16px;
+  font-size: 1.1875rem;
   font-weight: 800;
   letter-spacing: -.01em;
   text-decoration: none;
@@ -258,7 +258,7 @@
 
 .dl-btn-note {
   margin-top: 16px;
-  font-size: 12.5px;
+  font-size: 0.9375rem;
   color: var(--text-3);
   line-height: 1.65;
 }
@@ -277,14 +277,14 @@
 
 .dl-sec-num {
   font-family: 'Geist Mono', ui-monospace, monospace;
-  font-size: 12.5px;
+  font-size: 0.9375rem;
   font-weight: 700;
   color: var(--cyan-ink);
   flex-shrink: 0;
 }
 
 .dl-sec-title {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: 800;
   letter-spacing: -.02em;
   color: var(--text);
@@ -305,14 +305,14 @@
 }
 
 .dl-verify-lede {
-  font-size: 14.5px;
+  font-size: 1.094rem;
   color: var(--text-2);
   margin-bottom: 16px;
   max-width: 70ch;
 }
 
 .dl-hash {
-  font-size: 12.5px;
+  font-size: 0.9375rem;
   line-height: 1.7;
   word-break: break-all;
   color: var(--text-2);
@@ -334,7 +334,7 @@
   background: var(--bg-2);
   padding: 18px 20px 18px 58px;
   color: var(--text-2);
-  font-size: 15px;
+  font-size: 1.125rem;
 }
 
 .dl-steps li::before {
@@ -347,7 +347,7 @@
   border-radius: 8px;
   background: var(--grad);
   color: #02121a;
-  font-size: 13px;
+  font-size: 1rem;
   font-weight: 800;
   display: grid;
   place-items: center;
@@ -372,7 +372,7 @@
   border-radius: 0 12px 12px 0;
   background: color-mix(in srgb, var(--amber) 7%, var(--bg-2));
   padding: 17px 20px;
-  font-size: 14.5px;
+  font-size: 1.094rem;
   color: var(--text-2);
 }
 
@@ -397,7 +397,7 @@
 
 .dl-alt-label {
   display: block;
-  font-size: 11.5px;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -407,7 +407,7 @@
 
 .dl-alt-title {
   display: block;
-  font-size: 16px;
+  font-size: 1.1875rem;
   font-weight: 700;
   color: var(--text);
   margin-bottom: 4px;
@@ -415,7 +415,7 @@
 
 .dl-alt-desc {
   display: block;
-  font-size: 13.5px;
+  font-size: 1.031rem;
   color: var(--text-3);
   line-height: 1.6;
 }
@@ -469,7 +469,7 @@
 
 .dl-tile-label {
   display: block;
-  font-size: 10.5px;
+  font-size: 0.8125rem;
   font-weight: 800;
   letter-spacing: .13em;
   text-transform: uppercase;
@@ -479,7 +479,7 @@
 
 .dl-tile-value {
   display: block;
-  font-size: 15.5px;
+  font-size: 1.156rem;
   font-weight: 700;
   color: var(--text);
   line-height: 1.4;
@@ -488,13 +488,13 @@
 
 .dl-tile-value.mono {
   font-family: 'Geist Mono', ui-monospace, monospace;
-  font-size: 15px;
+  font-size: 1.125rem;
   letter-spacing: -.01em;
 }
 
 .dl-tile-desc {
   display: block;
-  font-size: 12.5px;
+  font-size: 0.9375rem;
   color: var(--text-3);
   line-height: 1.6;
   margin-top: 5px;
@@ -508,7 +508,7 @@
   justify-content: center;
   gap: 9px 18px;
   margin-top: 18px;
-  font-size: 13px;
+  font-size: 1rem;
   color: var(--text-3);
 }
 
@@ -543,14 +543,14 @@
 .dl-foot-brand svg { width: 40px; height: 30px; flex-shrink: 0; }
 
 .dl-foot-name {
-  font-size: 14.5px;
+  font-size: 1.094rem;
   font-weight: 800;
   color: var(--text);
   line-height: 1.3;
 }
 
 .dl-foot-tag {
-  font-size: 12px;
+  font-size: 0.906rem;
   color: var(--text-3);
 }
 
@@ -558,7 +558,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  font-size: 13.5px;
+  font-size: 1.031rem;
 }
 
 /* ---------- Small screens ---------- */
@@ -567,10 +567,10 @@
   .dl-mark { width: 106px; height: 106px; margin-bottom: 24px; }
   .dl-mark svg { width: 50px; height: 38px; }
   .dl-card { padding: 26px 18px 24px; border-radius: 18px; }
-  .dl-btn { padding: 15px 18px; font-size: 15px; }
+  .dl-btn { padding: 15px 18px; font-size: 1.125rem; }
   .dl-eyebrow { margin-bottom: 22px; }
   .dl-sec { margin-top: 44px; }
-  .dl-sec-title { font-size: 18px; }
+  .dl-sec-title { font-size: 1.3125rem; }
   .dl-foot { flex-direction: column; align-items: flex-start; }
 }
 
@@ -640,8 +640,8 @@
 
 .dl-shot-cap {
   margin-top: 14px;
-  font-size: 14px;
-  line-height: 1.62;
+  font-size: 1.0625rem;
+  line-height: 1.65;
   color: #94a3b8;
   text-align: center;
 }
@@ -652,7 +652,7 @@
   display: block;
   margin-bottom: 5px;
   color: #e2e8f0;
-  font-size: 15px;
+  font-size: 1.125rem;
   font-weight: 600;
 }
 
@@ -660,7 +660,7 @@
    narrow phone, so the phone frame steps down rather than overflowing. */
 @media (max-width: 560px) {
   .dl-shot--phone .dl-shot-frame { max-width: 230px; }
-  .dl-shot-cap { font-size: 13px; }
+  .dl-shot-cap { font-size: 1rem; }
 }
 
 /* ---------- Free ----------
@@ -685,4 +685,29 @@
     background: color-mix(in srgb, #10b981 14%, transparent);
     border-color: color-mix(in srgb, #10b981 38%, transparent);
   }
+}
+
+/* ---------- Header type on the release pages ----------
+   The header is inherited from docs.css, which thirteen documents share, so it
+   is left alone there. These pages are the ones a first-time visitor with poor
+   eyesight opens on purpose to read something, so their own header is scaled to
+   match the body copy above. Scoped to .dl-page so the shared stylesheet is
+   untouched and no other document inherits it. */
+/* The paragraphs that carry the actual instructions had no explicit size at
+   all — they inherited the browser default of 16px, so rescaling the scale
+   above left the most-read text on the page exactly where it was. Raising the
+   inherited base to 18px on these pages fixes that, and because every explicit
+   size is in rem it keeps the hierarchy: 21-24px titles, 18px body, 13-14px
+   metadata. Still rem, so a reader who enlarges text in their browser gets
+   that on top. */
+body.dl-page { font-size: 1.125rem; }
+
+.dl-page .brandname { font-size: 1.125rem; }
+.dl-page .brandsub  { font-size: 0.875rem; }
+.dl-page .btn       { font-size: 0.9375rem; }
+
+@media (max-width: 560px) {
+  .dl-page .brandname { font-size: 1.0625rem; }
+  .dl-page .brandsub  { font-size: 0.8125rem; }
+  .dl-page .btn       { font-size: 0.875rem; }
 }
