@@ -662,3 +662,27 @@
   .dl-shot--phone .dl-shot-frame { max-width: 230px; }
   .dl-shot-cap { font-size: 13px; }
 }
+
+/* ---------- Free ----------
+   The price is the single fact a visitor is looking for, so it gets its own
+   treatment rather than being buried in a pill among file metadata. */
+.dl-facts span.dl-facts-free {
+  color: #34d399;
+  background: color-mix(in srgb, #10b981 16%, transparent);
+  border-color: color-mix(in srgb, #10b981 42%, transparent);
+}
+
+/* The hero lead carries the price too, and it must survive the light canvas. */
+.dl-sub strong {
+  color: #059669;
+  font-weight: 700;
+}
+
+@media (prefers-color-scheme: light) {
+  .dl-sub strong { color: #047857; }
+  .dl-facts span.dl-facts-free {
+    color: #047857;
+    background: color-mix(in srgb, #10b981 14%, transparent);
+    border-color: color-mix(in srgb, #10b981 38%, transparent);
+  }
+}
