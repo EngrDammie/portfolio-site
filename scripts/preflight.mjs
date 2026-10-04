@@ -27,6 +27,7 @@
 
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import path from 'node:path';
 
 const SITE = 'https://get-tech-solutions.dammieoptimus.workers.dev';
 const REQUIRED_SECRET = 'RESEND_API_KEY';
@@ -224,6 +225,44 @@ try {
       warn(`${page} is flagged broken in the registry — its download link needs replacing`);
     }
   }
+
+  // Self-closing <script /> is a JSX habit that is invalid in raw HTML. HTML
+  // has no self-closing syntax for non-void elements: the parser reads the
+  // slash as nothing at all and then treats every following byte as script
+  // text until it finds a real </script>. On the release pages that swallowed
+  // the entire document, so the browser rendered an empty body over a correct
+  // background — while curl showed the content perfectly, because curl reads
+  // bytes and a browser reads a parse tree.
+  //
+  // Every check that looks at the served HTML misses this by construction,
+  // which is why it is checked as source rather than as a response.
+  // The Search Console verification file is a single line of text with no body
+  // by design — it is not a page anyone will ever look at, and requiring one
+  // would mean the check fails for a file that is correct.
+  const htmlFiles = fs
+    .readdirSync('public')
+    .filter((f) => f.endsWith('.html') && !/^google[0-9a-f]+\.html$/.test(f));
+  const selfClosing = [];
+  const emptyBody = [];
+  for (const f of htmlFiles) {
+    const src = fs.readFileSync(path.join('public', f), 'utf8');
+    if (/<script\b[^>]*\/\s*>/s.test(src)) selfClosing.push(f);
+
+    const bodyAt = src.search(/<body\b[^>]*>/i);
+    const bodyEnd = src.lastIndexOf('</body>');
+    if (bodyAt === -1 || bodyEnd === -1 || bodyEnd < bodyAt) emptyBody.push(`${f} (no body)`);
+    else if (!src.slice(bodyAt, bodyEnd).replace(/<[^>]*>/g, '').trim()) {
+      emptyBody.push(`${f} (body has no text)`);
+    }
+  }
+  if (selfClosing.length === 0) {
+    ok(`no self-closing <script /> in any of the ${htmlFiles.length} static pages`);
+  } else {
+    bad(`${selfClosing.length} page(s) use <script ... />, which blanks the page: ${selfClosing.join(', ')}`);
+    console.log('        close it as <script ...></script> instead');
+  }
+  if (emptyBody.length === 0) ok('every static page has readable text inside <body>');
+  else bad(`page(s) whose body parses to nothing: ${emptyBody.join(', ')}`);
 
   const route = fs.existsSync('src/app/dl/[slug]/route.ts');
   route ? ok('the /dl/[slug] redirect route exists') : bad('src/app/dl/[slug]/route.ts is missing');
