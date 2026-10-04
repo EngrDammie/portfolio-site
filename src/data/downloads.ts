@@ -53,15 +53,15 @@ export const DOWNLOADS: Record<string, DownloadTarget> = {
   'tgr-playbook': {
     slug: 'tgr-playbook',
     label: 'TGR Playbook',
-    // KNOWN DEAD as of 2026-10-04. This URL returns a 199KB HTML page rather
-    // than the APK, so the button on the release page currently leads to a
-    // broken download. It was left pointing at the same place on purpose: the
-    // click still counts, which measures real interest, and fixing it is a
-    // one-line edit here once the new Dropbox link is known.
-    href: 'https://www.dropbox.com/scl/fi/p2ytwlj670h8438irwy3f/TGR_Playbook_base.apk?rlkey=f7fyo7dy7r0umhdz48tgivpg6&st=bf5hjgbb&dl=1',
+    // The previous Dropbox address was dead — it returned a 199KB HTML page
+    // instead of the APK, so this button had been handing visitors an error.
+    // Replaced 2026-10-04 and verified before being trusted: 22,270,708 bytes,
+    // application/binary, a real APK with 13 dex files and an AndroidManifest.
+    // The lesson from the dead link is why the check is in this file's history:
+    // a `.apk` in a URL proves nothing about what the server returns.
+    href: 'https://www.dropbox.com/scl/fi/2vf23kvgnqa4fzeicb2mv/TGR_Playbook_base.apk?rlkey=f7fyo7dy7r0umhdz48tgivpg6&st=ivz9io66&dl=1',
     fileName: 'TGR_Playbook_base.apk',
-    sizeMb: 0,
-    broken: true,
+    sizeMb: 22.2,
   },
 };
 

@@ -49,9 +49,14 @@ function namespaceId() {
 
 function readKey(id, key) {
   try {
+    // --remote is essential and its absence is silent. Without it wrangler
+    // reads the LOCAL preview store rather than the deployed namespace, so
+    // every count comes back zero while the Worker is writing perfectly good
+    // data. This reported "no clicks" against a record of 14 before it was
+    // found, which is the worst kind of bug: a wrong answer, confidently given.
     const out = execFileSync(
       'npx',
-      ['wrangler', 'kv', 'key', 'get', `--namespace-id=${id}`, key],
+      ['wrangler', 'kv', 'key', 'get', `--namespace-id=${id}`, '--remote', key],
       { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] },
     );
     return JSON.parse(out);
