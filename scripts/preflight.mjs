@@ -273,6 +273,76 @@ try {
 } catch (e) {
   bad(`download tracking check failed: ${e.message}`);
 }
+console.log('\n7. Share cards point at the right app');
+// Sharing a QuickReceipt link showed a card reading "Rafa Voucher Tracker",
+// because QuickReceipt had no card of its own and the release page had been
+// copied from an existing one. Nothing was broken: the image existed, it was
+// the right size, it loaded, and every status check passed. It was simply the
+// wrong app's name on a link to a different app.
+//
+// Two things are checked, because either alone would have missed it: the
+// referenced file must exist, and it must belong to the page that names it.
+try {
+  const ASSETS = 'public/assets';
+  const onDisk = new Set(fs.readdirSync(ASSETS).filter((f) => f.startsWith('og-')));
+  const referenced = new Set();
+
+  const rawPages = fs.readdirSync('public').filter((f) => f.endsWith('.html'));
+  for (const page of rawPages) {
+    const src = fs.readFileSync(path.join('public', page), 'utf8');
+    // The page is quickreceipt-android.html; its card is og-quickreceipt.png.
+    // The "-android" suffix has to come off to compare them, which means the
+    // "is this a per-app page?" test has to be made BEFORE stripping it. Doing
+    // it afterwards silently never matched, and the check passed everything.
+    const isAppPage = /-android\.html$/.test(page);
+    const app = page.replace('.html', '').replace(/-android$/, '');
+    const expected = `og-${app}.png`;
+    const seen = new Set();
+
+    for (const m of src.matchAll(/(?:og|twitter):image"?\s*(?:content=|:)?"?([^"\s>]*og-[a-z-]+\.png)/g)) {
+      const name = m[1].split('/').pop();
+      referenced.add(name);
+      if (seen.has(name)) continue; // og:image and twitter:image are usually identical
+      seen.add(name);
+
+      if (!onDisk.has(name)) {
+        bad(`${page} points at ${name}, which does not exist`);
+      } else if (isAppPage && name !== expected) {
+        bad(`${page} uses ${name}, which is another app's card — it should use ${expected}`);
+        console.log('        run: npm run og:cards');
+      } else if (isAppPage) {
+        ok(`${page} uses its own card, ${name}`);
+      }
+    }
+  }
+
+  // Next.js metadata, which does not use raw meta tags.
+  for (const [file, expected] of [
+    ['src/app/layout.tsx', 'og-homepage.png'],
+    ['src/app/privacy/page.tsx', 'og-privacy.png'],
+  ]) {
+    const src = fs.readFileSync(file, 'utf8');
+    for (const m of src.matchAll(/(og-[a-z-]+\.png)/g)) {
+      referenced.add(m[1]);
+      if (m[1] !== expected) bad(`${file} references ${m[1]}, expected ${expected}`);
+      else if (!onDisk.has(m[1])) bad(`${file} references ${m[1]}, which does not exist`);
+    }
+  }
+
+  for (const name of referenced) {
+    if (onDisk.has(name)) ok(`${name} exists and is referenced`);
+    else bad(`${name} is referenced but missing — run: npm run og:cards`);
+  }
+
+  // A card with no page pointing at it is dead weight, and is usually the
+  // first sign of a rename that missed one side.
+  const orphans = [...onDisk].filter((f) => !referenced.has(f));
+  if (orphans.length === 0) ok('no orphaned share cards');
+  else warn(`share card(s) nothing points at: ${orphans.join(', ')}`);
+} catch (e) {
+  bad(`share card check failed: ${e.message}`);
+}
+
 console.log('');
 if (failed) {
   console.log('\x1b[31mPreflight FAILED.\x1b[0m Enquiries are probably being lost.\n');

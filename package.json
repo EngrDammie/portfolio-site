@@ -13,7 +13,7 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy -- --keep-vars",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload -- --keep-vars",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "og:privacy": "node scripts/og-privacy.mjs",
+    "og:cards": "node scripts/og-cards.mjs",
     "preflight": "node scripts/preflight.mjs",
     "downloads": "node scripts/read-downloads.mjs",
     "tokens:check": "node scripts/check-tokens.mjs",

@@ -135,11 +135,6 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
         subtext: 'Screenshots, what it does, how to install it, and a SHA-256 checksum so you can confirm the file is exactly the one I built.',
         href: '/quickreceipt-android.html',
       },
-      {
-        title: 'Download the APK directly',
-        subtext: 'QuickReceipt_base.apk, 22.3 MB. One signed file, no sign-up and nothing to install alongside it.',
-        href: 'https://www.dropbox.com/scl/fi/56sok2d8lz3zztsmv17u3/QuickReceipt_base.apk?rlkey=3o2ftoamdapsq4n2xntxanf9l&st=n1al79vd&dl=1',
-      },
     ],
     screenshots: [
       {
@@ -194,7 +189,7 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
       },
     ],
     liveUrl: 'https://rafavoucherapp.dammieoptimus.workers.dev/',
-    featured: true,
+    featured: false,
     previewType: 'iframe',
     previewUrl: 'https://rafavoucherapp.dammieoptimus.workers.dev/'
   },
@@ -225,7 +220,7 @@ export const SHOWCASE_PROJECTS: ProjectItem[] = [
       },
     ],
     liveUrl: 'https://tgr-playbook.dammieoptimus.workers.dev/',
-    featured: true,
+    featured: false,
     previewType: 'iframe',
     previewUrl: 'https://tgr-playbook.dammieoptimus.workers.dev/'
   },
